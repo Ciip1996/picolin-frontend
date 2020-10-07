@@ -1,0 +1,10 @@
+.mapboxgl-popup-content {
+  background-color:white;
+  width: 344px;
+  min-height: 195px;
+  box-shadow: 1px 2px 2px 0px #71656505 !important;
+  padding: 20px !important;
+  box-sizing: border-box;
+  position: relative;
+  height: auto;   
+}
