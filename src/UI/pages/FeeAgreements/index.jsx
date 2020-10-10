@@ -108,7 +108,7 @@ const FeeAgreementsList = (props: FeeAgreementsListProps) => {
   }
 
   useEffect(() => {
-    document.title = 'FortPac | FeeAgreements';
+    document.title = 'Picolin Store | FeeAgreements';
   }, []);
 
   const handleSearchChange = newKeyword => {

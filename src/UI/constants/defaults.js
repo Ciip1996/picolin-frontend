@@ -1,5 +1,5 @@
 // @flow
-const AppName = 'FortPac';
+const AppName = 'Picolin Store';
 
 export const drawerAnchor = 'right';
 
