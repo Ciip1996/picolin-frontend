@@ -1,4 +1,6 @@
 export const colors = {
+  primary: '#E26A93',
+  oxford: '#707070',
   appBackground: '#F0F3F7',
   appBackgroundContrast: '#ECEFF5',
   iconInactive: '#A3A8B4',
@@ -28,7 +30,6 @@ export const colors = {
   componentFill: '#CDD8E6',
   inactiveInputText: '#00000099',
   wolfImage: '#F6F8FA',
-  oxford: '#707070',
   skeletonBar: '#D7DFEA',
   navyBlue: '#25307C',
   offlineGray: '#9b9ea7',

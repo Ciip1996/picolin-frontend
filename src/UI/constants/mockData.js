@@ -7,6 +7,7 @@ export const user = {
   initials: 'JDR'
 };
 export const Urls = {
+  sales: 'https://5ea7234084f6290016ba7c3e.mockapi.io/sales',
   states: 'https://5ea7234084f6290016ba7c3e.mockapi.io/states',
   industry: 'https://5ea7234084f6290016ba7c3e.mockapi.io/industy',
   feeAgreement: 'https://5ea7234084f6290016ba7c3e.mockapi.io/feeAgreements',

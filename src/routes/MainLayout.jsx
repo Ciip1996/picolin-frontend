@@ -4,7 +4,7 @@ import ScrollToTop from 'react-router-scroll-top';
 
 import Sidebar from 'UI/components/templates/Sidebar';
 import NavBar from 'UI/components/organisms/NavBar';
-import ButtonMenu from 'UI/components/molecules/ButtonMenu';
+import ActionButton from 'UI/components/atoms/ActionButton';
 
 import { AddIcon, colors, CandidatesIcon, CompaniesIcon, JobOrdersIcon, AddNameIcon } from 'UI/res';
 import { globalStyles } from 'GlobalStyles';
@@ -76,9 +76,9 @@ const MainLayout = ({ children, ...rest }: Object) => {
         <div style={globalStyles.flexContentWrapper}>
           <div style={styles.sidebar}>
             <Sidebar>
-              <ButtonMenu MenuItems={MenuItems} text="Add" width="200px">
+              <ActionButton MenuItems={MenuItems} text="Nueva Venta" width="200px">
                 <AddIcon fill={colors.white} size={18} />
-              </ButtonMenu>
+              </ActionButton>
             </Sidebar>
           </div>
           {children}
