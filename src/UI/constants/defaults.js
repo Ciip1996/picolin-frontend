@@ -53,7 +53,6 @@ export const PageTitles = {
   JobOrderProfile: `${AppName} | Job Order Profile`,
   JobOrderCreate: `${AppName} | New Job Order`,
   Dashboard: `${AppName} | Overview`,
-  Map: `${AppName} | DIG Map`,
   Name: `${AppName} | Names`,
   NameProfile: `${AppName} | Name Profile`,
   SearchProject: `${AppName} | Search Project`,

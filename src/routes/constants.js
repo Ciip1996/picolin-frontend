@@ -5,8 +5,6 @@ export const EntityRoutes = {
 
   Home: '/home',
 
-  Map: '/map',
-
   Candidates: '/candidates',
   CandidateProfile: '/candidates/profile/:id',
   CandidateCreate: '/candidates/create',

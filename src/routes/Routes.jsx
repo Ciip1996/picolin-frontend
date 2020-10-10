@@ -16,7 +16,6 @@ import Login from 'UI/pages/Login';
 import Companies from 'UI/pages/Companies';
 import Candidates from 'UI/pages/Candidates';
 import JobOrders from 'UI/pages/JobOrders';
-import Map from 'UI/pages/Map';
 import ErrorPage from 'UI/pages/ErrorPage';
 import Names from 'UI/pages/Names';
 import FeeAgreements from 'UI/pages/FeeAgreements';
@@ -59,8 +58,6 @@ const Routes = () => {
         />
 
         <PrivateRoute exact path={EntityRoutes.Home} component={Home} />
-
-        <PrivateRoute exact path={EntityRoutes.Map} component={Map} />
 
         <PrivateRoute exact path={EntityRoutes.Candidates} component={Candidates} />
         <PrivateRoute exact path={EntityRoutes.CandidateProfile} component={CandidateProfile} />

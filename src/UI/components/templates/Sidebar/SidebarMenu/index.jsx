@@ -9,13 +9,12 @@ import {
   CompaniesIcon,
   JobOrdersIcon,
   HomeIcon,
-  DashboardIcon,
-  DashboardActivityIcon,
+  // DashboardIcon,
+  // DashboardActivityIcon,
   NamesIcon,
   colors,
   SearchProjectIcon,
-  FeeAgreementIcon,
-  RosterIcon
+  FeeAgreementIcon
 } from 'UI/res';
 
 import { FeatureFlags } from 'UI/constants/featureFlags';
@@ -84,37 +83,27 @@ const sideBarMenu = [
       active: <InventoryIcon contrast={colors.iconInactive} fill={colors.black} />
     },
     subItems: inventorySubItems
-  },
-  {
-    title: 'Dashboard',
-    route: 'dashboard',
-    icon: {
-      inactive: <DashboardIcon />,
-      opened: <DashboardIcon contrast={colors.red} fill={colors.black} />,
-      active: <DashboardIcon contrast={colors.iconInactive} fill={colors.black} />
-    },
-    subItems: [
-      {
-        title: 'Activity',
-        route: EntityRoutes.DashboardOverview,
-        icon: {
-          inactive: <DashboardActivityIcon />,
-          opened: null,
-          active: <DashboardActivityIcon fill={colors.completeBlack} />
-        }
-      }
-    ]
-  },
-  {
-    title: 'Roster ',
-    route: EntityRoutes.Roster,
-    subItems: null,
-    icon: {
-      inactive: <RosterIcon />,
-      opened: <RosterIcon contrast={colors.iconInactive} fill={colors.black} />,
-      active: <RosterIcon contrast={colors.red} fill={colors.black} />
-    }
   }
+  // {
+  //   title: 'Dashboard',
+  //   route: 'dashboard',
+  //   icon: {
+  //     inactive: <DashboardIcon />,
+  //     opened: <DashboardIcon contrast={colors.red} fill={colors.black} />,
+  //     active: <DashboardIcon contrast={colors.iconInactive} fill={colors.black} />
+  //   },
+  //   subItems: [
+  //     {
+  //       title: 'Activity',
+  //       route: EntityRoutes.DashboardOverview,
+  //       icon: {
+  //         inactive: <DashboardActivityIcon />,
+  //         opened: null,
+  //         active: <DashboardActivityIcon fill={colors.completeBlack} />
+  //       }
+  //     }
+  //   ]
+  // },
 ];
 
 featureFlags.includes(FeatureFlags.Names) &&
