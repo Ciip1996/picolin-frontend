@@ -1,139 +1,85 @@
-// @flow
-import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { showAlert } from 'actions/app';
+import React from 'react';
+import Box from '@material-ui/core/Box';
+import TextBox from 'UI/components/atoms/TextBox';
+import Button from '@material-ui/core/Button';
 
-import CircularProgress from '@material-ui/core/CircularProgress';
-
-import LoginButton from 'UI/components/atoms/LoginButton';
-import TitleLabel from 'UI/components/atoms/TitleLabel';
-import Text from 'UI/components/atoms/Text';
-
-import { getErrorMessage } from 'UI/utils';
-import { EntityRoutes } from 'routes/constants';
-import { Endpoints } from 'UI/constants/endpoints';
-import { PageTitles } from 'UI/constants/defaults';
-
-import { getRedirectPage } from 'services/Authentication';
-import API from 'services/API';
-
-import { WolfBackground, colors, GpacFullLogo, DotsPattern } from 'UI/res';
-import { useStyles, styles } from './styles';
-
-const loginConfig = {
-  clientId: `${(window.GPAC_ENV && window.GPAC_ENV.CLIENT_ID) || process.env.REACT_APP_CLIENT_ID}`,
-  tenantUrl: `${process.env.REACT_APP_MICROSOFT_URL}${process.env.REACT_APP_TENANT_URL}`,
-  debug: false,
-  theme: 'dark'
-};
-
-type LoginProps = {
-  onShowAlert: any => void,
-  history: any
-};
-
-const Login = (props: LoginProps) => {
-  const { onShowAlert, history } = props;
-
-  useEffect(() => {
-    document.title = PageTitles.Login;
-  });
-
-  const [isLoading, setIsLoading] = useState(false);
-  const classes = useStyles();
-
-  const authHandler = (err, data) => {
-    setIsLoading(true);
-    if (err) {
-      onShowAlert({
-        severity: 'error',
-        title: 'Login',
-        body: err.message
-      });
-      setIsLoading(false);
-    } else {
-      const { accessToken } = data.authResponseWithAccessToken;
-      signin(accessToken);
-    }
-  };
-
-  const signin = async accessToken => {
-    try {
-      const response = await API.post(Endpoints.Users, {
-        access_token: accessToken
-      });
-
-      localStorage.setItem('access', JSON.stringify(response.data.token));
-
-      API.defaults.headers.Authorization = `Bearer ${response.data.token.token}`;
-
-      setIsLoading(false);
-
-      const redirectPage = getRedirectPage();
-
-      history.push(redirectPage || EntityRoutes.Home);
-    } catch (error) {
-      setIsLoading(false);
-      onShowAlert({
-        severity: 'error',
-        title: 'Login',
-        body: getErrorMessage(error)
-      });
-    }
-  };
-
+export default function LogIn() {
   return (
-    <>
-      <div className={classes.root}>
-        <div className={classes.wrapper}>
-          <DotsPattern
-            width="20vh"
-            fill={colors.red}
-            style={styles.pattern1}
-            className={classes.pattern}
-          />
-          <DotsPattern
-            width="20vh"
-            fill={colors.red}
-            style={styles.pattern2}
-            className={classes.pattern}
-          />
-          <GpacFullLogo style={{ paddingTop: '10vh' }} width="50vh" />
-          <div className={classes.label}>
-            <TitleLabel
-              fontSize={36}
-              text="Welcome to FortPac, your new partner to keep growing people and companies."
-            />
-          </div>
-          <Text
-            variant="body2"
-            fontSize={20}
-            text="Please, log in with your Microsoft account by clicking the button below"
-          />
-          <center style={{ paddingBottom: '10vh' }}>
-            {!isLoading && (
-              <LoginButton
-                clientId={loginConfig.clientId}
-                tenantUrl={loginConfig.tenantUrl}
-                debug={loginConfig.debug}
-                authCallback={authHandler}
-                theme={loginConfig.theme}
+    <body style={{ background: '#FDF7F4', opacity: '1' }}>
+      <div
+        style={{
+          width: '100%',
+          height: '825px',
+          boxShadow: '0px 3px 6px #00000029',
+          borderTopRightRadius: '20'
+        }}
+      >
+        <Box display="flex" justifyContent="center" p={1}>
+          <Box
+            style={{
+              width: '398px',
+              marginTop: '165px',
+              height: '438px',
+              borderTopLeftRadius: 26,
+              borderTopRightRadius: 26,
+              borderBottomLeftRadius: 26,
+              borderBottomRightRadius: 26,
+              boxShadow: '0px 3px 6px #00000029'
+            }}
+            bgcolor="#FFFFFF"
+          >
+            <center>
+              <h1
+                style={{
+                  marginTop: '54px',
+                  marginBottom: '55px',
+                  font: 'normal normal bold 32px/48px Poppins',
+                  color: '#94A6B3',
+                  height: '45px',
+                  letterspacing: '0px'
+                }}
+              >
+                INICIAR SESIÓN
+              </h1>
+              <TextBox style={{ width: '315px', height: '40px' }} name="Usuario" label="Usuario" />
+              <TextBox
+                style={{ marginTop: '34px', width: '315px', height: '40px' }}
+                name="Contraseña"
+                label="Contraseña"
+                type="password"
               />
-            )}
-            {isLoading && <CircularProgress />}
-          </center>
-        </div>
+
+              <Button
+                style={{
+                  marginTop: '42px',
+                  marginBottom: '58px',
+                  width: '171px',
+                  color: 'white',
+                  height: '48px',
+                  backgroundColor: '#F5C4A1',
+                  borderTopLeftRadius: 24,
+                  borderTopRightRadius: 24,
+                  borderBottomLeftRadius: 24,
+                  borderBottomRightRadius: 24
+                }}
+              >
+                <h1
+                  style={{
+                    width: '61px',
+                    font: ' 16px/19px Roboto',
+                    marginTop: '15px',
+                    marginBottom: '14px',
+                    opacity: '1',
+                    letterspacing: '0px'
+                  }}
+                >
+                  ENTRAR
+                </h1>
+              </Button>
+            </center>
+          </Box>
+        </Box>
       </div>
-      <WolfBackground fill={colors.wolfImage} className={classes.backgroundImg} />
-    </>
+    </body>
   );
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onShowAlert: alert => dispatch(showAlert(alert))
-  };
-};
-
-export default connect(null, mapDispatchToProps)(withRouter(Login));
+}
