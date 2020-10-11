@@ -4,6 +4,45 @@ import TextBox from 'UI/components/atoms/TextBox';
 import Button from '@material-ui/core/Button';
 
 export default function LogIn() {
+<<<<<<< Updated upstream
+=======
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const url = `url ejemplo ${username}/${password}`;
+  const history = useHistory();
+
+  const Validacion = async () => {
+    axios
+      .get(url)
+      .then(response => {
+        // handle success
+        console.log('succes', response);
+        if (response.data === '1') {
+          alert('Login successful!');
+          setPassword('');
+          setUsername('');
+          history.push('/example');
+        } else {
+          alert('Credentials are wrong!');
+        }
+      })
+      .catch(error => {
+        // handle error
+        console.log('error', error);
+      });
+  };
+
+  const onChangep = e => setPassword(e.target.value);
+  const onChangeu = e => setUsername(e.target.value);
+
+  const onSubmit = e => {
+    e.preventDefault();
+    Validacion();
+  };
+
+  const classes = useStyle();
+>>>>>>> Stashed changes
   return (
     <body style={{ background: '#FDF7F4', opacity: '1' }}>
       <div

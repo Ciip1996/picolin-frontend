@@ -168,8 +168,8 @@ const NotificationPreview = (props: NotificationPreviewProps) => {
               )}
               {notificationPermissionTypes.Denied === getNotificationPermission() && (
                 <strong style={{ maxWidth: '100%', color: colors.red, fontSize: 14 }}>
-                  Notifications blocked. You may be missing important alerts. Allow Picolin Store&apos;s
-                  notifications in your browser settings.
+                  Notifications blocked. You may be missing important alerts. Allow Picolin
+                  Store&apos;s notifications in your browser settings.
                 </strong>
               )}
             </div>
