@@ -12,16 +12,16 @@ const getToken = () => {
   return access && access.token;
 };
 
-const getRefreshToken = () => {
-  const access = getAccess();
-  return access && access.refreshToken;
-};
+// const getRefreshToken = () => {
+//   const access = getAccess();
+//   return access && access.refreshToken;
+// };
 
 const getCurrentUser = () => {
   const access = getAccess();
-
   const decodedToken = access && jwt.decode(access.token);
-  return decodedToken && decodedToken.data.user;
+  debugger;
+  return decodedToken && decodedToken?.usuario;
 };
 
 const isAuthenticated = () => {
@@ -29,20 +29,20 @@ const isAuthenticated = () => {
 };
 
 const logout = async () => {
-  await API.get('users/logout');
-
+  debugger;
+  // const response = await API.get('users/logout'); // TODO: replace with logout
   cleanLocalStorage();
-  logoutMicrosoft();
+  // logoutMicrosoft();
 };
 
-const logoutMicrosoft = () => {
-  const postLogoutUrl = `${(window.PICOLIN_ENV && window.PICOLIN_ENV.LOGOUT_REDIRECT_URL) ||
-    process.env.REACT_APP_REDIRECT_URL}`;
+// const logoutMicrosoft = () => {
+//   const postLogoutUrl = `${(window.PICOLIN_ENV && window.PICOLIN_ENV.LOGOUT_REDIRECT_URL) ||
+//     process.env.REACT_APP_REDIRECT_URL}`;
 
-  window.location.replace(
-    `${process.env.REACT_APP_MICROSOFT_URL}${process.env.REACT_APP_TENANT_URL}/oauth2/v2.0/logout?post_logout_redirect_uri=${postLogoutUrl}`
-  );
-};
+//   window.location.replace(
+//     `${process.env.REACT_APP_MICROSOFT_URL}${process.env.REACT_APP_TENANT_URL}/oauth2/v2.0/logout?post_logout_redirect_uri=${postLogoutUrl}`
+//   );
+// };
 
 const cleanLocalStorage = () => {
   localStorage.clear();
@@ -56,7 +56,7 @@ const getRedirectPage = () => {
 export {
   getToken,
   getCurrentUser,
-  getRefreshToken,
+  // getRefreshToken,
   isAuthenticated,
   logout,
   cleanLocalStorage,

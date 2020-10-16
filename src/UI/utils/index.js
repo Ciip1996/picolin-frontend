@@ -213,13 +213,14 @@ export const makeMultiFieldFiltering = (fieldsToLookupInto: string[]) => (
  * @param {Error} error Error catched in an Exception
  */
 export const getErrorMessage = (error: any) => {
-  if (!error || !error.request || !error.response || error.request.responseType !== 'json') {
-    return 'An error has ocurred. Please try again later';
-  }
-  const errorData = error.response.data;
-  return errorData.length
-    ? errorData[0].message
-    : nestTernary(errorData.message, errorData.message, errorData.error?.message);
+  // if (!error || !error.request || !error.response || error.request.responseType !== 'json') {
+  //   return 'An error has ocurred. Please try again later';
+  // }
+  // const errorData = error.response.data;
+  // return errorData.length
+  //   ? errorData[0].message
+  //   : nestTernary(errorData.message, errorData.message, errorData.error?.message);
+  return error && 'An error has ocurred. Please try again later';
 };
 
 export const phoneFormatter = (value: ?string) => {

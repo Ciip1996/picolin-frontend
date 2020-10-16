@@ -25,12 +25,12 @@ export default function LogIn() {
         // set token local storage
         console.log(response.data);
         const access = {
-          ...response.data,
+          token: response.data.token,
           type: 'bearer'
         };
         localStorage.setItem('access', JSON.stringify(access));
         localStorage.getItem('access');
-        // history.push('/example'); // TODO: change url later
+        history.push('/home'); // TODO: change url later
       }
     } catch (error) {
       // handle error

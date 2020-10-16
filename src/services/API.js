@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import { getToken, getRefreshToken, cleanLocalStorage } from 'services/Authentication';
+import { getToken, cleanLocalStorage } from 'services/Authentication';
 import axios from 'axios';
 
 let isRefreshing = false;
@@ -91,29 +91,29 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      const refreshToken = getRefreshToken();
+      // const refreshToken = getRefreshToken();
 
-      return new Promise((resolve, reject) => {
-        instance
-          .post('/users/token/refresh', { refresh_token: refreshToken })
-          .then(response => {
-            if (response.status === 200 || response.status === 201) {
-              localStorage.setItem('access', JSON.stringify(response.data.token));
-              axios.defaults.headers.Authorization = `Bearer ${response.data.token}`;
-              axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-              originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
-              processQueue(null, response.data.token);
-              resolve(instance(originalRequest));
-            }
-          })
-          .catch(err => {
-            processQueue(err, null);
-            reject(err);
-          })
-          .finally(() => {
-            isRefreshing = false;
-          });
-      });
+      // return new Promise((resolve, reject) => {
+      //   instance
+      //     .post('/users/token/refresh', { refresh_token: refreshToken })
+      //     .then(response => {
+      //       if (response.status === 200 || response.status === 201) {
+      //         localStorage.setItem('access', JSON.stringify(response.data.token));
+      //         axios.defaults.headers.Authorization = `Bearer ${response.data.token}`;
+      //         axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+      //         originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
+      //         processQueue(null, response.data.token);
+      //         resolve(instance(originalRequest));
+      //       }
+      //     })
+      //     .catch(err => {
+      //       processQueue(err, null);
+      //       reject(err);
+      //     })
+      //     .finally(() => {
+      //       isRefreshing = false;
+      //     });
+      // });
     }
 
     return Promise.reject(error);
