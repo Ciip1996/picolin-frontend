@@ -25,7 +25,7 @@ const redirectTime = () => {
 
 // Create instance API axios
 const instance = axios.create({
-  baseURL: `${(window.GPAC_ENV && window.GPAC_ENV.API_URL) || process.env.REACT_APP_API_URL}`,
+  baseURL: `${(window.PICOLIN_ENV && window.PICOLIN_ENV.API_URL) || process.env.REACT_APP_API_URL}`,
   responseType: 'json'
 });
 

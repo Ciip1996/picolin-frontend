@@ -30,7 +30,7 @@
     <!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;700&display=swap" rel="stylesheet"> -->
     <title>Picolin Store | gpac</title>
     <script type="text/javascript">
-      window['GPAC_ENV'] = {};
+      window['PICOLIN_ENV'] = {};
 
       var env = {
         API_URL: '<$= API_URL $>',
@@ -51,7 +51,7 @@
 
       for (const property in env) {
         if(env[property].indexOf(property) == -1) {
-          window['GPAC_ENV'][property] = env[property];
+          window['PICOLIN_ENV'][property] = env[property];
         }
       }
     </script>

@@ -90,7 +90,7 @@ export const normalizeUrl = (url: string): string => {
 };
 
 export const getFeatureFlags = (): string[] => {
-  const featureFlagsSetting = `${(window.GPAC_ENV && window.GPAC_ENV.FEATURE_FLAGS) ||
+  const featureFlagsSetting = `${(window.PICOLIN_ENV && window.PICOLIN_ENV.FEATURE_FLAGS) ||
     process.env.REACT_APP_FEATURE_FLAGS}`;
 
   return featureFlagsSetting ? featureFlagsSetting.split('|') : [];

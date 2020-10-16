@@ -36,7 +36,7 @@ const logout = async () => {
 };
 
 const logoutMicrosoft = () => {
-  const postLogoutUrl = `${(window.GPAC_ENV && window.GPAC_ENV.LOGOUT_REDIRECT_URL) ||
+  const postLogoutUrl = `${(window.PICOLIN_ENV && window.PICOLIN_ENV.LOGOUT_REDIRECT_URL) ||
     process.env.REACT_APP_REDIRECT_URL}`;
 
   window.location.replace(

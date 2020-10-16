@@ -4,38 +4,39 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import API from 'services/API';
 import { useStyles } from './styles';
 
 export default function LogIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const url = `localhost:3307/iniciarSesion`; // TODO: change url later
+  const url = `/iniciarSesion`; // TODO: change url later
   const history = useHistory();
 
-  const Validacion = async () => {
-    debugger;
-    const res =  await axios.post(url, {
+  const login = async () => {
+    try {
+      const params = {
         usuario: username,
-        password: password
-      
-      })
-      .then(response => {
-        // handle success
-        debugger;
-        if (response.data === '1') {
-          alert('Login successful!');
-          setPassword('');
-          setUsername('');
-          history.push('/example'); // TODO: change url later
-        } else {
-          alert('Credentials are wrong!');
-        }
-      })
-      .catch(error => {
-        // handle error
-        console.log('error', error);
-      });
+        password
+      };
+      const response = await API.post(`${url}`, params);
+      if (response?.status === 200) {
+        // set token local storage
+        console.log(response.data);
+        const access = {
+          ...response.data,
+          type: 'bearer'
+        };
+        localStorage.setItem('access', JSON.stringify(access));
+        localStorage.getItem('access');
+        // history.push('/example'); // TODO: change url later
+      }
+    } catch (error) {
+      // handle error
+      debugger;
+      console.log('error', error);
+    }
   };
 
   const onChangePassword = e => setPassword(e?.target?.value);
@@ -43,7 +44,7 @@ export default function LogIn() {
 
   const onSubmit = e => {
     e.preventDefault();
-    Validacion();
+    login();
   };
 
   const classes = useStyles();
