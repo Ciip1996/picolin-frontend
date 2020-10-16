@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Box from '@material-ui/core/Box';
-import TextBox from 'UI/components/atoms/TextBox';
+import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
@@ -10,14 +10,19 @@ export default function LogIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const url = `url example ${username}/${password}`; // TODO: change url later
+  const url = `localhost:3307/iniciarSesion`; // TODO: change url later
   const history = useHistory();
 
   const Validacion = async () => {
-    axios
-      .get(url)
+    debugger;
+    const res =  await axios.post(url, {
+        usuario: username,
+        password: password
+      
+      })
       .then(response => {
         // handle success
+        debugger;
         if (response.data === '1') {
           alert('Login successful!');
           setPassword('');
@@ -33,8 +38,8 @@ export default function LogIn() {
       });
   };
 
-  const onChangep = e => setPassword(e.target.value);
-  const onChangeu = e => setUsername(e.target.value);
+  const onChangePassword = e => setPassword(e?.target?.value);
+  const onChangeUserName = e => setUsername(e?.target?.value);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -49,20 +54,22 @@ export default function LogIn() {
           <form onSubmit={onSubmit}>
             <center>
               <h1 className={classes.h1}>INICIAR SESIÓN</h1>
-              <TextBox
-                onChange={onChangeu}
+              <TextField
+                onChange={onChangeUserName}
+                value={username}
                 className={classes.txtusuario}
                 name="Usuario"
                 label="Usuario"
               />
-              <TextBox
-                onChange={onChangep}
+              <TextField
+                onChange={onChangePassword}
                 className={classes.txtcontrasena}
+                value={password}
                 name="Contraseña"
                 label="Contraseña"
                 type="password"
               />
-              <Button className={classes.boton}>
+              <Button className={classes.boton} type="submit">
                 <h1 className={classes.txtboton}>ENTRAR</h1>
               </Button>
             </center>
