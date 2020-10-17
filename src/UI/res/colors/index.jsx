@@ -1,4 +1,5 @@
 export const colors = {
+  loginBackground: '#FDF7F4',
   primary: '#E26A93',
   oxford: '#707070',
   appBackground: '#F0F3F7',

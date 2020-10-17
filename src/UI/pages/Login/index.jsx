@@ -1,82 +1,131 @@
+// @flow
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+// Material UI components:
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import axios from 'axios';
-import { useHistory } from 'react-router-dom';
-import API from 'services/API';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+// Custom components and others
+import { colors } from 'UI/res';
+import ActionButton from 'UI/components/atoms/ActionButton';
+import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 import { useStyles } from './styles';
 
-export default function LogIn() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+type LogInProps = {
+  showAlert: any => void
+};
 
-  const url = `/iniciarSesion`; // TODO: change url later
+const LogIn = (props: LogInProps) => {
+  const [uiState, setUiState] = useState({
+    isLoading: false
+  });
+  const { showAlert } = props;
+
+  const url = `http://localhost:3307/iniciarSesion`;
   const history = useHistory();
 
-  const login = async () => {
+  const { register, handleSubmit, errors, setError } = useForm();
+
+  const onSubmit = async (formData: Object) => {
     try {
+      setUiState(prevState => ({ ...prevState, isLoading: true }));
+
       const params = {
-        usuario: username,
-        password
+        usuario: formData.user,
+        password: formData.pwd
       };
-      const response = await API.post(`${url}`, params);
-      if (response?.status === 200) {
-        // set token local storage
-        console.log(response.data);
-        const access = {
-          token: response.data.token,
-          type: 'bearer'
-        };
-        localStorage.setItem('access', JSON.stringify(access));
-        localStorage.getItem('access');
-        history.push('/home'); // TODO: change url later
-      }
+      // const response = await API.post(`${url}`, params);
+      await axios.post(`${url}`, params).then(response => {
+        if (response?.status === 200) {
+          // TODO: properly handle token with valid session
+          const access = {
+            token: response.data.token,
+            type: 'bearer'
+          };
+          localStorage.setItem('access', JSON.stringify(access));
+          localStorage.getItem('access');
+          history.push('/home'); // TODO: change redirect url later
+        }
+      });
     } catch (error) {
-      // handle error
-      debugger;
-      console.log('error', error);
+      const { response } = error;
+      if (response?.status === 401) {
+        setError('user', 'notMatch', 'El Usuario puede ser incorrecto.');
+        setError('pwd', 'notMatch', 'La contraseña puede ser incorrecta.');
+        showAlert({
+          severity: 'warning',
+          title: `Login`,
+          autoHideDuration: 800000,
+          body: `${response?.data?.mensaje}`
+        });
+      } else {
+        showAlert({
+          severity: 'error',
+          title: response?.status ? `Error ${response.status}` : `Error`,
+          code: response?.status || '500',
+          autoHideDuration: 800000,
+          body: `Ocurrió un error en servidor. Porfavor intente mas tarde o contacte a soporte.`
+        });
+      }
+    } finally {
+      setUiState(prevState => ({ ...prevState, isLoading: false }));
     }
-  };
-
-  const onChangePassword = e => setPassword(e?.target?.value);
-  const onChangeUserName = e => setUsername(e?.target?.value);
-
-  const onSubmit = e => {
-    e.preventDefault();
-    login();
   };
 
   const classes = useStyles();
   return (
-    <div className={classes.fondo}>
-      <Box display="flex" justifyContent="center" p={1}>
-        <Box className={classes.box}>
-          <form onSubmit={onSubmit}>
-            <center>
-              <h1 className={classes.h1}>INICIAR SESIÓN</h1>
-              <TextField
-                onChange={onChangeUserName}
-                value={username}
-                className={classes.txtusuario}
-                name="Usuario"
-                label="Usuario"
-              />
-              <TextField
-                onChange={onChangePassword}
-                className={classes.txtcontrasena}
-                value={password}
-                name="Contraseña"
-                label="Contraseña"
-                type="password"
-              />
-              <Button className={classes.boton} type="submit">
-                <h1 className={classes.txtboton}>ENTRAR</h1>
-              </Button>
-            </center>
-          </form>
-        </Box>
+    <div className={classes.wrapper}>
+      <Box className={classes.containerBox}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <center>
+            <h1 className={classes.header}>INICIAR SESIÓN</h1>
+            <TextField
+              className={classes.txtUser}
+              name="user"
+              label="Usuario"
+              inputRef={register({
+                required: 'Se require un nombre de usuario'
+              })}
+              error={!!errors.user}
+              helperText={errors.user && errors.user.message}
+            />
+            <TextField
+              className={classes.txtPwd}
+              name="pwd"
+              label="Contraseña"
+              type="password"
+              inputRef={register({
+                required: 'Se require una contraseña'
+              })}
+              error={!!errors.pwd}
+              helperText={errors.pwd && errors.pwd.message}
+            />
+            <ActionButton
+              type="submit"
+              status="success"
+              className={classes.loginButton}
+              text="Entrar"
+            >
+              {uiState.isLoading && <CircularProgress size={24} color={colors.white} />}
+            </ActionButton>
+          </center>
+        </form>
       </Box>
     </div>
   );
-}
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    showAlert: alert => dispatch(showAlertAction(alert)),
+    showConfirm: confirmation => dispatch(confirmAction(confirmation))
+  };
+};
+
+const LogInConnected = connect(null, mapDispatchToProps)(LogIn);
+
+export default LogInConnected;

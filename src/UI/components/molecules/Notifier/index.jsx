@@ -53,13 +53,14 @@ const Notifier = props => {
             getTotal();
           } else if (event.data?.firebaseMessaging?.type === 'push-received') {
             const { data: payload } = event.data.firebaseMessaging.payload;
-            const { title, body, icon, color, click_action } = payload;
+            const { title, code, body, icon, color, click_action } = payload;
 
             addNotification(payload);
 
             onShowAlert({
               isNotification: true,
               title,
+              code,
               body,
               icon,
               color,
@@ -86,6 +87,7 @@ const Notifier = props => {
       ({
         key,
         title,
+        code,
         body,
         autoHideDuration,
         severity,
@@ -115,6 +117,7 @@ const Notifier = props => {
               body={message}
               severity={severity}
               title={title}
+              code={code}
               isNotification={isNotification}
               color={color}
               icon={icon}

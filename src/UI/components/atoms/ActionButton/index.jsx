@@ -4,19 +4,17 @@ import Button from '@material-ui/core/Button';
 import { fuseStyles, nestTernary } from 'UI/utils';
 import { styles, useStyles } from './styles';
 
-// I erase the variant text and floating boolean because I don't see any implementation, check if functionality works across the system
 type ActionButtonProps = {
   status: 'success' | 'error' | 'default',
   variant: 'contained' | 'outlined',
-  type?: 'button' | 'submit',
+  type: 'button' | 'submit',
   text: string,
   isResponsive: boolean,
   iconPosition?: 'left' | 'right' | 'none',
-  children?: any,
-  backgroundColor?: string,
-  style?: Object,
+  children: any,
+  style: Object,
   onClick: any => any,
-  isWithLargeContent?: boolean,
+  isWithLargeContent: boolean,
   isWithoutText: boolean
 };
 
@@ -27,7 +25,6 @@ const ActionButton = (props: ActionButtonProps) => {
     children,
     iconPosition,
     variant,
-    backgroundColor,
     style,
     onClick,
     isResponsive,
@@ -40,12 +37,13 @@ const ActionButton = (props: ActionButtonProps) => {
     children && styles.withIcon,
     children && isResponsive && styles.buttonResponsive,
     isWithLargeContent && styles.largeContent,
-    { ...style, backgroundColor },
     status === 'error' && styles.error,
-    variant === 'outlined' && status === 'success' && styles.outlineSuccess
+    variant === 'outlined' && status === 'success' && styles.outlineSuccess,
+    { ...style }
   ]);
 
   const classes = useStyles(props);
+
   const getIconForPosition = (position: string) => {
     return iconPosition === position && !!children
       ? children
@@ -78,14 +76,13 @@ ActionButton.defaultProps = {
   status: 'default',
   type: 'button',
   iconPosition: 'left',
-  children: undefined,
-  backgroundColor: undefined,
-  style: {},
-  onClick: () => {},
   isResponsive: false,
   isWithLargeContent: false,
+  isWithoutText: false,
   text: '',
-  isWithoutText: false
+  children: undefined,
+  style: {},
+  onClick: () => {}
 };
 
 export default ActionButton;

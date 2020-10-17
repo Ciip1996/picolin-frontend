@@ -54,6 +54,7 @@ const NavBar = () => {
 
   const handleLogout = () => {
     logout();
+    history.push('/login');
   };
 
   const toggleDrawer = (activeDrawer, open) => event => {

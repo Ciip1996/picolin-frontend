@@ -29,7 +29,6 @@ const isAuthenticated = () => {
 };
 
 const logout = async () => {
-  debugger;
   // const response = await API.get('users/logout'); // TODO: replace with logout
   cleanLocalStorage();
   // logoutMicrosoft();

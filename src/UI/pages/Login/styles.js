@@ -1,28 +1,17 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { colors } from 'UI/res';
 
 export const useStyles = makeStyles({
-  boton: {
-    background: 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)',
-    boxShadow: '0px 3px 6px #00000029',
-    marginTop: '42px',
-    marginBottom: '58px',
-    width: '171px',
-    color: 'white',
-    height: '48px',
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24
+  wrapper: {
+    backgroundColor: colors.loginBackground,
+    display: 'flex',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: '100%'
   },
-  fondo: {
-    background: '#FDF7F4',
-    width: '100%',
-    height: '100%',
-    opacity: '1'
-  },
-  box: {
+  containerBox: {
     width: '398px',
-    marginTop: '11%',
     height: '438px',
     boxShadow: '0px 3px 6px #00000029',
     borderTopLeftRadius: 26,
@@ -31,7 +20,19 @@ export const useStyles = makeStyles({
     borderBottomRightRadius: 26,
     background: 'white'
   },
-  h1: {
+  loginButton: {
+    background: 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)',
+    boxShadow: '0px 3px 6px #00000029',
+    marginTop: '42px',
+    width: '171px',
+    minHeight: '48px !important'
+    // marginBottom: '58px',
+    // borderTopLeftRadius: 24,
+    // borderTopRightRadius: 24,
+    // borderBottomLeftRadius: 24,
+    // borderBottomRightRadius: 24
+  },
+  header: {
     marginTop: '54px',
     marginBottom: '55px',
     font: 'normal normal bold 32px/48px Poppins',
@@ -39,16 +40,16 @@ export const useStyles = makeStyles({
     height: '45px',
     letterspacing: '0px'
   },
-  txtusuario: {
+  txtUser: {
     width: '315px',
     height: '40px'
   },
-  txtcontrasena: {
+  txtPwd: {
     marginTop: '34px',
     width: '315px',
     height: '40px'
   },
-  txtboton: {
+  txtloginButton: {
     width: '61px',
     font: '16px/19px Roboto',
     marginTop: '15px',

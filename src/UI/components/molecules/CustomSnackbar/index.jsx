@@ -16,6 +16,7 @@ type CustomSnackbarProps = {
   id: number,
   severity: 'warning' | 'info' | 'success' | 'error',
   title: string,
+  code: string | null,
   body: string,
   isNotification: boolean,
   color: string,
@@ -51,6 +52,7 @@ const CustomSnackbar = forwardRef<CustomSnackbarProps, any>(
     const {
       severity = 'info',
       title,
+      code,
       body = '',
       isNotification,
       color = colors.darkGrey,
@@ -100,7 +102,7 @@ const CustomSnackbar = forwardRef<CustomSnackbarProps, any>(
           >
             <div className={classes.textContainer}>
               <div className={classes.title} style={styles.truncateText}>
-                {title}
+                {title} {code && `Codigo: ${code}`}
               </div>
               <div className={classes.body} style={styles.truncateText}>
                 {body}
