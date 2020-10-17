@@ -86,12 +86,6 @@ const NavBar = () => {
         </div>
         <div item="true" className={classes.divItem} style={styles.rightContainer}>
           <div className={classes.userCardWrapper}>
-            <CustomIconButton
-              tooltipText="Operating at 10"
-              onClick={toggleDrawer('isOperatingOpen', true)}
-            >
-              <Operating10Icon fill={colors.completeBlack} />
-            </CustomIconButton>
             {featureFlags.includes(FeatureFlags.Notifications) && (
               <NotificationButton onDrawerOpen={toggleDrawer('areNotificationsOpen', true)} />
             )}

@@ -26,10 +26,12 @@ export const styles = {
 
 export const useSidebarStyles = makeStyles(theme => ({
   item: {
-    ...theme.sidebarItem
+    ...theme.sidebarItem,
+    color: colors.oxford
   },
   itemSelected: {
-    color: colors.black,
+    backgroundColor: colors.primary,
+    color: colors.white,
     fontWeight: 700,
     height: sidebarItem.height
   },

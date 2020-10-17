@@ -41,6 +41,7 @@ export const GranularityFormats = {
 };
 
 export const PageTitles = {
+  Sales: `${AppName} | Ventas`,
   Login: `${AppName} | Login`,
   Home: `${AppName} | Home`,
   Candidate: `${AppName} | Candidates`,
