@@ -31,7 +31,7 @@ const sideBarMenu = [
     icon: {
       inactive: <SalesIcon fill={colors.oxford} />,
       opened: null,
-      active: <SalesIcon  fill={colors.white} />
+      active: <SalesIcon fill={colors.white} />
     }
   },
   {
@@ -41,7 +41,16 @@ const sideBarMenu = [
       inactive: <InventoryIcon fill={colors.oxford} />,
       opened: null,
       active: <InventoryIcon fill={colors.white} />
-    },
+    }
+  },
+  {
+    title: 'Transferencias',
+    route: EntityRoutes.Transfers,
+    icon: {
+      inactive: <InventoryIcon fill={colors.oxford} />,
+      opened: null,
+      active: <InventoryIcon fill={colors.white} />
+    }
   }
   // The following code is used for the collapsible menu:
   //   {
@@ -56,14 +65,14 @@ const sideBarMenu = [
   // }
 ];
 
-featureFlags.includes(FeatureFlags.Dashboard) && 
+featureFlags.includes(FeatureFlags.Dashboard) &&
   sideBarMenu.push({
     title: 'Dashboard',
     route: 'dashboard',
     icon: {
       inactive: <DashboardIcon />,
-      opened: <DashboardIcon  fill={colors.black} />,
-      active: <DashboardIcon  fill={colors.black} />
+      opened: <DashboardIcon fill={colors.black} />,
+      active: <DashboardIcon fill={colors.black} />
     },
     subItems: [
       {
@@ -77,6 +86,5 @@ featureFlags.includes(FeatureFlags.Dashboard) &&
       }
     ]
   });
-
 
 export default sideBarMenu;

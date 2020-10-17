@@ -127,10 +127,10 @@ const SalesList = (props: SalesListProps) => {
       };
 
       saveFilters('ventas', { filters, params });
-      
+
       const queryParams = queryString.stringify(params);
 
-      //const response =  await API.get(`${Endpoints.Ventas}?${queryParams}`);
+      // const response =  await API.get(`${Endpoints.Ventas}?${queryParams}`);
       axios
         .get(Urls.sales)
         .then(res => {
@@ -152,7 +152,6 @@ const SalesList = (props: SalesListProps) => {
       // setCount(Number(response.data.total));
       setLoading(false);
       setCount(Number(1));
-
     } catch (error) {
       onShowAlert({
         severity: 'error',

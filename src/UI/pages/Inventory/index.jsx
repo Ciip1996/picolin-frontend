@@ -23,6 +23,9 @@ import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 
 /** API / EntityRoutes / Endpoints / EntityType */
+import { Urls } from 'UI/constants/mockData';
+import axios from 'axios';
+
 import API from 'services/API';
 import { EntityRoutes } from 'routes/constants';
 import { Endpoints } from 'UI/constants/endpoints';
@@ -34,7 +37,7 @@ import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
 import { PageTitles } from 'UI/constants/defaults';
 
-type CandidatesListProps = {
+type SalesListProps = {
   onShowAlert: any => void
 };
 
@@ -48,34 +51,33 @@ const chainedSelects = {
 
 const columnItems = [
   { id: 0, name: 'type', display: true },
-  { id: 1, name: 'full_name', display: true },
-  { id: 2, name: 'functional_title', display: true },
-  { id: 3, name: 'specialty_title', display: true },
-  { id: 4, name: 'location', display: false },
-  { id: 5, name: 'salary_range', display: true },
-  { id: 6, name: 'created_at', display: false },
-  { id: 7, name: 'last_activity_date', display: true },
-  { id: 8, name: 'recruiter', display: true },
-  { id: 9, name: 'email', display: false }
+  { id: 1, name: 'codigo', display: true },
+  { id: 2, name: 'color', display: true },
+  { id: 3, name: 'talla', display: true },
+  { id: 4, name: 'piezas', display: false },
+  { id: 5, name: 'precio', display: true },
+  { id: 6, name: 'genero', display: false },
+  { id: 7, name: 'tipo', display: true },
+  { id: 8, name: 'status', display: true }
 ];
 
 const getSortDirections = (orderBy: string, direction: string) =>
   columnItems.map(item => (item.name === orderBy ? direction : 'none'));
 
-const CandidatesList = (props: CandidatesListProps) => {
+const SalesList = (props: SalesListProps) => {
   const { onShowAlert } = props;
   const history = useHistory();
 
   useEffect(() => {
-    document.title = PageTitles.Candidate;
+    document.title = PageTitles.Sales;
   }, []);
 
   const [loading, setLoading] = useState(true);
 
-  const [data, setData] = useState<any>(null);
+  const [data, setData] = useState<any>([{}]);
   const [count, setCount] = useState(0);
 
-  const savedSearch = getFilters('inventario');
+  const savedSearch = getFilters('inventarios');
   const savedFilters = savedSearch?.filters;
   const savedParams = savedSearch?.params;
 
@@ -100,7 +102,7 @@ const CandidatesList = (props: CandidatesListProps) => {
         specialty,
         subspecialty,
         position,
-        recruiter,
+        status,
         coach,
         itemType
       } = filters;
@@ -117,21 +119,39 @@ const CandidatesList = (props: CandidatesListProps) => {
         specialtyId: specialty ? specialty.id : null,
         subspecialtyId: subspecialty ? subspecialty.id : null,
         positionId: position ? position.id : null,
-        recruiterId: recruiter ? recruiter.id : null,
+        statusId: status ? status.id : null,
         coachId: coach ? coach.id : null,
         typeId: itemType ? itemType.id : null,
         page: uiState.page + 1,
         perPage: uiState.perPage
       };
 
-      saveFilters('inventario', { filters, params });
+      saveFilters('inventarios', { filters, params });
 
       const queryParams = queryString.stringify(params);
 
-      /* const response = await API.get(`${Endpoints.Inventario}?${queryParams}`);
-      setData(response.data.data);
-      setCount(Number(response.data.total));*/
+      // const response =  await API.get(`${Endpoints.Inventario}?${queryParams}`);
+      axios
+        .get(Urls.sales)
+        .then(res => {
+          setData(res.data);
+        })
+        .catch(error => {
+          // handle error
+          onShowAlert({
+            severity: 'error',
+            title: 'Search Projects',
+            autoHideDuration: 3000,
+            body: getErrorMessage(error)
+          });
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+      // setData(response.data.data);
+      // setCount(Number(response.data.total));
       setLoading(false);
+      setCount(Number(1));
     } catch (error) {
       onShowAlert({
         severity: 'error',
@@ -214,12 +234,12 @@ const CandidatesList = (props: CandidatesListProps) => {
   };
 
   const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
-  const recruitersUrl =
+  const statussUrl =
     savedFilters?.userFilter && savedFilters.userFilter.id !== 0
       ? nestTernary(
           savedFilters.userFilter.id === 3,
           `${Endpoints.Users}?role_id=1`,
-          `${Endpoints.Recruiters}/myTeam`
+          `${Endpoints.statuss}/myTeam`
         )
       : '';
 
@@ -250,7 +270,7 @@ const CandidatesList = (props: CandidatesListProps) => {
     },
     {
       name: 'type',
-      label: 'Status',
+      label: 'Type',
       options: {
         filter: true,
         sort: true,
@@ -258,7 +278,7 @@ const CandidatesList = (props: CandidatesListProps) => {
         sortDirection: sortDirection[0],
         customBodyRender: value => {
           return (
-            value.type && (
+            value?.type && (
               <>
                 <ColorIndicator color={value.type_class_name} width={12} height={12} /> {value.type}
               </>
@@ -288,8 +308,8 @@ const CandidatesList = (props: CandidatesListProps) => {
       }
     },
     {
-      name: 'full_name',
-      label: 'Full Name',
+      name: 'codigo',
+      label: 'Codigo',
       options: {
         filter: true,
         sort: true,
@@ -321,8 +341,8 @@ const CandidatesList = (props: CandidatesListProps) => {
       }
     },
     {
-      name: 'functional_title',
-      label: 'Functional Title',
+      name: 'color',
+      label: 'Color',
       options: {
         filter: true,
         sort: true,
@@ -368,7 +388,7 @@ const CandidatesList = (props: CandidatesListProps) => {
                   placeholder="Coach"
                   url={`${Endpoints.Users}?role_id=2`}
                   selectedValue={filters.coach}
-                  displayKey="full_name"
+                  displayKey="codigo"
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -378,8 +398,8 @@ const CandidatesList = (props: CandidatesListProps) => {
       }
     },
     {
-      name: 'location',
-      label: 'Location',
+      name: 'piezas',
+      label: 'Piezas',
       options: {
         filter: true,
         sort: true,
@@ -391,11 +411,11 @@ const CandidatesList = (props: CandidatesListProps) => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="recruiter"
-                  placeholder="Recruiter"
-                  url={recruitersUrl}
-                  selectedValue={filters.recruiter}
-                  displayKey="full_name"
+                  name="status"
+                  placeholder="status"
+                  url={statussUrl}
+                  selectedValue={filters.status}
+                  displayKey="codigo"
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -405,33 +425,13 @@ const CandidatesList = (props: CandidatesListProps) => {
       }
     },
     {
-      name: 'salary_range',
-      label: 'Compensation Range',
+      name: 'precio',
+      label: 'Precio',
       options: {
         filter: true,
         sort: true,
         display: columnItems[5].display,
         sortDirection: sortDirection[5],
-        customBodyRender: value => {
-          return value.map((val, index) => {
-            return (
-              val && (
-                <span key={index.toString()}>
-                  {
-                    <NumberFormat
-                      prefix="$"
-                      displayType="text"
-                      thousandSeparator=","
-                      decimalSeparator="."
-                      value={val}
-                    />
-                  }
-                  {index === 2 ? '' : ' - '}
-                </span>
-              )
-            );
-          });
-        },
         filterType: 'custom',
         filterOptions: {
           display: () => {
@@ -455,8 +455,8 @@ const CandidatesList = (props: CandidatesListProps) => {
       }
     },
     {
-      name: 'created_at',
-      label: 'Added Date',
+      name: 'genero',
+      label: 'Genero',
       options: {
         filter: true,
         sort: true,
@@ -484,8 +484,8 @@ const CandidatesList = (props: CandidatesListProps) => {
       }
     },
     {
-      name: 'last_activity_date',
-      label: 'Last Activity',
+      name: 'tipo',
+      label: 'Tipo',
       options: {
         filter: true,
         sort: true,
@@ -513,8 +513,8 @@ const CandidatesList = (props: CandidatesListProps) => {
       }
     },
     {
-      name: 'recruiter',
-      label: 'Recruiter',
+      name: 'status',
+      label: 'Status',
       options: {
         filter: false,
         sort: true,
@@ -539,17 +539,6 @@ const CandidatesList = (props: CandidatesListProps) => {
           }
         }
       }
-    },
-    {
-      name: 'email',
-      label: 'Email',
-      options: {
-        filter: false,
-        sort: true,
-        display: columnItems[9].display,
-        sortDirection: sortDirection[9],
-        filterType: 'custom'
-      }
     }
   ];
 
@@ -557,11 +546,11 @@ const CandidatesList = (props: CandidatesListProps) => {
     <ContentPageLayout>
       <ListPageLayout
         loading={loading}
-        title="INVENTARIO"
+        title="INVENTARIOS"
         selector={
           <AutocompleteSelect
             name="userFilter"
-            placeholder="Inventario to show"
+            placeholder="Inventarios to show"
             selectedValue={filters.userFilter || filterOptions[0]}
             onSelect={handleFilterChange}
             defaultOptions={filterOptions}
@@ -597,4 +586,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(CandidatesList);
+export default connect(null, mapDispatchToProps)(SalesList);
