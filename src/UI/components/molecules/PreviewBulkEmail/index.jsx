@@ -2,7 +2,7 @@
 import React from 'react';
 import Box from '@material-ui/core/Box';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
-import { EmptyEmail } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { EmptyEmail } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import { useStyles } from './styles';
 

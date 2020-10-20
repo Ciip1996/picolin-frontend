@@ -3,7 +3,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
 import Box from '@material-ui/core/Box';
-import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
+import Text from 'UI/components/atoms/Text';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -16,7 +16,7 @@ import Grid from '@material-ui/core/Grid';
 import { Endpoints } from 'UI/constants/endpoints';
 import { CancelSaveButton } from 'UI/constants/dimensions';
 
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors } from 'UI/res';
 import { useStyles } from 'UI/pages/Names/styles';
 import { styles } from './styles';
 

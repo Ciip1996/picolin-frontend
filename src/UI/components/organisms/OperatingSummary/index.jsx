@@ -9,7 +9,7 @@ import OperatingSkeleton from 'UI/components/molecules/OperatingSkeleton';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 
-import { NotificationEmptyImg } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { NotificationEmptyImg } from 'UI/res';
 
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';

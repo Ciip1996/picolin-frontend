@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
-import CustomSkeleton from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/CustomSkeleton';
+import { colors } from 'UI/res';
+import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import { globalStyles } from 'GlobalStyles';
 import { styles } from './styles';
 

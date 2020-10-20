@@ -12,7 +12,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider';
 
 import { formatMetricPeriod } from 'UI/utils';
-import { colors, Operating10Icon } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors, Operating10Icon } from 'UI/res';
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import OperatingChecklist from '../OperatingChecklist';

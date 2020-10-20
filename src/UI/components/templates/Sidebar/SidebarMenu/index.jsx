@@ -17,7 +17,7 @@ import {
   SalesIcon
 } from 'UI/res/icons';
 
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors } from 'UI/res';
 
 import { FeatureFlags } from 'UI/constants/featureFlags';
 import { getFeatureFlags } from 'UI/utils';

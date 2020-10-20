@@ -22,7 +22,7 @@ import { connect } from 'react-redux';
 // import { entyTypesFilters } from 'UI/constants/entityTypes';
 import { EntityRoutes } from 'routes/constants';
 import { getErrorMessage } from 'UI/utils';
-import { SendBulkIcon, DeleteIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { SendBulkIcon, DeleteIcon, colors } from 'UI/res';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import BulkEmailModal from 'UI/components/organisms/BulkEmailModal';
 import { PageTitles } from 'UI/constants/defaults';

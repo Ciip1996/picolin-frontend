@@ -4,7 +4,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import Card from '@material-ui/core/Card';
 
-import CustomSkeleton from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/CustomSkeleton';
+import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import CardContent from '@material-ui/core/CardContent';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';

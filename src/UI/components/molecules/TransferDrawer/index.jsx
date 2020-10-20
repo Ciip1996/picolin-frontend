@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Box from '@material-ui/core/Box';
-import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
+import Text from 'UI/components/atoms/Text';
 import TextField from '@material-ui/core/TextField';
 //import fetch from 'cross-fetch';
 import Autocomplete from '@material-ui/lab/Autocomplete';

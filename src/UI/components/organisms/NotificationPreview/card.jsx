@@ -9,7 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import ColorIndicator from 'UI/components/atoms/ColorIndicator';
 
-import { colors, AnnouncementIcon } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors, AnnouncementIcon } from 'UI/res';
 
 import { icon as iconDimensions } from 'UI/constants/dimensions';
 import { type notificationsType, notificationIcons } from 'UI/constants/notifications';

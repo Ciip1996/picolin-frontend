@@ -3,7 +3,7 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import TextBox from 'UI/components/atoms/TextBox';
-import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
+import Text from 'UI/components/atoms/Text';
 import type { FeeAgreementMode } from 'types/app';
 import { WARRANTY_VALIDATION, PERCENT_VALIDATION } from 'UI/utils/index';
 

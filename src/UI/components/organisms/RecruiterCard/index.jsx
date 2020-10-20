@@ -17,7 +17,7 @@ import Divider from '@material-ui/core/Divider';
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import InfoLabel from 'UI/components/molecules/InfoLabel';
-import CustomSkeleton from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/CustomSkeleton';
+import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import { RecruiterBarMode } from 'UI/constants/defaults';
 import { globalStyles } from 'GlobalStyles';
 import { fuseStyles } from 'UI/utils';

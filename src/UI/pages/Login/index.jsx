@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Custom components and others
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 import { useStyles } from './styles';

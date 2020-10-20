@@ -2,7 +2,7 @@
 import React from 'react';
 
 import Chip from '@material-ui/core/Chip';
-import CustomSkeleton from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/CustomSkeleton';
+import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import type { Filters } from 'types/app';
 import { useStyles } from './styles';
 

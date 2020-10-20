@@ -2,12 +2,12 @@
 import React from 'react';
 
 import Box from '@material-ui/core/Box';
-import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
-import { colors, CalendarIcon } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import Text from 'UI/components/atoms/Text';
+import { colors, CalendarIcon } from 'UI/res';
 import { DateFormats } from 'UI/constants/defaults';
 import { AdditionalRecruiterType } from 'UI/constants/status';
 import { toLocalTime, nestTernary } from 'UI/utils';
-import CustomSkeleton from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/CustomSkeleton';
+import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import { styles } from './styles';
 
 type HistoryCardProps = {

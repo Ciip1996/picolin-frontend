@@ -3,7 +3,7 @@ import React from 'react';
 import Box from '@material-ui/core/Box';
 import TreeViewBulkTemplates from 'UI/components/organisms/TreeViewBulkTemplates';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
-import { EmptyBulkTemplate, TemplateIcon, NewFolderIcon, NewTemplateIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { EmptyBulkTemplate, TemplateIcon, NewFolderIcon, NewTemplateIcon, colors } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import BulkEmailContentHeader from 'UI/components/molecules/BulkEmailContentHeader';
 import { useStyles, styles } from './style';

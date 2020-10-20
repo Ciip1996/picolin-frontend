@@ -6,7 +6,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import GlobalSearchbar from 'UI/components/molecules/GlobalSearchbar';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
 import ActionButton from 'UI/components/atoms/ActionButton';
-import { WolfBackground, AddIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { WolfBackground, AddIcon, colors } from 'UI/res';
 import { EntityRoutes } from 'routes/constants';
 import { PageTitles } from 'UI/constants/defaults';
 import { isNotificationAvailable, getNotificationToken } from 'services/FirebaseMessaging';

@@ -6,7 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Box from '@material-ui/core/Box';
 
 import InfoLabel from 'UI/components/molecules/InfoLabel';
-import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
+import Text from 'UI/components/atoms/Text';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import SocialNetworkButton from 'UI/components/molecules/SocialNetworkButton';
@@ -21,7 +21,7 @@ import {
   MoreIcon,
   CollaborationsIcon,
   colors
-} from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+} from 'UI/res';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import { getCurrentUser } from 'services/Authentication';
 import { canUserEditEntity, userHasRole } from 'services/Authorization';

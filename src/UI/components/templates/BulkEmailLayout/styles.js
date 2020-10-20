@@ -1,4 +1,4 @@
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors } from 'UI/res';
 import { container, inventorySectionHeader } from 'UI/constants/dimensions';
 import { makeStyles } from '@material-ui/core/styles';
 

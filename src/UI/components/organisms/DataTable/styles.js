@@ -1,6 +1,6 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import { THEME } from 'GlobalStyles';
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors } from 'UI/res';
 
 export const tableLayout = {
   flexGrow: 1,

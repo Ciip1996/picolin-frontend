@@ -3,7 +3,7 @@ import React, { forwardRef } from 'react';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useSnackbar } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
-import { SuccessIcon, AnnouncementIcon, ErrorIcon, WarningIcon, CloseIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { SuccessIcon, AnnouncementIcon, ErrorIcon, WarningIcon, CloseIcon, colors } from 'UI/res';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import Card from '@material-ui/core/Card';

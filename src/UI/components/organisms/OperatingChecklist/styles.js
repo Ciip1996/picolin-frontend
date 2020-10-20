@@ -1,4 +1,4 @@
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors } from 'UI/res';
 
 const listSelectedBackground = colors.softBack;
 

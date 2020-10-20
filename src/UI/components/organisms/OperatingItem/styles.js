@@ -1,6 +1,6 @@
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors } from 'UI/res';
 
 const listSelectedBackground = colors.softBack;
 

@@ -6,7 +6,7 @@ import TabsView from 'UI/components/templates/TabsView';
 
 /** Atoms, Components and Styles */
 import MapDigTab from 'UI/components/organisms/MapDigTab';
-import { DigIcon, InventoryIconMap } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { DigIcon, InventoryIconMap } from 'UI/res';
 
 import MapInventoryTab from 'UI/components/organisms/MapInventoryTab';
 import { selectTab } from 'actions/map';

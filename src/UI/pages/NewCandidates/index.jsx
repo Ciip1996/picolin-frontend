@@ -33,7 +33,7 @@ import { FeatureFlags } from 'UI/constants/featureFlags';
 import InputContainer from 'UI/components/atoms/InputContainer';
 import { EntityRoutes } from 'routes/constants';
 import { globalStyles } from 'GlobalStyles';
-import { colors, PaperWriteIcon, EditIcon } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors, PaperWriteIcon, EditIcon } from 'UI/res';
 // import { EntityType } from 'UI/constants/entityTypes';
 
 import { waitingTimeBeforeRedirect, PageTitles, drawerAnchor } from 'UI/constants/defaults';

@@ -4,7 +4,7 @@ import MuiCard from '@material-ui/core/Card';
 import MuiCardHeader from '@material-ui/core/CardHeader';
 import MuiCardContent from '@material-ui/core/CardContent';
 
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors } from 'UI/res';
 
 export const Card = withStyles({
   root: {

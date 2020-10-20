@@ -9,7 +9,7 @@ import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Paper from '@material-ui/core/Paper';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import { CloseIcon, colors, ScheduleIcon, PopperArrow, ArrowLeft } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { CloseIcon, colors, ScheduleIcon, PopperArrow, ArrowLeft } from 'UI/res';
 import BulkEmailComponents from '../BulkEmailComponents';
 import { useStyles, usePaperStyles, styles } from './styles';
 

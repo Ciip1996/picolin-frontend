@@ -3,7 +3,7 @@ import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import CustomSkeleton from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/CustomSkeleton';
+import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 
 import { styles, useStyles } from './styles';
 

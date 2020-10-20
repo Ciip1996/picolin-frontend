@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { layout, container } from 'UI/constants/dimensions';
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors } from 'UI/res';
 
 export const styles = {};
 export const useStyles = makeStyles(() => ({

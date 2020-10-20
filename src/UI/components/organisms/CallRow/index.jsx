@@ -11,7 +11,7 @@ import {
   PhoneCallIcon,
   MailIcon,
   SMSIcon
-} from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+} from 'UI/res';
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 import { styles, useStyles } from './style';
 

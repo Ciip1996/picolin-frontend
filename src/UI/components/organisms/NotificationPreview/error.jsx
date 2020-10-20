@@ -2,7 +2,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
-import { NotificationNotFoundImg } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { NotificationNotFoundImg } from 'UI/res';
 
 const NotificationError = () => {
   return (

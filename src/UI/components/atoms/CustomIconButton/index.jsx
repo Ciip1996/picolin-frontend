@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import { colors, NotificationIcon } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors, NotificationIcon } from 'UI/res';
 import StyledTooltip from '../StyledTooltip/styles';
 import { useStyles } from './styles';
 

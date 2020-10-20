@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import { CloseIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { CloseIcon, colors } from 'UI/res';
 import { CancelSaveButton } from 'UI/constants/dimensions';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';

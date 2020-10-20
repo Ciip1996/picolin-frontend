@@ -28,7 +28,7 @@ import { showAlert } from 'actions/app';
 import InputContainer from 'UI/components/atoms/InputContainer';
 import { EntityRoutes } from 'routes/constants';
 import { globalStyles } from 'GlobalStyles';
-import { colors, PaperWriteIcon, EditIcon } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors, PaperWriteIcon, EditIcon } from 'UI/res';
 import { Endpoints } from 'UI/constants/endpoints';
 
 import { waitingTimeBeforeRedirect, PageTitles, drawerAnchor } from 'UI/constants/defaults';

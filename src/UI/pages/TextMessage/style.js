@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { layout, container, mx32 } from 'UI/constants/dimensions';
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors } from 'UI/res';
 import { flexAlignCenter, flexAlignCenterSpaceBetween } from 'UI/utils/styles';
 
 const topBarHeight = 94;

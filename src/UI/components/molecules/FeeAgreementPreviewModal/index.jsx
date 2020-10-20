@@ -1,9 +1,9 @@
 // @flow
 import React, { useState, useEffect } from 'react';
-import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
+import Text from 'UI/components/atoms/Text';
 import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
-import { DownloadIcon, CloseIcon, FullScreenIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { DownloadIcon, CloseIcon, FullScreenIcon, colors } from 'UI/res';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import { getErrorMessage } from 'UI/utils';
 import { useStyles } from './styles';

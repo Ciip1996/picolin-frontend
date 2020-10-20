@@ -9,9 +9,9 @@ import {
   SendIcon,
   ScheduleIcon,
   colors
-} from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+} from 'UI/res';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
-import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
+import Text from 'UI/components/atoms/Text';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import BulkEmailContent from 'UI/components/organisms/BulkEmailContent';
 import { fileViewLabels } from 'UI/constants/mockData';

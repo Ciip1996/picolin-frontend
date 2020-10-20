@@ -9,7 +9,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import { EntityRoutes } from 'routes/constants';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
-import { Error404, Error500, Error401, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { Error404, Error500, Error401, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
 import { useStyles } from './styles';
 

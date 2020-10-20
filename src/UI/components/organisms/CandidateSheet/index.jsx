@@ -14,7 +14,7 @@ import Grid from '@material-ui/core/Grid';
 
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
-import { EditIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { EditIcon, colors } from 'UI/res';
 import { globalStyles } from 'GlobalStyles';
 import AutocompleteSelect, {
   statusRenderOption,

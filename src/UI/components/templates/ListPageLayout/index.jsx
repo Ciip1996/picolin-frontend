@@ -2,7 +2,7 @@
 import React from 'react';
 
 import Grid from '@material-ui/core/Grid';
-import CustomSkeleton from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/CustomSkeleton';
+import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 
 /** Atoms, Components and Styles */
 import TitleLabel from 'UI/components/atoms/TitleLabel';
@@ -10,7 +10,7 @@ import ActiveFilters from 'UI/components/molecules/ActiveFilters';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import { globalStyles } from 'GlobalStyles';
-import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import { colors } from 'UI/res';
 import { fuseStyles } from 'UI/utils';
 import { styles } from './styles';
 
