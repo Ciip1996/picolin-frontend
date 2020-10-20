@@ -13,7 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Box from '@material-ui/core/Box';
 import { smsLabels, chatTextLabels, userExample } from 'UI/constants/mockData';
 import ButtonMenu from 'UI/components/molecules/ButtonMenu';
-import { PhoneCallIcon, MailIcon, MoreIcon, colors, SMSEmptyState } from 'UI/res';
+import { PhoneCallIcon, MailIcon, MoreIcon, colors, SMSEmptyState } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import Modal from '@material-ui/core/Modal';
 import UserChatText from 'UI/components/atoms/UserChatText';
 import useMediaQuery from '@material-ui/core/useMediaQuery';

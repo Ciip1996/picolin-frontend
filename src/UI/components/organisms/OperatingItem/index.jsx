@@ -12,8 +12,8 @@ import Collapse from '@material-ui/core/Collapse';
 
 import { formatMetricPeriod } from 'UI/utils';
 import { EntityType } from 'UI/constants/entityTypes';
-import { CandidatesIcon, JobOrdersIcon, Operating10Icon, colors } from 'UI/res';
-import Text from 'UI/components/atoms/Text';
+import { CandidatesIcon, JobOrdersIcon, Operating10Icon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
 
 import OperatingProgress from '../../molecules/OperatingProgress';
 

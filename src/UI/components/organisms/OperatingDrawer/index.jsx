@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 import TabsView from 'UI/components/templates/TabsView';
-import { CandidatesIcon, JobOrdersIcon } from 'UI/res';
+import { CandidatesIcon, JobOrdersIcon } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import { EntityType } from 'UI/constants/entityTypes';
 import OperatingSummary from '../OperatingSummary';

@@ -9,7 +9,7 @@ import {
   BulkEmailSentIcon,
   ScheduleNoContent,
   EmptySchedule
-} from 'UI/res';
+} from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import PreviewBulkEmail from 'UI/components/molecules/PreviewBulkEmail';
 import { styles, useStyles } from './style';

@@ -1,10 +1,41 @@
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { makeStyles } from '@material-ui/core/styles';
 
 const feeModalContainerHeight = 600;
 const topBarHeight = 54;
 
 export const useStyles = makeStyles(theme => ({
+  title: {
+        marginTop: '-36px',
+        marginLeft: '8px',
+        marginBottom: '20px',
+        width: '400px',
+        height: '45px',
+        textAlign: 'left',
+        font: 'bold 32px/48px Poppins',
+        letterSpacing: '0px',
+        color: '#2C2C2C',
+        opacity: '1'  
+  },
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+  textOrigin: {
+    marginLeft: '8px',
+    marginRight: '24px',
+    width: '198px',
+  },
+  textDestiny: {
+    width: '198px'
+  },
+  textProducts: {
+    width: '420px',
+    marginLeft: '8px',
+    marginTop: '20px'
+  },
   paper: {
     position: 'absolute',
     width: '100%',

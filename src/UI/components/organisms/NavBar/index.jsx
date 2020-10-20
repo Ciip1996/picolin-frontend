@@ -17,7 +17,7 @@ import { EntityRoutes } from 'routes/constants';
 import { FeatureFlags } from 'UI/constants/featureFlags';
 import { getFeatureFlags } from 'UI/utils';
 
-import { GpacLogo, Operating10Icon, colors } from 'UI/res';
+import { GpacLogo, Operating10Icon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';

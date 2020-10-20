@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import Grid from '@material-ui/core/Grid';
-import { ArrowLeft, colors } from 'UI/res';
+import { ArrowLeft, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import { globalStyles } from 'GlobalStyles';
 import { useStyles } from './styles';

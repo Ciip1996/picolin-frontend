@@ -2,7 +2,7 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import TextBox from 'UI/components/atoms/TextBox';
 import Box from '@material-ui/core/Box';
 import { useStyles } from './styles';

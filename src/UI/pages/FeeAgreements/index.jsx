@@ -24,7 +24,7 @@ import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import TabsView from 'UI/components/templates/TabsView';
 // import { getUserHighestRole } from 'services/Authorization';
 
-import { PendingFeeTabIcon, SignedFeeTabIcon, SignaturesIcon } from 'UI/res';
+import { PendingFeeTabIcon, SignedFeeTabIcon, SignaturesIcon } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { drawerAnchor } from 'UI/constants/defaults';
 // import { makeStyles } from '@material-ui/core/styles';
 // import Modal from '@material-ui/core/Modal';

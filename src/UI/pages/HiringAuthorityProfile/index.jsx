@@ -21,7 +21,7 @@ import { Endpoints } from 'UI/constants/endpoints';
 
 import ActivityNoteForm from 'UI/components/organisms/ActivityNoteForm';
 import { phoneFormatter } from 'UI/utils';
-import { AttachmentsIcon, NotesIcon, ActivityLogIcon } from 'UI/res';
+import { AttachmentsIcon, NotesIcon, ActivityLogIcon } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 const HiringAuthorityProfile = props => {
   const { match } = props;

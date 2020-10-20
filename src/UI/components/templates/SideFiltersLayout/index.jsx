@@ -17,7 +17,7 @@ import AutocompleteSelect, {
   statusRenderOption,
   statusStartAdornment
 } from 'UI/components/molecules/AutocompleteSelect';
-import { SearchResultsNotFound } from 'UI/res';
+import { SearchResultsNotFound } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { fuseStyles, nestTernary, getFeatureFlags } from 'UI/utils';
 import { FilterType, HideMode } from 'UI/constants/defaults';

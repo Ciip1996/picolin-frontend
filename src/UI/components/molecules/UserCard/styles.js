@@ -1,4 +1,4 @@
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { whiteSpace } from 'UI/utils/styles';
 import { makeStyles } from '@material-ui/core/styles';
 

@@ -5,7 +5,7 @@ import React from 'react';
 import ColorIndicator from 'UI/components/atoms/ColorIndicator';
 import MapGroupedMarker from 'UI/components/atoms/MapGroupedMarker';
 import { EntityType } from 'UI/constants/entityTypes';
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 type MapMarkerProps = {
   isDigActive?: boolean,

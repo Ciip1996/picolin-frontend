@@ -60,7 +60,7 @@ const TransfersLists = (props: TransfersListsProps) => {
     <ContentPageLayout>
       <ListPageLayout
         loading={loading}
-        title="transferencias"
+        title="TRANSFERENCIAS"
         selector={
           <Box
             display="flex"

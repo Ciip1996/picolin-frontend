@@ -21,7 +21,7 @@ import { EntityRoutes } from 'routes/constants';
 import type { Filters } from 'types/app';
 
 import { entyTypesFilters } from 'UI/constants/entityTypes';
-import { SendBulkIcon, DeleteIcon, colors } from 'UI/res';
+import { SendBulkIcon, DeleteIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { getErrorMessage } from 'UI/utils';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import BulkEmailModal from 'UI/components/organisms/BulkEmailModal';

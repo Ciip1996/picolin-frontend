@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import { CancelSaveButton } from 'UI/constants/dimensions';
 
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { useStyles } from 'UI/pages/Names/styles';
 import ProjectList from '../ProjectList';
 import { styles } from './styles';

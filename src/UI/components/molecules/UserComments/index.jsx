@@ -2,8 +2,8 @@
 import React from 'react';
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 import Box from '@material-ui/core/Box';
-import Text from 'UI/components/atoms/Text';
-import { colors } from 'UI/res';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { styles } from './style';
 
 type UserCommentsProps = {

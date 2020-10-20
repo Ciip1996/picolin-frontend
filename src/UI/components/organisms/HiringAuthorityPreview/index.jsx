@@ -5,7 +5,7 @@ import TextBox from 'UI/components/atoms/TextBox';
 import { minWidthTextBox } from 'UI/constants/dimensions';
 import InputContainer from 'UI/components/atoms/InputContainer';
 import IconButton from '@material-ui/core/IconButton';
-import { DeleteIcon, EditIcon } from 'UI/res';
+import { DeleteIcon, EditIcon } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { colors } from 'UI/res/colors';
 import { contentIcon, dividerColor } from './styles';
 

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Badge from '@material-ui/core/Badge';
 
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
-import { NotificationIcon, colors } from 'UI/res';
+import { NotificationIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 type NotificationButtonProps = {
   onDrawerOpen: () => any,

@@ -7,7 +7,7 @@ import { showAlert } from 'actions/app';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 
 import Box from '@material-ui/core/Box';
-import Text from 'UI/components/atoms/Text';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
 import FeeAgreementSummaryFields from 'UI/components/molecules/FeeAgreementSummaryFields';
 import FeeAgreementValidationInputs from 'UI/components/molecules/FeeAgreementValidationInputs';
 import { globalStyles } from 'GlobalStyles';

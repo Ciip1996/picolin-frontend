@@ -5,7 +5,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import API from 'services/API';
 import { nestTernary } from 'UI/utils';
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 const columnChartOptions = {
   legend: { position: 'none' },

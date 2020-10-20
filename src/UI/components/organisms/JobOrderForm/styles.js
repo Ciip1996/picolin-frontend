@@ -1,7 +1,7 @@
 import { withStyles } from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { my24 } from 'UI/constants/dimensions';
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 export const styles = {
   line: {

@@ -19,7 +19,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Divider from '@material-ui/core/Divider';
 
-import Text from 'UI/components/atoms/Text';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import TextBox from 'UI/components/atoms/TextBox';
 // import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';

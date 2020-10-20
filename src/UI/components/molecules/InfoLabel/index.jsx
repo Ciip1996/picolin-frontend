@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
-import Text from 'UI/components/atoms/Text';
-import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
+import CustomSkeleton from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/CustomSkeleton';
 import ColorIndicator from 'UI/components/atoms/ColorIndicator';
 import { styles } from './styles';
 

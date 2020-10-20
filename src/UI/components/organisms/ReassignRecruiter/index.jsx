@@ -11,7 +11,7 @@ import Alert from '@material-ui/lab/Alert';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import HistoryCard from 'UI/components/molecules/HistoryCard';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
-import Text from 'UI/components/atoms/Text';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
 
 import { Endpoints } from 'UI/constants/endpoints';
 import { Roles } from 'UI/constants/roles';

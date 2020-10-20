@@ -21,7 +21,7 @@ import AutocompleteSelect, {
   statusRenderOption,
   statusStartAdornment
 } from 'UI/components/molecules/AutocompleteSelect';
-import { EditIcon, colors } from 'UI/res';
+import { EditIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { globalStyles } from 'GlobalStyles';
 
 import type { Map } from 'types';

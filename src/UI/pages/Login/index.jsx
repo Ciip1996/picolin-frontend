@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 // Custom components and others
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 import { useStyles } from './styles';
@@ -25,7 +25,7 @@ const LogIn = (props: LogInProps) => {
   });
   const { showAlert } = props;
 
-  const url = `http://localhost:3307/iniciarSesion`;
+  const url = `http://localhost:3307/login`;
   const history = useHistory();
 
   const { register, handleSubmit, errors, setError } = useForm();
@@ -35,7 +35,7 @@ const LogIn = (props: LogInProps) => {
       setUiState(prevState => ({ ...prevState, isLoading: true }));
 
       const params = {
-        usuario: formData.user,
+        user: formData.user,
         password: formData.pwd
       };
       // const response = await API.post(`${url}`, params);
@@ -88,7 +88,7 @@ const LogIn = (props: LogInProps) => {
               name="user"
               label="Usuario"
               inputRef={register({
-                required: 'Se require un nombre de usuario'
+                required: 'Se requiere un nombre de usuario'
               })}
               error={!!errors.user}
               helperText={errors.user && errors.user.message}
@@ -99,7 +99,7 @@ const LogIn = (props: LogInProps) => {
               label="Contraseña"
               type="password"
               inputRef={register({
-                required: 'Se require una contraseña'
+                required: 'Se requiere una contraseña'
               })}
               error={!!errors.pwd}
               helperText={errors.pwd && errors.pwd.message}

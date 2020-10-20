@@ -6,7 +6,7 @@ import moment from 'moment';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import UserComments from 'UI/components/molecules/UserComments';
 import Box from '@material-ui/core/Box';
-import Text from 'UI/components/atoms/Text';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
 
 import FeeAgreementValidationInputs from 'UI/components/molecules/FeeAgreementValidationInputs';
 import { globalStyles } from 'GlobalStyles';

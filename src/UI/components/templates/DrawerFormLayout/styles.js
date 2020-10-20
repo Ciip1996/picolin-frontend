@@ -1,10 +1,10 @@
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 const containerXPadding = 24;
 
 export const styles = {
   drawerContainer: {
-    width: 580,
+    width: 485,
     height: '100vh',
     position: 'fixed',
     top: 0,
@@ -15,14 +15,14 @@ export const styles = {
     overflowY: 'auto',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: colors.sideBar
+    backgroundColor: colors.sideBar,
   },
   blueDrawer: {
-    backgroundColor: colors.softBack,
+    background: '#E26A93',
     borderLeft: `8px solid ${colors.success}`
   },
   customDrawer: {
-    borderLeft: `8px solid ${colors.darkGrey}`
+    borderLeft: `8px solid red`
   },
   drawerToolbar: {
     position: 'sticky',
@@ -46,6 +46,9 @@ export const styles = {
   },
   drawerTitle: {
     padding: `0 ${containerXPadding}px`,
-    marginBottom: 16
+    marginBottom: 16,
+    marginLeft: 31,
+    font: 'normal normal bold 32px/48px Poppins'
+    
   }
 };

@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { inventorySectionHeader } from 'UI/constants/dimensions';
 import { fuseStyles } from 'UI/utils';
-import { MoreIcon, colors } from 'UI/res';
+import { MoreIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { fileViewLabels } from 'UI/constants/mockData';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import { styles } from './style';

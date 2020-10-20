@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Box from '@material-ui/core/Box';
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { selectRecruiter } from 'actions/map';
 import { styles, useStyles } from './styles';
 

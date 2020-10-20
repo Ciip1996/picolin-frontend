@@ -3,7 +3,7 @@ import React from 'react';
 import MUIDataTable, { debounceSearchRender } from 'mui-datatables';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
-import { SearchResultsNotFound } from 'UI/res';
+import { SearchResultsNotFound } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import SkeletonList from 'UI/components/molecules/SkeletonList';
 import { getMuiTheme } from './styles';
 import CustomFooter from './Footer/index';

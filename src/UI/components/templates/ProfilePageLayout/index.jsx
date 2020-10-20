@@ -4,10 +4,10 @@ import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
 import Hidden from '@material-ui/core/Hidden';
-import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
+import CustomSkeleton from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/CustomSkeleton';
 import Box from '@material-ui/core/Box';
 import { globalStyles } from 'GlobalStyles';
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { useStyles, styles } from './styles';
 
 type ProfilePageLayoutProps = {

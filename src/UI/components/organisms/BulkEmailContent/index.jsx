@@ -2,7 +2,7 @@
 import React from 'react';
 import { loremIpsum } from 'UI/constants/mockData';
 import FileViewContainer from 'UI/components/templates/FileViewContainer';
-import { EditIcon, colors, FowardIcon, ScheduleCancel } from 'UI/res';
+import { EditIcon, colors, FowardIcon, ScheduleCancel } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import BulkEmailTemplates from '../BulkEmailTemplates';
 import CreateEmailTemplate from '../CreateEmailTemplate';
 import OptInOptOutList from '../OptInOptOutList';

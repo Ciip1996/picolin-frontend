@@ -8,7 +8,7 @@ import isNil from 'lodash/isNil';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
-import Text from 'UI/components/atoms/Text';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
 import HiringAuthorityForm from 'UI/components/organisms/HiringAuthorityForm';
 
 import { getErrorMessage } from 'UI/utils';

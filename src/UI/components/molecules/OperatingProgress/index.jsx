@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import Text from 'UI/components/atoms/Text';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
 import { BorderLinearProgress } from './styles';
 
 type OperatingProgressProps = {

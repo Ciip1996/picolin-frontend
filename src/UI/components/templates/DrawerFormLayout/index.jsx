@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import { CloseIcon, colors } from 'UI/res';
+import { CloseIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { CancelSaveButton } from 'UI/constants/dimensions';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
@@ -64,8 +64,8 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
   } = props;
   const drawerStyle = fuseStyles([
     styles.drawerContainer,
-    variant === 'blue' && styles.blueDrawer,
-    variant === 'white' && styles.customDrawer,
+    variant === '#E26A93' && styles.blueDrawer,
+    variant === 'red' && styles.customDrawer,
     variant === 'borderless' && styles.drawerContainer
   ]);
   return (
@@ -73,9 +73,6 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
       {isTopToolbarNeeded && (
         <Box style={styles.drawerTopToolbar}>
           {additionalHeaderButtons}
-          <CustomIconButton tooltipText="close" tooltipPosition="bottom" onClick={onClose}>
-            <CloseIcon width={20} height={20} fill={colors.completeBlack} />
-          </CustomIconButton>
         </Box>
       )}
       <Box style={styles.drawerTitle}>
@@ -107,7 +104,7 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
               isSaving={uiState.isSaving}
               isSuccess={uiState.isSuccess}
               disabled={uiState.isFormDisabled || uiState.isSaving}
-              initialText={initialText}
+              initialText= "TRANSEFERIR"
               onProgressText={onProgressText}
               onSuccessText={onSuccessText}
             />
@@ -130,7 +127,7 @@ DrawerFormLayout.defaultProps = {
   initialText: 'Save',
   onProgressText: 'Saving',
   onSuccessText: 'Saved',
-  cancelText: 'Cancel',
+  cancelText: 'Cancelar',
   isCancelButtonNeeded: true,
   onSecondaryButtonClick: null,
   isSaveButtonMode: true,

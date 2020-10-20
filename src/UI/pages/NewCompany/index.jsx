@@ -16,7 +16,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import NewItemsSubtitles from 'UI/components/molecules/NewItemsSubtitles';
 import ActionButton from 'UI/components/atoms/ActionButton';
 
-import { colors, PlusIcon, WriteUpIcon, SuccessIcon } from 'UI/res';
+import { colors, PlusIcon, WriteUpIcon, SuccessIcon } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { CancelSaveButton, layout } from 'UI/constants/dimensions';
 import CompanyForm from 'UI/components/organisms/CompanyForm';
 import HiringAuthorityDrawer from 'UI/components/organisms/HiringAuthorityDrawer';

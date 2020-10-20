@@ -12,7 +12,7 @@ import { globalStyles } from 'GlobalStyles';
 import { EmptyActivityLogs } from 'UI/res/images';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import ProfileTabListCard from 'UI/components/molecules/ProfileTabListCard';
-import { AddIcon, colors } from 'UI/res';
+import { AddIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { styles } from './styles';
 
 type ProfileTabListProps = {

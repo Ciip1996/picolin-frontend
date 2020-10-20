@@ -3,7 +3,7 @@ import React from 'react';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
-import { SearchBarIcon, colors } from 'UI/res';
+import { SearchBarIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { input } from 'UI/constants/dimensions';
 import { useStyles } from './styles';
 

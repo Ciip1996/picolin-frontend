@@ -7,7 +7,7 @@ import Badge from '@material-ui/core/Badge';
 import Button from '@material-ui/core/Button';
 import Chip from '@material-ui/core/Chip';
 
-import { CloseIcon, colors } from 'UI/res';
+import { CloseIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 import TitleLabel from 'UI/components/atoms/TitleLabel';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';

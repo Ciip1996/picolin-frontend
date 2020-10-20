@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
 import { style } from './styles';
 

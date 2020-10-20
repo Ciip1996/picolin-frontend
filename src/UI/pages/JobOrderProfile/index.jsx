@@ -31,7 +31,7 @@ import {
   CandidatesIcon,
   EmptyJobOrders,
   Operating10Icon
-} from 'UI/res';
+} from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 import type { InfoLabel, EntityProfile } from 'types/app';
 

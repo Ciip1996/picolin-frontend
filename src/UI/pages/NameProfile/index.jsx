@@ -20,7 +20,7 @@ import { Endpoints } from 'UI/constants/endpoints';
 
 import ActivityNoteForm from 'UI/components/organisms/ActivityNoteForm';
 import { phoneFormatter } from 'UI/utils';
-import { AttachmentsIcon, NotesIcon, ActivityLogIcon, colors } from 'UI/res';
+import { AttachmentsIcon, NotesIcon, ActivityLogIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { PageTitles, drawerAnchor } from 'UI/constants/defaults';
 
 const NameProfile = props => {

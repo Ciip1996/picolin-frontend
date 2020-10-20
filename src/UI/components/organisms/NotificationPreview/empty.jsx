@@ -2,7 +2,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
-import { NotificationEmptyImg } from 'UI/res';
+import { NotificationEmptyImg } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 const NotificationEmpty = () => {
   return (

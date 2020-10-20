@@ -11,7 +11,7 @@ import type { TabCardDefinition } from 'types/app';
 
 import ButtonMenu from 'UI/components/molecules/ButtonMenu';
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
-import { EditIcon, DeleteIcon, MoreIcon, colors } from 'UI/res';
+import { EditIcon, DeleteIcon, MoreIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 import { useStyles } from './styles';
 

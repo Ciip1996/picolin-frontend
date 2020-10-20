@@ -1,4 +1,4 @@
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { makeStyles } from '@material-ui/core/styles';
 import { mx32, mx24, m32, inventorySectionHeader } from 'UI/constants/dimensions';
 import { flexAlignCenter, flexAlignCenterFlexEnd } from 'UI/utils/styles';

@@ -10,10 +10,10 @@ import {
   CareerbuilderIcon,
   CopyIcon,
   colors
-} from 'UI/res';
+} from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { normalizeUrl } from 'UI/utils';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
-import Text from 'UI/components/atoms/Text';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
 import { styles } from './styles';
 
 type SocialNetworkButtonProps = {

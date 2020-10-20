@@ -8,7 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import API from 'services/API';
 import { numberFormatter } from 'UI/utils';
 
-import { CandidatesIcon, CompaniesIcon, JobOrdersIcon, colors } from 'UI/res';
+import { CandidatesIcon, CompaniesIcon, JobOrdersIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { useStyles } from './styles';
 
 type SummaryTotalProps = {

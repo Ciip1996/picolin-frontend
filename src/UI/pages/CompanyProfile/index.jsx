@@ -54,7 +54,7 @@ import {
   EmptyFeeAgreement,
   FeeAgreementTempIcon,
   colors
-} from 'UI/res';
+} from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 import { EntityRoutes } from 'routes/constants';
 import { EntityType, entityTypes } from 'UI/constants/entityTypes';

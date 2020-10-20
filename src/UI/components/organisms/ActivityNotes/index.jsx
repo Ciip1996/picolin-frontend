@@ -10,7 +10,7 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 import { globalStyles } from 'GlobalStyles';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import { EmptyActivityLogs, EmptyNotes, AddIcon, colors } from 'UI/res';
+import { EmptyActivityLogs, EmptyNotes, AddIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import Tooltip from '@material-ui/core/Tooltip';
 import Fab from '@material-ui/core/Fab';
 

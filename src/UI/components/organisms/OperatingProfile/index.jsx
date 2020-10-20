@@ -11,7 +11,7 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 
 import OperatingSkeleton from 'UI/components/molecules/OperatingSkeleton';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
-import { EmptyMetrics, AddIcon, colors } from 'UI/res';
+import { EmptyMetrics, AddIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 import OperatingMetric from '../OperatingMetric';
 

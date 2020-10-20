@@ -16,7 +16,7 @@ import { connect } from 'react-redux';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { getErrorMessage } from 'UI/utils';
 import ActionButton from 'UI/components/atoms/ActionButton';
-import { OptInEmptyState } from 'UI/res';
+import { OptInEmptyState } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import type { Filters } from 'types/app';
 import { styles } from './style';
 

@@ -8,7 +8,7 @@ import {
   Operating10Icon,
   CollaborationsIcon,
   colors
-} from 'UI/res';
+} from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 export type notificationsType =
   | 'feeAgreementDeclined'

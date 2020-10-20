@@ -12,7 +12,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import Button from '@material-ui/core/Button';
 
 import { EntityRoutes } from 'routes/constants';
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { EntityType } from 'UI/constants/entityTypes';
 import { DateFormats } from 'UI/constants/defaults';
 import { toLocalTime, nestTernary } from 'UI/utils';

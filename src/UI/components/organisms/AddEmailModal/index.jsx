@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import { Endpoints } from 'UI/constants/endpoints';
 import { CancelSaveButton } from 'UI/constants/dimensions';
 
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { useStyles } from 'UI/pages/Names/styles';
 import { styles } from './style';
 

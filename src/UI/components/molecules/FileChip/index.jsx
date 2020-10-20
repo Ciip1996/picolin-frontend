@@ -6,8 +6,8 @@ import Card from '@material-ui/core/Card';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Fade from '@material-ui/core/Fade';
 
-import Text from 'UI/components/atoms/Text';
-import { SuccessIcon, CloseIcon, colors } from 'UI/res';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
+import { SuccessIcon, CloseIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import { useStyles, useProgressStyles, styles } from './styles';

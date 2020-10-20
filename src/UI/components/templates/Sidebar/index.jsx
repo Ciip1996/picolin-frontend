@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Link, useLocation } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 
-import { CollapsibleArrowOpen, CollapsibleArrowClosed } from 'UI/res';
+import { CollapsibleArrowOpen, CollapsibleArrowClosed } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { nestTernary } from 'UI/utils';
 import { styles, useStyles, useSidebarStyles } from './styles';
 import sideBarMenu from './SidebarMenu';

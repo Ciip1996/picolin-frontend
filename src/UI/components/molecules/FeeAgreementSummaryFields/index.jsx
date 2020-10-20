@@ -2,7 +2,7 @@
 import React from 'react';
 import moment from 'moment';
 import TextBox from 'UI/components/atoms/TextBox';
-import Text from 'UI/components/atoms/Text';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
 import UserComments from 'UI/components/molecules/UserComments';
 import { globalStyles } from 'GlobalStyles';
 import { DateFormats } from 'UI/constants/defaults';

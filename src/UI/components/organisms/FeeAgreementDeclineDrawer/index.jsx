@@ -10,10 +10,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { CancelCheckBox } from 'UI/res';
+import { CancelCheckBox } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import TextBox from 'UI/components/atoms/TextBox';
-import Text from 'UI/components/atoms/Text';
+import Text from 'UI/components/molecules/ProductCard/node_modules/UI/components/atoms/Text';
 import type { UserRole } from 'types/app';
 
 import { getUserHighestRole } from 'services/Authorization';

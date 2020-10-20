@@ -4,7 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from 'UI/components/atoms/TabPanel';
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { useStyles, useTabPanelStyles, useTabStyles, useWrapperStyles } from './styles';
 
 type TabsViewProps = {

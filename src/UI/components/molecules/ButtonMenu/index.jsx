@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import { Box } from '@material-ui/core';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';

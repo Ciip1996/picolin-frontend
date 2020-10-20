@@ -1,5 +1,5 @@
 import { inventorySectionHeader } from 'UI/constants/dimensions';
-import { colors } from 'UI/res';
+import { colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { makeStyles } from '@material-ui/core/styles';
 
 const actionsHeight = 100;

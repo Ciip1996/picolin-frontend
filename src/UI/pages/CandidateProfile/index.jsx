@@ -42,7 +42,7 @@ import {
   JobOrdersIcon,
   EmptyJobOrders,
   Operating10Icon
-} from 'UI/res';
+} from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 
 const CandidateProfile = props => {
   const { match, location, showAlert, showConfirm } = props;

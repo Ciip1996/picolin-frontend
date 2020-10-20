@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 
 import SelectBox from 'UI/components/atoms/SelectBox';
-import { SearchBarIcon, colors } from 'UI/res';
+import { SearchBarIcon, colors } from 'UI/components/molecules/ProductCard/node_modules/UI/res';
 import { entityTypes, EntityType } from 'UI/constants/entityTypes';
 import API from 'services/API';
 import { EntityRoutes } from 'routes/constants';
