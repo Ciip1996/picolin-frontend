@@ -20,7 +20,6 @@ const getToken = () => {
 const getCurrentUser = () => {
   const access = getAccess();
   const decodedToken = access && jwt.decode(access.token);
-  debugger;
   return decodedToken && decodedToken?.usuario;
 };
 

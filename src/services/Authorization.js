@@ -52,7 +52,6 @@ export const userHasPermission = (permission: string) => {
 
 export const getUserHighestRole = (): UserRole => {
   const userInfo = getCurrentUser();
-  debugger;
   // if (!userInfo) return {};
 
   // const higherUserRoleId =
