@@ -41,11 +41,12 @@ const columnItems = [
   { id: 0, name: 'productCode', display: true },
   { id: 1, name: 'color', display: true },
   { id: 2, name: 'size', display: true },
-  { id: 3, name: 'salePrice', display: false },
-  { id: 4, name: 'gender', display: true },
-  { id: 5, name: 'type', display: false },
-  { id: 6, name: 'stock', display: true },
-  { id: 7, name: 'reservedQuantity', display: true }
+  { id: 3, name: 'pieces', display: true },
+  { id: 4, name: 'salePrice', display: true },
+  { id: 5, name: 'gender', display: true },
+  { id: 6, name: 'type', display: true },
+  { id: 7, name: 'stock', display: true },
+  { id: 8, name: 'reservedQuantity', display: true }
 ];
 
 const getSortDirections = (orderBy: string, direction: string) =>
@@ -281,8 +282,8 @@ const RostersList = (props: RostersListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[4].display,
-        sortDirection: sortDirection[4],
+        display: columnItems[5].display,
+        sortDirection: sortDirection[5],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
@@ -295,8 +296,8 @@ const RostersList = (props: RostersListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[4].display,
-        sortDirection: sortDirection[4],
+        display: columnItems[6].display,
+        sortDirection: sortDirection[6],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
@@ -309,8 +310,8 @@ const RostersList = (props: RostersListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[4].display,
-        sortDirection: sortDirection[4],
+        display: columnItems[7].display,
+        sortDirection: sortDirection[7],
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         },
@@ -332,68 +333,6 @@ const RostersList = (props: RostersListProps) => {
                       <strong>{option.state && option.state}</strong>
                     </>
                   )}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'email',
-      label: 'Email',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[5].display,
-        sortDirection: sortDirection[5],
-        customBodyRender: value => {
-          return (
-            <CellSkeleton searching={searching}>
-              <span>{value}</span>
-            </CellSkeleton>
-          );
-        },
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="state"
-                  selectedValue={filters.state}
-                  placeholder="State"
-                  url={Endpoints.States}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'location',
-      label: 'Location',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[6].display,
-        sortDirection: sortDirection[6],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        },
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="city"
-                  placeholder="City"
-                  url={filters.state ? `${Endpoints.Cities}?stateId=${filters.state.id}` : ''}
-                  selectedValue={filters.city}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
