@@ -8,6 +8,9 @@ import { FormControl } from '@material-ui/core';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 
 import { showAlert } from 'actions/app';
+import Drawer from '@material-ui/core/Drawer';
+import { drawerAnchor } from 'UI/constants/defaults';
+
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -15,6 +18,7 @@ import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 /** Components */
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
+import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -71,14 +75,24 @@ const RostersList = (props: RostersListProps) => {
   const savedFilters = savedSearch?.filters;
   const savedParams = savedSearch?.params;
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
+  
+  
+  const toggleDrawer = (drawer: string, open: boolean) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setUiState(prevState => ({ ...prevState, [drawer]: open }));
+  };
 
   const [uiState, setUiState] = useState({
     keyword: savedParams?.keyword || '',
     orderBy: savedParams?.orderBy || '',
     direction: savedParams?.direction || '',
     page: savedParams?.page - 1 || 0,
-    perPage: savedParams?.perPage || 10
+    perPage: savedParams?.perPage || 10,
+    isTransferDrawerOpen: true
   });
+
 
   const getData = useCallback(async () => {
     try {
@@ -320,9 +334,10 @@ const RostersList = (props: RostersListProps) => {
           display: () => {
             return (
               <FormControl>
+              <div display= "flex">
                 <AutocompleteSelect
                   name="office"
-                  placeholder="GPAC Offices"
+                  placeholder="Tipo"
                   url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
                   selectedValue={filters.office}
                   renderOption={option => (
@@ -335,13 +350,92 @@ const RostersList = (props: RostersListProps) => {
                   )}
                   onSelect={handleFilterChange}
                 />
+                <AutocompleteSelect
+                  name="office"
+                  placeholder="Color"
+                  url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+                  selectedValue={filters.office}
+                  renderOption={option => (
+                    <>
+                      <span>{`${option.title}`}</span>
+                      {option.state && ','}
+                      &nbsp;
+                      <strong>{option.state && option.state}</strong>
+                    </>
+                  )}
+                  onSelect={handleFilterChange}
+                />
+                <AutocompleteSelect
+                name="office"
+                placeholder="Talla"
+                url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+                selectedValue={filters.office}
+                renderOption={option => (
+                  <>
+                    <span>{`${option.title}`}</span>
+                    {option.state && ','}
+                    &nbsp;
+                    <strong>{option.state && option.state}</strong>
+                  </>
+                )}
+                onSelect={handleFilterChange}
+              />
+              <AutocompleteSelect
+              name="office"
+              placeholder="Género"
+              url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+              selectedValue={filters.office}
+              renderOption={option => (
+                <>
+                  <span>{`${option.title}`}</span>
+                  {option.state && ','}
+                  &nbsp;
+                  <strong>{option.state && option.state}</strong>
+                </>
+              )}
+              onSelect={handleFilterChange}
+            />
+            <AutocompleteSelect
+            name="office"
+            placeholder="Estatus"
+            url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+            selectedValue={filters.office}
+            renderOption={option => (
+              <>
+                <span>{`${option.title}`}</span>
+                {option.state && ','}
+                &nbsp;
+                <strong>{option.state && option.state}</strong>
+              </>
+              
+            )}
+            onSelect={handleFilterChange}
+            />
+            <AutocompleteSelect
+            name="office"
+            placeholder="Inventario"
+            url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+            selectedValue={filters.office}
+            renderOption={option => (
+              <>
+                <span>{`${option.title}`}</span>
+                {option.state && ','}
+                &nbsp;
+                <strong>{option.state && option.state}</strong>
+              </>
+            )}
+            onSelect={handleFilterChange}
+          />
+                </div>
               </FormControl>
+              
             );
           }
         }
       }
     }
   ];
+
 
   const getRosterTypes = useCallback(async () => {
     try {
@@ -370,6 +464,15 @@ const RostersList = (props: RostersListProps) => {
   }, [getData, getRosterTypes]);
 
   return (
+    <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isTransferDrawerOpen}
+        onClose={toggleDrawer('isTransferDrawerOpen', false)}
+      >
+        <div role="presentation">
+          <InventoryProductDrawer />
+        </div>
+      </Drawer>,
     <ContentPageLayout>
       <ListPageLayout
         loading={loading}
