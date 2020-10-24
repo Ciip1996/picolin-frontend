@@ -1,21 +1,7 @@
 // @flow
 import React from 'react';
 import { EntityRoutes } from 'routes/constants';
-import {
-  InventoryIcon,
-  DirectoryIcon,
-  CandidatesIcon,
-  MapIcon,
-  CompaniesIcon,
-  JobOrdersIcon,
-  HomeIcon,
-  DashboardIcon,
-  DashboardActivityIcon,
-  NamesIcon,
-  SearchProjectIcon,
-  FeeAgreementIcon,
-  SalesIcon
-} from 'UI/res/icons';
+import { InventoryIcon, DashboardIcon, DashboardActivityIcon, SalesIcon } from 'UI/res/icons';
 
 import { colors } from 'UI/res';
 

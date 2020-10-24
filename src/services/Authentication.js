@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-cycle
-import API from 'services/API';
+// import API from 'services/API';
 import jwt from 'jsonwebtoken';
 
 const getAccess = () => {

@@ -3,19 +3,19 @@ import { getToken, cleanLocalStorage } from 'services/Authentication';
 import axios from 'axios';
 
 let isRefreshing = false;
-let failedQueue = [];
+const failedQueue = [];
 
-const processQueue = (error, token = null) => {
-  failedQueue.forEach(prom => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve(token);
-    }
-  });
+// const processQueue = (error, token = null) => {
+//   failedQueue.forEach(prom => {
+//     if (error) {
+//       prom.reject(error);
+//     } else {
+//       prom.resolve(token);
+//     }
+//   });
 
-  failedQueue = [];
-};
+//   failedQueue = [];
+// };
 
 const redirectTime = () => {
   setTimeout(() => {

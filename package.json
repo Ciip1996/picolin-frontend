@@ -71,7 +71,7 @@
     "test": "jest -w 1 --passWithNoTests",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.jsx src ",
-    "lint:fix": "eslint --ext .js,.jsx src tests --fix",
+    "lint:fix": "eslint --fix --ext .js,.jsx src",
     "testDebug": "jest -o --watch --coverage=false",
     "flow": "npx flow",
     "flow:chk": "npx flow stop && npx flow start && npm run flow",

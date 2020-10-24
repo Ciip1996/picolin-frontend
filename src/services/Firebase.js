@@ -5,7 +5,8 @@ import 'firebase/messaging';
 // Firebase config object.
 const config = {
   apiKey: window.PICOLIN_ENV?.FIREBASE_API_KEY || process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: window.PICOLIN_ENV?.FIREBASE_AUTH_DOMAIN || process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  authDomain:
+    window.PICOLIN_ENV?.FIREBASE_AUTH_DOMAIN || process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   databaseURL:
     window.PICOLIN_ENV?.FIREBASE_DATABASE_URL || process.env.REACT_APP_FIREBASE_DATABASE_URL,
   projectId: window.PICOLIN_ENV?.FIREBASE_PROJECT_ID || process.env.REACT_APP_FIREBASE_PROJECT_ID,

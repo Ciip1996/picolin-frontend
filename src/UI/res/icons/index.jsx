@@ -29,11 +29,7 @@ type IconProps = {
   8. Double check its functionalities. Observe the other icons to guide yourself.
 */
 export const InventoryIcon = (props: Object) => {
-  const {
-    size = defaultIconSize,
-    fill = defaultIconColor,
-    ...rest
-  } = props;
+  const { size = defaultIconSize, fill = defaultIconColor, ...rest } = props;
   return (
     <svg width={size} height={size} viewBox="0 0 24.001 21" {...rest}>
       <path
@@ -44,13 +40,8 @@ export const InventoryIcon = (props: Object) => {
   );
 };
 
-
 export const SalesIcon = (props: Object) => {
-  const {
-    size = defaultIconSize,
-    fill = defaultIconColor,
-    ...rest
-  } = props;
+  const { size = defaultIconSize, fill = defaultIconColor, ...rest } = props;
   return (
     <svg width={size} height={size} viewBox="0 0 23 23" {...rest}>
       <defs>
@@ -68,20 +59,12 @@ export const SalesIcon = (props: Object) => {
   );
 };
 
-
-
-
-
-
-
 /*
 
 OLD ICONS:
 
 
 */
-
-
 
 export const NewInventoryItemNotificationIcon = ({
   fill = defaultIconColor,

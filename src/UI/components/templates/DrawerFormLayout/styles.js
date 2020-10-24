@@ -15,7 +15,7 @@ export const styles = {
     overflowY: 'auto',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: colors.sideBar,
+    backgroundColor: colors.sideBar
   },
   blueDrawer: {
     background: '#E26A93',
@@ -49,6 +49,5 @@ export const styles = {
     marginBottom: 16,
     marginLeft: 31,
     font: 'normal normal bold 32px/48px Poppins'
-    
   }
 };

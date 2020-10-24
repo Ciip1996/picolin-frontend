@@ -1,9 +1,9 @@
 // @flow
 import React, { useState, useEffect, useCallback } from 'react';
-import NumberFormat from 'react-number-format';
+// import NumberFormat from 'react-number-format';
 
 import { useHistory } from 'react-router-dom';
-import queryString from 'query-string';
+// import queryString from 'query-string';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
@@ -26,7 +26,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import { Urls } from 'UI/constants/mockData';
 import axios from 'axios';
 
-import API from 'services/API';
+// import API from 'services/API';
 import { EntityRoutes } from 'routes/constants';
 import { Endpoints } from 'UI/constants/endpoints';
 import { getErrorMessage, nestTernary } from 'UI/utils';
@@ -128,7 +128,7 @@ const SalesList = (props: SalesListProps) => {
 
       saveFilters('ventas', { filters, params });
 
-      const queryParams = queryString.stringify(params);
+      // const queryParams = queryString.stringify(params);
 
       // const response =  await API.get(`${Endpoints.Ventas}?${queryParams}`);
       axios

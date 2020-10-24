@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import { CloseIcon, colors } from 'UI/res';
+// import { CloseIcon, colors } from 'UI/res';
 import { CancelSaveButton } from 'UI/constants/dimensions';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
-import CustomIconButton from 'UI/components/atoms/CustomIconButton';
+// import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import SaveButton from 'UI/components/atoms/SaveButton';
 import { fuseStyles } from 'UI/utils';
@@ -23,7 +23,7 @@ type DrawerFormLayoutProps = {
   additionalHeaderButtons: any,
   title: string,
   variant: 'blue' | 'white' | 'borderless',
-  uiState: DrawerUiState,
+  uiState?: DrawerUiState,
   onSubmit: any => any,
   onClose: () => any,
   onSecondaryButtonClick: typeof isNull | (() => any),
@@ -70,11 +70,7 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
   ]);
   return (
     <Box id="drawer-form" component="form" onSubmit={onSubmit} style={drawerStyle}>
-      {isTopToolbarNeeded && (
-        <Box style={styles.drawerTopToolbar}>
-          {additionalHeaderButtons}
-        </Box>
-      )}
+      {isTopToolbarNeeded && <Box style={styles.drawerTopToolbar}>{additionalHeaderButtons}</Box>}
       <Box style={styles.drawerTitle}>
         <TitleLabel fontSize={28} text={title} textTransform="uppercase" />
       </Box>
@@ -101,10 +97,10 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
 
           {isSaveButtonMode ? (
             <SaveButton
-              isSaving={uiState.isSaving}
-              isSuccess={uiState.isSuccess}
-              disabled={uiState.isFormDisabled || uiState.isSaving}
-              initialText= "TRANSEFERIR"
+              isSaving={uiState?.isSaving}
+              isSuccess={uiState?.isSuccess}
+              disabled={uiState?.isFormDisabled || uiState?.isSaving}
+              initialText={initialText}
               onProgressText={onProgressText}
               onSuccessText={onSuccessText}
             />

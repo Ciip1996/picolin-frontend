@@ -17,10 +17,10 @@ import { EntityRoutes } from 'routes/constants';
 import { FeatureFlags } from 'UI/constants/featureFlags';
 import { getFeatureFlags } from 'UI/utils';
 
-import { GpacLogo, Operating10Icon, colors } from 'UI/res';
+import { GpacLogo } from 'UI/res';
 
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
-import CustomIconButton from 'UI/components/atoms/CustomIconButton';
+// import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import GlobalSearchbar from 'UI/components/molecules/GlobalSearchbar';
 import NotificationPreview from 'UI/components/organisms/NotificationPreview';
 import NotificationButton from 'UI/components/organisms/NotificationButton';

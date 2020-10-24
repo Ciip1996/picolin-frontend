@@ -1,7 +1,7 @@
 // @flow
 import React, { useState, useEffect } from 'react';
 
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import Drawer from '@material-ui/core/Drawer';
@@ -23,19 +23,23 @@ import { getFilters } from 'services/FiltersStorage';
 
 import ActionButton from 'UI/components/atoms/ActionButton';
 
-type TransfersListsProps = {
-  onShowAlert: any => void
-};
+// type TransfersListsProps = {
+// onShowAlert: any => void
+// };
 
-const TransfersLists = (props: TransfersListsProps) => {
-  const { onShowAlert } = props;
-  const history = useHistory();
+const TransfersLists = () => {
+  // const { onShowAlert } = props;
+  // const history = useHistory();
 
   useEffect(() => {
     document.title = PageTitles.Sales;
   }, []);
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const savedSearch = getFilters('transferencias');
   const savedParams = savedSearch?.params;

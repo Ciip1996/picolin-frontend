@@ -9,8 +9,7 @@ import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 
 import { showAlert } from 'actions/app';
 import Drawer from '@material-ui/core/Drawer';
-import { drawerAnchor } from 'UI/constants/defaults';
-
+import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -27,7 +26,6 @@ import { getErrorMessage } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
-import { PageTitles } from 'UI/constants/defaults';
 
 const CellSkeleton = ({ children, searching }) => {
   return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
@@ -75,8 +73,7 @@ const RostersList = (props: RostersListProps) => {
   const savedFilters = savedSearch?.filters;
   const savedParams = savedSearch?.params;
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
-  
-  
+
   const toggleDrawer = (drawer: string, open: boolean) => event => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -92,7 +89,6 @@ const RostersList = (props: RostersListProps) => {
     perPage: savedParams?.perPage || 10,
     isTransferDrawerOpen: true
   });
-
 
   const getData = useCallback(async () => {
     try {
@@ -112,11 +108,11 @@ const RostersList = (props: RostersListProps) => {
 
       saveFilters('inventory', { filters, params });
 
-      const queryParams = queryString.stringify(params);
+      // const queryParams = queryString.stringify(params);
       const response = await API.get('/getInventory/TODOS');
 
       setData(response?.data);
-      //setCount(Number(response.data.total));
+      setCount(0);
       setLoading(false);
       setSearching(false);
     } catch (error) {
@@ -334,108 +330,105 @@ const RostersList = (props: RostersListProps) => {
           display: () => {
             return (
               <FormControl>
-              <div display= "flex">
-                <AutocompleteSelect
-                  name="office"
-                  placeholder="Tipo"
-                  url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-                  selectedValue={filters.office}
-                  renderOption={option => (
-                    <>
-                      <span>{`${option.title}`}</span>
-                      {option.state && ','}
-                      &nbsp;
-                      <strong>{option.state && option.state}</strong>
-                    </>
-                  )}
-                  onSelect={handleFilterChange}
-                />
-                <AutocompleteSelect
-                  name="office"
-                  placeholder="Color"
-                  url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-                  selectedValue={filters.office}
-                  renderOption={option => (
-                    <>
-                      <span>{`${option.title}`}</span>
-                      {option.state && ','}
-                      &nbsp;
-                      <strong>{option.state && option.state}</strong>
-                    </>
-                  )}
-                  onSelect={handleFilterChange}
-                />
-                <AutocompleteSelect
-                name="office"
-                placeholder="Talla"
-                url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-                selectedValue={filters.office}
-                renderOption={option => (
-                  <>
-                    <span>{`${option.title}`}</span>
-                    {option.state && ','}
-                    &nbsp;
-                    <strong>{option.state && option.state}</strong>
-                  </>
-                )}
-                onSelect={handleFilterChange}
-              />
-              <AutocompleteSelect
-              name="office"
-              placeholder="Género"
-              url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-              selectedValue={filters.office}
-              renderOption={option => (
-                <>
-                  <span>{`${option.title}`}</span>
-                  {option.state && ','}
-                  &nbsp;
-                  <strong>{option.state && option.state}</strong>
-                </>
-              )}
-              onSelect={handleFilterChange}
-            />
-            <AutocompleteSelect
-            name="office"
-            placeholder="Estatus"
-            url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-            selectedValue={filters.office}
-            renderOption={option => (
-              <>
-                <span>{`${option.title}`}</span>
-                {option.state && ','}
-                &nbsp;
-                <strong>{option.state && option.state}</strong>
-              </>
-              
-            )}
-            onSelect={handleFilterChange}
-            />
-            <AutocompleteSelect
-            name="office"
-            placeholder="Inventario"
-            url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-            selectedValue={filters.office}
-            renderOption={option => (
-              <>
-                <span>{`${option.title}`}</span>
-                {option.state && ','}
-                &nbsp;
-                <strong>{option.state && option.state}</strong>
-              </>
-            )}
-            onSelect={handleFilterChange}
-          />
+                <div display="flex">
+                  <AutocompleteSelect
+                    name="office"
+                    placeholder="Tipo"
+                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+                    selectedValue={filters.office}
+                    renderOption={option => (
+                      <>
+                        <span>{`${option.title}`}</span>
+                        {option.state && ','}
+                        &nbsp;
+                        <strong>{option.state && option.state}</strong>
+                      </>
+                    )}
+                    onSelect={handleFilterChange}
+                  />
+                  <AutocompleteSelect
+                    name="office"
+                    placeholder="Color"
+                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+                    selectedValue={filters.office}
+                    renderOption={option => (
+                      <>
+                        <span>{`${option.title}`}</span>
+                        {option.state && ','}
+                        &nbsp;
+                        <strong>{option.state && option.state}</strong>
+                      </>
+                    )}
+                    onSelect={handleFilterChange}
+                  />
+                  <AutocompleteSelect
+                    name="office"
+                    placeholder="Talla"
+                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+                    selectedValue={filters.office}
+                    renderOption={option => (
+                      <>
+                        <span>{`${option.title}`}</span>
+                        {option.state && ','}
+                        &nbsp;
+                        <strong>{option.state && option.state}</strong>
+                      </>
+                    )}
+                    onSelect={handleFilterChange}
+                  />
+                  <AutocompleteSelect
+                    name="office"
+                    placeholder="Género"
+                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+                    selectedValue={filters.office}
+                    renderOption={option => (
+                      <>
+                        <span>{`${option.title}`}</span>
+                        {option.state && ','}
+                        &nbsp;
+                        <strong>{option.state && option.state}</strong>
+                      </>
+                    )}
+                    onSelect={handleFilterChange}
+                  />
+                  <AutocompleteSelect
+                    name="office"
+                    placeholder="Estatus"
+                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+                    selectedValue={filters.office}
+                    renderOption={option => (
+                      <>
+                        <span>{`${option.title}`}</span>
+                        {option.state && ','}
+                        &nbsp;
+                        <strong>{option.state && option.state}</strong>
+                      </>
+                    )}
+                    onSelect={handleFilterChange}
+                  />
+                  <AutocompleteSelect
+                    name="office"
+                    placeholder="Inventario"
+                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+                    selectedValue={filters.office}
+                    renderOption={option => (
+                      <>
+                        <span>{`${option.title}`}</span>
+                        {option.state && ','}
+                        &nbsp;
+                        <strong>{option.state && option.state}</strong>
+                      </>
+                    )}
+                    onSelect={handleFilterChange}
+                  />
                 </div>
               </FormControl>
-              
             );
           }
         }
       }
     }
   ];
-
 
   const getRosterTypes = useCallback(async () => {
     try {
@@ -464,7 +457,8 @@ const RostersList = (props: RostersListProps) => {
   }, [getData, getRosterTypes]);
 
   return (
-    <Drawer
+    (
+      <Drawer
         anchor={drawerAnchor}
         open={uiState.isTransferDrawerOpen}
         onClose={toggleDrawer('isTransferDrawerOpen', false)}
@@ -472,43 +466,46 @@ const RostersList = (props: RostersListProps) => {
         <div role="presentation">
           <InventoryProductDrawer />
         </div>
-      </Drawer>,
-    <ContentPageLayout>
-      <ListPageLayout
-        loading={loading}
-        title="ROSTER"
-        selector={
-          <AutocompleteSelect
-            name="size"
-            placeholder="Inventory to show"
-            selectedValue={filters.size || rosterTypes[0]}
-            onSelect={handleFilterChange}
-            defaultOptions={rosterTypes}
-          />
-        }
-        filters={filters}
-        onFilterRemove={handleFilterRemove}
-        onFiltersReset={handleResetFiltersClick}
-      >
-        <DataTable
+      </Drawer>
+    ),
+    (
+      <ContentPageLayout>
+        <ListPageLayout
           loading={loading}
-          data={data}
-          columns={columns}
-          count={count}
-          page={uiState.page}
-          rowsPerPage={uiState.perPage}
-          searchText={uiState.keyword}
-          onRowClick={handleRowClick}
-          onResetfiltersClick={handleResetFiltersClick}
-          onSearchTextChange={handleSearchChange}
-          onColumnSortClick={handleColumnSortClick}
-          onPerPageClick={handlePerPageClick}
-          onPageClick={handlePageClick}
-          onColumnDisplayClick={handleColumnDisplayClick}
-          selectableRows="none"
-        />
-      </ListPageLayout>
-    </ContentPageLayout>
+          title="ROSTER"
+          selector={
+            <AutocompleteSelect
+              name="size"
+              placeholder="Inventory to show"
+              selectedValue={filters.size || rosterTypes[0]}
+              onSelect={handleFilterChange}
+              defaultOptions={rosterTypes}
+            />
+          }
+          filters={filters}
+          onFilterRemove={handleFilterRemove}
+          onFiltersReset={handleResetFiltersClick}
+        >
+          <DataTable
+            loading={loading}
+            data={data}
+            columns={columns}
+            count={count}
+            page={uiState.page}
+            rowsPerPage={uiState.perPage}
+            searchText={uiState.keyword}
+            onRowClick={handleRowClick}
+            onResetfiltersClick={handleResetFiltersClick}
+            onSearchTextChange={handleSearchChange}
+            onColumnSortClick={handleColumnSortClick}
+            onPerPageClick={handlePerPageClick}
+            onPageClick={handlePageClick}
+            onColumnDisplayClick={handleColumnDisplayClick}
+            selectableRows="none"
+          />
+        </ListPageLayout>
+      </ContentPageLayout>
+    )
   );
 };
 const mapDispatchToProps = dispatch => {
