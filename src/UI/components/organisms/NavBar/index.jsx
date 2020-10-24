@@ -75,7 +75,9 @@ const NavBar = () => {
       <div className={classes.wrapper}>
         <div item="true" className={classes.divItem} style={styles.leftContainer}>
           <Link href="/" onClick={goHome}>
-            <PicolinLogo style={{ marginLeft: 50 }} width={140} height={43} />
+            <div style={{ marginLeft: 30 }}>
+              <PicolinLogo />
+            </div>
           </Link>
         </div>
         {/* <div item="true" className={classes.divItem} style={styles.middleContainer}>

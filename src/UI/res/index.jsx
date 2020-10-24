@@ -1,6 +1,6 @@
 import { colors } from './colors';
 import {
-  GpacLogo,
+  PicolinLogo,
   GpacFullLogo,
   SearchResultsNotFound,
   Error404,
@@ -130,7 +130,7 @@ export {
   ArrowLeft,
   colors,
   UploadFile,
-  GpacLogo,
+  PicolinLogo,
   CompaniesIcon,
   JobOrdersIcon,
   MapIcon,

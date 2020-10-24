@@ -66,7 +66,7 @@ const RostersList = (props: RostersListProps) => {
 
   const [data, setData] = useState<any>(null);
   const [count, setCount] = useState(0);
-  const gpacAll = { id: 0, title: 'gpac All' };
+  const gpacAll = { id: 0, title: 'tienda' };
   const [rosterTypes, setRosterTypes] = useState([gpacAll]);
 
   const savedSearch = getFilters('inventory');
@@ -472,7 +472,7 @@ const RostersList = (props: RostersListProps) => {
       <ContentPageLayout>
         <ListPageLayout
           loading={loading}
-          title="ROSTER"
+          title="INVENTARIO"
           selector={
             <AutocompleteSelect
               name="size"

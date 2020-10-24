@@ -44,23 +44,9 @@ export const PageTitles = {
   Sales: `${AppName} | Ventas`,
   Login: `${AppName} | Login`,
   Home: `${AppName} | Home`,
-  Candidate: `${AppName} | Candidates`,
-  CandidateProfile: `${AppName} | Candidate Profile`,
-  CandidateCreate: `${AppName} | New Candidate`,
-  Company: `${AppName} | Companies`,
-  CompanyProfile: `${AppName} | Company Profile`,
-  CompanyCreate: `${AppName} | New Company`,
-  JobOrder: `${AppName} | Job Orders`,
-  JobOrderProfile: `${AppName} | Job Order Profile`,
-  JobOrderCreate: `${AppName} | New Job Order`,
   Dashboard: `${AppName} | Overview`,
-  Name: `${AppName} | Names`,
-  NameProfile: `${AppName} | Name Profile`,
-  SearchProject: `${AppName} | Search Project`,
-  SearchProjectPreview: `${AppName} | Search Project Preview`,
   NotFound: `${AppName} | Not Found`,
-  HiringAuthority: `${AppName} | Hiring Authority Profile`,
-  Roster: `${AppName} | Roster`
+  Inventory: `${AppName} | Inventory`
 };
 
 export const DrawerName = {

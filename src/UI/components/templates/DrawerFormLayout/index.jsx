@@ -23,7 +23,7 @@ type DrawerFormLayoutProps = {
   additionalHeaderButtons: any,
   title: string,
   variant: 'blue' | 'white' | 'borderless',
-  uiState?: DrawerUiState,
+  uiState: DrawerUiState,
   onSubmit: any => any,
   onClose: () => any,
   onSecondaryButtonClick: typeof isNull | (() => any),
