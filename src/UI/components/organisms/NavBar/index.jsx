@@ -13,15 +13,15 @@ import Drawer from '@material-ui/core/Drawer';
 import Link from '@material-ui/core/Link';
 
 import { isAuthenticated, getCurrentUser, logout } from 'services/Authentication';
-import { EntityRoutes } from 'routes/constants';
+// import { EntityRoutes } from 'routes/constants';
 import { FeatureFlags } from 'UI/constants/featureFlags';
 import { getFeatureFlags } from 'UI/utils';
 
-import { GpacLogo } from 'UI/res';
+import { PicolinLogo } from 'UI/res';
 
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 // import CustomIconButton from 'UI/components/atoms/CustomIconButton';
-import GlobalSearchbar from 'UI/components/molecules/GlobalSearchbar';
+// import GlobalSearchbar from 'UI/components/molecules/GlobalSearchbar';
 import NotificationPreview from 'UI/components/organisms/NotificationPreview';
 import NotificationButton from 'UI/components/organisms/NotificationButton';
 import OperatingDrawer from 'UI/components/organisms/OperatingDrawer';
@@ -75,16 +75,16 @@ const NavBar = () => {
       <div className={classes.wrapper}>
         <div item="true" className={classes.divItem} style={styles.leftContainer}>
           <Link href="/" onClick={goHome}>
-            <GpacLogo style={{ marginLeft: 50 }} width={140} height={43} />
+            <PicolinLogo style={{ marginLeft: 50 }} width={140} height={43} />
           </Link>
         </div>
-        <div item="true" className={classes.divItem} style={styles.middleContainer}>
+        {/* <div item="true" className={classes.divItem} style={styles.middleContainer}>
           {location.pathname !== EntityRoutes.Home && (
             <div style={styles.searchbarWrapper}>
               <GlobalSearchbar />
             </div>
           )}
-        </div>
+        </div> */}
         <div item="true" className={classes.divItem} style={styles.rightContainer}>
           <div className={classes.userCardWrapper}>
             {featureFlags.includes(FeatureFlags.Notifications) && (
