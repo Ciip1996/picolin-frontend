@@ -60,7 +60,6 @@ const ActionButton = (props: ActionButtonProps) => {
       classes={classes}
       onClick={onClick}
       style={customStyle}
-      isResponsive={isResponsive}
       status={status}
       endIcon={getIconForPosition('right')}
       startIcon={getIconForPosition('left')}

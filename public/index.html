@@ -24,29 +24,17 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.10.1/mapbox-gl.css' rel='stylesheet' />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;700&display=swap" rel="stylesheet"> -->
     <title>Picolin Store</title>
     <script type="text/javascript">
       window['PICOLIN_ENV'] = {};
-
       var env = {
         API_URL: '<$= API_URL $>',
         CLIENT_ID: '<$= CLIENT_ID $>',
         LOGIN_REDIRECT_URL: '<$= LOGIN_REDIRECT_URL $>',
         LOGOUT_REDIRECT_URL: '<$= LOGOUT_REDIRECT_URL $>',
-        FEATURE_FLAGS: '<$= FEATURE_FLAGS $>',
-        FIREBASE_API_KEY: '<$= FIREBASE_API_KEY $>',
-        FIREBASE_AUTH_DOMAIN: '<$= FIREBASE_AUTH_DOMAIN $>',
-        FIREBASE_DATABASE_URL: '<$= FIREBASE_DATABASE_URL $>',
-        FIREBASE_PROJECT_ID: '<$= FIREBASE_PROJECT_ID $>',
-        FIREBASE_STORAGE_BUCKET: '<$= FIREBASE_STORAGE_BUCKET $>',
-        FIREBASE_SENDER_ID: '<$= FIREBASE_SENDER_ID $>',
-        FIREBASE_APP_ID: '<$= FIREBASE_APP_ID $>',
-        FIREBASE_MEASUREMENT_ID: '<$= FIREBASE_MEASUREMENT_ID $>',
-        FIREBASE_PUBLIC_API_KEY: '<$= FIREBASE_PUBLIC_API_KEY $>'
       };
 
       for (const property in env) {
