@@ -1,15 +1,13 @@
 // @flow
 import React, { useState, Fragment } from 'react';
 
-import { useLocation, useHistory } from 'react-router-dom';
-import queryString from 'query-string';
+import { useHistory } from 'react-router-dom';
 
 import CardActionArea from '@material-ui/core/CardActionArea';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Box from '@material-ui/core/Box';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Drawer from '@material-ui/core/Drawer';
 import Link from '@material-ui/core/Link';
 
 import { isAuthenticated, getCurrentUser, logout } from 'services/Authentication';
@@ -22,11 +20,8 @@ import { PicolinLogo } from 'UI/res';
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 // import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 // import GlobalSearchbar from 'UI/components/molecules/GlobalSearchbar';
-import NotificationPreview from 'UI/components/organisms/NotificationPreview';
-import NotificationButton from 'UI/components/organisms/NotificationButton';
-import OperatingDrawer from 'UI/components/organisms/OperatingDrawer';
 
-import { drawerAnchor, DrawerName } from 'UI/constants/defaults';
+import { drawerAnchor } from 'UI/constants/defaults';
 import { useStyles, styles } from './styles';
 
 const featureFlags = getFeatureFlags();
@@ -34,15 +29,9 @@ const featureFlags = getFeatureFlags();
 const NavBar = () => {
   const user = isAuthenticated() && getCurrentUser();
   const classes = useStyles();
-  const location = useLocation();
-  const { drawer } = queryString.parse(location.search);
   const history = useHistory();
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const [uiState, setUiState] = useState({
-    isOperatingOpen: drawer === DrawerName.OperatingMetrics,
-    areNotificationsOpen: drawer === DrawerName.Notifications || drawer === DrawerName.FeeAgreements
-  });
 
   const handleOpenMenuClick = event => {
     setAnchorEl(event.currentTarget);
@@ -55,14 +44,6 @@ const NavBar = () => {
   const handleLogout = () => {
     logout();
     history.push('/login');
-  };
-
-  const toggleDrawer = (activeDrawer: string, open: boolean) => event => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
-    setUiState(prevState => ({ ...prevState, [activeDrawer]: open }));
   };
 
   const goHome = e => {
@@ -89,9 +70,6 @@ const NavBar = () => {
         </div> */}
         <div item="true" className={classes.divItem} style={styles.rightContainer}>
           <div className={classes.userCardWrapper}>
-            {featureFlags.includes(FeatureFlags.Notifications) && (
-              <NotificationButton onDrawerOpen={toggleDrawer('areNotificationsOpen', true)} />
-            )}
             <Box display="flex" position="relative">
               <CardActionArea onClick={handleOpenMenuClick} className={classes.userCard}>
                 <div className={classes.name}>{user?.personalInformation?.first_name}</div>
@@ -134,23 +112,6 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-      <Drawer
-        anchor={drawerAnchor}
-        open={uiState.areNotificationsOpen}
-        onClose={toggleDrawer('areNotificationsOpen', false)}
-        BackdropProps={{ invisible: true }}
-      >
-        <NotificationPreview onClose={toggleDrawer('areNotificationsOpen', false)} />
-      </Drawer>
-      <Drawer
-        anchor={drawerAnchor}
-        open={uiState.isOperatingOpen}
-        onClose={toggleDrawer('isOperatingOpen', false)}
-      >
-        <div role="presentation">
-          <OperatingDrawer onClose={toggleDrawer('isOperatingOpen', false)} />
-        </div>
-      </Drawer>
     </Fragment>
   );
 };

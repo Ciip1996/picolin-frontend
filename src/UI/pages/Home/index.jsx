@@ -9,10 +9,7 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 import { WolfBackground, AddIcon, colors } from 'UI/res';
 import { EntityRoutes } from 'routes/constants';
 import { PageTitles } from 'UI/constants/defaults';
-import { isNotificationAvailable, getNotificationToken } from 'services/FirebaseMessaging';
 
-import API from 'services/API';
-import { Endpoints } from 'UI/constants/endpoints';
 import { useStyles, styles } from './styles';
 
 const Home = ({ history }) => {
@@ -21,17 +18,6 @@ const Home = ({ history }) => {
   useEffect(() => {
     document.title = PageTitles.Home;
   });
-
-  useEffect(() => {
-    const saveNotificationToken = async () => {
-      if (isNotificationAvailable) {
-        const token = getNotificationToken();
-        await API.post(Endpoints.NotificationRegistration, { token });
-      }
-    };
-
-    saveNotificationToken();
-  }, []);
 
   const handleActionClick = action => {
     history.push(action);

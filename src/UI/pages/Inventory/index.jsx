@@ -1,7 +1,7 @@
 // @flow
 import React, { useState, useEffect, useCallback } from 'react';
 
-import queryString from 'query-string';
+// import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 import { FormControl } from '@material-ui/core';
@@ -10,7 +10,6 @@ import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import { showAlert } from 'actions/app';
 import Drawer from '@material-ui/core/Drawer';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
-
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 
@@ -102,7 +101,7 @@ const InventoryList = (props: InventoryListProps) => {
         perPage: uiState.perPage,
         store: store ? store.store : undefined
       };
-      debugger;
+      // debugger;
 
       saveFilters('inventory', { filters, params });
 
@@ -138,12 +137,11 @@ const InventoryList = (props: InventoryListProps) => {
 
   const handleFilterChange = (name: string, value: any) => {
     setSearching(true);
-    debugger;
     setFilters({ ...filters, [name]: value });
-    // setUiState(prevState => ({
-    //   ...prevState,
-    //   page: 0
-    // }));
+    setUiState(prevState => ({
+      ...prevState,
+      page: 0
+    }));
   };
 
   const handleResetFiltersClick = () => {

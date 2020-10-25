@@ -10,7 +10,6 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import SideFiltersLayout from 'UI/components/templates/SideFiltersLayout';
 import CollapsiblePanel from 'UI/components/templates/CollapsiblePanel';
 
 import ActiveFilters from 'UI/components/molecules/ActiveFilters';
@@ -26,8 +25,6 @@ import { getDefaultDashboardPeriod } from 'UI/utils';
 import { styles } from './styles';
 
 import './dateRangePicker.css';
-
-const includeFilters = ['industry', 'specialty', 'regional', 'coach', 'recruiter', 'state'];
 
 type DashboardLayoutProps = {
   title: string,
@@ -118,13 +115,6 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
     <ContentPageLayout customStyle={{ display: 'block' }}>
       <CollapsiblePanel isSideMenuOpen={isSideMenuOpen} mode="overlay" onToggle={onMenuToggle}>
         <TitleLabel fontSize={26} text="FILTERS" textTransform="uppercase" />
-        <SideFiltersLayout
-          searchButtonText="Apply"
-          section="dashboard"
-          includeFilters={includeFilters}
-          defaultFilters={{}}
-          areFiltersRequired={false}
-        />
       </CollapsiblePanel>
       <div style={styles.dashboardContainer}>
         <Grid container alignItems="center" style={{ marginBottom: 20 }}>
