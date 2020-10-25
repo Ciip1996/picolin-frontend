@@ -76,9 +76,6 @@ function registerValidSW(swUrl, config) {
                   'tabs for this page are closed. See https://bit.ly/CRA-PWA.'
               );
 
-              // register service worker & handle push events
-              registerNotifications();
-
               // Execute callback
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
@@ -131,24 +128,8 @@ function checkValidServiceWorker(swUrl, config) {
     });
 }
 
-function registerNotifications() {
-  const swUrl = `${window.location.origin}/firebase-messaging-sw.js`;
-
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker
-      .register(swUrl)
-      .then(registration => {
-        console.log('Firebase SW Registration successful.', registration.scope);
-      })
-      .catch(err => {
-        console.log('Firebase SW registration failed.', err);
-      });
-  }
-}
-
 export function unregister() {
   // register service worker & handle push events
-  registerNotifications();
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.ready

@@ -43,11 +43,10 @@ const LogIn = (props: LogInProps) => {
         if (response?.status === 200) {
           // TODO: properly handle token with valid session
           const access = {
-            token: response.data.token,
+            ...response?.data,
             type: 'bearer'
           };
           localStorage.setItem('access', JSON.stringify(access));
-          localStorage.getItem('access');
           history.push('/home'); // TODO: change redirect url later
         }
       });

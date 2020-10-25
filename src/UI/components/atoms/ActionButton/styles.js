@@ -41,8 +41,8 @@ export const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: props => props.variant === 'contained' && colors.success
     },
-    minWidth: props => (props.isResponsive ? 'unset' : 120),
-    width: props => (props.isResponsive ? 174 : 238),
+    // minWidth: props => (props.isResponsive ? 'unset' : 120),
+    // width: props => (props.isResponsive ? 174 : 238),
     '& > span': {
       width: props => props.isWithoutText && 'min-content',
       display: props => props.isWithoutText && 'flex',

@@ -143,13 +143,18 @@ const theme = createMuiTheme({
     height: input.height,
     maxHeight: input.height,
     borderRadius: input.borderRadius,
-    width: 238,
+    // width: 238,
     minWidth: 120,
     maxWidth: 400,
     alignItems: 'center',
     textTransform: 'uppercase',
     fontSize: 16,
-    fontWeight: 500
+    fontWeight: 500,
+
+    background: 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)',
+    boxShadow: '0px 3px 6px #00000029',
+    width: 200,
+    minHeight: '48px !important'
   },
   input: {
     minHeight: input.height,

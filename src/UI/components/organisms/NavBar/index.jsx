@@ -15,7 +15,7 @@ import { isAuthenticated, getCurrentUser, logout } from 'services/Authentication
 import { FeatureFlags } from 'UI/constants/featureFlags';
 import { getFeatureFlags } from 'UI/utils';
 
-import { PicolinLogo } from 'UI/res';
+import { PicolinLogo, colors } from 'UI/res';
 
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 // import CustomIconButton from 'UI/components/atoms/CustomIconButton';
@@ -28,6 +28,7 @@ const featureFlags = getFeatureFlags();
 
 const NavBar = () => {
   const user = isAuthenticated() && getCurrentUser();
+
   const classes = useStyles();
   const history = useHistory();
 
@@ -72,8 +73,8 @@ const NavBar = () => {
           <div className={classes.userCardWrapper}>
             <Box display="flex" position="relative">
               <CardActionArea onClick={handleOpenMenuClick} className={classes.userCard}>
-                <div className={classes.name}>{user?.personalInformation?.first_name}</div>
-                <CustomAvatar acron={user?.initials} backgroundColor={user?.color} />
+                <div className={classes.name}>{user?.userName}</div>
+                <CustomAvatar acron={user?.role} backgroundColor={colors?.primary} />
                 <MoreVertIcon />
               </CardActionArea>
               <Menu
@@ -105,7 +106,7 @@ const NavBar = () => {
                 )}
 
                 <MenuItem onClick={handleLogout} className={classes.menuLink}>
-                  Log Out
+                  Cerrar Sesión
                 </MenuItem>
               </Menu>
             </Box>

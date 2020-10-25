@@ -21,16 +21,8 @@ export const useStyles = makeStyles({
     background: 'white'
   },
   loginButton: {
-    background: 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)',
-    boxShadow: '0px 3px 6px #00000029',
     marginTop: '42px',
-    width: '171px',
-    minHeight: '48px !important'
-    // marginBottom: '58px',
-    // borderTopLeftRadius: 24,
-    // borderTopRightRadius: 24,
-    // borderBottomLeftRadius: 24,
-    // borderBottomRightRadius: 24
+    width: '171px'
   },
   header: {
     marginTop: '54px',

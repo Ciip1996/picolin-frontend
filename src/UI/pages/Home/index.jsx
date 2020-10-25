@@ -3,29 +3,29 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import GlobalSearchbar from 'UI/components/molecules/GlobalSearchbar';
+// import GlobalSearchbar from 'UI/components/molecules/GlobalSearchbar';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
-import ActionButton from 'UI/components/atoms/ActionButton';
-import { WolfBackground, AddIcon, colors } from 'UI/res';
-import { EntityRoutes } from 'routes/constants';
+import { BackgroundGraphic, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
+import { getCurrentUser } from 'services/Authentication';
 
 import { useStyles, styles } from './styles';
 
-const Home = ({ history }) => {
+const Home = () => {
   const classes = useStyles();
+  const user = getCurrentUser();
 
   useEffect(() => {
     document.title = PageTitles.Home;
   });
 
-  const handleActionClick = action => {
-    history.push(action);
-  };
+  // const handleActionClick = action => {
+  //   history.push(action);
+  // };
 
   return (
     <>
-      <WolfBackground fill={colors.wolfImage} className={classes.backgroundImg} />
+      <BackgroundGraphic fill={colors.backgroundGraphic} className={classes.backgroundImg} />
       <ContentPageLayout>
         <div className={classes.root}>
           <Grid
@@ -37,12 +37,12 @@ const Home = ({ history }) => {
           >
             <TitleLabel
               customStyle={styles.mainTitle}
-              fontSize={40}
-              text="A search away from your goal"
+              fontSize={47}
+              text={`¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`}
             />
-            <GlobalSearchbar />
+            {/* <GlobalSearchbar /> */}
           </Grid>
-          <Grid
+          {/* <Grid
             className={classes.container}
             style={styles.gridContainer}
             container
@@ -58,27 +58,27 @@ const Home = ({ history }) => {
             >
               <ActionButton
                 style={styles.button}
-                text="CANDIDATE"
+                text="Nueva Venta"
                 onClick={() => handleActionClick(EntityRoutes.CandidateCreate)}
               >
                 <AddIcon {...styles.iconSize} />
               </ActionButton>
               <ActionButton
                 style={styles.button}
-                text="JOB ORDER"
+                text="Nuevo Producto"
                 onClick={() => handleActionClick(EntityRoutes.JobOrderCreate)}
               >
                 <AddIcon {...styles.iconSize} />
               </ActionButton>
               <ActionButton
                 style={styles.button}
-                text="COMPANY"
+                text="Inventario"
                 onClick={() => handleActionClick(EntityRoutes.CompanyCreate)}
               >
                 <AddIcon {...styles.iconSize} />
               </ActionButton>
             </Grid>
-          </Grid>
+          </Grid> */}
         </div>
       </ContentPageLayout>
     </>

@@ -495,7 +495,7 @@ export const GpacFullLogo = props => {
   );
 };
 
-export const WolfBackground = props => {
+export const BackgroundGraphic = props => {
   const { fill } = props;
   return (
     <svg viewBox="0 0 986.188 1081.223" {...props}>
