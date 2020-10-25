@@ -57,7 +57,7 @@ const NameForm = (props: NameFormProps) => {
     }
   }, [register, hasSubspecialties]);
 
-  const handleComboChange = (name?: string, value: any) => {
+  const handleComboChange = (name: string, value: any) => {
     setComboValues((prevState: Map): Map => ({ ...prevState, [name]: value }));
     setValue(name, value ? value.id : value, true);
 

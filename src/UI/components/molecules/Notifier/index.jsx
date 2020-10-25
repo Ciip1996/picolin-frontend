@@ -10,22 +10,11 @@ import CustomSnackbar from 'UI/components/molecules/CustomSnackbar';
 import DecisionDialog from 'UI/components/organisms/DecisionDialog';
 
 // import { messaging } from 'services/Firebase';
-import { isNotificationAvailable } from 'services/FirebaseMessaging';
-import { isAuthenticated } from 'services/Authentication';
 
 let displayed = [];
 
 const Notifier = props => {
-  const {
-    alerts,
-    confirmation,
-    onHideAlert,
-    onShowAlert,
-    getTotal,
-    addNotification,
-    markNotificationAsRead,
-    history
-  } = props;
+  const { alerts, confirmation, onHideAlert } = props;
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const storeDisplayed = id => {
@@ -35,47 +24,6 @@ const Notifier = props => {
   const removeDisplayed = id => {
     displayed = [...displayed.filter(key => id !== key)];
   };
-
-  useEffect(() => {
-    if (isNotificationAvailable) {
-      if (navigator.serviceWorker) {
-        navigator.serviceWorker.onmessage = (event: any) => {
-          const { data, type } = event.data;
-
-          if (type === 'BACKGROUND_MESSAGE_NOTIFICATION') {
-            addNotification(data);
-          } else if (type === 'CLICK_BACKGROUND_MESSAGE_NOTIFICATION') {
-            getTotal();
-          } else if (event.data?.firebaseMessaging?.type === 'push-received') {
-            const { data: payload } = event.data.firebaseMessaging.payload;
-            const { title, code, body, icon, color, click_action } = payload;
-
-            addNotification(payload);
-
-            onShowAlert({
-              isNotification: true,
-              title,
-              code,
-              body,
-              icon,
-              color,
-              autoHideDuration: 4000,
-              onClick: () => {
-                markNotificationAsRead(payload);
-                history.push(click_action);
-              }
-            });
-          }
-        };
-      }
-    }
-  }, [addNotification, onShowAlert, markNotificationAsRead, getTotal, history]);
-
-  useEffect(() => {
-    if (isAuthenticated()) {
-      getTotal();
-    }
-  }, [getTotal]);
 
   useEffect(() => {
     alerts.forEach(

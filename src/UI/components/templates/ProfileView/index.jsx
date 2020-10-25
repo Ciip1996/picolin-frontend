@@ -12,21 +12,18 @@ import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import SocialNetworkButton from 'UI/components/molecules/SocialNetworkButton';
 import {
   EditIcon,
-  AssignIcon,
   WriteUpIcon,
   MailIcon,
   PhoneCallIcon,
   SMSIcon,
   PersonsIcon,
   MoreIcon,
-  CollaborationsIcon,
   colors
 } from 'UI/res';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import { getCurrentUser } from 'services/Authentication';
 import { canUserEditEntity, userHasRole } from 'services/Authorization';
 
-import { AssignableEntities, TeamworkEntities } from 'hooks/accountability';
 import { Roles } from 'UI/constants/roles';
 import { EntityType } from 'UI/constants/entityTypes';
 import ColorIndicator from 'UI/components/atoms/ColorIndicator';
@@ -52,16 +49,7 @@ type ProfileViewProps = {
 };
 
 const ProfileView = (props: ProfileViewProps) => {
-  const {
-    infoLabels,
-    name,
-    type,
-    sheet,
-    profile,
-    onDatasheetClick,
-    onEditClick,
-    onReassignClick
-  } = props;
+  const { infoLabels, name, type, sheet, profile, onDatasheetClick, onEditClick } = props;
 
   const currentUser = getCurrentUser();
   const classes = useStyles();
@@ -75,7 +63,6 @@ const ProfileView = (props: ProfileViewProps) => {
   };
   const canEdit = canUserEditEntity(currentUser, profile);
   const isUserCoach = userHasRole(Roles.Coach);
-  const isUserRecruiter = userHasRole(Roles.Recruiter);
 
   const MenuItems = [
     {
@@ -95,18 +82,6 @@ const ProfileView = (props: ProfileViewProps) => {
       title: 'Email',
       action: () => {},
       visible: featureFlags.includes(FeatureFlags.Activity)
-    },
-    {
-      icon: <AssignIcon fill={colors.black} />,
-      title: 'Manage recruiters',
-      action: onReassignClick,
-      visible: isUserCoach && canEdit && AssignableEntities.includes(type)
-    },
-    {
-      icon: <CollaborationsIcon fill={colors.black} />,
-      title: 'Manage collaborations',
-      action: onReassignClick,
-      visible: isUserRecruiter && canEdit && TeamworkEntities.includes(type)
     },
     {
       icon: <PersonsIcon fill={colors.black} />,
