@@ -5,11 +5,6 @@ import { useSnackbar } from 'notistack';
 import { withRouter } from 'react-router-dom';
 
 import { hideAlert, showAlert } from 'actions/app';
-import {
-  getTotal as getTotalAction,
-  addNotification as addNotificationAction,
-  markNotificationAsRead as markNotificationAsReadAction
-} from 'actions/notification';
 
 import CustomSnackbar from 'UI/components/molecules/CustomSnackbar';
 import DecisionDialog from 'UI/components/organisms/DecisionDialog';
@@ -156,10 +151,7 @@ const mapStateToProps = ({ app }) => {
 const mapDispatchToProps = dispatch => {
   return {
     onHideAlert: key => dispatch(hideAlert(key)),
-    onShowAlert: alert => dispatch(showAlert(alert)),
-    getTotal: () => dispatch(getTotalAction()),
-    markNotificationAsRead: notification => dispatch(markNotificationAsReadAction(notification)),
-    addNotification: notification => dispatch(addNotificationAction(notification))
+    onShowAlert: alert => dispatch(showAlert(alert))
   };
 };
 

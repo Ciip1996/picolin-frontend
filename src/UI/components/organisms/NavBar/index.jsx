@@ -22,7 +22,6 @@ import { PicolinLogo } from 'UI/res';
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 // import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 // import GlobalSearchbar from 'UI/components/molecules/GlobalSearchbar';
-import NotificationPreview from 'UI/components/organisms/NotificationPreview';
 import NotificationButton from 'UI/components/organisms/NotificationButton';
 import OperatingDrawer from 'UI/components/organisms/OperatingDrawer';
 
@@ -134,14 +133,6 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-      <Drawer
-        anchor={drawerAnchor}
-        open={uiState.areNotificationsOpen}
-        onClose={toggleDrawer('areNotificationsOpen', false)}
-        BackdropProps={{ invisible: true }}
-      >
-        <NotificationPreview onClose={toggleDrawer('areNotificationsOpen', false)} />
-      </Drawer>
       <Drawer
         anchor={drawerAnchor}
         open={uiState.isOperatingOpen}
