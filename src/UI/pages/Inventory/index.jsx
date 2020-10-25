@@ -31,13 +31,13 @@ const CellSkeleton = ({ children, searching }) => {
   return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
 };
 
-type RostersListProps = {
+type InventoryListProps = {
   onShowAlert: any => void
 };
 
-const chainedSelects = {
-  state: ['city', 'zip']
-};
+// const chainedSelects = {
+//   state: ['city', 'zip']
+// };
 
 const columnItems = [
   { id: 0, name: 'productCode', display: true },
@@ -54,20 +54,21 @@ const columnItems = [
 const getSortDirections = (orderBy: string, direction: string) =>
   columnItems.map(item => (item.name === orderBy ? direction : 'none'));
 
-const RostersList = (props: RostersListProps) => {
+const InventoryList = (props: InventoryListProps) => {
   const { onShowAlert } = props;
-
-  useEffect(() => {
-    document.title = PageTitles.Inventory;
-  }, []);
 
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
 
   const [data, setData] = useState<any>(null);
   const [count, setCount] = useState(0);
-  const gpacAll = { id: 0, title: 'tienda' };
-  const [rosterTypes, setRosterTypes] = useState([gpacAll]);
+  const defaultInventory = { idStore: 0, store: '' };
+  const [inventorySelect, setInventorySelect] = useState([defaultInventory]);
+
+  const genders = [
+    { id: 0, title: 'Masculino' },
+    { id: 0, title: 'Femenino' }
+  ];
 
   const savedSearch = getFilters('inventory');
   const savedFilters = savedSearch?.filters;
@@ -92,26 +93,27 @@ const RostersList = (props: RostersListProps) => {
 
   const getData = useCallback(async () => {
     try {
-      const { state, city, size, office } = filters;
-
+      console.log('getting data - filters: ', filters);
+      const { store } = filters;
       const params = {
         keyword: uiState.keyword,
         orderBy: uiState.orderBy,
-        direction: uiState.direction,
-        stateId: state ? state.id : null,
-        cityId: city ? city.id : null,
-        roleId: size ? size.id : null,
-        office: office ? office.address : null,
         page: uiState.page + 1,
-        perPage: uiState.perPage
+        perPage: uiState.perPage,
+        store: store ? store.store : undefined
       };
+      debugger;
 
       saveFilters('inventory', { filters, params });
 
+      const url = filters?.store
+        ? '/getInventory/:filtros'.replace(':filtros', filters?.store?.store)
+        : '/getInventory/TODOS';
       // const queryParams = queryString.stringify(params);
-      const response = await API.get('/getInventory/TODOS');
-
-      setData(response?.data);
+      const response = await API.get(url);
+      if (response?.status === 200 && response?.data) {
+        setData(response?.data);
+      }
       setCount(0);
       setLoading(false);
       setSearching(false);
@@ -123,7 +125,7 @@ const RostersList = (props: RostersListProps) => {
         body: getErrorMessage(error)
       });
     }
-  }, [filters, uiState, onShowAlert]);
+  }, [filters, onShowAlert, uiState.keyword, uiState.orderBy, uiState.page, uiState.perPage]);
 
   const handleSearchChange = newKeyword => {
     setSearching(true);
@@ -134,19 +136,14 @@ const RostersList = (props: RostersListProps) => {
     }));
   };
 
-  const handleFilterChange = (name?: string, value: any) => {
+  const handleFilterChange = (name: string, value: any) => {
     setSearching(true);
+    debugger;
     setFilters({ ...filters, [name]: value });
-    setUiState(prevState => ({
-      ...prevState,
-      page: 0
-    }));
-
-    if (name && chainedSelects[name]) {
-      chainedSelects[name].forEach(chainedSelect => {
-        setFilters((prevState: Filters): Filters => ({ ...prevState, [chainedSelect]: null }));
-      });
-    }
+    // setUiState(prevState => ({
+    //   ...prevState,
+    //   page: 0
+    // }));
   };
 
   const handleResetFiltersClick = () => {
@@ -239,6 +236,29 @@ const RostersList = (props: RostersListProps) => {
         display: columnItems[1].display,
         sortDirection: sortDirection[1],
         filterType: 'custom',
+        // filterOptions: {
+        //   display: () => {
+        //     return (
+        //       <FormControl>
+        //         <AutocompleteSelect
+        //           name="office"
+        //           placeholder="Color"
+        //           url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+        //           selectedValue={filters.office}
+        //           renderOption={option => (
+        //             <>
+        //               <span>{`${option.title}`}</span>
+        //               {option.state && ','}
+        //               &nbsp;
+        //               <strong>{option.state && option.state}</strong>
+        //             </>
+        //           )}
+        //           onSelect={handleFilterChange}
+        //         />
+        //       </FormControl>
+        //     );
+        //   }
+        // },
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }
@@ -253,6 +273,29 @@ const RostersList = (props: RostersListProps) => {
         display: columnItems[2].display,
         sortDirection: sortDirection[2],
         filterType: 'custom',
+        // filterOptions: {
+        //   display: () => {
+        //     return (
+        //       <FormControl>
+        //         <AutocompleteSelect
+        //           name="office"
+        //           placeholder="Talla"
+        //           url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+        //           selectedValue={filters.office}
+        //           renderOption={option => (
+        //             <>
+        //               <span>{`${option.title}`}</span>
+        //               {option.state && ','}
+        //               &nbsp;
+        //               <strong>{option.state && option.state}</strong>
+        //             </>
+        //           )}
+        //           onSelect={handleFilterChange}
+        //         />
+        //       </FormControl>
+        //     );
+        //   }
+        // },
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }
@@ -297,6 +340,21 @@ const RostersList = (props: RostersListProps) => {
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        },
+        filterOptions: {
+          display: () => {
+            return (
+              <FormControl>
+                <AutocompleteSelect
+                  name="gender_filter"
+                  placeholder="Género"
+                  selectedValue={filters.gender_filter || genders[0]}
+                  onSelect={handleFilterChange}
+                  defaultOptions={genders}
+                />
+              </FormControl>
+            );
+          }
         }
       }
     },
@@ -311,6 +369,22 @@ const RostersList = (props: RostersListProps) => {
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        },
+        filterOptions: {
+          display: () => {
+            return (
+              <FormControl>
+                <AutocompleteSelect
+                  name="type_filter"
+                  placeholder="Tipo"
+                  url="/getTypes"
+                  selectedValue={filters?.type_filter}
+                  renderOption={option => <span>{`${option?.type}`}</span>}
+                  onSelect={handleFilterChange}
+                />
+              </FormControl>
+            );
+          }
         }
       }
     },
@@ -333,83 +407,8 @@ const RostersList = (props: RostersListProps) => {
                 <div display="flex">
                   <AutocompleteSelect
                     name="office"
-                    placeholder="Tipo"
-                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-                    selectedValue={filters.office}
-                    renderOption={option => (
-                      <>
-                        <span>{`${option.title}`}</span>
-                        {option.state && ','}
-                        &nbsp;
-                        <strong>{option.state && option.state}</strong>
-                      </>
-                    )}
-                    onSelect={handleFilterChange}
-                  />
-                  <AutocompleteSelect
-                    name="office"
-                    placeholder="Color"
-                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-                    selectedValue={filters.office}
-                    renderOption={option => (
-                      <>
-                        <span>{`${option.title}`}</span>
-                        {option.state && ','}
-                        &nbsp;
-                        <strong>{option.state && option.state}</strong>
-                      </>
-                    )}
-                    onSelect={handleFilterChange}
-                  />
-                  <AutocompleteSelect
-                    name="office"
-                    placeholder="Talla"
-                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-                    selectedValue={filters.office}
-                    renderOption={option => (
-                      <>
-                        <span>{`${option.title}`}</span>
-                        {option.state && ','}
-                        &nbsp;
-                        <strong>{option.state && option.state}</strong>
-                      </>
-                    )}
-                    onSelect={handleFilterChange}
-                  />
-                  <AutocompleteSelect
-                    name="office"
-                    placeholder="Género"
-                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-                    selectedValue={filters.office}
-                    renderOption={option => (
-                      <>
-                        <span>{`${option.title}`}</span>
-                        {option.state && ','}
-                        &nbsp;
-                        <strong>{option.state && option.state}</strong>
-                      </>
-                    )}
-                    onSelect={handleFilterChange}
-                  />
-                  <AutocompleteSelect
-                    name="office"
                     placeholder="Estatus"
-                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-                    selectedValue={filters.office}
-                    renderOption={option => (
-                      <>
-                        <span>{`${option.title}`}</span>
-                        {option.state && ','}
-                        &nbsp;
-                        <strong>{option.state && option.state}</strong>
-                      </>
-                    )}
-                    onSelect={handleFilterChange}
-                  />
-                  <AutocompleteSelect
-                    name="office"
-                    placeholder="Inventario"
-                    url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
+                    url=""
                     selectedValue={filters.office}
                     renderOption={option => (
                       <>
@@ -430,31 +429,32 @@ const RostersList = (props: RostersListProps) => {
     }
   ];
 
-  const getRosterTypes = useCallback(async () => {
+  const getInventories = useCallback(async () => {
     try {
-      const response = await API.get(
-        `${Endpoints.Roles}?${queryString.stringify({
-          filter: 'inventory'
-        })}`
-      );
-      if (response) {
-        setRosterTypes([gpacAll, ...response.data]);
+      const response = await API.get(`${Endpoints.Stores}`);
+      if (response?.status === 200) {
+        setInventorySelect(response.data);
       }
     } catch (error) {
       onShowAlert({
         severity: 'error',
-        title: 'Inventory',
+        title: 'Inventario',
         autoHideDuration: 3000,
-        body: getErrorMessage(error)
+        body: getErrorMessage(error) // TODO: change error messages
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onShowAlert]);
 
   useEffect(() => {
+    document.title = PageTitles.Inventory;
     getData();
-    getRosterTypes();
-  }, [getData, getRosterTypes]);
+    getInventories();
+  }, [getData, getInventories]);
+
+  useEffect(() => {
+    console.log('new useeffect', filters);
+  }, [filters]);
 
   return (
     (
@@ -475,11 +475,13 @@ const RostersList = (props: RostersListProps) => {
           title="INVENTARIO"
           selector={
             <AutocompleteSelect
-              name="size"
-              placeholder="Inventory to show"
-              selectedValue={filters.size || rosterTypes[0]}
+              name="store"
+              placeholder="Inventario"
+              displayKey="store"
+              url={Endpoints.Stores}
+              selectedValue={filters?.store}
               onSelect={handleFilterChange}
-              defaultOptions={rosterTypes}
+              defaultOptions={inventorySelect}
             />
           }
           filters={filters}
@@ -514,4 +516,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(RostersList);
+export default connect(null, mapDispatchToProps)(InventoryList);

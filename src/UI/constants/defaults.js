@@ -42,11 +42,11 @@ export const GranularityFormats = {
 
 export const PageTitles = {
   Sales: `${AppName} | Ventas`,
-  Login: `${AppName} | Login`,
-  Home: `${AppName} | Home`,
-  Dashboard: `${AppName} | Overview`,
+  Login: `${AppName} | Inicio de Sesión`,
+  Home: `${AppName} | Inicio`,
+  Dashboard: `${AppName} | Dashboard`,
   NotFound: `${AppName} | Not Found`,
-  Inventory: `${AppName} | Inventory`
+  Inventory: `${AppName} | Inventario`
 };
 
 export const DrawerName = {

@@ -57,7 +57,7 @@ const NavBar = () => {
     history.push('/login');
   };
 
-  const toggleDrawer = (activeDrawer, open) => event => {
+  const toggleDrawer = (activeDrawer: string, open: boolean) => event => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
     }

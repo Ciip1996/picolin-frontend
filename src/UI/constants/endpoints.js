@@ -1,4 +1,5 @@
 export const Endpoints = {
+  Stores: '/getStore',
   Industries: 'industries',
   Positions: 'positions',
   States: 'states',
