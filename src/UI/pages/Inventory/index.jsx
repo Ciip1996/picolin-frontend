@@ -46,8 +46,8 @@ const columnItems = [
   { id: 4, name: 'salePrice', display: true },
   { id: 5, name: 'gender', display: true },
   { id: 6, name: 'type', display: true },
-  { id: 7, name: 'stock', display: true },
-  { id: 8, name: 'reservedQuantity', display: true }
+  { id: 7, name: 'reservedQuantity', display: true },
+  { id: 8, name: 'stock', display: true }
 ];
 
 const getSortDirections = (orderBy: string, direction: string) =>
@@ -110,6 +110,7 @@ const InventoryList = (props: InventoryListProps) => {
         : '/getInventory/TODOS';
       // const queryParams = queryString.stringify(params);
       const response = await API.get(url);
+
       if (response?.status === 200 && response?.data) {
         setData(response?.data);
       }
@@ -388,12 +389,51 @@ const InventoryList = (props: InventoryListProps) => {
     },
     {
       name: 'reservedQuantity',
-      label: 'Status',
+      label: 'Apartados',
       options: {
         filter: true,
         sort: true,
         display: columnItems[7].display,
         sortDirection: sortDirection[7],
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
+        },
+        filterType: 'custom',
+        filterOptions: {
+          display: () => {
+            return (
+              <FormControl>
+                <div display="flex">
+                  <AutocompleteSelect
+                    name="office"
+                    placeholder="Estatus"
+                    url=""
+                    selectedValue={filters.office}
+                    renderOption={option => (
+                      <>
+                        <span>{`${option.title}`}</span>
+                        {option.state && ','}
+                        &nbsp;
+                        <strong>{option.state && option.state}</strong>
+                      </>
+                    )}
+                    onSelect={handleFilterChange}
+                  />
+                </div>
+              </FormControl>
+            );
+          }
+        }
+      }
+    },
+    {
+      name: 'stock',
+      label: 'Stock',
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[8].display,
+        sortDirection: sortDirection[8],
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         },
