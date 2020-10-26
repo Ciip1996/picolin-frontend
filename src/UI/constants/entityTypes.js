@@ -81,3 +81,11 @@ export const accountabilityFilters = (type: string): EntityFilter[] => {
     { id: 5, title: `Free game ${type}`, order: 4 }
   ].sort((a: EntityFilter, b: EntityFilter) => a.order - b.order);
 };
+
+export const InventoryFilters = (type: string): EntityFilter[] => {
+  return [
+    ...entyTypesFilters(type),
+    { id: 4, title: `My collaborations`, order: 3 },
+    { id: 5, title: `Free game ${type}`, order: 4 }
+  ].sort((a: EntityFilter, b: EntityFilter) => a.order - b.order);
+};
