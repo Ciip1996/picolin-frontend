@@ -109,6 +109,7 @@ const DataTable = (props: DataTableProps) => {
         },
         onSearchChange: newSearchText => {
           onSearchTextChange && onSearchTextChange(newSearchText);
+          onSearchTextChange && newSearchText && onSearchTextChange(newSearchText);
         },
         onColumnSortChange: (changedColumn, direction) => {
           let order = 'desc';

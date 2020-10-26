@@ -1,14 +1,14 @@
 // @flow
 import React, { useState, useEffect, useCallback } from 'react';
 
-// import queryString from 'query-string';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 import { FormControl } from '@material-ui/core';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 
 import { showAlert } from 'actions/app';
-import Drawer from '@material-ui/core/Drawer';
+// import Drawer from '@material-ui/core/Drawer';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -16,7 +16,7 @@ import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 /** Components */
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
+// import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -85,9 +85,9 @@ const InventoryList = (props: InventoryListProps) => {
   };
 
   const [uiState, setUiState] = useState({
-    keyword: savedParams?.keyword || '',
-    orderBy: savedParams?.orderBy || '',
-    direction: savedParams?.direction || '',
+    keyword: savedParams?.keyword || null,
+    orderBy: savedParams?.orderBy || null,
+    direction: savedParams?.direction || null,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
     isTransferDrawerOpen: true
@@ -95,29 +95,27 @@ const InventoryList = (props: InventoryListProps) => {
 
   const getData = useCallback(async () => {
     try {
-      console.log('getting data - filters: ', filters);
-      const { store } = filters;
+      // const { store } = filters;
       const params = {
-        keyword: uiState.keyword,
-        orderBy: uiState.orderBy,
+        keyword: uiState.keyword || undefined,
+        // orderBy: uiState.orderBy,
         page: uiState.page + 1,
-        perPage: uiState.perPage,
-        store: store ? store.store : undefined
+        perPage: uiState.perPage
       };
-      // debugger;
-
+      debugger;
       saveFilters('inventory', { filters, params });
 
+      const queryParams = queryString.stringify(params);
       const url = filters?.store
-        ? '/getInventory/:filtros'.replace(':filtros', filters?.store?.store)
-        : '/getInventory/TODOS';
-      // const queryParams = queryString.stringify(params);
-      const response = await API.get(url);
+        ? '/getInventory/:filtros?'.replace(':filtros', filters?.store?.store)
+        : '/getInventory/TODOS?';
+      // console.log(`${url}/${queryParams}`);
+      const response = await API.get(`${url}${queryParams}`);
 
       if (response?.status === 200 && response?.data) {
         setData(response?.data);
       }
-      setCount(0);
+      setCount(Number(uiState.perPage) || 0);
       setLoading(false);
       setSearching(false);
     } catch (error) {
@@ -128,7 +126,7 @@ const InventoryList = (props: InventoryListProps) => {
         body: getErrorMessage(error)
       });
     }
-  }, [filters, onShowAlert, uiState.keyword, uiState.orderBy, uiState.page, uiState.perPage]);
+  }, [filters, onShowAlert, uiState.keyword, uiState.page, uiState.perPage]);
 
   const handleSearchChange = newKeyword => {
     setSearching(true);
@@ -564,6 +562,10 @@ const InventoryList = (props: InventoryListProps) => {
           onRowClick={handleRowClick}
           onResetfiltersClick={handleResetFiltersClick}
           onSearchTextChange={handleSearchChange}
+          onSearchClose={() => {
+            handleSearchChange();
+            setSearching(false);
+          }}
           onColumnSortClick={handleColumnSortClick}
           onPerPageClick={handlePerPageClick}
           onPageClick={handlePageClick}

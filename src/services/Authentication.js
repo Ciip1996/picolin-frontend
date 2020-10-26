@@ -12,15 +12,10 @@ const getToken = () => {
   return access && access.token;
 };
 
-// const getRefreshToken = () => {
-//   const access = getAccess();
-//   return access && access.refreshToken;
-// };
-
 const getCurrentUser = () => {
   const access = getAccess();
   const decodedToken = access && jwt.decode(access.token);
-  return decodedToken && { userName: decodedToken?.user, role: decodedToken?.role };
+  return decodedToken && decodedToken?.user;
 };
 
 const isAuthenticated = () => {

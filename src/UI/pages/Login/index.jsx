@@ -8,7 +8,7 @@ import axios from 'axios';
 import Box from '@material-ui/core/Box';
 import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
+import API from 'services/API';
 // Custom components and others
 import { colors } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
@@ -47,6 +47,7 @@ const LogIn = (props: LogInProps) => {
             type: 'bearer'
           };
           localStorage.setItem('access', JSON.stringify(access));
+          API.defaults.headers.Authorization = `Bearer ${response.data.token}`;
           history.push('/home'); // TODO: change redirect url later
         }
       });
