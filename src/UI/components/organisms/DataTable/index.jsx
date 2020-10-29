@@ -210,7 +210,7 @@ DataTable.defaultProps = {
   customEmptyStateIcon: undefined,
   title: '',
   subtitle: '',
-  selectableRows: 'multiple',
+  selectableRows: 'none',
   customToolbarSelect: undefined,
   onColumnDisplayClick: undefined,
   theme: getMuiTheme()

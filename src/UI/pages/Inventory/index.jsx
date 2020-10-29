@@ -38,10 +38,6 @@ type InventoryListProps = {
   onShowAlert: any => void
 };
 
-// const chainedSelects = {
-//   state: ['city', 'zip']
-// };
-
 const columnItems = [
   { id: 0, name: 'productCode', display: true },
   { id: 1, name: 'color', display: true },
@@ -50,7 +46,7 @@ const columnItems = [
   { id: 4, name: 'salePrice', display: true },
   { id: 5, name: 'gender', display: true },
   { id: 6, name: 'type', display: true },
-  { id: 7, name: 'reservedQuantity', display: true },
+  { id: 7, name: 'reservedQuantity', display: false },
   { id: 8, name: 'stock', display: true }
 ];
 
@@ -65,12 +61,10 @@ const InventoryList = (props: InventoryListProps) => {
 
   const [data, setData] = useState<any>(null);
   const [count, setCount] = useState(0);
-  // const defaultInventory = { idStore: 0, store: '' };
-  // const [InventoryFilters, setInventorySelect] = useState([defaultInventory]);
 
   const genders = [
     { id: 0, title: 'Masculino' },
-    { id: 0, title: 'Femenino' }
+    { id: 1, title: 'Femenino' }
   ];
 
   const savedSearch = getFilters('inventory');
