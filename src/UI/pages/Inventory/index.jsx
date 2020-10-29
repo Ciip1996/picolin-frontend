@@ -9,14 +9,18 @@ import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 
 import { showAlert } from 'actions/app';
 // import Drawer from '@material-ui/core/Drawer';
- import { drawerAnchor, PageTitles } from 'UI/constants/defaults';  
+import {
+  // drawerAnchor,
+  PageTitles
+} from 'UI/constants/defaults';
+
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 
 /** Components */
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
+// import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -25,13 +29,10 @@ import { getErrorMessage } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
-import { InventoryFilters } from 'UI/constants/entityTypes';
 
 const CellSkeleton = ({ children, searching }) => {
   return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
 };
-
-const filterOptions = InventoryFilters('Inventario');
 
 type InventoryListProps = {
   onShowAlert: any => void
@@ -43,19 +44,14 @@ type InventoryListProps = {
 
 const columnItems = [
   { id: 0, name: 'productCode', display: true },
-  { id: 1, name: 'description', display: true },
-  { id: 2, name: 'characteristic', display: true },
-  { id: 3, name: 'provider', display: true },
-  { id: 4, name: 'color', display: true },
-  { id: 5, name: 'size', display: true },
-  { id: 6, name: 'pieces', display: true },
-  { id: 7, name: 'salePrice', display: true },
-  { id: 8, name: 'cost', display: true },
-  { id: 9, name: 'gender', display: true },
-  { id: 10, name: 'type', display: true },
-  { id: 11, name: 'stock', display: true },
-  { id: 12, name: 'reservedQuantity', display: true },
-  { id: 13, name: 'store', display: true }
+  { id: 1, name: 'color', display: true },
+  { id: 2, name: 'size', display: true },
+  { id: 3, name: 'pieces', display: true },
+  { id: 4, name: 'salePrice', display: true },
+  { id: 5, name: 'gender', display: true },
+  { id: 6, name: 'type', display: true },
+  { id: 7, name: 'reservedQuantity', display: true },
+  { id: 8, name: 'stock', display: true }
 ];
 
 const getSortDirections = (orderBy: string, direction: string) =>
@@ -69,8 +65,8 @@ const InventoryList = (props: InventoryListProps) => {
 
   const [data, setData] = useState<any>(null);
   const [count, setCount] = useState(0);
-  const defaultInventory = { idStore: 0, store: '' };
-  const [InventoryFilters, setInventorySelect] = useState([defaultInventory]);
+  // const defaultInventory = { idStore: 0, store: '' };
+  // const [InventoryFilters, setInventorySelect] = useState([defaultInventory]);
 
   const genders = [
     { id: 0, title: 'Masculino' },
@@ -82,12 +78,12 @@ const InventoryList = (props: InventoryListProps) => {
   const savedParams = savedSearch?.params;
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
-  const toggleDrawer = (drawer: string, open: boolean) => event => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-    setUiState(prevState => ({ ...prevState, [drawer]: open }));
-  };
+  // const toggleDrawer = (drawer: string, open: boolean) => event => {
+  //   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+  //     return;
+  //   }
+  //   setUiState(prevState => ({ ...prevState, [drawer]: open }));
+  // };
 
   const [uiState, setUiState] = useState({
     keyword: savedParams?.keyword || null,
@@ -100,27 +96,31 @@ const InventoryList = (props: InventoryListProps) => {
 
   const getData = useCallback(async () => {
     try {
-      // const { store } = filters;
+      const { store_filter, gender_filter = {}, type_filter = {}, color_filter = {} } = filters;
+
       const params = {
         keyword: uiState.keyword || undefined,
         // orderBy: uiState.orderBy,
         page: uiState.page + 1,
-        perPage: uiState.perPage
+        perPage: uiState.perPage,
+        gender: gender_filter.title || undefined,
+        type: type_filter.title || undefined,
+        color: color_filter.title || undefined
       };
-      debugger;
+
       saveFilters('inventory', { filters, params });
 
       const queryParams = queryString.stringify(params);
-      const url = filters?.store
-        ? '/getInventory/:filtros?'.replace(':filtros', filters?.store?.store)
+      const url = store_filter
+        ? '/getInventory/:filtros?'.replace(':filtros', store_filter?.title)
         : '/getInventory/TODOS?';
-      // console.log(`${url}/${queryParams}`);
+
       const response = await API.get(`${url}${queryParams}`);
 
-      if (response?.status === 200 && response?.data) {
-        setData(response?.data);
+      if (response?.status === 200) {
+        setData(response?.data?.inventory || []);
       }
-      setCount(Number(uiState.perPage) || 0);
+      setCount(Number(response?.data?.totalResults) || 0);
       setLoading(false);
       setSearching(false);
     } catch (error) {
@@ -158,7 +158,7 @@ const InventoryList = (props: InventoryListProps) => {
 
   const handleFilterRemove = (filterName: string) => {
     setSearching(true);
-    setFilters({ ...filters, [filterName]: null });
+    setFilters({ ...filters, [filterName]: undefined });
   };
 
   const handleColumnSortClick = newSortDirection => {
@@ -233,105 +233,58 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'description',
-      label: 'Descripción',
+      name: 'color',
+      label: 'Color',
       options: {
         filter: true,
         sort: true,
         display: columnItems[1].display,
         sortDirection: sortDirection[1],
         filterType: 'custom',
-        // filterOptions: {
-        //   display: () => {
-        //     return (
-        //       <FormControl>
-        //         <AutocompleteSelect
-        //           name="office"
-        //           placeholder="Color"
-        //           url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-        //           selectedValue={filters.office}
-        //           renderOption={option => (
-        //             <>
-        //               <span>{`${option.title}`}</span>
-        //               {option.state && ','}
-        //               &nbsp;
-        //               <strong>{option.state && option.state}</strong>
-        //             </>
-        //           )}
-        //           onSelect={handleFilterChange}
-        //         />
-        //       </FormControl>
-        //     );
-        //   }
-        // },
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        },
         filterOptions: {
           display: () => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="color"
+                  name="color_filter"
                   placeholder="Color"
-                  url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-                  selectedValue={filters.office}
-                  renderOption={option => (
-                    <>
-                      <span>{`${option.title}`}</span>
-                      {option.state && ','}
-                      &nbsp;
-                      <strong>{option.state && option.state}</strong>
-                    </>
-                  )}
+                  url={Endpoints.Colors}
+                  selectedValue={filters.color_filter}
+                  // renderOption={option => (
+                  //   <>
+                  //     {statusStartAdornment('')}
+                  //     &nbsp;
+                  //     <span>{option.title && option.title}</span>
+                  //   </>
+                  // )}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
             );
           }
+        },
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }
       }
     },
     {
-      name: 'characteristic',
-      label: 'Caracteristica',
+      name: 'size',
+      label: 'Talla',
       options: {
         filter: true,
         sort: true,
         display: columnItems[2].display,
         sortDirection: sortDirection[2],
         filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="office"
-                  placeholder="Talla"
-                  url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-                  selectedValue={filters.office}
-                  renderOption={option => (
-                    <>
-                      <span>{`${option.title}`}</span>
-                      {option.state && ','}
-                      &nbsp;
-                      <strong>{option.state && option.state}</strong>
-                    </>
-                  )}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        },
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }
       }
     },
     {
-      name: 'provider',
-      label: 'Proveedor',
+      name: 'pieces',
+      label: 'Piezas',
       options: {
         filter: true,
         sort: true,
@@ -344,8 +297,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'color',
-      label: 'Color',
+      name: 'salePrice',
+      label: 'Precio',
       options: {
         filter: true,
         sort: true,
@@ -358,8 +311,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'Size',
-      label: 'Talla',
+      name: 'gender',
+      label: 'Género',
       options: {
         filter: true,
         sort: true,
@@ -387,8 +340,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'pieces',
-      label: 'Piezas',
+      name: 'type',
+      label: 'Tipo',
       options: {
         filter: true,
         sort: true,
@@ -403,18 +356,10 @@ const InventoryList = (props: InventoryListProps) => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="type"
+                  name="type_filter"
                   placeholder="Tipo"
-                  url={`${Endpoints.Users}/${Endpoints.Inventory}/${Endpoints.Offices}`}
-                  selectedValue={filters.office}
-                  renderOption={option => (
-                    <>
-                      <span>{`${option.title}`}</span>
-                      {option.state && ','}
-                      &nbsp;
-                      <strong>{option.state && option.state}</strong>
-                    </>
-                  )}
+                  url="/getTypes"
+                  selectedValue={filters.type_filter}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -424,8 +369,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'salePrice',
-      label: 'Precio',
+      name: 'reservedQuantity',
+      label: 'Apartados',
       options: {
         filter: true,
         sort: true,
@@ -434,37 +379,12 @@ const InventoryList = (props: InventoryListProps) => {
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
         },
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <div display="flex">
-                  <AutocompleteSelect
-                    name="reservedQuantity"
-                    placeholder="Estatus"
-                    url=""
-                    selectedValue={filters.office}
-                    renderOption={option => (
-                      <>
-                        <span>{`${option.title}`}</span>
-                        {option.state && ','}
-                        &nbsp;
-                        <strong>{option.state && option.state}</strong>
-                      </>
-                    )}
-                    onSelect={handleFilterChange}
-                  />
-                </div>
-              </FormControl>
-            );
-          }
-        }
+        filterType: 'custom'
       }
     },
     {
-      name: 'cost',
-      label: 'Costo',
+      name: 'stock',
+      label: 'Stock',
       options: {
         filter: true,
         sort: true,
@@ -484,14 +404,6 @@ const InventoryList = (props: InventoryListProps) => {
                     placeholder="Inventario"
                     url=""
                     selectedValue={filters.office}
-                    renderOption={option => (
-                      <>
-                        <span>{`${option.title}`}</span>
-                        {option.state && ','}
-                        &nbsp;
-                        <strong>{option.state && option.state}</strong>
-                      </>
-                    )}
                     onSelect={handleFilterChange}
                   />
                 </div>
@@ -500,105 +412,13 @@ const InventoryList = (props: InventoryListProps) => {
           }
         }
       }
-    },
-    {
-      name: 'gender',
-      label: 'Género',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[9].display,
-        sortDirection: sortDirection[9],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        }
-      }
-    },
-    {
-      name: 'type',
-      label: 'Tipo',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[10].display,
-        sortDirection: sortDirection[10],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        }
-      }
-    },
-    {
-      name: 'stock',
-      label: 'Stock',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[11].display,
-        sortDirection: sortDirection[11],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        }
-      }
-    },
-    {
-      name: 'reservedQuantity',
-      label: 'Estatus',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[12].display,
-        sortDirection: sortDirection[12],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        }
-      }
-    },
-    {
-      name: 'store',
-      label: 'Tienda',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[13].display,
-        sortDirection: sortDirection[13],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        }
-      }
     }
   ];
-
-  const getInventories = useCallback(async () => {
-    try {
-      const response = await API.get(`${Endpoints.Stores}`);
-      if (response?.status === 200) {
-        setInventorySelect(response.data);
-      }
-    } catch (error) {
-      onShowAlert({
-        severity: 'error',
-        title: 'Inventario',
-        autoHideDuration: 3000,
-        body: getErrorMessage(error) // TODO: change error messages
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [onShowAlert]);
 
   useEffect(() => {
     document.title = PageTitles.Inventory;
     getData();
-    getInventories();
-  }, [getData, getInventories]);
-
-  useEffect(() => {
-    console.log('new useeffect', filters);
-  }, [filters]);
+  }, [getData]);
 
   return (
     <ContentPageLayout>
@@ -607,19 +427,11 @@ const InventoryList = (props: InventoryListProps) => {
         title="INVENTARIO"
         selector={
           <AutocompleteSelect
-            name="userFilter"
+            name="store_filter"
             placeholder="Inventario"
-            selectedValue={filters.userFilter || filterOptions[0]}
-            renderOption={option => (
-              <>
-                <span>{`${option.title}`}</span>
-                {option.state && ','}
-                &nbsp;
-                <strong>{option.state && option.state}</strong>
-              </>
-            )}
+            url={Endpoints.Stores}
+            selectedValue={filters.store_filter}
             onSelect={handleFilterChange}
-            defaultOptions={filterOptions}
           />
         }
         filters={filters}

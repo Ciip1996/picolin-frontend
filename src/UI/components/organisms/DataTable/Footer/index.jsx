@@ -33,15 +33,17 @@ const CustomFooter = (props: CustomFooterProps) => {
       <TableRow>
         <TableCell style={footerStyle} colSpan={1000}>
           <p style={resultStyle}>
-            Total Results: <strong>{count}</strong>
+            Resultados Totales: <strong>{count}</strong>
           </p>
           <MuiTablePagination
             component="div"
             count={count}
             rowsPerPage={rowsPerPage}
             page={page}
-            labelRowsPerPage="Items per page:"
-            labelDisplayedRows={({ from, to }) => `Result: ${from}-${to} ${'of'} ${Number(count)}`}
+            labelRowsPerPage="Items por página:"
+            labelDisplayedRows={({ from, to }) =>
+              `Resultados: ${from}-${to} ${'of'} ${Number(count)}`
+            }
             backIconButtonProps={{
               'aria-label': textLabels && textLabels.previous
             }}
