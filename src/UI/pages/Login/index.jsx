@@ -6,12 +6,13 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 // Material UI components:
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import API from 'services/API';
 // Custom components and others
 import { colors } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
+import TextBox from 'UI/components/atoms/TextBox';
+
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 import { useStyles } from './styles';
 
@@ -83,7 +84,7 @@ const LogIn = (props: LogInProps) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <center>
             <h1 className={classes.header}>INICIAR SESIÓN</h1>
-            <TextField
+            <TextBox
               className={classes.txtUser}
               name="user"
               label="Usuario"
@@ -93,7 +94,7 @@ const LogIn = (props: LogInProps) => {
               error={!!errors.user}
               helperText={errors.user && errors.user.message}
             />
-            <TextField
+            <TextBox
               className={classes.txtPwd}
               name="pwd"
               label="Contraseña"

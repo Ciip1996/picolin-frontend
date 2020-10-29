@@ -9,14 +9,14 @@ import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 
 import { showAlert } from 'actions/app';
 // import Drawer from '@material-ui/core/Drawer';
-import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
+ import { drawerAnchor, PageTitles } from 'UI/constants/defaults';  
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 
 /** Components */
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-// import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
+import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -43,14 +43,19 @@ type InventoryListProps = {
 
 const columnItems = [
   { id: 0, name: 'productCode', display: true },
-  { id: 1, name: 'color', display: true },
-  { id: 2, name: 'size', display: true },
-  { id: 3, name: 'pieces', display: true },
-  { id: 4, name: 'salePrice', display: true },
-  { id: 5, name: 'gender', display: true },
-  { id: 6, name: 'type', display: true },
-  { id: 7, name: 'reservedQuantity', display: true },
-  { id: 8, name: 'stock', display: true }
+  { id: 1, name: 'description', display: true },
+  { id: 2, name: 'characteristic', display: true },
+  { id: 3, name: 'provider', display: true },
+  { id: 4, name: 'color', display: true },
+  { id: 5, name: 'size', display: true },
+  { id: 6, name: 'pieces', display: true },
+  { id: 7, name: 'salePrice', display: true },
+  { id: 8, name: 'cost', display: true },
+  { id: 9, name: 'gender', display: true },
+  { id: 10, name: 'type', display: true },
+  { id: 11, name: 'stock', display: true },
+  { id: 12, name: 'reservedQuantity', display: true },
+  { id: 13, name: 'store', display: true }
 ];
 
 const getSortDirections = (orderBy: string, direction: string) =>
@@ -228,8 +233,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'color',
-      label: 'Color',
+      name: 'description',
+      label: 'Descripción',
       options: {
         filter: true,
         sort: true,
@@ -288,8 +293,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'size',
-      label: 'Talla',
+      name: 'characteristic',
+      label: 'Caracteristica',
       options: {
         filter: true,
         sort: true,
@@ -325,8 +330,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'pieces',
-      label: 'Piezas',
+      name: 'provider',
+      label: 'Proveedor',
       options: {
         filter: true,
         sort: true,
@@ -339,8 +344,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'salePrice',
-      label: 'Precio',
+      name: 'color',
+      label: 'Color',
       options: {
         filter: true,
         sort: true,
@@ -353,8 +358,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'gender',
-      label: 'Género',
+      name: 'Size',
+      label: 'Talla',
       options: {
         filter: true,
         sort: true,
@@ -382,8 +387,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'type',
-      label: 'Tipo',
+      name: 'pieces',
+      label: 'Piezas',
       options: {
         filter: true,
         sort: true,
@@ -419,8 +424,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'reservedQuantity',
-      label: 'Apartados',
+      name: 'salePrice',
+      label: 'Precio',
       options: {
         filter: true,
         sort: true,
@@ -458,8 +463,8 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'stock',
-      label: 'Stock',
+      name: 'cost',
+      label: 'Costo',
       options: {
         filter: true,
         sort: true,
@@ -493,6 +498,76 @@ const InventoryList = (props: InventoryListProps) => {
               </FormControl>
             );
           }
+        }
+      }
+    },
+    {
+      name: 'gender',
+      label: 'Género',
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[9].display,
+        sortDirection: sortDirection[9],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'type',
+      label: 'Tipo',
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[10].display,
+        sortDirection: sortDirection[10],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'stock',
+      label: 'Stock',
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[11].display,
+        sortDirection: sortDirection[11],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'reservedQuantity',
+      label: 'Estatus',
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[12].display,
+        sortDirection: sortDirection[12],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'store',
+      label: 'Tienda',
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[13].display,
+        sortDirection: sortDirection[13],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }
       }
     }
