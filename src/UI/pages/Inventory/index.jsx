@@ -29,6 +29,9 @@ import { getErrorMessage } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
+import Contents from './strings';
+
+const language = localStorage.getItem('language');
 
 const CellSkeleton = ({ children, searching }) => {
   return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
@@ -58,6 +61,7 @@ const InventoryList = (props: InventoryListProps) => {
 
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
+  const [error, setError] = useState(false);
 
   const [data, setData] = useState<any>(null);
   const [count, setCount] = useState(0);
@@ -117,12 +121,14 @@ const InventoryList = (props: InventoryListProps) => {
       setCount(Number(response?.data?.totalResults) || 0);
       setLoading(false);
       setSearching(false);
-    } catch (error) {
+      setError(false);
+    } catch (err) {
+      setError(true);
       onShowAlert({
         severity: 'error',
-        title: 'Inventory',
+        title: Contents[language].pageTitle,
         autoHideDuration: 3000,
-        body: getErrorMessage(error)
+        body: getErrorMessage(err)
       });
     }
   }, [filters, onShowAlert, uiState.keyword, uiState.page, uiState.perPage]);
@@ -410,9 +416,17 @@ const InventoryList = (props: InventoryListProps) => {
   ];
 
   useEffect(() => {
+    if (error) {
+      setData([]);
+      setSearching(false);
+      setLoading(false);
+    }
+  }, [error]);
+
+  useEffect(() => {
     document.title = PageTitles.Inventory;
     getData();
-  }, [getData]);
+  }, [error, getData]);
 
   return (
     <ContentPageLayout>
@@ -433,6 +447,7 @@ const InventoryList = (props: InventoryListProps) => {
         onFiltersReset={handleResetFiltersClick}
       >
         <DataTable
+          error={error}
           loading={loading}
           data={data}
           columns={columns}

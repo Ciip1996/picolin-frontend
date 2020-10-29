@@ -4,6 +4,9 @@ import NumberFormat from 'react-number-format';
 import moment from 'moment';
 import type { DashboardPeriod } from 'types/app';
 import { DateFormats } from 'UI/constants/defaults';
+import GenericContents from 'UI/constants/strings';
+
+const language = localStorage.getItem('language');
 
 /**
  * Fuse two or more style objects into one.
@@ -213,14 +216,13 @@ export const makeMultiFieldFiltering = (fieldsToLookupInto: string[]) => (
  * @param {Error} error Error catched in an Exception
  */
 export const getErrorMessage = (error: any) => {
-  // if (!error || !error.request || !error.response || error.request.responseType !== 'json') {
-  //   return 'An error has ocurred. Please try again later';
-  // }
-  // const errorData = error.response.data;
-  // return errorData.length
-  //   ? errorData[0].message
-  //   : nestTernary(errorData.message, errorData.message, errorData.error?.message);
-  return error && 'An error has ocurred. Please try again later';
+  if (!error || !error.request || !error.response || error.request.responseType !== 'json') {
+    return GenericContents[language].error.message;
+  }
+  const errorData = error.response.data;
+  return errorData.length
+    ? errorData[0].message
+    : nestTernary(errorData.message, errorData.message, errorData.error?.message);
 };
 
 export const phoneFormatter = (value: ?string) => {

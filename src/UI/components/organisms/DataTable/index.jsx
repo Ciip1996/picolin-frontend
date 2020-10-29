@@ -8,20 +8,23 @@ import SkeletonList from 'UI/components/molecules/SkeletonList';
 import { getMuiTheme } from './styles';
 import CustomFooter from './Footer/index';
 
+import Contents from './strings';
+
+const language = localStorage.getItem('language');
+
 const DataTableEmptyState = props => {
-  const { defaultEmptyState, title, subtitle, customEmptyStateIcon } = props;
+  const { error, defaultEmptyState, title, subtitle, customEmptyStateIcon } = props;
+
+  const defaultTitle = error ? Contents[language].errorTitle : Contents[language].defaultTitle;
+
+  const defaultSubtitle = error
+    ? Contents[language].errorSubtitle
+    : Contents[language].defaultSubtitle;
+
   return (
     <EmptyPlaceholder
-      title={
-        defaultEmptyState
-          ? 'We couldn’t find what you’re looking for! Maybe you should try again'
-          : title
-      }
-      subtitle={
-        defaultEmptyState
-          ? 'We couldn’t find what you’re looking for! Maybe you should try again'
-          : subtitle
-      }
+      title={defaultEmptyState ? defaultTitle : title}
+      subtitle={defaultEmptyState ? defaultSubtitle : subtitle}
     >
       {defaultEmptyState ? (
         <SearchResultsNotFound width={237.52} height={293.76} />
@@ -33,6 +36,7 @@ const DataTableEmptyState = props => {
 };
 
 type DataTableProps = {
+  error: boolean,
   isServerSide: boolean,
   columns?: Array<any>,
   data?: Array<any>,
@@ -59,6 +63,7 @@ type DataTableProps = {
 
 const DataTable = (props: DataTableProps) => {
   const {
+    error,
     isServerSide,
     columns,
     data,
@@ -157,6 +162,7 @@ const DataTable = (props: DataTableProps) => {
             },
             noMatch: (
               <DataTableEmptyState
+                error={error}
                 defaultEmptyState={defaultEmptyState}
                 title={title}
                 subtitle={subtitle}
