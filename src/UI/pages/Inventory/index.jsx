@@ -67,8 +67,8 @@ const InventoryList = (props: InventoryListProps) => {
   const [count, setCount] = useState(0);
 
   const genders = [
-    { id: 0, title: 'Masculino' },
-    { id: 1, title: 'Femenino' }
+    { id: 0, title: 'Niña' },
+    { id: 1, title: 'Niño' }
   ];
 
   const savedSearch = getFilters('inventory');
@@ -329,7 +329,7 @@ const InventoryList = (props: InventoryListProps) => {
                 <AutocompleteSelect
                   name="gender_filter"
                   placeholder="Género"
-                  selectedValue={filters.gender_filter || genders[0]}
+                  selectedValue={filters.gender_filter}
                   onSelect={handleFilterChange}
                   defaultOptions={genders}
                 />
