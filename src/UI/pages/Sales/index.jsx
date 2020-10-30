@@ -36,6 +36,9 @@ import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
 import { PageTitles } from 'UI/constants/defaults';
+import Contents from './strings';
+
+const language = localStorage.getItem('language');
 
 type SalesListProps = {
   onShowAlert: any => void
@@ -140,7 +143,7 @@ const SalesList = (props: SalesListProps) => {
           // handle error
           onShowAlert({
             severity: 'error',
-            title: 'Search Projects',
+            title: Contents[language].errtitle,
             autoHideDuration: 3000,
             body: getErrorMessage(error)
           });
@@ -155,7 +158,7 @@ const SalesList = (props: SalesListProps) => {
     } catch (error) {
       onShowAlert({
         severity: 'error',
-        title: 'Ventas',
+        title: Contents[language].pageTitle,
         autoHideDuration: 3000,
         body: getErrorMessage(error)
       });

@@ -22,6 +22,9 @@ import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters } from 'services/FiltersStorage';
 
 import ActionButton from 'UI/components/atoms/ActionButton';
+import Contents from './strings';
+
+const language = localStorage.getItem('language');
 
 // type TransfersListsProps = {
 // onShowAlert: any => void
@@ -64,7 +67,7 @@ const TransfersLists = () => {
     <ContentPageLayout>
       <ListPageLayout
         loading={loading}
-        title="TRANSFERENCIAS"
+        title={Contents[language].pageTitle}
         selector={
           <Box
             display="flex"

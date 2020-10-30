@@ -15,6 +15,9 @@ import TextBox from 'UI/components/atoms/TextBox';
 
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 import { useStyles } from './styles';
+import Contents from './strings';
+
+const language = localStorage.getItem('language');
 
 type LogInProps = {
   showAlert: any => void
@@ -55,8 +58,8 @@ const LogIn = (props: LogInProps) => {
     } catch (error) {
       const { response } = error;
       if (response?.status === 401) {
-        setError('user', 'notMatch', 'El Usuario puede ser incorrecto.');
-        setError('pwd', 'notMatch', 'La contraseña puede ser incorrecta.');
+        setError('user', 'notMatch', Contents[language].errUser);
+        setError('pwd', 'notMatch', Contents[language].errUser);
         showAlert({
           severity: 'warning',
           title: `Login`,

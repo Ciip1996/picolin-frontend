@@ -1,13 +1,13 @@
 const Contents = {
   English: {
-    pageTitle: 'Inventory',
+    pageTitle: 'TRANSFERS',
     defaultSubtitle: 'Maybe you should try again.',
-    labCode: 'Code'
+    btntext: 'Transfer'
   },
   Spanish: {
-    pageTitle: 'Inventario',
+    pageTitle: 'TRANSFERENCIAS',
     defaultSubtitle: '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
-    labCode: 'Código'
+    btntext: 'Transferir'
   }
 };
 export default Contents;
