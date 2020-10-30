@@ -5,11 +5,11 @@ import { type User } from 'types/app';
 
 const getAccess = (): User => {
   const access = localStorage.getItem('access');
-  return access && JSON.parse(access);
+  return access ? JSON.parse(access) : {};
 };
 
 const getToken = () => {
-  const access = getAccess();
+  const access: User = getAccess();
   return access && access.token;
 };
 

@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Link from '@material-ui/core/Link';
+import { type User } from 'types/app';
 
 import { isAuthenticated, getCurrentUser, logout } from 'services/Authentication';
 // import { EntityRoutes } from 'routes/constants';
@@ -27,7 +28,7 @@ import { useStyles, styles } from './styles';
 const featureFlags = getFeatureFlags();
 
 const NavBar = () => {
-  const user = isAuthenticated() && getCurrentUser();
+  const user: User = isAuthenticated() ? getCurrentUser() : {};
 
   const classes = useStyles();
   const history = useHistory();
