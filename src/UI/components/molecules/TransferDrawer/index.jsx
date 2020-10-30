@@ -11,15 +11,20 @@ import TextField from '@material-ui/core/TextField';
 import { globalStyles } from 'GlobalStyles';
 import { useStyles } from './styles';
 
-const TransferProductsDrawer = () => {
-  // const [uiState, setUiState] = useState({
-  //   isSaving: false,
-  //   isSuccess: false,
-  //   isReadOnly: false,
-  //   isFormDisabled: false,
-  //   isLoading: true
-  // });
+type TransferProductsDrawerProps = {
+  handleClose: any => any
+};
 
+const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
+  const { handleClose } = props;
+
+  const [uiState, setUiState] = useState({
+    isSaving: false,
+    isSuccess: false,
+    isReadOnly: false,
+    isFormDisabled: false,
+    isLoading: true
+  });
   const inventoryvalues = [
     {
       value: 'Tienda',
@@ -56,11 +61,12 @@ const TransferProductsDrawer = () => {
     <>
       {/* <FormContext {...form}> */}
       <DrawerFormLayout
-        // onSubmit={null}
-        // onClose={handleClose}
+        title="title here"
+        onSubmit={() => {}}
+        onClose={handleClose}
         // onSecondaryButtonClick={handleClose}
         variant="borderless"
-        // uiState={uiState}
+        uiState={uiState}
         initialText="Re-Validate"
       >
         <form className={classes.root} noValidate autoComplete="off">

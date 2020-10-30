@@ -23,6 +23,8 @@ export type Confirmation = {
 export type Filters = { [name: string]: any };
 
 export type User = {
+  userName: string,
+  password: string,
   email: string,
   name: string
 };

@@ -72,6 +72,7 @@ const SalesList = (props: SalesListProps) => {
     document.title = PageTitles.Sales;
   }, []);
 
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState<any>([{}]);
@@ -135,14 +136,16 @@ const SalesList = (props: SalesListProps) => {
         .get(Urls.sales)
         .then(res => {
           setData(res.data);
+          setError(false);
         })
-        .catch(error => {
+        .catch(err => {
+          setError(true);
           // handle error
           onShowAlert({
             severity: 'error',
             title: 'Search Projects',
             autoHideDuration: 3000,
-            body: getErrorMessage(error)
+            body: getErrorMessage(err)
           });
         })
         .finally(() => {
@@ -152,12 +155,12 @@ const SalesList = (props: SalesListProps) => {
       // setCount(Number(response.data.total));
       setLoading(false);
       setCount(Number(1));
-    } catch (error) {
+    } catch (err) {
       onShowAlert({
         severity: 'error',
         title: 'Ventas',
         autoHideDuration: 3000,
-        body: getErrorMessage(error)
+        body: getErrorMessage(err)
       });
     }
   }, [filters, uiState, onShowAlert]);
@@ -561,6 +564,7 @@ const SalesList = (props: SalesListProps) => {
         onFiltersReset={handleResetFiltersClick}
       >
         <DataTable
+          error={error}
           loading={loading}
           data={data}
           columns={columns}

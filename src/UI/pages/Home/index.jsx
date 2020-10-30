@@ -9,11 +9,13 @@ import { BackgroundGraphic, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
 
+import { type User } from 'types/app';
+
 import { useStyles, styles } from './styles';
 
 const Home = () => {
   const classes = useStyles();
-  const user = getCurrentUser();
+  const user: User = getCurrentUser();
 
   useEffect(() => {
     document.title = PageTitles.Home;

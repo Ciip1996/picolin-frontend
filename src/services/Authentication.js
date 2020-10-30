@@ -1,8 +1,9 @@
 // @flow
 // import API from 'services/API';
 import jwt from 'jsonwebtoken';
+import { type User } from 'types/app';
 
-const getAccess = () => {
+const getAccess = (): User => {
   const access = localStorage.getItem('access');
   return access && JSON.parse(access);
 };

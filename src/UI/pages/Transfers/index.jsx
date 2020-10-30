@@ -13,7 +13,7 @@ import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 
 /** Components */
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import TransferProductsDrawer from 'UI/components/molecules/TransferDrawer';
+// import TransferProductsDrawer from 'UI/components/molecules/TransferDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import Box from '@material-ui/core/Box';
@@ -89,14 +89,17 @@ const TransfersLists = () => {
         // filters={filters}
         // onFilterRemove={handleFilterRemove}
         // onFiltersReset={handleResetFiltersClick}
-      />
+      >
+        <div />
+      </ListPageLayout>
       <Drawer
         anchor={drawerAnchor}
         open={uiState.isTransferDrawerOpen}
         onClose={toggleDrawer('isTransferDrawerOpen', false)}
       >
         <div role="presentation">
-          <TransferProductsDrawer />
+          <div />
+          {/* <TransferProductsDrawer /> */}
         </div>
       </Drawer>
     </ContentPageLayout>
