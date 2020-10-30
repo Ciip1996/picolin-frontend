@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Box from '@material-ui/core/Box';
 import Text from 'UI/components/atoms/Text';
@@ -54,6 +54,13 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
   const handleChange2 = event => {
     setdestiny(event.target.value);
   };
+
+  useEffect(() => {
+    setUiState(prevState => ({
+      // TODO remove this is only for eslint not to crash
+      ...prevState
+    }));
+  }, []);
 
   const classes = useStyles();
   return (
@@ -136,8 +143,6 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
   );
 };
 
-TransferProductsDrawer.defaultProps = {
-  onResponse: () => {}
-};
+TransferProductsDrawer.defaultProps = {};
 
 export default TransferProductsDrawer;
