@@ -101,9 +101,9 @@ const InventoryList = (props: InventoryListProps) => {
         // orderBy: uiState.orderBy,
         page: uiState.page + 1,
         perPage: uiState.perPage,
-        gender: gender_filter.title || undefined,
-        type: type_filter.title || undefined,
-        color: color_filter.title || undefined
+        gender: gender_filter?.title || undefined,
+        type: type_filter?.title || undefined,
+        color: color_filter?.title || undefined
       };
 
       saveFilters('inventory', { filters, params });
@@ -112,7 +112,6 @@ const InventoryList = (props: InventoryListProps) => {
       const url = store_filter
         ? '/getInventory/:filtros?'.replace(':filtros', store_filter?.title)
         : '/getInventory/TODOS?';
-
       const response = await API.get(`${url}${queryParams}`);
 
       if (response?.status === 200) {
@@ -123,6 +122,7 @@ const InventoryList = (props: InventoryListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
+      console.log(err);
       setError(true);
       onShowAlert({
         severity: 'error',

@@ -5,6 +5,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { useStyles } from './styles';
+import Contents from './strings';
+
+const language = localStorage.getItem('language');
 
 type CustomRadioButtonOptionsProps = {
   defaultValue: string,
@@ -40,7 +43,12 @@ const CustomRadioButtonOptions = (props: CustomRadioButtonOptionsProps) => {
 
   return (
     <FormControl component="fieldset">
-      <RadioGroup aria-label="options" name="options" value={value} onChange={handleChange}>
+      <RadioGroup
+        aria-label={Contents[language].labelRadio}
+        name="options"
+        value={value}
+        onChange={handleChange}
+      >
         <div className={classes.optionsTitle}>{radioTitle}</div>
         <div className={classes.flexCenter}>
           <div className={classes.optionsContainer}>

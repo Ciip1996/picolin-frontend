@@ -1,9 +1,11 @@
 const Contents = {
   English: {
-    labelFilter: 'Reset all filters'
+    Remove: 'Remove',
+    Edit: 'Edit'
   },
   Spanish: {
-    labelFilter: 'Resetear los filtros'
+    Remove: 'Quitar',
+    Edit: 'Editar'
   }
 };
 export default Contents;

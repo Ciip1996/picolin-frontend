@@ -10,6 +10,9 @@ import TextField from '@material-ui/core/TextField';
 
 import { globalStyles } from 'GlobalStyles';
 import { useStyles } from './styles';
+import Contents from './strings';
+
+const language = localStorage.getItem('language');
 
 const TransferProductsDrawer = () => {
   // const [uiState, setUiState] = useState({
@@ -22,22 +25,22 @@ const TransferProductsDrawer = () => {
 
   const inventoryvalues = [
     {
-      value: 'Tienda',
-      label: 'Tienda'
+      value: Contents[language].Store,
+      label: Contents[language].Store
     },
     {
-      value: 'Bodega',
-      label: 'Bodega'
+      value: Contents[language].Warehouse,
+      label: Contents[language].Warehouse
     }
   ];
   const destinyvalues = [
     {
-      value: 'Tienda',
-      label: 'Tienda'
+      value: Contents[language].Store,
+      label: Contents[language].Store
     },
     {
-      value: 'Bodega',
-      label: 'Bodega'
+      value: Contents[language].Warehouse,
+      label: Contents[language].Warehouse
     }
   ];
 
@@ -69,7 +72,7 @@ const TransferProductsDrawer = () => {
             <TextField
               id="outlined-select-inventory-native"
               select
-              label="Origen"
+              label={Contents[language].Origin}
               value={inventory}
               onChange={handleChange}
               SelectProps={{
@@ -88,7 +91,7 @@ const TransferProductsDrawer = () => {
             <TextField
               id="outlined-select-inventory-native"
               select
-              label="Destino"
+              label={Contents[language].Destiny}
               value={destiny}
               onChange={handleChange2}
               SelectProps={{
@@ -107,7 +110,7 @@ const TransferProductsDrawer = () => {
           </div>
           <TextField
             id="outlined-number"
-            label="Productos"
+            label={Contents[language].Products}
             type="text"
             InputLabelProps={{
               shrink: true
@@ -115,7 +118,7 @@ const TransferProductsDrawer = () => {
             variant="outlined"
             className={classes.textProducts}
             size="small"
-            placeholder="Escriba o registre el código de barras"
+            placeholder={Contents[language].Placeholder}
           />
         </form>
         <div>contendio aqui</div>

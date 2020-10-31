@@ -1,9 +1,9 @@
 const Contents = {
   English: {
-    labelFilter: 'Reset all filters'
+    labelRadio: 'options'
   },
   Spanish: {
-    labelFilter: 'Resetear los filtros'
+    labelRadio: 'opciones'
   }
 };
 export default Contents;
