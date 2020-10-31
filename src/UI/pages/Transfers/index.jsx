@@ -84,7 +84,7 @@ const TransfersLists = () => {
               defaultOptions={filterOptions}
             /> */}
             <ActionButton
-              text="Transferir"
+              text={Contents[language].labTransfers}
               onClick={toggleDrawer('isTransferDrawerOpen', !uiState.isTransferDrawerOpen)}
             />
           </Box>

@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -17,8 +17,6 @@ import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/
 import { useStyles } from './styles';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 type LogInProps = {
   showAlert: any => void
 };
@@ -31,8 +29,14 @@ const LogIn = (props: LogInProps) => {
 
   const url = `http://localhost:3307/login`;
   const history = useHistory();
+  const language = localStorage.getItem('language');
+  console.log(Contents, Contents[language], language);
 
   const { register, handleSubmit, errors, setError } = useForm();
+
+  useEffect(() => {
+    localStorage.setItem('language', 'Spanish');
+  }, []);
 
   const onSubmit = async (formData: Object) => {
     try {
@@ -72,7 +76,7 @@ const LogIn = (props: LogInProps) => {
           title: response?.status ? `Error ${response.status}` : `Error`,
           code: response?.status || '500',
           autoHideDuration: 800000,
-          body: `Ocurrió un error en servidor. Porfavor intente mas tarde o contacte a soporte.`
+          body: Contents[language].errServer
         });
       }
     } finally {
@@ -86,13 +90,13 @@ const LogIn = (props: LogInProps) => {
       <Box className={classes.containerBox}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <center>
-            <h1 className={classes.header}>INICIAR SESIÓN</h1>
+            <h1 className={classes.header}>{Contents[language]?.pageTitle || 'INICIAR SESIÓN'}</h1>
             <TextBox
               className={classes.txtUser}
               name="user"
-              label="Usuario"
+              label={Contents[language]?.labuser || 'Usuario'}
               inputRef={register({
-                required: 'Se requiere un nombre de usuario'
+                required: Contents[language]?.requser || 'Se requiere un nombre de usuario'
               })}
               error={!!errors.user}
               helperText={errors.user && errors.user.message}
@@ -103,7 +107,7 @@ const LogIn = (props: LogInProps) => {
               label="Contraseña"
               type="password"
               inputRef={register({
-                required: 'Se requiere una contraseña'
+                required: Contents[language]?.reqpwd || 'Se requiere una contraseña'
               })}
               error={!!errors.pwd}
               helperText={errors.pwd && errors.pwd.message}
