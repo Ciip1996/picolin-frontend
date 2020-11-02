@@ -23,7 +23,7 @@ export type Confirmation = {
 export type Filters = { [name: string]: any };
 
 export type User = {
-  token: string,
+  // token: string,
   userName: string,
   name: string,
   role: string

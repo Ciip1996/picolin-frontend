@@ -15,7 +15,8 @@ type ActionButtonProps = {
   style: Object,
   onClick: any => any,
   isWithLargeContent: boolean,
-  isWithoutText: boolean
+  isWithoutText: boolean,
+  ...
 };
 
 const ActionButton = (props: ActionButtonProps) => {

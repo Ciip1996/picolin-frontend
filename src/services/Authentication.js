@@ -1,21 +1,20 @@
 // @flow
 // import API from 'services/API';
 import jwt from 'jsonwebtoken';
-import { type User } from 'types/app';
 
-const getAccess = (): User => {
+const getAccess = (): Object => {
   const access = localStorage.getItem('access');
-  return access ? JSON.parse(access) : {};
+  return access && JSON.parse(access);
 };
 
 const getToken = () => {
-  const access: User = getAccess();
+  const access = getAccess();
   return access && access.token;
 };
 
 const getCurrentUser = () => {
   const access = getAccess();
-  const decodedToken = access && jwt.decode(access.token);
+  const decodedToken: Object = access && jwt.decode(access.token);
   return decodedToken && decodedToken?.user;
 };
 
