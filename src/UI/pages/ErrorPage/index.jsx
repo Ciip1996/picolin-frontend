@@ -14,8 +14,6 @@ import { PageTitles } from 'UI/constants/defaults';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 type ErrorPageProps = {
   error?: 500 | 401 | 404,
   history: any
@@ -23,6 +21,7 @@ type ErrorPageProps = {
 
 const ErrorPage = ({ history, error }: ErrorPageProps) => {
   const classes = useStyles();
+  const language = localStorage.getItem('language');
 
   useEffect(() => {
     document.title = PageTitles.NotFound;

@@ -7,8 +7,6 @@ import type { Filters } from 'types/app';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 type ActiveFiltersProps = {
   filters: Filters,
   isLoading: boolean,
@@ -19,6 +17,7 @@ type ActiveFiltersProps = {
 const ActiveFilters = (props: ActiveFiltersProps) => {
   const { filters, isLoading, onFilterRemove, onReset } = props;
   const classes = useStyles();
+  const language = localStorage.getItem('language');
 
   const handleDeleteClick = (filterId: string) => {
     onFilterRemove && onFilterRemove(filterId);

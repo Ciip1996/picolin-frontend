@@ -13,8 +13,6 @@ import { THEME } from 'GlobalStyles';
 import { useStyles, useNotificationStyles, useAlertStyles, styles } from './styles';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 type CustomSnackbarProps = {
   id: number,
   severity: 'warning' | 'info' | 'success' | 'error',
@@ -62,6 +60,7 @@ const CustomSnackbar = forwardRef<CustomSnackbarProps, any>(
       icon,
       onClick = () => {}
     } = props;
+    const language = localStorage.getItem('language');
 
     const classes = useStyles({
       severity: isNotification ? null : severity

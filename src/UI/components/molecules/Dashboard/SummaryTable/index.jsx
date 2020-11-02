@@ -14,8 +14,6 @@ import type { Filters } from 'types/app';
 import { getMuiTheme } from './styles';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 type SummaryTableProps = {
   url: string,
   downloadFileName: string,
@@ -29,6 +27,8 @@ const filtersConfig = {
 
 const SummaryTable = (props: SummaryTableProps) => {
   const { url, downloadFileName, onFilterAdd } = props;
+  const language = localStorage.getItem('language');
+
   const height = 100;
   const [isLoading, setIsLoading] = useState(true);
   const [columns, setColumns] = useState([]);

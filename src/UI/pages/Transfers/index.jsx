@@ -24,8 +24,6 @@ import { getFilters } from 'services/FiltersStorage';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 // type TransfersListsProps = {
 // onShowAlert: any => void
 // };
@@ -33,6 +31,7 @@ const language = localStorage.getItem('language');
 const TransfersLists = () => {
   // const { onShowAlert } = props;
   // const history = useHistory();
+  const language = localStorage.getItem('language');
 
   useEffect(() => {
     document.title = PageTitles.Sales;

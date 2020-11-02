@@ -16,8 +16,6 @@ import { EditIcon, DeleteIcon, MoreIcon, colors } from 'UI/res';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 type ProfileTabListCardProps = {
   item: any,
   definition: TabCardDefinition,
@@ -28,6 +26,8 @@ type ProfileTabListCardProps = {
 
 const ProfileTabListCard = (props: ProfileTabListCardProps) => {
   const { item, definition, onEditClick, onItemClick, onDeleteClick } = props;
+  const language = localStorage.getItem('language');
+
   const classes = useStyles();
 
   const handleEditClick = (event: any) => {

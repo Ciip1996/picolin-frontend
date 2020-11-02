@@ -8,8 +8,6 @@ import { nestTernary } from 'UI/utils';
 import { colors } from 'UI/res';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 const columnChartOptions = {
   legend: { position: 'none' },
   chartArea: {
@@ -39,6 +37,8 @@ type ChartProps = {
 
 const ColumnChart = (props: ChartProps) => {
   const { url, columns } = props;
+  const language = localStorage.getItem('language');
+
   const height = 300;
   const [isLoading, setIsLoading] = useState(true);
   const [chartData, setChartData] = useState([]);

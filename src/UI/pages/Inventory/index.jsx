@@ -31,8 +31,6 @@ import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 const CellSkeleton = ({ children, searching }) => {
   return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
 };
@@ -58,6 +56,7 @@ const getSortDirections = (orderBy: string, direction: string) =>
 
 const InventoryList = (props: InventoryListProps) => {
   const { onShowAlert } = props;
+  const language = localStorage.getItem('language');
 
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
@@ -126,7 +125,7 @@ const InventoryList = (props: InventoryListProps) => {
       setError(true);
       onShowAlert({
         severity: 'error',
-        title: Contents[language].pageTitle,
+        title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
         body: getErrorMessage(err)
       });
@@ -216,7 +215,7 @@ const InventoryList = (props: InventoryListProps) => {
     },
     {
       name: 'productCode',
-      label: Contents[language].labCode,
+      label: Contents[language]?.labCode,
       options: {
         filter: true,
         sort: true,
@@ -234,7 +233,7 @@ const InventoryList = (props: InventoryListProps) => {
     },
     {
       name: 'color',
-      label: Contents[language].labColor,
+      label: Contents[language]?.labColor,
       options: {
         filter: true,
         sort: true,
@@ -270,7 +269,7 @@ const InventoryList = (props: InventoryListProps) => {
     },
     {
       name: 'size',
-      label: Contents[language].labSize,
+      label: Contents[language]?.labSize,
       options: {
         filter: true,
         sort: true,
@@ -284,7 +283,7 @@ const InventoryList = (props: InventoryListProps) => {
     },
     {
       name: 'pieces',
-      label: Contents[language].labPieces,
+      label: Contents[language]?.labPieces,
       options: {
         filter: true,
         sort: true,
@@ -298,7 +297,7 @@ const InventoryList = (props: InventoryListProps) => {
     },
     {
       name: 'salePrice',
-      label: Contents[language].labPrice,
+      label: Contents[language]?.labPrice,
       options: {
         filter: true,
         sort: true,
@@ -312,7 +311,7 @@ const InventoryList = (props: InventoryListProps) => {
     },
     {
       name: 'gender',
-      label: Contents[language].labGender,
+      label: Contents[language]?.labGender,
       options: {
         filter: true,
         sort: true,
@@ -328,7 +327,7 @@ const InventoryList = (props: InventoryListProps) => {
               <FormControl>
                 <AutocompleteSelect
                   name="gender_filter"
-                  placeholder={Contents[language].labGender}
+                  placeholder={Contents[language]?.labGender}
                   selectedValue={filters.gender_filter}
                   onSelect={handleFilterChange}
                   defaultOptions={genders}
@@ -341,7 +340,7 @@ const InventoryList = (props: InventoryListProps) => {
     },
     {
       name: 'type',
-      label: Contents[language].labType,
+      label: Contents[language]?.labType,
       options: {
         filter: true,
         sort: true,
@@ -357,7 +356,7 @@ const InventoryList = (props: InventoryListProps) => {
               <FormControl>
                 <AutocompleteSelect
                   name="type_filter"
-                  placeholder={Contents[language].labType}
+                  placeholder={Contents[language]?.labType}
                   url="/getTypes"
                   selectedValue={filters.type_filter}
                   onSelect={handleFilterChange}
@@ -370,7 +369,7 @@ const InventoryList = (props: InventoryListProps) => {
     },
     {
       name: 'reservedQuantity',
-      label: Contents[language].labReserved,
+      label: Contents[language]?.labReserved,
       options: {
         filter: true,
         sort: true,
@@ -384,7 +383,7 @@ const InventoryList = (props: InventoryListProps) => {
     },
     {
       name: 'stock',
-      label: Contents[language].labStock,
+      label: Contents[language]?.labStock,
       options: {
         filter: true,
         sort: true,
@@ -401,7 +400,7 @@ const InventoryList = (props: InventoryListProps) => {
                 <div display="flex">
                   <AutocompleteSelect
                     name="stock"
-                    placeholder={Contents[language].labStock}
+                    placeholder={Contents[language]?.labStock}
                     url=""
                     selectedValue={filters.office}
                     onSelect={handleFilterChange}
@@ -432,11 +431,11 @@ const InventoryList = (props: InventoryListProps) => {
     <ContentPageLayout>
       <ListPageLayout
         loading={loading}
-        title={Contents[language].labInventory}
+        title={Contents[language]?.labInventory}
         selector={
           <AutocompleteSelect
             name="store_filter"
-            placeholder={Contents[language].labInventory}
+            placeholder={Contents[language]?.labInventory}
             url={Endpoints.Stores}
             selectedValue={filters.store_filter}
             onSelect={handleFilterChange}

@@ -10,8 +10,6 @@ import type { ChartProps } from 'types/dashboard';
 import { GranularityFormats } from 'UI/constants/defaults';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 const lineChartOptions = (horizontalTicks, dateFormat) => ({
   legend: { position: 'top' },
   pointSize: 10,
@@ -44,6 +42,8 @@ const lineChartOptions = (horizontalTicks, dateFormat) => ({
 
 const LineChart = (props: ChartProps) => {
   const { url } = props;
+  const language = localStorage.getItem('language');
+
   const height = 400;
   const [isLoading, setIsLoading] = useState(true);
   const [chartData, setChartData] = useState([]);

@@ -13,8 +13,6 @@ import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import { useStyles, useProgressStyles, styles } from './styles';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 type FileChipProps = {
   loading: boolean,
   error?: boolean,
@@ -30,6 +28,7 @@ const FileChip = (props: FileChipProps) => {
   const classes = useStyles();
   const circularProgressClasses = useProgressStyles();
   const [status, setStatus] = useState('loading');
+  const language = localStorage.getItem('language');
 
   const handleDeleteClick = () => {
     onFileDelete && onFileDelete(file);

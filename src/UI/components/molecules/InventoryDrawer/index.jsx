@@ -10,8 +10,6 @@ import { globalStyles } from 'GlobalStyles';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 const TransferProductsDrawer = () => {
   // const [uiState, setUiState] = useState({
   //   isSaving: false,
@@ -20,6 +18,7 @@ const TransferProductsDrawer = () => {
   //   isFormDisabled: false,
   //   isLoading: true
   // });
+  const language = localStorage.getItem('language');
 
   const inventoryvalues = [
     {

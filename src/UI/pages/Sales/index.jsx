@@ -38,8 +38,6 @@ import { saveFilters, getFilters } from 'services/FiltersStorage';
 import { PageTitles } from 'UI/constants/defaults';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 type SalesListProps = {
   onShowAlert: any => void
 };
@@ -70,6 +68,7 @@ const getSortDirections = (orderBy: string, direction: string) =>
 const SalesList = (props: SalesListProps) => {
   const { onShowAlert } = props;
   const history = useHistory();
+  const language = localStorage.getItem('language');
 
   useEffect(() => {
     document.title = PageTitles.Sales;

@@ -21,7 +21,6 @@ import {
 } from './styles';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
 
 type AutocompleteSelectProps = {
   name: string,
@@ -72,6 +71,8 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
     showAlert,
     ...rest
   } = props;
+
+  const language = localStorage.getItem('language');
 
   const [options, setOptions] = useState([]);
   const [keyword, setKeyword] = useState(null);
@@ -197,7 +198,7 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
 
   return (
     <Autocomplete
-      noOptionsText={Contents[language].labelResults}
+      noOptionsText={Contents[language]?.labelResults}
       multiple={!!multiple}
       ChipProps={{ ...chipProps }}
       getOptionSelected={getOptionSelected || defaultOptionSelectedFn}
