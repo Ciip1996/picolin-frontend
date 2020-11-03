@@ -14,6 +14,7 @@ import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 import { EditIcon, DeleteIcon, MoreIcon, colors } from 'UI/res';
 
 import { useStyles } from './styles';
+import Contents from './strings';
 
 type ProfileTabListCardProps = {
   item: any,
@@ -25,6 +26,8 @@ type ProfileTabListCardProps = {
 
 const ProfileTabListCard = (props: ProfileTabListCardProps) => {
   const { item, definition, onEditClick, onItemClick, onDeleteClick } = props;
+  const language = localStorage.getItem('language');
+
   const classes = useStyles();
 
   const handleEditClick = (event: any) => {
@@ -46,13 +49,13 @@ const ProfileTabListCard = (props: ProfileTabListCardProps) => {
   const MenuItems = [
     {
       icon: <DeleteIcon fill={colors.completeBlack} />,
-      title: 'Remove',
+      title: Contents[language].Remove,
       action: handleDeleteClick,
       visible: onDeleteClick
     },
     {
       icon: <EditIcon fill={colors.completeBlack} />,
-      title: 'Edit',
+      title: Contents[language].Edit,
       action: handleEditClick,
       visible: onEditClick
     }

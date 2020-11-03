@@ -22,6 +22,7 @@ import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters } from 'services/FiltersStorage';
 
 import ActionButton from 'UI/components/atoms/ActionButton';
+import Contents from './strings';
 
 // type TransfersListsProps = {
 // onShowAlert: any => void
@@ -30,6 +31,7 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 const TransfersLists = () => {
   // const { onShowAlert } = props;
   // const history = useHistory();
+  const language = localStorage.getItem('language');
 
   useEffect(() => {
     document.title = PageTitles.Sales;
@@ -64,7 +66,7 @@ const TransfersLists = () => {
     <ContentPageLayout>
       <ListPageLayout
         loading={loading}
-        title="TRANSFERENCIAS"
+        title={Contents[language].pageTitle}
         selector={
           <Box
             display="flex"
@@ -81,7 +83,7 @@ const TransfersLists = () => {
               defaultOptions={filterOptions}
             /> */}
             <ActionButton
-              text="Transferir"
+              text={Contents[language].labTransfers}
               onClick={toggleDrawer('isTransferDrawerOpen', !uiState.isTransferDrawerOpen)}
             />
           </Box>

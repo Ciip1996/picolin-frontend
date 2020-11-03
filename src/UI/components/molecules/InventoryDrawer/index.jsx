@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField';
 
 import { globalStyles } from 'GlobalStyles';
 import { useStyles } from './styles';
+import Contents from './strings';
 
 type TransferProductsDrawerProps = {
   handleClose: any => any
@@ -15,6 +16,7 @@ type TransferProductsDrawerProps = {
 
 const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
   const { handleClose } = props;
+  const language = localStorage.getItem('language');
 
   const [uiState, setUiState] = useState({
     isSaving: false,
@@ -26,27 +28,27 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
 
   const inventoryvalues = [
     {
-      value: 'Tienda',
-      label: 'Tienda'
+      value: Contents[language].Store,
+      label: Contents[language].Store
     },
     {
-      value: 'Bodega',
-      label: 'Bodega'
+      value: Contents[language].Warehouse,
+      label: Contents[language].Warehouse
     }
   ];
   const destinyvalues = [
     {
-      value: 'Tienda',
-      label: 'Tienda'
+      value: Contents[language].Store,
+      label: Contents[language].Store
     },
     {
-      value: 'Bodega',
-      label: 'Bodega'
+      value: Contents[language].Warehouse,
+      label: Contents[language].Warehouse
     }
   ];
 
-  const [inventory, setinventory] = React.useState('Tienda');
-  const [destiny, setdestiny] = React.useState('Tienda');
+  const [inventory, setinventory] = React.useState(Contents[language].Store);
+  const [destiny, setdestiny] = React.useState(Contents[language].Store);
 
   const handleChange = event => {
     setinventory(event.target.value);
@@ -77,11 +79,11 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
       >
         <form className={classes.root} noValidate autoComplete="off">
           <div>
-            <h1 className={classes.title}>TRANSFERIR PRODUCTOS</h1>
+            <h1 className={classes.title}>{Contents[language].TransProducts}</h1>
             <TextField
               id="outlined-select-inventory-native"
               select
-              label="Origen"
+              label={Contents[language].Origin}
               value={inventory}
               onChange={handleChange}
               SelectProps={{
@@ -100,7 +102,7 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
             <TextField
               id="outlined-select-inventory-native"
               select
-              label="Destino"
+              label={Contents[language].Destiny}
               value={destiny}
               onChange={handleChange2}
               SelectProps={{
@@ -119,7 +121,7 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
           </div>
           <TextField
             id="outlined-number"
-            label="Productos"
+            label={Contents[language].Products}
             type="text"
             InputLabelProps={{
               shrink: true
@@ -127,7 +129,7 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
             variant="outlined"
             className={classes.textProducts}
             size="small"
-            placeholder="Escriba o registre el código de barras"
+            placeholder={Contents[language].Placeholder}
           />
         </form>
         <div>contendio aqui</div>

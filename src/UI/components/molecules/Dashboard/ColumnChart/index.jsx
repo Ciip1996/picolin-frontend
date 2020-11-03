@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 import API from 'services/API';
 import { nestTernary } from 'UI/utils';
 import { colors } from 'UI/res';
+import Contents from './strings';
 
 const columnChartOptions = {
   legend: { position: 'none' },
@@ -36,6 +37,8 @@ type ChartProps = {
 
 const ColumnChart = (props: ChartProps) => {
   const { url, columns } = props;
+  const language = localStorage.getItem('language');
+
   const height = 300;
   const [isLoading, setIsLoading] = useState(true);
   const [chartData, setChartData] = useState([]);
@@ -67,11 +70,11 @@ const ColumnChart = (props: ChartProps) => {
         width="100%"
         height={`${height}px`}
         chartType="ColumnChart"
-        loader={<div>Loading Chart</div>}
+        loader={<div>{Contents[language].loader}</div>}
         data={chartData}
         options={columnChartOptions}
       />,
-      <>There is no data with the selected filters</>
+      <>{Contents[language].data}</>
     )
   );
 };

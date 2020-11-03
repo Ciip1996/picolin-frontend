@@ -5,6 +5,7 @@ import Chip from '@material-ui/core/Chip';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import type { Filters } from 'types/app';
 import { useStyles } from './styles';
+import Contents from './strings';
 
 type ActiveFiltersProps = {
   filters: Filters,
@@ -16,6 +17,7 @@ type ActiveFiltersProps = {
 const ActiveFilters = (props: ActiveFiltersProps) => {
   const { filters, isLoading, onFilterRemove, onReset } = props;
   const classes = useStyles();
+  const language = localStorage.getItem('language');
 
   const handleDeleteClick = (filterId: string) => {
     onFilterRemove && onFilterRemove(filterId);
@@ -53,7 +55,11 @@ const ActiveFilters = (props: ActiveFiltersProps) => {
               />
             ))}
             {activeFilters.length > 1 && (
-              <Chip label="Reset all filters" onDelete={onReset} className={classes.chip} />
+              <Chip
+                label={Contents[language].labelFilter}
+                onDelete={onReset}
+                className={classes.chip}
+              />
             )}
           </>
         )}

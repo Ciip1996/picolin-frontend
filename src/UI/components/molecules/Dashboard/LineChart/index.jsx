@@ -8,6 +8,7 @@ import { nestTernary } from 'UI/utils';
 import { colors } from 'UI/res';
 import type { ChartProps } from 'types/dashboard';
 import { GranularityFormats } from 'UI/constants/defaults';
+import Contents from './strings';
 
 const lineChartOptions = (horizontalTicks, dateFormat) => ({
   legend: { position: 'top' },
@@ -41,6 +42,8 @@ const lineChartOptions = (horizontalTicks, dateFormat) => ({
 
 const LineChart = (props: ChartProps) => {
   const { url } = props;
+  const language = localStorage.getItem('language');
+
   const height = 400;
   const [isLoading, setIsLoading] = useState(true);
   const [chartData, setChartData] = useState([]);
@@ -84,11 +87,11 @@ const LineChart = (props: ChartProps) => {
         width="100%"
         height={`${height}px`}
         chartType="LineChart"
-        loader={<div>Loading Chart</div>}
+        loader={<div>{Contents[language].loader}</div>}
         data={chartData}
         options={lineChartOptions(horizontalTicks, GranularityFormats[granularity])}
       />,
-      <>There is no data with the selected filters</>
+      <>{Contents[language].data}</>
     )
   );
 };

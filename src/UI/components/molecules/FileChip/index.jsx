@@ -11,6 +11,7 @@ import { SuccessIcon, CloseIcon, colors } from 'UI/res';
 
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import { useStyles, useProgressStyles, styles } from './styles';
+import Contents from './strings';
 
 type FileChipProps = {
   loading: boolean,
@@ -27,6 +28,7 @@ const FileChip = (props: FileChipProps) => {
   const classes = useStyles();
   const circularProgressClasses = useProgressStyles();
   const [status, setStatus] = useState('loading');
+  const language = localStorage.getItem('language');
 
   const handleDeleteClick = () => {
     onFileDelete && onFileDelete(file);
@@ -36,7 +38,11 @@ const FileChip = (props: FileChipProps) => {
     loading: {
       style: styles.loading,
       adornment: (
-        <CustomIconButton style={styles.button} disabled tooltipText="Loading">
+        <CustomIconButton
+          style={styles.button}
+          disabled
+          tooltipText={Contents[language].txtLoading}
+        >
           <CircularProgress classes={circularProgressClasses} size={24} thickness={4} />
         </CustomIconButton>
       )
@@ -44,7 +50,11 @@ const FileChip = (props: FileChipProps) => {
     success: {
       style: styles.success,
       adornment: (
-        <CustomIconButton style={styles.button} disabled tooltipText="Success">
+        <CustomIconButton
+          style={styles.button}
+          disabled
+          tooltipText={Contents[language].txtSuccess}
+        >
           <SuccessIcon fill={colors.white} />
         </CustomIconButton>
       )
@@ -52,7 +62,11 @@ const FileChip = (props: FileChipProps) => {
     finished: {
       style: styles.finished,
       adornment: (
-        <CustomIconButton style={styles.button} tooltipText="Delete" onClick={handleDeleteClick}>
+        <CustomIconButton
+          style={styles.button}
+          tooltipText={Contents[language].txtDelete}
+          onClick={handleDeleteClick}
+        >
           <CloseIcon fill={colors.grey} />
         </CustomIconButton>
       )
@@ -60,7 +74,11 @@ const FileChip = (props: FileChipProps) => {
     error: {
       style: styles.error,
       adornment: (
-        <CustomIconButton style={styles.button} tooltipText="Delete" onClick={handleDeleteClick}>
+        <CustomIconButton
+          style={styles.button}
+          tooltipText={Contents[language].txtDelete}
+          onClick={handleDeleteClick}
+        >
           <CloseIcon fill={colors.error} />
         </CustomIconButton>
       )

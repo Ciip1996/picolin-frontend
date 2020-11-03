@@ -36,6 +36,7 @@ import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
 import { PageTitles } from 'UI/constants/defaults';
+import Contents from './strings';
 
 type SalesListProps = {
   onShowAlert: any => void
@@ -67,6 +68,7 @@ const getSortDirections = (orderBy: string, direction: string) =>
 const SalesList = (props: SalesListProps) => {
   const { onShowAlert } = props;
   const history = useHistory();
+  const language = localStorage.getItem('language');
 
   useEffect(() => {
     document.title = PageTitles.Sales;
@@ -143,7 +145,7 @@ const SalesList = (props: SalesListProps) => {
           // handle error
           onShowAlert({
             severity: 'error',
-            title: 'Search Projects',
+            title: Contents[language].errtitle,
             autoHideDuration: 3000,
             body: getErrorMessage(err)
           });
@@ -158,12 +160,12 @@ const SalesList = (props: SalesListProps) => {
     } catch (err) {
       onShowAlert({
         severity: 'error',
-        title: 'Ventas',
+        title: Contents[language].pageTitle,
         autoHideDuration: 3000,
         body: getErrorMessage(err)
       });
     }
-  }, [filters, uiState, onShowAlert]);
+  }, [filters, uiState, onShowAlert, language]);
 
   useEffect(() => {
     getData();

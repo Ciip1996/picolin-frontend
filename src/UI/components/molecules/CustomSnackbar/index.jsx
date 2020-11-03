@@ -11,6 +11,7 @@ import { icon as iconDimensions } from 'UI/constants/dimensions';
 import { type notificationsType, notificationIcons } from 'UI/constants/notifications';
 import { THEME } from 'GlobalStyles';
 import { useStyles, useNotificationStyles, useAlertStyles, styles } from './styles';
+import Contents from './strings';
 
 type CustomSnackbarProps = {
   id: number,
@@ -59,6 +60,7 @@ const CustomSnackbar = forwardRef<CustomSnackbarProps, any>(
       icon,
       onClick = () => {}
     } = props;
+    const language = localStorage.getItem('language');
 
     const classes = useStyles({
       severity: isNotification ? null : severity
@@ -102,7 +104,7 @@ const CustomSnackbar = forwardRef<CustomSnackbarProps, any>(
           >
             <div className={classes.textContainer}>
               <div className={classes.title} style={styles.truncateText}>
-                {title} {code && `Codigo: ${code}`}
+                {title} {code && Contents[language].labelCode`${code}`}
               </div>
               <div className={classes.body} style={styles.truncateText}>
                 {body}

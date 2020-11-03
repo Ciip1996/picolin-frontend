@@ -12,6 +12,7 @@ import { addFilter } from 'actions/dashboard';
 import { nestTernary } from 'UI/utils';
 import type { Filters } from 'types/app';
 import { getMuiTheme } from './styles';
+import Contents from './strings';
 
 type SummaryTableProps = {
   url: string,
@@ -26,6 +27,8 @@ const filtersConfig = {
 
 const SummaryTable = (props: SummaryTableProps) => {
   const { url, downloadFileName, onFilterAdd } = props;
+  const language = localStorage.getItem('language');
+
   const height = 100;
   const [isLoading, setIsLoading] = useState(true);
   const [columns, setColumns] = useState([]);
@@ -90,7 +93,7 @@ const SummaryTable = (props: SummaryTableProps) => {
       <MuiThemeProvider theme={getMuiTheme()}>
         <MUIDataTable columns={columns} data={rows} options={options} />
       </MuiThemeProvider>,
-      <Box p="18px 32px">There is no data with the selected filters</Box>
+      <Box p="18px 32px">{Contents[language].data}</Box>
     )
   );
 };

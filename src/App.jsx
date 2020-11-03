@@ -6,11 +6,14 @@ import 'App.css';
 import { THEME } from 'GlobalStyles';
 import Routes from 'routes/Routes';
 
-// const languageStoredInLocalStorage = localStorage.getItem('language');
-
-// const [language, setLanguage] = useState(languageStoredInLocalStorage || 'English');
+// function storeLanguageInLocalStorage(language) {
+//   localStorage.setItem('language', language);
+// }
 
 const App = () => {
+  // const languageStoredInLocalStorage = localStorage.getItem('language');
+  // const [language, setLanguage] = useState(languageStoredInLocalStorage || 'English');
+
   useEffect(() => {
     localStorage.setItem('language', 'Spanish');
   }, []);
