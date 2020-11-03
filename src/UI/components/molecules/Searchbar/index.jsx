@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { SearchBarIcon, colors } from 'UI/res';
 import { input } from 'UI/constants/dimensions';
 import { useStyles } from './styles';
+import Contents from './strings';
 
 type SearchbarProps = {
   name: string,
@@ -18,6 +19,7 @@ type SearchbarProps = {
 
 const Searchbar = (props: SearchbarProps) => {
   const { name, width, placeholder, onChange, value, onSearch } = props;
+  const language = localStorage.getItem('language');
 
   const customStyle = {
     width,
@@ -59,7 +61,7 @@ const Searchbar = (props: SearchbarProps) => {
       <IconButton
         type="button"
         className={classes.iconButton}
-        aria-label="Search"
+        aria-label={Contents[language].Search}
         onClick={handleSearchClick}
       >
         <SearchBarIcon fill={colors.inactiveSideBarTab} />
@@ -71,7 +73,7 @@ const Searchbar = (props: SearchbarProps) => {
 Searchbar.defaultProps = {
   width: '389px',
   value: null,
-  placeholder: 'Search by',
+  placeholder: Contents[language].SearchBy,
   onChange: () => {},
   onSearch: () => {}
 };

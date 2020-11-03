@@ -1,8 +1,8 @@
-// eslint-disable-next-line import/no-cycle
-import API from 'services/API';
+// @flow
+// import API from 'services/API';
 import jwt from 'jsonwebtoken';
 
-const getAccess = () => {
+const getAccess = (): Object => {
   const access = localStorage.getItem('access');
   return access && JSON.parse(access);
 };
@@ -12,16 +12,10 @@ const getToken = () => {
   return access && access.token;
 };
 
-const getRefreshToken = () => {
-  const access = getAccess();
-  return access && access.refreshToken;
-};
-
 const getCurrentUser = () => {
   const access = getAccess();
-
-  const decodedToken = access && jwt.decode(access.token);
-  return decodedToken && decodedToken.data.user;
+  const decodedToken: Object = access && jwt.decode(access.token);
+  return decodedToken && decodedToken?.user;
 };
 
 const isAuthenticated = () => {
@@ -29,19 +23,8 @@ const isAuthenticated = () => {
 };
 
 const logout = async () => {
-  await API.get('users/logout');
-
+  // const response = await API.get('users/logout'); // TODO: replace with logout
   cleanLocalStorage();
-  logoutMicrosoft();
-};
-
-const logoutMicrosoft = () => {
-  const postLogoutUrl = `${(window.GPAC_ENV && window.GPAC_ENV.LOGOUT_REDIRECT_URL) ||
-    process.env.REACT_APP_REDIRECT_URL}`;
-
-  window.location.replace(
-    `${process.env.REACT_APP_MICROSOFT_URL}${process.env.REACT_APP_TENANT_URL}/oauth2/v2.0/logout?post_logout_redirect_uri=${postLogoutUrl}`
-  );
 };
 
 const cleanLocalStorage = () => {
@@ -53,12 +36,4 @@ const getRedirectPage = () => {
   return localStorage.getItem('redirectPage');
 };
 
-export {
-  getToken,
-  getCurrentUser,
-  getRefreshToken,
-  isAuthenticated,
-  logout,
-  cleanLocalStorage,
-  getRedirectPage
-};
+export { getToken, getCurrentUser, isAuthenticated, logout, cleanLocalStorage, getRedirectPage };

@@ -1,21 +1,21 @@
 // eslint-disable-next-line import/no-cycle
-import { getToken, getRefreshToken, cleanLocalStorage } from 'services/Authentication';
+import { getToken, cleanLocalStorage } from 'services/Authentication';
 import axios from 'axios';
 
 let isRefreshing = false;
-let failedQueue = [];
+const failedQueue = [];
 
-const processQueue = (error, token = null) => {
-  failedQueue.forEach(prom => {
-    if (error) {
-      prom.reject(error);
-    } else {
-      prom.resolve(token);
-    }
-  });
+// const processQueue = (error, token = null) => {
+//   failedQueue.forEach(prom => {
+//     if (error) {
+//       prom.reject(error);
+//     } else {
+//       prom.resolve(token);
+//     }
+//   });
 
-  failedQueue = [];
-};
+//   failedQueue = [];
+// };
 
 const redirectTime = () => {
   setTimeout(() => {
@@ -25,7 +25,7 @@ const redirectTime = () => {
 
 // Create instance API axios
 const instance = axios.create({
-  baseURL: `${(window.GPAC_ENV && window.GPAC_ENV.API_URL) || process.env.REACT_APP_API_URL}`,
+  baseURL: `${(window.PICOLIN_ENV && window.PICOLIN_ENV.API_URL) || process.env.REACT_APP_API_URL}`,
   responseType: 'json'
 });
 
@@ -91,29 +91,29 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
 
-      const refreshToken = getRefreshToken();
+      // const refreshToken = getRefreshToken();
 
-      return new Promise((resolve, reject) => {
-        instance
-          .post('/users/token/refresh', { refresh_token: refreshToken })
-          .then(response => {
-            if (response.status === 200 || response.status === 201) {
-              localStorage.setItem('access', JSON.stringify(response.data.token));
-              axios.defaults.headers.Authorization = `Bearer ${response.data.token}`;
-              axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-              originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
-              processQueue(null, response.data.token);
-              resolve(instance(originalRequest));
-            }
-          })
-          .catch(err => {
-            processQueue(err, null);
-            reject(err);
-          })
-          .finally(() => {
-            isRefreshing = false;
-          });
-      });
+      // return new Promise((resolve, reject) => {
+      //   instance
+      //     .post('/users/token/refresh', { refresh_token: refreshToken })
+      //     .then(response => {
+      //       if (response.status === 200 || response.status === 201) {
+      //         localStorage.setItem('access', JSON.stringify(response.data.token));
+      //         axios.defaults.headers.Authorization = `Bearer ${response.data.token}`;
+      //         axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
+      //         originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
+      //         processQueue(null, response.data.token);
+      //         resolve(instance(originalRequest));
+      //       }
+      //     })
+      //     .catch(err => {
+      //       processQueue(err, null);
+      //       reject(err);
+      //     })
+      //     .finally(() => {
+      //       isRefreshing = false;
+      //     });
+      // });
     }
 
     return Promise.reject(error);

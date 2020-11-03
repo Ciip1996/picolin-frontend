@@ -19,6 +19,8 @@ import {
   useChipStyles,
   useChipStylesDisabled
 } from './styles';
+import Contents from './strings';
+
 
 type AutocompleteSelectProps = {
   name: string,
@@ -69,6 +71,8 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
     showAlert,
     ...rest
   } = props;
+
+  const language = localStorage.getItem('language');
 
   const [options, setOptions] = useState([]);
   const [keyword, setKeyword] = useState(null);
@@ -194,7 +198,7 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
 
   return (
     <Autocomplete
-      noOptionsText="No results found, type to find something."
+      noOptionsText={Contents[language]?.labelResults}
       multiple={!!multiple}
       ChipProps={{ ...chipProps }}
       getOptionSelected={getOptionSelected || defaultOptionSelectedFn}

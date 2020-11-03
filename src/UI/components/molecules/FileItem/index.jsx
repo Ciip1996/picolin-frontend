@@ -9,6 +9,7 @@ import { SuccessIcon, DeleteIcon, DownloadIcon, FileIcon, CloseIcon, colors } fr
 
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import { useStyles, useProgressStyles, styles } from './styles';
+import Contents from './strings';
 
 type FileItemProps = {
   loading: boolean,
@@ -26,6 +27,7 @@ const FileItem = (props: FileItemProps) => {
   const classes = useStyles();
   const circularProgressClasses = useProgressStyles();
   const [status, setStatus] = useState('loading');
+  const language = localStorage.getItem('language');
 
   const handleDeleteClick = () => {
     onFileDelete && onFileDelete(file);
@@ -36,7 +38,7 @@ const FileItem = (props: FileItemProps) => {
       style: styles.loading,
       fileIcon: colors.darkGrey,
       adornment: (
-        <CustomIconButton disabled tooltipText="Loading">
+        <CustomIconButton disabled tooltipText={Contents[language].txtLoading}>
           <CircularProgress classes={circularProgressClasses} size={24} thickness={4} />
         </CustomIconButton>
       )
@@ -55,10 +57,10 @@ const FileItem = (props: FileItemProps) => {
       fileIcon: colors.black,
       adornment: (
         <div>
-          <CustomIconButton tooltipText="Download" href={file?.url}>
+          <CustomIconButton tooltipText={Contents[language].txtDownload} href={file?.url}>
             <DownloadIcon fill={colors.black} />
           </CustomIconButton>
-          <CustomIconButton tooltipText="Delete" onClick={handleDeleteClick}>
+          <CustomIconButton tooltipText={Contents[language].txtDelete} onClick={handleDeleteClick}>
             <DeleteIcon fill={colors.black} />
           </CustomIconButton>
         </div>
@@ -68,7 +70,7 @@ const FileItem = (props: FileItemProps) => {
       style: styles.error,
       fileIcon: colors.error,
       adornment: (
-        <CustomIconButton tooltipText="Delete" onClick={handleDeleteClick}>
+        <CustomIconButton tooltipText={Contents[language].txtDelete} onClick={handleDeleteClick}>
           <CloseIcon fill={colors.error} />
         </CustomIconButton>
       )

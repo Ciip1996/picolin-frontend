@@ -1,55 +1,17 @@
 // @flow
-import React, { useEffect } from 'react';
+import React from 'react';
 import ScrollToTop from 'react-router-scroll-top';
 
 import Sidebar from 'UI/components/templates/Sidebar';
 import NavBar from 'UI/components/organisms/NavBar';
 import ActionButton from 'UI/components/atoms/ActionButton';
 
-import { AddIcon, colors, CandidatesIcon, CompaniesIcon, JobOrdersIcon, AddNameIcon } from 'UI/res';
+import { AddIcon, colors } from 'UI/res';
 import { globalStyles } from 'GlobalStyles';
-import { EntityRoutes } from 'routes/constants';
 import { sideBarWidth, navBarHeight } from 'UI/constants/dimensions';
-
-import { FeatureFlags } from 'UI/constants/featureFlags';
-import { getFeatureFlags } from 'UI/utils';
-
-import { checkNotificationPermission } from 'services/FirebaseMessaging';
-
-const featureFlags = getFeatureFlags();
 
 // eslint-disable-next-line no-unused-vars
 const MainLayout = ({ children, ...rest }: Object) => {
-  useEffect(() => {
-    featureFlags.includes(FeatureFlags.Notifications) && checkNotificationPermission();
-  }, []);
-
-  const MenuItems = [
-    {
-      icon: <CandidatesIcon />,
-      title: 'Candidate',
-      link: EntityRoutes.CandidateCreate,
-      visible: true
-    },
-    {
-      icon: <CompaniesIcon />,
-      title: 'Company',
-      link: EntityRoutes.CompanyCreate,
-      visible: true
-    },
-    {
-      icon: <JobOrdersIcon />,
-      title: 'Job Order',
-      link: EntityRoutes.JobOrderCreate,
-      visible: true
-    },
-    {
-      icon: <AddNameIcon />,
-      title: 'Name',
-      link: EntityRoutes.NameCreate,
-      visible: featureFlags.includes(FeatureFlags.Names)
-    }
-  ];
   const styles = {
     App: {
       backgroundColor: colors.appBackground,
@@ -76,7 +38,7 @@ const MainLayout = ({ children, ...rest }: Object) => {
         <div style={globalStyles.flexContentWrapper}>
           <div style={styles.sidebar}>
             <Sidebar>
-              <ActionButton MenuItems={MenuItems} text="Nueva Venta" width="200px">
+              <ActionButton text="Nueva Venta">
                 <AddIcon fill={colors.white} size={18} />
               </ActionButton>
             </Sidebar>

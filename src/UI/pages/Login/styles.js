@@ -1,54 +1,54 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from 'UI/res';
 
-export const styles = {
-  backgroundImg: {
-    zIndex: 0,
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    height: `100%`
-  },
-
-  pattern1: {
-    top: 0,
-    left: 0
-  },
-  pattern2: {
-    bottom: 0,
-    right: 0
-  }
-};
-export const useStyles = makeStyles(theme => ({
-  root: {
-    backgroundColor: colors.appBackground,
-    height: '100%',
-    width: '100%'
-  },
-  pattern: {
-    position: 'absolute',
-    margin: 8
-  },
+export const useStyles = makeStyles({
   wrapper: {
-    zIndex: 10,
-    backgroundColor: colors.transparent,
-    height: '100%',
-    width: '100%',
+    backgroundColor: colors.loginBackground,
     display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    position: 'relative'
+    height: '100%'
   },
-  backgroundImg: {
-    ...styles.backgroundImg
+  containerBox: {
+    width: '398px',
+    height: '438px',
+    boxShadow: '0px 3px 6px #00000029',
+    borderTopLeftRadius: 26,
+    borderTopRightRadius: 26,
+    borderBottomLeftRadius: 26,
+    borderBottomRightRadius: 26,
+    background: 'white'
   },
-  label: {
-    maxWidth: '45vw',
-    [theme.breakpoints.down('sm')]: {
-      maxWidth: '75vw'
-    },
-    textAlign: 'center'
+  loginButton: {
+    marginTop: '42px',
+    width: '171px'
+  },
+  header: {
+    marginTop: '54px',
+    marginBottom: '55px',
+    font: 'normal normal bold 32px/48px Poppins',
+    color: '#94A6B3',
+    height: '45px',
+    letterspacing: '0px'
+  },
+  txtUser: {
+    width: '315px',
+    height: '40px'
+  },
+  txtPwd: {
+    marginTop: '34px',
+    width: '315px',
+    height: '40px'
+  },
+  txtloginButton: {
+    width: '61px',
+    font: '16px/19px Roboto',
+    marginTop: '15px',
+    marginBottom: '14px',
+    opacity: '1',
+    height: '19px',
+    color: '#FCFCFC',
+    letterspacing: '0px'
   }
-}));
+});

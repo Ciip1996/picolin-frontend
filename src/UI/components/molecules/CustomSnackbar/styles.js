@@ -78,7 +78,7 @@ export const useStyles = makeStyles(theme => ({
 
 const snackbarRoot = {
   width: 500,
-  height: 72,
+  height: 80,
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',

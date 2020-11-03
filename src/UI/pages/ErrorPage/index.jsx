@@ -12,6 +12,7 @@ import TitleLabel from 'UI/components/atoms/TitleLabel';
 import { Error404, Error500, Error401, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
 import { useStyles } from './styles';
+import Contents from './strings';
 
 type ErrorPageProps = {
   error?: 500 | 401 | 404,
@@ -20,6 +21,7 @@ type ErrorPageProps = {
 
 const ErrorPage = ({ history, error }: ErrorPageProps) => {
   const classes = useStyles();
+  const language = localStorage.getItem('language');
 
   useEffect(() => {
     document.title = PageTitles.NotFound;
@@ -41,36 +43,36 @@ const ErrorPage = ({ history, error }: ErrorPageProps) => {
     image: (
       <TitleLabel shadow text="Unkown ERROR" fontWeight={700} fontSize={120} color={colors.red} />
     ),
-    title: "We don't know what's going on.",
-    firstRow: 'Please come back later!',
+    title: Contents[language].errTitle,
+    firstRow: Contents[language].errTitle2,
     secondRow: '',
-    buttonText: 'Go Back',
+    buttonText: Contents[language].txtbtn,
     action: handleGoBack
   };
 
   switch (error) {
     case 401:
       errorType.image = <Error401 />;
-      errorType.title = 'Unauthorized access';
-      errorType.firstRow = 'Sorry! You can’t go beyond this point.';
-      errorType.secondRow = 'Please turn back.';
-      errorType.buttonText = 'GO TO HOME';
+      errorType.title = Contents[language].err401title;
+      errorType.firstRow = Contents[language].err401first;
+      errorType.secondRow = Contents[language].err401second;
+      errorType.buttonText = Contents[language].err401btn;
       errorType.action = handleGoHome;
       break;
     case 404:
       errorType.image = <Error404 style={{ marginBottom: 75 }} />;
-      errorType.title = 'There’s nothing here';
-      errorType.firstRow = 'We couldn’t find the page you’re looking for.';
-      errorType.secondRow = 'Let’s head back ';
-      errorType.buttonText = 'Go Back';
+      errorType.title = Contents[language].err404title;
+      errorType.firstRow = Contents[language].err404first;
+      errorType.secondRow = Contents[language].err404second;
+      errorType.buttonText = Contents[language].err404btn;
       errorType.action = handleGoBack;
       break;
     case 500:
       errorType.image = <Error500 />;
-      errorType.title = 'Internal Server Error';
-      errorType.firstRow = 'Oops! We didn’t see that coming.';
-      errorType.secondRow = 'We’re are working on fixing the problem as soon as possible!';
-      errorType.buttonText = 'NOTIFY SUPPORT';
+      errorType.title = Contents[language].err500title;
+      errorType.firstRow = Contents[language].err500first;
+      errorType.secondRow = Contents[language].err500second;
+      errorType.buttonText = Contents[language].err500btn;
       errorType.action = handleRefreshPage;
       break;
     default:

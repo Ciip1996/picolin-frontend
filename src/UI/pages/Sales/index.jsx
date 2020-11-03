@@ -1,9 +1,9 @@
 // @flow
 import React, { useState, useEffect, useCallback } from 'react';
-import NumberFormat from 'react-number-format';
+// import NumberFormat from 'react-number-format';
 
 import { useHistory } from 'react-router-dom';
-import queryString from 'query-string';
+// import queryString from 'query-string';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
@@ -26,7 +26,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import { Urls } from 'UI/constants/mockData';
 import axios from 'axios';
 
-import API from 'services/API';
+// import API from 'services/API';
 import { EntityRoutes } from 'routes/constants';
 import { Endpoints } from 'UI/constants/endpoints';
 import { getErrorMessage, nestTernary } from 'UI/utils';
@@ -36,6 +36,7 @@ import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
 import { PageTitles } from 'UI/constants/defaults';
+import Contents from './strings';
 
 type SalesListProps = {
   onShowAlert: any => void
@@ -67,11 +68,13 @@ const getSortDirections = (orderBy: string, direction: string) =>
 const SalesList = (props: SalesListProps) => {
   const { onShowAlert } = props;
   const history = useHistory();
+  const language = localStorage.getItem('language');
 
   useEffect(() => {
     document.title = PageTitles.Sales;
   }, []);
 
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState<any>([{}]);
@@ -127,22 +130,24 @@ const SalesList = (props: SalesListProps) => {
       };
 
       saveFilters('ventas', { filters, params });
-      
-      const queryParams = queryString.stringify(params);
 
-      //const response =  await API.get(`${Endpoints.Ventas}?${queryParams}`);
+      // const queryParams = queryString.stringify(params);
+
+      // const response =  await API.get(`${Endpoints.Ventas}?${queryParams}`);
       axios
         .get(Urls.sales)
         .then(res => {
           setData(res.data);
+          setError(false);
         })
-        .catch(error => {
+        .catch(err => {
+          setError(true);
           // handle error
           onShowAlert({
             severity: 'error',
-            title: 'Search Projects',
+            title: Contents[language].errtitle,
             autoHideDuration: 3000,
-            body: getErrorMessage(error)
+            body: getErrorMessage(err)
           });
         })
         .finally(() => {
@@ -152,16 +157,15 @@ const SalesList = (props: SalesListProps) => {
       // setCount(Number(response.data.total));
       setLoading(false);
       setCount(Number(1));
-
-    } catch (error) {
+    } catch (err) {
       onShowAlert({
         severity: 'error',
-        title: 'Ventas',
+        title: Contents[language].pageTitle,
         autoHideDuration: 3000,
-        body: getErrorMessage(error)
+        body: getErrorMessage(err)
       });
     }
-  }, [filters, uiState, onShowAlert]);
+  }, [filters, uiState, onShowAlert, language]);
 
   useEffect(() => {
     getData();
@@ -562,6 +566,7 @@ const SalesList = (props: SalesListProps) => {
         onFiltersReset={handleResetFiltersClick}
       >
         <DataTable
+          error={error}
           loading={loading}
           data={data}
           columns={columns}

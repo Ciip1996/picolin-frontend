@@ -1,139 +1,139 @@
 // @flow
-import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { showAlert } from 'actions/app';
-
+import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+// Material UI components:
+import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
-import LoginButton from 'UI/components/atoms/LoginButton';
-import TitleLabel from 'UI/components/atoms/TitleLabel';
-import Text from 'UI/components/atoms/Text';
-
-import { getErrorMessage } from 'UI/utils';
-import { EntityRoutes } from 'routes/constants';
-import { Endpoints } from 'UI/constants/endpoints';
-import { PageTitles } from 'UI/constants/defaults';
-
-import { getRedirectPage } from 'services/Authentication';
 import API from 'services/API';
+// Custom components and others
+import { colors } from 'UI/res';
+import ActionButton from 'UI/components/atoms/ActionButton';
+import TextBox from 'UI/components/atoms/TextBox';
 
-import { WolfBackground, colors, GpacFullLogo, DotsPattern } from 'UI/res';
-import { useStyles, styles } from './styles';
+import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
+import { useStyles } from './styles';
+import Contents from './strings';
 
-const loginConfig = {
-  clientId: `${(window.GPAC_ENV && window.GPAC_ENV.CLIENT_ID) || process.env.REACT_APP_CLIENT_ID}`,
-  tenantUrl: `${process.env.REACT_APP_MICROSOFT_URL}${process.env.REACT_APP_TENANT_URL}`,
-  debug: false,
-  theme: 'dark'
+type LogInProps = {
+  showAlert: any => void
 };
 
-type LoginProps = {
-  onShowAlert: any => void,
-  history: any
-};
+const LogIn = (props: LogInProps) => {
+  const [uiState, setUiState] = useState({
+    isLoading: false
+  });
+  const { showAlert } = props;
 
-const Login = (props: LoginProps) => {
-  const { onShowAlert, history } = props;
+  const url = `http://localhost:3307/login`;
+  const history = useHistory();
+  const language = localStorage.getItem('language');
+  console.log(Contents, Contents[language], language);
+
+  const { register, handleSubmit, errors, setError } = useForm();
 
   useEffect(() => {
-    document.title = PageTitles.Login;
-  });
+    localStorage.setItem('language', 'Spanish');
+  }, []);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const classes = useStyles();
-
-  const authHandler = (err, data) => {
-    setIsLoading(true);
-    if (err) {
-      onShowAlert({
-        severity: 'error',
-        title: 'Login',
-        body: err.message
-      });
-      setIsLoading(false);
-    } else {
-      const { accessToken } = data.authResponseWithAccessToken;
-      signin(accessToken);
-    }
-  };
-
-  const signin = async accessToken => {
+  const onSubmit = async (formData: Object) => {
     try {
-      const response = await API.post(Endpoints.Users, {
-        access_token: accessToken
+      setUiState(prevState => ({ ...prevState, isLoading: true }));
+
+      const params = {
+        user: formData.user,
+        password: formData.pwd
+      };
+      // const response = await API.post(`${url}`, params);
+      await axios.post(`${url}`, params).then(response => {
+        if (response?.status === 200) {
+          // TODO: properly handle token with valid session
+          const access = {
+            ...response?.data,
+            type: 'bearer'
+          };
+          localStorage.setItem('access', JSON.stringify(access));
+          API.defaults.headers.Authorization = `Bearer ${response.data.token}`;
+          history.push('/home'); // TODO: change redirect url later
+        }
       });
-
-      localStorage.setItem('access', JSON.stringify(response.data.token));
-
-      API.defaults.headers.Authorization = `Bearer ${response.data.token.token}`;
-
-      setIsLoading(false);
-
-      const redirectPage = getRedirectPage();
-
-      history.push(redirectPage || EntityRoutes.Home);
     } catch (error) {
-      setIsLoading(false);
-      onShowAlert({
-        severity: 'error',
-        title: 'Login',
-        body: getErrorMessage(error)
-      });
+      const { response } = error;
+      if (response?.status === 401) {
+        setError('user', 'notMatch', Contents[language].errUser);
+        setError('pwd', 'notMatch', Contents[language].errUser);
+        showAlert({
+          severity: 'warning',
+          title: `Login`,
+          autoHideDuration: 800000,
+          body: `${response?.data?.mensaje}`
+        });
+      } else {
+        showAlert({
+          severity: 'error',
+          title: response?.status ? `Error ${response.status}` : `Error`,
+          code: response?.status || '500',
+          autoHideDuration: 800000,
+          body: Contents[language].errServer
+        });
+      }
+    } finally {
+      setUiState(prevState => ({ ...prevState, isLoading: false }));
     }
   };
 
+  const classes = useStyles();
   return (
-    <>
-      <div className={classes.root}>
-        <div className={classes.wrapper}>
-          <DotsPattern
-            width="20vh"
-            fill={colors.red}
-            style={styles.pattern1}
-            className={classes.pattern}
-          />
-          <DotsPattern
-            width="20vh"
-            fill={colors.red}
-            style={styles.pattern2}
-            className={classes.pattern}
-          />
-          <GpacFullLogo style={{ paddingTop: '10vh' }} width="50vh" />
-          <div className={classes.label}>
-            <TitleLabel
-              fontSize={36}
-              text="Welcome to FortPac, your new partner to keep growing people and companies."
+    <div className={classes.wrapper}>
+      <Box className={classes.containerBox}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <center>
+            <h1 className={classes.header}>{Contents[language]?.pageTitle || 'INICIAR SESIÓN'}</h1>
+            <TextBox
+              className={classes.txtUser}
+              name="user"
+              label={Contents[language]?.labuser || 'Usuario'}
+              inputRef={register({
+                required: Contents[language]?.requser || 'Se requiere un nombre de usuario'
+              })}
+              error={!!errors.user}
+              helperText={errors.user && errors.user.message}
             />
-          </div>
-          <Text
-            variant="body2"
-            fontSize={20}
-            text="Please, log in with your Microsoft account by clicking the button below"
-          />
-          <center style={{ paddingBottom: '10vh' }}>
-            {!isLoading && (
-              <LoginButton
-                clientId={loginConfig.clientId}
-                tenantUrl={loginConfig.tenantUrl}
-                debug={loginConfig.debug}
-                authCallback={authHandler}
-                theme={loginConfig.theme}
-              />
-            )}
-            {isLoading && <CircularProgress />}
+            <TextBox
+              className={classes.txtPwd}
+              name="pwd"
+              label="Contraseña"
+              type="password"
+              inputRef={register({
+                required: Contents[language]?.reqpwd || 'Se requiere una contraseña'
+              })}
+              error={!!errors.pwd}
+              helperText={errors.pwd && errors.pwd.message}
+            />
+            <ActionButton
+              type="submit"
+              status="success"
+              className={classes.loginButton}
+              text="Entrar"
+            >
+              {uiState.isLoading && <CircularProgress size={24} color={colors.white} />}
+            </ActionButton>
           </center>
-        </div>
-      </div>
-      <WolfBackground fill={colors.wolfImage} className={classes.backgroundImg} />
-    </>
+        </form>
+      </Box>
+    </div>
   );
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onShowAlert: alert => dispatch(showAlert(alert))
+    showAlert: alert => dispatch(showAlertAction(alert)),
+    showConfirm: confirmation => dispatch(confirmAction(confirmation))
   };
 };
 
-export default connect(null, mapDispatchToProps)(withRouter(Login));
+const LogInConnected = connect(null, mapDispatchToProps)(LogIn);
+
+export default LogInConnected;

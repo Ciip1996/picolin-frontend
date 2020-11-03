@@ -1,152 +1,139 @@
 // @flow
 import React, { useState, useEffect, useCallback } from 'react';
-import NumberFormat from 'react-number-format';
 
-import { useHistory } from 'react-router-dom';
 import queryString from 'query-string';
-import moment from 'moment';
 import { connect } from 'react-redux';
 
 import { FormControl } from '@material-ui/core';
+import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 
 import { showAlert } from 'actions/app';
+// import Drawer from '@material-ui/core/Drawer';
+import {
+  // drawerAnchor,
+  PageTitles
+} from 'UI/constants/defaults';
 
 /** Atoms, Components and Styles */
-import AutocompleteSelect, {
-  statusRenderOption,
-  statusStartAdornment
-} from 'UI/components/molecules/AutocompleteSelect';
-import ColorIndicator from 'UI/components/atoms/ColorIndicator';
+import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 
 /** Components */
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
+// import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
-import { EntityRoutes } from 'routes/constants';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorMessage, nestTernary } from 'UI/utils';
-import { accountabilityFilters } from 'UI/constants/entityTypes';
+import { getErrorMessage } from 'UI/utils';
 import type { Filters } from 'types/app';
-
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
-import { PageTitles } from 'UI/constants/defaults';
+import Contents from './strings';
 
-type CandidatesListProps = {
+const CellSkeleton = ({ children, searching }) => {
+  return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
+};
+
+type InventoryListProps = {
   onShowAlert: any => void
 };
 
-const filterOptions = accountabilityFilters('Inventario');
-
-const chainedSelects = {
-  industry: ['specialty', 'subspecialty', 'position'],
-  specialty: ['subspecialty', 'position'],
-  state: ['city', 'zip']
-};
-
 const columnItems = [
-  { id: 0, name: 'type', display: true },
-  { id: 1, name: 'full_name', display: true },
-  { id: 2, name: 'functional_title', display: true },
-  { id: 3, name: 'specialty_title', display: true },
-  { id: 4, name: 'location', display: false },
-  { id: 5, name: 'salary_range', display: true },
-  { id: 6, name: 'created_at', display: false },
-  { id: 7, name: 'last_activity_date', display: true },
-  { id: 8, name: 'recruiter', display: true },
-  { id: 9, name: 'email', display: false }
+  { id: 0, name: 'productCode', display: true },
+  { id: 1, name: 'color', display: true },
+  { id: 2, name: 'size', display: true },
+  { id: 3, name: 'pieces', display: true },
+  { id: 4, name: 'salePrice', display: true },
+  { id: 5, name: 'gender', display: true },
+  { id: 6, name: 'type', display: true },
+  { id: 7, name: 'reservedQuantity', display: false },
+  { id: 8, name: 'stock', display: true }
 ];
 
 const getSortDirections = (orderBy: string, direction: string) =>
   columnItems.map(item => (item.name === orderBy ? direction : 'none'));
 
-const CandidatesList = (props: CandidatesListProps) => {
+const InventoryList = (props: InventoryListProps) => {
   const { onShowAlert } = props;
-  const history = useHistory();
-
-  useEffect(() => {
-    document.title = PageTitles.Candidate;
-  }, []);
+  const language = localStorage.getItem('language');
 
   const [loading, setLoading] = useState(true);
+  const [searching, setSearching] = useState(false);
+  const [error, setError] = useState(false);
 
   const [data, setData] = useState<any>(null);
   const [count, setCount] = useState(0);
 
-  const savedSearch = getFilters('inventario');
+  const genders = [
+    { id: 0, title: 'Niña' },
+    { id: 1, title: 'Niño' }
+  ];
+
+  const savedSearch = getFilters('inventory');
   const savedFilters = savedSearch?.filters;
   const savedParams = savedSearch?.params;
-
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
+  // const toggleDrawer = (drawer: string, open: boolean) => event => {
+  //   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+  //     return;
+  //   }
+  //   setUiState(prevState => ({ ...prevState, [drawer]: open }));
+  // };
+
   const [uiState, setUiState] = useState({
-    keyword: savedParams?.keyword || '',
-    orderBy: savedParams?.orderBy || '',
-    direction: savedParams?.direction || '',
+    keyword: savedParams?.keyword || null,
+    orderBy: savedParams?.orderBy || null,
+    direction: savedParams?.direction || null,
     page: savedParams?.page - 1 || 0,
-    perPage: savedParams?.perPage || 10
+    perPage: savedParams?.perPage || 10,
+    isTransferDrawerOpen: true
   });
 
   const getData = useCallback(async () => {
     try {
-      const {
-        userFilter,
-        state,
-        city,
-        zip,
-        industry,
-        specialty,
-        subspecialty,
-        position,
-        recruiter,
-        coach,
-        itemType
-      } = filters;
+      const { store_filter, gender_filter = {}, type_filter = {}, color_filter = {} } = filters;
 
       const params = {
-        userFilter: userFilter ? userFilter.id : filterOptions[0].id,
-        keyword: uiState.keyword,
-        orderBy: uiState.orderBy,
-        direction: uiState.direction,
-        stateId: state ? state.id : null,
-        cityId: city ? city.id : null,
-        zip: zip ? zip.title : null,
-        industryId: industry ? industry.id : null,
-        specialtyId: specialty ? specialty.id : null,
-        subspecialtyId: subspecialty ? subspecialty.id : null,
-        positionId: position ? position.id : null,
-        recruiterId: recruiter ? recruiter.id : null,
-        coachId: coach ? coach.id : null,
-        typeId: itemType ? itemType.id : null,
+        keyword: uiState.keyword || undefined,
+        // orderBy: uiState.orderBy,
         page: uiState.page + 1,
-        perPage: uiState.perPage
+        perPage: uiState.perPage,
+        gender: gender_filter?.title || undefined,
+        type: type_filter?.title || undefined,
+        color: color_filter?.title || undefined
       };
 
-      saveFilters('inventario', { filters, params });
+      saveFilters('inventory', { filters, params });
 
       const queryParams = queryString.stringify(params);
+      const url = store_filter
+        ? '/getInventory/:filtros?'.replace(':filtros', store_filter?.title)
+        : '/getInventory/TODOS?';
+      const response = await API.get(`${url}${queryParams}`);
 
-      /* const response = await API.get(`${Endpoints.Inventario}?${queryParams}`);
-      setData(response.data.data);
-      setCount(Number(response.data.total));*/
+      if (response?.status === 200) {
+        setData(response?.data?.inventory || []);
+      }
+      setCount(Number(response?.data?.totalResults) || 0);
       setLoading(false);
-    } catch (error) {
+      setSearching(false);
+      setError(false);
+    } catch (err) {
+      console.log(err);
+      setError(true);
       onShowAlert({
         severity: 'error',
-        title: 'Inventario',
+        title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
-        body: getErrorMessage(error)
+        body: getErrorMessage(err)
       });
     }
-  }, [filters, uiState, onShowAlert]);
-
-  useEffect(() => {
-    getData();
-  }, [getData]);
+  }, [filters, onShowAlert, uiState.keyword, uiState.page, uiState.perPage, language]);
 
   const handleSearchChange = newKeyword => {
+    setSearching(true);
     setUiState(prevState => ({
       ...prevState,
       keyword: newKeyword,
@@ -154,30 +141,28 @@ const CandidatesList = (props: CandidatesListProps) => {
     }));
   };
 
-  const handleFilterChange = (name?: string, value: any) => {
+  const handleFilterChange = (name: string, value: any) => {
+    setSearching(true);
     setFilters({ ...filters, [name]: value });
     setUiState(prevState => ({
       ...prevState,
       page: 0
     }));
-
-    if (name && chainedSelects[name]) {
-      chainedSelects[name].forEach(chainedSelect => {
-        setFilters((prevState: Filters): Filters => ({ ...prevState, [chainedSelect]: null }));
-      });
-    }
   };
 
   const handleResetFiltersClick = () => {
+    setSearching(true);
     setFilters({});
   };
 
   const handleFilterRemove = (filterName: string) => {
-    setFilters({ ...filters, [filterName]: null });
+    setSearching(true);
+    setFilters({ ...filters, [filterName]: undefined });
   };
 
   const handleColumnSortClick = newSortDirection => {
     const { orderBy, direction } = newSortDirection;
+    setSearching(true);
 
     setUiState(prevState => ({
       ...prevState,
@@ -188,6 +173,7 @@ const CandidatesList = (props: CandidatesListProps) => {
   };
 
   const handlePerPageClick = newPerPage => {
+    setSearching(true);
     setUiState(prevState => ({
       ...prevState,
       page: 0,
@@ -196,6 +182,8 @@ const CandidatesList = (props: CandidatesListProps) => {
   };
 
   const handlePageClick = newPage => {
+    setSearching(true);
+
     setUiState(prevState => ({
       ...prevState,
       page: newPage
@@ -208,20 +196,12 @@ const CandidatesList = (props: CandidatesListProps) => {
     columnItems[index].display = display;
   };
 
-  const handleRowClick = newItem => {
-    const { id } = data[newItem.rowIndex];
-    history.push(EntityRoutes.CandidateProfile.replace(':id', id));
+  const handleRowClick = () => {
+    // const { id } = data[newItem.rowIndex];
+    // history.push(EntityRoutes.RostserProfile.replace(':id', id));
   };
 
   const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
-  const recruitersUrl =
-    savedFilters?.userFilter && savedFilters.userFilter.id !== 0
-      ? nestTernary(
-          savedFilters.userFilter.id === 3,
-          `${Endpoints.Users}?role_id=1`,
-          `${Endpoints.Recruiters}/myTeam`
-        )
-      : '';
 
   const columns = [
     {
@@ -230,17 +210,127 @@ const CandidatesList = (props: CandidatesListProps) => {
         filter: true,
         sort: false,
         display: 'excluded',
+        filterType: 'custom'
+      }
+    },
+    {
+      name: 'productCode',
+      label: Contents[language]?.labCode,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[0].display,
+        sortDirection: sortDirection[0],
+        customBodyRender: value => {
+          return (
+            <CellSkeleton searching={searching}>
+              <strong>{value}</strong>
+            </CellSkeleton>
+          );
+        },
+        filterType: 'custom'
+      }
+    },
+    {
+      name: 'color',
+      label: Contents[language]?.labColor,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[1].display,
+        sortDirection: sortDirection[1],
         filterType: 'custom',
         filterOptions: {
           display: () => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="industry"
-                  placeholder="Industry"
-                  url={Endpoints.Industries}
-                  selectedValue={filters.industry}
+                  name="color_filter"
+                  placeholder="Color"
+                  url={Endpoints.Colors}
+                  selectedValue={filters.color_filter}
+                  // renderOption={option => (
+                  //   <>
+                  //     {statusStartAdornment('')}
+                  //     &nbsp;
+                  //     <span>{option.title && option.title}</span>
+                  //   </>
+                  // )}
                   onSelect={handleFilterChange}
+                />
+              </FormControl>
+            );
+          }
+        },
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'size',
+      label: Contents[language]?.labSize,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[2].display,
+        sortDirection: sortDirection[2],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'pieces',
+      label: Contents[language]?.labPieces,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[3].display,
+        sortDirection: sortDirection[3],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'salePrice',
+      label: Contents[language]?.labPrice,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[4].display,
+        sortDirection: sortDirection[4],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'gender',
+      label: Contents[language]?.labGender,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[5].display,
+        sortDirection: sortDirection[5],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        },
+        filterOptions: {
+          display: () => {
+            return (
+              <FormControl>
+                <AutocompleteSelect
+                  name="gender_filter"
+                  placeholder={Contents[language]?.labGender}
+                  selectedValue={filters.gender_filter}
+                  onSelect={handleFilterChange}
+                  defaultOptions={genders}
                 />
               </FormControl>
             );
@@ -250,231 +340,25 @@ const CandidatesList = (props: CandidatesListProps) => {
     },
     {
       name: 'type',
-      label: 'Status',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[0].display,
-        sortDirection: sortDirection[0],
-        customBodyRender: value => {
-          return (
-            value.type && (
-              <>
-                <ColorIndicator color={value.type_class_name} width={12} height={12} /> {value.type}
-              </>
-            )
-          );
-        },
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="specialty"
-                  placeholder="Specialty"
-                  url={
-                    filters.industry
-                      ? `${Endpoints.Specialties}?industryId=${filters.industry.id}`
-                      : ''
-                  }
-                  selectedValue={filters.specialty}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'full_name',
-      label: 'Full Name',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[1].display,
-        sortDirection: sortDirection[1],
-        customBodyRender: value => {
-          return <strong>{value}</strong>;
-        },
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="subspecialty"
-                  placeholder="Subspecialty"
-                  url={
-                    filters.specialty
-                      ? `${Endpoints.Specialties}/${filters.specialty.id}/subspecialties`
-                      : ''
-                  }
-                  selectedValue={filters.subspecialty}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'functional_title',
-      label: 'Functional Title',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[2].display,
-        sortDirection: sortDirection[2],
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="position"
-                  placeholder="Functional title"
-                  url={
-                    filters.specialty
-                      ? `${Endpoints.Positions}?specialtyId=${filters.specialty.id}`
-                      : ''
-                  }
-                  selectedValue={filters.position}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'specialty_title',
-      label: 'Industry: Specialty',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[3].display,
-        sortDirection: sortDirection[3],
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="coach"
-                  placeholder="Coach"
-                  url={`${Endpoints.Users}?role_id=2`}
-                  selectedValue={filters.coach}
-                  displayKey="full_name"
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'location',
-      label: 'Location',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[4].display,
-        sortDirection: sortDirection[4],
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="recruiter"
-                  placeholder="Recruiter"
-                  url={recruitersUrl}
-                  selectedValue={filters.recruiter}
-                  displayKey="full_name"
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'salary_range',
-      label: 'Compensation Range',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[5].display,
-        sortDirection: sortDirection[5],
-        customBodyRender: value => {
-          return value.map((val, index) => {
-            return (
-              val && (
-                <span key={index.toString()}>
-                  {
-                    <NumberFormat
-                      prefix="$"
-                      displayType="text"
-                      thousandSeparator=","
-                      decimalSeparator="."
-                      value={val}
-                    />
-                  }
-                  {index === 2 ? '' : ' - '}
-                </span>
-              )
-            );
-          });
-        },
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="itemType"
-                  placeholder="Candidate Status"
-                  url={Endpoints.CandidateTypes}
-                  selectedValue={filters.itemType}
-                  onSelect={handleFilterChange}
-                  renderOption={statusRenderOption}
-                  startAdornment={
-                    filters.itemType && statusStartAdornment(filters.itemType.style_class_name)
-                  }
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'created_at',
-      label: 'Added Date',
+      label: Contents[language]?.labType,
       options: {
         filter: true,
         sort: true,
         display: columnItems[6].display,
         sortDirection: sortDirection[6],
-        customBodyRender: value => {
-          return <span>{moment(value).format('MM/DD/YYYY')}</span>;
-        },
         filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        },
         filterOptions: {
           display: () => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="state"
-                  placeholder="States"
-                  url={Endpoints.States}
-                  selectedValue={filters.state}
+                  name="type_filter"
+                  placeholder={Contents[language]?.labType}
+                  url="/getTypes"
+                  selectedValue={filters.type_filter}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -484,87 +368,77 @@ const CandidatesList = (props: CandidatesListProps) => {
       }
     },
     {
-      name: 'last_activity_date',
-      label: 'Last Activity',
+      name: 'reservedQuantity',
+      label: Contents[language]?.labReserved,
       options: {
         filter: true,
         sort: true,
         display: columnItems[7].display,
         sortDirection: sortDirection[7],
         customBodyRender: value => {
-          return value ? <span>{moment(value).format('MM/DD/YYYY')}</span> : 'No Activity';
+          return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
+        },
+        filterType: 'custom'
+      }
+    },
+    {
+      name: 'stock',
+      label: Contents[language]?.labStock,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[8].display,
+        sortDirection: sortDirection[8],
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
         },
         filterType: 'custom',
         filterOptions: {
           display: () => {
             return (
               <FormControl>
-                <AutocompleteSelect
-                  name="city"
-                  placeholder="City"
-                  url={filters.state ? `${Endpoints.Cities}?stateId=${filters.state.id}` : ''}
-                  selectedValue={filters.city}
-                  onSelect={handleFilterChange}
-                />
+                <div display="flex">
+                  <AutocompleteSelect
+                    name="stock"
+                    placeholder={Contents[language]?.labStock}
+                    url=""
+                    selectedValue={filters.office}
+                    onSelect={handleFilterChange}
+                  />
+                </div>
               </FormControl>
             );
           }
         }
-      }
-    },
-    {
-      name: 'recruiter',
-      label: 'Recruiter',
-      options: {
-        filter: false,
-        sort: true,
-        display: columnItems[8].display,
-        sortDirection: sortDirection[8],
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="zip"
-                  placeholder="Zip Code"
-                  url={
-                    filters.city ? `${Endpoints.Cities}/${filters.city.id}/${Endpoints.Zips}` : ''
-                  }
-                  selectedValue={filters.zip}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'email',
-      label: 'Email',
-      options: {
-        filter: false,
-        sort: true,
-        display: columnItems[9].display,
-        sortDirection: sortDirection[9],
-        filterType: 'custom'
       }
     }
   ];
+
+  useEffect(() => {
+    if (error) {
+      setData([]);
+      setSearching(false);
+      setLoading(false);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    document.title = PageTitles.Inventory;
+    getData();
+  }, [error, getData]);
 
   return (
     <ContentPageLayout>
       <ListPageLayout
         loading={loading}
-        title="INVENTARIO"
+        title={Contents[language]?.labInventory}
         selector={
           <AutocompleteSelect
-            name="userFilter"
-            placeholder="Inventario to show"
-            selectedValue={filters.userFilter || filterOptions[0]}
+            name="store_filter"
+            placeholder={Contents[language]?.labInventory}
+            url={Endpoints.Stores}
+            selectedValue={filters.store_filter}
             onSelect={handleFilterChange}
-            defaultOptions={filterOptions}
           />
         }
         filters={filters}
@@ -572,6 +446,7 @@ const CandidatesList = (props: CandidatesListProps) => {
         onFiltersReset={handleResetFiltersClick}
       >
         <DataTable
+          error={error}
           loading={loading}
           data={data}
           columns={columns}
@@ -582,6 +457,10 @@ const CandidatesList = (props: CandidatesListProps) => {
           onRowClick={handleRowClick}
           onResetfiltersClick={handleResetFiltersClick}
           onSearchTextChange={handleSearchChange}
+          onSearchClose={() => {
+            handleSearchChange();
+            setSearching(false);
+          }}
           onColumnSortClick={handleColumnSortClick}
           onPerPageClick={handlePerPageClick}
           onPageClick={handlePageClick}
@@ -597,4 +476,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(CandidatesList);
+export default connect(null, mapDispatchToProps)(InventoryList);

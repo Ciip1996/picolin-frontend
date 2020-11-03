@@ -1,10 +1,10 @@
 // @flow
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import { CloseIcon, colors } from 'UI/res';
+// import { CloseIcon, colors } from 'UI/res';
 import { CancelSaveButton } from 'UI/constants/dimensions';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
-import CustomIconButton from 'UI/components/atoms/CustomIconButton';
+// import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import SaveButton from 'UI/components/atoms/SaveButton';
 import { fuseStyles } from 'UI/utils';
@@ -64,20 +64,13 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
   } = props;
   const drawerStyle = fuseStyles([
     styles.drawerContainer,
-    variant === 'blue' && styles.blueDrawer,
-    variant === 'white' && styles.customDrawer,
+    variant === '#E26A93' && styles.blueDrawer,
+    variant === 'red' && styles.customDrawer,
     variant === 'borderless' && styles.drawerContainer
   ]);
   return (
     <Box id="drawer-form" component="form" onSubmit={onSubmit} style={drawerStyle}>
-      {isTopToolbarNeeded && (
-        <Box style={styles.drawerTopToolbar}>
-          {additionalHeaderButtons}
-          <CustomIconButton tooltipText="close" tooltipPosition="bottom" onClick={onClose}>
-            <CloseIcon width={20} height={20} fill={colors.completeBlack} />
-          </CustomIconButton>
-        </Box>
-      )}
+      {isTopToolbarNeeded && <Box style={styles.drawerTopToolbar}>{additionalHeaderButtons}</Box>}
       <Box style={styles.drawerTitle}>
         <TitleLabel fontSize={28} text={title} textTransform="uppercase" />
       </Box>
@@ -104,9 +97,9 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
 
           {isSaveButtonMode ? (
             <SaveButton
-              isSaving={uiState.isSaving}
-              isSuccess={uiState.isSuccess}
-              disabled={uiState.isFormDisabled || uiState.isSaving}
+              isSaving={uiState?.isSaving}
+              isSuccess={uiState?.isSuccess}
+              disabled={uiState?.isFormDisabled || uiState?.isSaving}
               initialText={initialText}
               onProgressText={onProgressText}
               onSuccessText={onSuccessText}
@@ -130,7 +123,7 @@ DrawerFormLayout.defaultProps = {
   initialText: 'Save',
   onProgressText: 'Saving',
   onSuccessText: 'Saved',
-  cancelText: 'Cancel',
+  cancelText: 'Cancelar',
   isCancelButtonNeeded: true,
   onSecondaryButtonClick: null,
   isSaveButtonMode: true,

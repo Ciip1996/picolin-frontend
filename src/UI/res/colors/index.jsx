@@ -1,4 +1,5 @@
 export const colors = {
+  loginBackground: '#FDF7F4',
   primary: '#E26A93',
   oxford: '#707070',
   appBackground: '#F0F3F7',
@@ -29,7 +30,7 @@ export const colors = {
   placeholderGrey: '#9395A8',
   componentFill: '#CDD8E6',
   inactiveInputText: '#00000099',
-  wolfImage: '#F6F8FA',
+  backgroundGraphic: '#F6F8FA',
   skeletonBar: '#D7DFEA',
   navyBlue: '#25307C',
   offlineGray: '#9b9ea7',

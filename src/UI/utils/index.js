@@ -4,6 +4,9 @@ import NumberFormat from 'react-number-format';
 import moment from 'moment';
 import type { DashboardPeriod } from 'types/app';
 import { DateFormats } from 'UI/constants/defaults';
+import GenericContents from 'UI/constants/strings';
+
+const language = localStorage.getItem('language');
 
 /**
  * Fuse two or more style objects into one.
@@ -90,7 +93,7 @@ export const normalizeUrl = (url: string): string => {
 };
 
 export const getFeatureFlags = (): string[] => {
-  const featureFlagsSetting = `${(window.GPAC_ENV && window.GPAC_ENV.FEATURE_FLAGS) ||
+  const featureFlagsSetting = `${(window.PICOLIN_ENV && window.PICOLIN_ENV.FEATURE_FLAGS) ||
     process.env.REACT_APP_FEATURE_FLAGS}`;
 
   return featureFlagsSetting ? featureFlagsSetting.split('|') : [];
@@ -214,7 +217,7 @@ export const makeMultiFieldFiltering = (fieldsToLookupInto: string[]) => (
  */
 export const getErrorMessage = (error: any) => {
   if (!error || !error.request || !error.response || error.request.responseType !== 'json') {
-    return 'An error has ocurred. Please try again later';
+    return GenericContents[language].error.message;
   }
   const errorData = error.response.data;
   return errorData.length

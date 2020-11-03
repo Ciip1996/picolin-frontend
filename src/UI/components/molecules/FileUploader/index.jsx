@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Box from '@material-ui/core/Box';
-
+// TODO: check the functionality of this section
 import API from 'services/API';
 import FileSelectorButton from 'UI/components/molecules/FileSelectorButton';
 import { getErrorMessage } from 'UI/utils';
