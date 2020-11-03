@@ -162,7 +162,7 @@ const SalesList = (props: SalesListProps) => {
         body: getErrorMessage(error)
       });
     }
-  }, [filters, uiState, onShowAlert]);
+  }, [filters, uiState, onShowAlert, language]);
 
   useEffect(() => {
     getData();

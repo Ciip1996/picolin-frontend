@@ -130,7 +130,7 @@ const InventoryList = (props: InventoryListProps) => {
         body: getErrorMessage(err)
       });
     }
-  }, [filters, onShowAlert, uiState.keyword, uiState.page, uiState.perPage]);
+  }, [filters, onShowAlert, uiState.keyword, uiState.page, uiState.perPage, language]);
 
   const handleSearchChange = newKeyword => {
     setSearching(true);
