@@ -21,7 +21,6 @@ import {
 } from './styles';
 import Contents from './strings';
 
-
 type AutocompleteSelectProps = {
   name: string,
   placeholder?: string,

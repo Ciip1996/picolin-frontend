@@ -246,7 +246,7 @@ const InventoryList = (props: InventoryListProps) => {
               <FormControl>
                 <AutocompleteSelect
                   name="color_filter"
-                  placeholder="Color"
+                  placeholder={Contents[language]?.labColor}
                   url={Endpoints.Colors}
                   selectedValue={filters.color_filter}
                   // renderOption={option => (

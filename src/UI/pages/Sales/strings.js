@@ -1,13 +1,21 @@
 const Contents = {
   English: {
-    pageTitle: 'TRANSFERS',
-    defaultSubtitle: 'Maybe you should try again.',
-    btntext: 'Transfer'
+    pageTitle: 'SALES',
+    labDate: 'Date',
+    labTotal: 'Total',
+    labPayment: 'Payment',
+    labStore: 'Store',
+    labInvoice: 'Invoice',
+    labQuantity: 'Quantity'
   },
   Spanish: {
-    pageTitle: 'TRANSFERENCIAS',
-    defaultSubtitle: '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
-    btntext: 'Transferir'
+    pageTitle: 'VENTAS',
+    labDate: 'Fecha',
+    labTotal: 'Total',
+    labPayment: 'Tipo de pago',
+    labStore: 'Tienda',
+    labInvoice: 'Factura',
+    labQuantity: 'Cantidad'
   }
 };
 export default Contents;

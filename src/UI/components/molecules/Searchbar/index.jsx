@@ -8,6 +8,8 @@ import { input } from 'UI/constants/dimensions';
 import { useStyles } from './styles';
 import Contents from './strings';
 
+const language = localStorage.getItem('language');
+
 type SearchbarProps = {
   name: string,
   value?: ?string,
@@ -19,7 +21,6 @@ type SearchbarProps = {
 
 const Searchbar = (props: SearchbarProps) => {
   const { name, width, placeholder, onChange, value, onSearch } = props;
-  const language = localStorage.getItem('language');
 
   const customStyle = {
     width,

@@ -18,6 +18,8 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { useStyles, useAutocompleteStyles, themeOverride } from './styles';
 import Contents from './strings';
 
+const language = localStorage.getItem('language');
+
 type GlobalSearchbarProps = {
   placeholder?: string,
   width?: string,
@@ -30,7 +32,6 @@ const limit = 15;
 const GlobalSearchbar = (props: GlobalSearchbarProps) => {
   const { width, onSelect } = props;
   const history = useHistory();
-  const language = localStorage.getItem('language');
 
   const classes = useStyles();
   const autoCompleteClasses = useAutocompleteStyles();
