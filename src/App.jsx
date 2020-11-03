@@ -6,26 +6,20 @@ import 'App.css';
 import { THEME } from 'GlobalStyles';
 import Routes from 'routes/Routes';
 
-function storeLanguageInLocalStorage(language) {
-  localStorage.setItem('language', language);
-}
+// function storeLanguageInLocalStorage(language) {
+//   localStorage.setItem('language', language);
+// }
 
 const App = () => {
-  const languageStoredInLocalStorage = localStorage.getItem('language');
-  const [language, setLanguage] = useState(languageStoredInLocalStorage || 'English');
+  // const languageStoredInLocalStorage = localStorage.getItem('language');
+  // const [language, setLanguage] = useState(languageStoredInLocalStorage || 'English');
 
   useEffect(() => {
     localStorage.setItem('language', 'Spanish');
   }, []);
   return (
     <MuiThemeProvider theme={THEME}>
-      <Routes
-        language={language}
-        handleSetLanguage={lang => {
-          setLanguage(lang);
-          storeLanguageInLocalStorage(lang);
-        }}
-      />
+      <Routes />
     </MuiThemeProvider>
   );
 };
