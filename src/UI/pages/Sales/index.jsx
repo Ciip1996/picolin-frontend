@@ -4,7 +4,6 @@ import queryString from 'query-string';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 // import NumberFormat from 'react-number-format';
 
-import { useHistory } from 'react-router-dom';
 // import queryString from 'query-string';
 import { connect } from 'react-redux';
 
@@ -24,8 +23,7 @@ import API from 'services/API';
 
 // import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorMessage, nestTernary } from 'UI/utils';
-import { accountabilityFilters } from 'UI/constants/entityTypes';
+import { getErrorMessage } from 'UI/utils';
 import type { Filters } from 'types/app';
 
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
@@ -91,7 +89,7 @@ const SalesList = (props: SalesListProps) => {
         perPage: uiState.perPage,
         date: date_filter?.title || undefined,
         paymentMethod: payment_filter?.title || undefined,
-        store: store_filter?.title || undefined,
+        store: store_filter?.idStore || undefined,
         invoice: invoice_filter?.title || undefined
       };
 
@@ -102,8 +100,9 @@ const SalesList = (props: SalesListProps) => {
       // const response =  await API.get(`${Endpoints.Ventas}?${queryParams}`);
       const queryParams = queryString.stringify(params);
       const url = store_filter
-        ? '/getSales/:filtros?'.replace(':filtros', store_filter?.title)
+        ? '/getSales/:filtros?'.replace(':idStore', store_filter?.idStore)
         : '/getSales/ALL?';
+
       const response = await API.get(`${url}${queryParams}`);
 
       if (response?.status === 200) {
@@ -306,7 +305,7 @@ const SalesList = (props: SalesListProps) => {
           }
         },
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return <CellSkeleton searching={searching}>{value?.title}</CellSkeleton>;
         }
       }
     },
