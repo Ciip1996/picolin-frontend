@@ -103,7 +103,7 @@ const SalesList = (props: SalesListProps) => {
       const queryParams = queryString.stringify(params);
       const url = store_filter
         ? '/getSales/:filtros?'.replace(':filtros', store_filter?.title)
-        : '/getSales/TODOS?';
+        : '/getSales/ALL?';
       const response = await API.get(`${url}${queryParams}`);
 
       if (response?.status === 200) {
