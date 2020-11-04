@@ -109,8 +109,9 @@ const InventoryList = (props: InventoryListProps) => {
 
       const queryParams = queryString.stringify(params);
       const url = store_filter
-        ? '/getInventory/:filtros?'.replace(':filtros', store_filter?.title)
+        ? '/getInventory/:idStore?'.replace(':idStore', store_filter?.idStore)
         : '/getInventory/TODOS?';
+
       const response = await API.get(`${url}${queryParams}`);
 
       if (response?.status === 200) {
