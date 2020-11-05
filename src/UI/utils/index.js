@@ -219,7 +219,7 @@ export const getErrorMessage = (error: any) => {
   if (!error || !error.request || !error.response || error.request.responseType !== 'json') {
     return GenericContents[language].error.message;
   }
-  const errorData = error?.response?.data?.length ? errorData[0].message : error?.message;
+  const errorData = error?.response?.data?.length ? error.response.data[0].message : error?.message;
   return errorData || nestTernary(errorData.message, errorData.message, errorData.error?.message);
 };
 
