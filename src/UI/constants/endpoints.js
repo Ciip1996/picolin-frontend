@@ -1,7 +1,11 @@
 export const Endpoints = {
-  Sales: 'ventas',
-  Roles: 'roles',
+  Inventory: '/inventory',
+  GetInventory: '/getInventory/:idStore?',
+  Sales: '/sales',
+  GetSales: '/getSales/:idStore?',
+  Roles: 'lists/roles',
   Dashboard: 'dashboard',
-  Colors: '/getColors',
-  Stores: '/getStore'
+  Colors: 'lists/getColors',
+  Stores: 'lists/getStore',
+  Types: 'lists/getTypes'
 };

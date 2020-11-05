@@ -95,13 +95,11 @@ const SalesList = (props: SalesListProps) => {
 
       saveFilters('ventas', { filters, params });
 
-      // const queryParams = queryString.stringify(params);
-
-      // const response =  await API.get(`${Endpoints.Ventas}?${queryParams}`);
       const queryParams = queryString.stringify(params);
-      const url = store_filter
-        ? '/getSales/:filtros?'.replace(':idStore', store_filter?.idStore)
-        : '/getSales/ALL?';
+      const url = `${Endpoints.Sales}${Endpoints.GetSales}`.replace(
+        ':idStore',
+        store_filter ? store_filter?.idStore : 'ALL'
+      );
 
       const response = await API.get(`${url}${queryParams}`);
 

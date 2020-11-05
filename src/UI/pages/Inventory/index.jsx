@@ -108,10 +108,10 @@ const InventoryList = (props: InventoryListProps) => {
       saveFilters('inventory', { filters, params });
 
       const queryParams = queryString.stringify(params);
-      const url = store_filter
-        ? '/getInventory/:idStore?'.replace(':idStore', store_filter?.idStore)
-        : '/getInventory/ALL?';
-
+      const url = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
+        ':idStore',
+        store_filter ? store_filter?.idStore : 'ALL'
+      );
       const response = await API.get(`${url}${queryParams}`);
       if (response?.status === 200) {
         setData(response?.data?.inventory || []);
@@ -357,7 +357,7 @@ const InventoryList = (props: InventoryListProps) => {
                 <AutocompleteSelect
                   name="type_filter"
                   placeholder={Contents[language]?.labType}
-                  url="/getTypes"
+                  url={Endpoints.Types}
                   selectedValue={filters.type_filter}
                   onSelect={handleFilterChange}
                 />
