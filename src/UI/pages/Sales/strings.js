@@ -6,7 +6,14 @@ const Contents = {
     labPayment: 'Payment',
     labStore: 'Store',
     labInvoice: 'Invoice',
-    labQuantity: 'Quantity'
+    labQuantity: 'Quantity',
+    card: 'Card',
+    cash: 'Cash',
+    yes: '1',
+    no: '0',
+    day: 'Per day',
+    week: 'Per week',
+    month: 'Per month'
   },
   Spanish: {
     pageTitle: 'VENTAS',
@@ -15,7 +22,14 @@ const Contents = {
     labPayment: 'Tipo de pago',
     labStore: 'Tienda',
     labInvoice: 'Factura',
-    labQuantity: 'Cantidad'
+    labQuantity: 'Cantidad',
+    card: 'Tarjeta',
+    cash: 'Efectivo',
+    yes: '1',
+    no: '0',
+    day: 'Del día',
+    week: 'Semana',
+    month: 'Del Mes'
   }
 };
 export default Contents;

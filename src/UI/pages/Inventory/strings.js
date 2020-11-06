@@ -11,7 +11,9 @@ const Contents = {
     labType: 'Type',
     labReserved: 'Reserved',
     labStock: 'Stock',
-    labInventory: 'INVENTORY'
+    labInventory: 'INVENTORY',
+    Girl: 'Girl',
+    Boy: 'Boy'
   },
   Spanish: {
     pageTitle: 'INVENTARIO',
@@ -25,7 +27,9 @@ const Contents = {
     labType: 'Tipo',
     labReserved: 'Apartados',
     labStock: 'Stock',
-    labInventory: 'INVENTARIO'
+    labInventory: 'INVENTARIO',
+    Girl: 'Niña',
+    Boy: 'Niño'
   }
 };
 export default Contents;

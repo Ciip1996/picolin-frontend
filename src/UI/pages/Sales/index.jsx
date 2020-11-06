@@ -63,9 +63,35 @@ const SalesList = (props: SalesListProps) => {
   const [data, setData] = useState<any>([{}]);
   const [count, setCount] = useState(0);
 
+  const payment = [
+    { id: 0, title: Contents[language]?.cash },
+    { id: 1, title: Contents[language]?.card }
+  ];
+
+  const invoice = [
+    { id: 0, title: Contents[language]?.no },
+    { id: 1, title: Contents[language]?.yes }
+  ];
+
+  const init = [
+    { id: 0, title: Contents[language]?.day },
+    { id: 1, title: Contents[language]?.week },
+    { id: 2, title: Contents[language]?.month }
+  ];
+
   const savedSearch = getFilters('ventas');
   const savedFilters = savedSearch?.filters;
   const savedParams = savedSearch?.params;
+
+  // const genders = [
+  // { id: 0, title: Contents[language]?.Girl },
+  // { id: 1, title: Contents[language]?.Boy }
+  // ];
+
+  // const genders = [
+  // { id: 0, title: Contents[language]?.Girl },
+  // { id: 1, title: Contents[language]?.Boy }
+  // ];
 
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
@@ -251,7 +277,7 @@ const SalesList = (props: SalesListProps) => {
                 <AutocompleteSelect
                   name="payment_filter"
                   placeholder={Contents[language]?.labPayment}
-                  url={Endpoints.Sales}
+                  // url={Endpoints.Sales}
                   selectedValue={filters.payment_filter}
                   // renderOption={option => (
                   //   <>
@@ -261,6 +287,7 @@ const SalesList = (props: SalesListProps) => {
                   //   </>
                   // )}
                   onSelect={handleFilterChange}
+                  defaultOptions={payment}
                 />
               </FormControl>
             );
@@ -287,7 +314,7 @@ const SalesList = (props: SalesListProps) => {
                 <AutocompleteSelect
                   name="store_filter"
                   placeholder={Contents[language]?.labStore}
-                  url={Endpoints.Sales}
+                  url={Endpoints.Stores}
                   selectedValue={filters.store_filter}
                   // renderOption={option => (
                   //   <>
@@ -323,7 +350,7 @@ const SalesList = (props: SalesListProps) => {
                 <AutocompleteSelect
                   name="invoice_filter"
                   placeholder={Contents[language]?.labInvoice}
-                  url={Endpoints.Sales}
+                  // url={Endpoints.Stores}
                   selectedValue={filters.invoice_filter}
                   // renderOption={option => (
                   //   <>
@@ -332,6 +359,7 @@ const SalesList = (props: SalesListProps) => {
                   //     <span>{option.title && option.title}</span>
                   //   </>
                   // )}
+                  defaultOptions={invoice}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -384,6 +412,7 @@ const SalesList = (props: SalesListProps) => {
             url={Endpoints.Stores}
             selectedValue={filters.date_filter}
             onSelect={handleFilterChange}
+            defaultOptions={init}
           />
         }
         filters={filters}

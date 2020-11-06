@@ -66,8 +66,8 @@ const InventoryList = (props: InventoryListProps) => {
   const [count, setCount] = useState(0);
 
   const genders = [
-    { id: 0, title: 'Niña' },
-    { id: 1, title: 'Niño' }
+    { id: 0, title: Contents[language]?.Girl },
+    { id: 1, title: Contents[language]?.Boy }
   ];
 
   const savedSearch = getFilters('inventory');
