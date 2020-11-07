@@ -115,8 +115,8 @@ const SalesList = (props: SalesListProps) => {
         perPage: uiState.perPage,
         date: date_filter?.title || undefined,
         paymentMethod: payment_filter?.title || undefined,
-        store: store_filter?.idStore || undefined,
-        invoice: invoice_filter?.title || undefined
+        store: store_filter?.id || undefined,
+        invoice: invoice_filter?.id || undefined
       };
 
       saveFilters('ventas', { filters, params });
@@ -124,7 +124,7 @@ const SalesList = (props: SalesListProps) => {
       const queryParams = queryString.stringify(params);
       const url = `${Endpoints.Sales}${Endpoints.GetSales}`.replace(
         ':idStore',
-        store_filter ? store_filter?.idStore : 'ALL'
+        store_filter ? store_filter?.id : 'ALL'
       );
 
       const response = await API.get(`${url}${queryParams}`);
@@ -316,13 +316,6 @@ const SalesList = (props: SalesListProps) => {
                   placeholder={Contents[language]?.labStore}
                   url={Endpoints.Stores}
                   selectedValue={filters.store_filter}
-                  // renderOption={option => (
-                  //   <>
-                  //     {statusStartAdornment('')}
-                  //     &nbsp;
-                  //     <span>{option.title && option.title}</span>
-                  //   </>
-                  // )}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -350,15 +343,11 @@ const SalesList = (props: SalesListProps) => {
                 <AutocompleteSelect
                   name="invoice_filter"
                   placeholder={Contents[language]?.labInvoice}
-                  // url={Endpoints.Stores}
                   selectedValue={filters.invoice_filter}
-                  // renderOption={option => (
-                  //   <>
-                  //     {statusStartAdornment('')}
-                  //     &nbsp;
-                  //     <span>{option.title && option.title}</span>
-                  //   </>
-                  // )}
+                  // renderOption={option => {
+                  //   console.log(option);
+                  //   return <span>{option === 0 ? 'NO' : 'SI'}</span>;
+                  // }}
                   defaultOptions={invoice}
                   onSelect={handleFilterChange}
                 />

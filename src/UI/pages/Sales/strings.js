@@ -9,8 +9,8 @@ const Contents = {
     labQuantity: 'Quantity',
     card: 'Card',
     cash: 'Cash',
-    yes: '1',
-    no: '0',
+    yes: 'Yes',
+    no: 'No',
     day: 'Per day',
     week: 'Per week',
     month: 'Per month'
@@ -25,8 +25,8 @@ const Contents = {
     labQuantity: 'Cantidad',
     card: 'Tarjeta',
     cash: 'Efectivo',
-    yes: '1',
-    no: '0',
+    yes: 'Si',
+    no: 'No',
     day: 'Del día',
     week: 'Semana',
     month: 'Del Mes'
