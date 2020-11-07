@@ -258,6 +258,7 @@ const InventoryList = (props: InventoryListProps) => {
                   // )}
                   onSelect={handleFilterChange}
                 />
+                      debugger;
               </FormControl>
             );
           }

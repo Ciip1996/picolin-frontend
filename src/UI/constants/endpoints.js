@@ -3,6 +3,8 @@ export const Endpoints = {
   GetInventory: '/getInventory/:idStore?',
   Sales: '/sales',
   GetSales: '/getSales/:idStore?',
+  Transfers: '/transfers',
+  GetTransfers: '/getTransfer/:idStore?',
   Roles: 'lists/roles',
   Dashboard: 'dashboard',
   Colors: 'lists/getColors',
