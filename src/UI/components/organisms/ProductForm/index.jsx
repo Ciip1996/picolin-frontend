@@ -34,24 +34,19 @@ const ProductForm = (props: ProductFormProps) => {
       { name: 'characteristic' },
       { required: `characteristic ${Contents[language].RequiredMessage}` }
     );
-    register({ name: 'color' }, { required: `Color ${Contents[language].RequiredMessage}` });
-    register({ name: 'provider' }, { required: `Proveedor ${Contents[language].RequiredMessage}` });
-    register({ name: 'size' }, { required: `Tamaño ${Contents[language].RequiredMessage}` });
-    register({ name: 'pieces' }, { required: `Piezas ${Contents[language].RequiredMessage}` });
-    register({ name: 'cost' }, { required: `Costo ${Contents[language].RequiredMessage}` });
-    register(
-      { name: 'salePrice' },
-      { required: `Precio de venta ${Contents[language].RequiredMessage}` }
-    );
-    register({ name: 'idStore' }, { required: `Tienda ${Contents[language].RequiredMessage}` });
-    register({ name: 'gender' }, { required: `Genero ${Contents[language].RequiredMessage}` });
-    register({ name: 'quantity' }, { required: `Cantidad ${Contents[language].RequiredMessage}` });
+    register({ name: 'color' }, { required: `${Contents[language].RequiredMessage}` });
+    register({ name: 'provider' }, { required: `${Contents[language].RequiredMessage}` });
+    register({ name: 'size' }, { required: `${Contents[language].RequiredMessage}` });
+    register({ name: 'pieces' }, { required: `${Contents[language].RequiredMessage}` });
+    register({ name: 'cost' }, { required: `${Contents[language].RequiredMessage}` });
+    register({ name: 'salePrice' }, { required: `${Contents[language].RequiredMessage}` });
+    register({ name: 'idStore' }, { required: `${Contents[language].RequiredMessage}` });
+    register({ name: 'gender' }, { required: `${Contents[language].RequiredMessage}` });
+    register({ name: 'quantity' }, { required: `${Contents[language].RequiredMessage}` });
     register({ name: 'description' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
   }, [language, register]);
 
   const handleComboChange = (name: string, value: any) => {
-    // const val = getValues();
-    // console.log(val);
     setComboValues((prevState: Map): Map => ({ ...prevState, [name]: value }));
     setValue(name, value?.id ? value?.id : value?.title, true);
   };

@@ -13,12 +13,13 @@ import { globalStyles } from 'GlobalStyles';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-type TransferProductsDrawerProps = {
-  handleClose: any => any
+type InventoryDrawerProps = {
+  handleClose: any => any,
+  onShowAlert: any => any
 };
 
-const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
-  const { handleClose } = props;
+const InventoryDrawer = (props: InventoryDrawerProps) => {
+  const { handleClose, onShowAlert } = props;
   const language = localStorage.getItem('language');
 
   const form = useForm({
@@ -45,10 +46,32 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
   const classes = useStyles();
 
   const onSubmit = async (formData: Object) => {
-    console.log(formData);
-    const response = await API.post(`${Endpoints.Inventory}${Endpoints.InsertInventory}`, formData);
-    debugger;
-    console.log(response);
+    try {
+      const response = await API.post(
+        `${Endpoints.Inventory}${Endpoints.InsertInventory}`,
+        formData
+      );
+      if (response) {
+        debugger;
+        console.log(formData, response);
+        onShowAlert({
+          severity: 'success',
+          title: 'Producto Agregado',
+          autoHideDuration: 3000,
+          body: 'Inserción Exitosa'
+        });
+      }
+    } catch (err) {
+      console.log(err);
+      debugger;
+      onShowAlert({
+        severity: 'error',
+        title: 'Error',
+        autoHideDuration: 3000,
+        body: 'Ocurrio un problema'
+      });
+      throw err;
+    }
   };
 
   return (
@@ -61,7 +84,7 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
           onSecondaryButtonClick={handleClose}
           variant="borderless"
           uiState={uiState}
-          initialText="Re-Validate"
+          initialText="Agregar"
         >
           <form className={classes.root} noValidate autoComplete="off" />
           <Box>
@@ -77,6 +100,6 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
   );
 };
 
-TransferProductsDrawer.defaultProps = {};
+InventoryDrawer.defaultProps = {};
 
-export default TransferProductsDrawer;
+export default InventoryDrawer;

@@ -4,7 +4,7 @@ const containerXPadding = 24;
 
 export const styles = {
   drawerContainer: {
-    width: 485,
+    width: 565,
     height: '100vh',
     position: 'fixed',
     top: 0,

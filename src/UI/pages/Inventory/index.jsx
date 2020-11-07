@@ -28,6 +28,7 @@ import { getErrorMessage } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
+import { AddIcon, colors } from 'UI/res';
 import Contents from './strings';
 
 const CellSkeleton = ({ children, searching }) => {
@@ -82,7 +83,7 @@ const InventoryList = (props: InventoryListProps) => {
     direction: savedParams?.direction || null,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isAddProductDrawerOpen: true
+    isAddProductDrawerOpen: false
   });
 
   const getData = useCallback(async () => {
@@ -104,7 +105,7 @@ const InventoryList = (props: InventoryListProps) => {
       const queryParams = queryString.stringify(params);
       const url = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
         ':idStore',
-        store_filter ? store_filter?.idStore : 'ALL'
+        store_filter ? store_filter?.id : 'ALL'
       );
       const response = await API.get(`${url}${queryParams}`);
       if (response?.status === 200) {
@@ -420,23 +421,26 @@ const InventoryList = (props: InventoryListProps) => {
         loading={loading}
         title={Contents[language]?.labInventory}
         selector={
-          <AutocompleteSelect
-            name="store_filter"
-            placeholder={Contents[language]?.labInventory}
-            url={Endpoints.Stores}
-            selectedValue={filters.store_filter}
-            onSelect={handleFilterChange}
-          />
+          <>
+            <ActionButton
+              text={Contents[language].addNewProduct}
+              onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
+            >
+              <AddIcon fill={colors.white} size={18} />
+            </ActionButton>
+            <AutocompleteSelect
+              name="store_filter"
+              placeholder={Contents[language]?.labInventory}
+              url={Endpoints.Stores}
+              selectedValue={filters.store_filter}
+              onSelect={handleFilterChange}
+            />
+          </>
         }
         filters={filters}
         onFilterRemove={handleFilterRemove}
         onFiltersReset={handleResetFiltersClick}
       >
-        <ActionButton
-          text={Contents[language].addNewProduct}
-          onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
-        />
-
         <DataTable
           error={error}
           loading={loading}
@@ -465,7 +469,10 @@ const InventoryList = (props: InventoryListProps) => {
         onClose={toggleDrawer('isAddProductDrawerOpen', false)}
       >
         <div role="presentation">
-          <InventoryProductDrawer handleClose={toggleDrawer('isAddProductDrawerOpen', false)} />
+          <InventoryProductDrawer
+            onShowAlert={onShowAlert}
+            handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
+          />
         </div>
       </Drawer>
     </ContentPageLayout>

@@ -1,9 +1,9 @@
 const Contents = {
   English: {
-    RequiredMessage: 'is required'
+    RequiredMessage: 'This is a required field'
   },
   Spanish: {
-    RequiredMessage: 'es un campo obligatorio'
+    RequiredMessage: 'Este es un campo obligatorio'
   }
 };
 export default Contents;
