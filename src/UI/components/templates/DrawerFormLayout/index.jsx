@@ -90,11 +90,11 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
                   onClose();
                 }
               }}
-              variant="outlined"
+              // variant="outlined"
               style={{ width: CancelSaveButton }}
             />
           )}
-
+          <span style={{ width: 20 }} />
           {isSaveButtonMode ? (
             <SaveButton
               isSaving={uiState?.isSaving}

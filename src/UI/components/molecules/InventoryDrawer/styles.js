@@ -5,18 +5,6 @@ const feeModalContainerHeight = 600;
 const topBarHeight = 54;
 
 export const useStyles = makeStyles(theme => ({
-  title: {
-    marginTop: '-36px',
-    marginLeft: '8px',
-    marginBottom: '20px',
-    width: '400px',
-    height: '45px',
-    textAlign: 'left',
-    font: 'bold 32px/48px Poppins',
-    letterSpacing: '0px',
-    color: '#2C2C2C',
-    opacity: '1'
-  },
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),

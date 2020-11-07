@@ -1,11 +1,14 @@
 // @flow
 import React, { useState, useEffect } from 'react';
-import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
+import { FormContext, useForm } from 'react-hook-form';
 import Box from '@material-ui/core/Box';
-import Text from 'UI/components/atoms/Text';
-import TextField from '@material-ui/core/TextField';
-// import fetch from 'cross-fetch';
 
+import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
+import Text from 'UI/components/atoms/Text';
+import ProductForm from 'UI/components/organisms/ProductForm';
+import { Endpoints } from 'UI/constants/endpoints';
+
+import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
 import { useStyles } from './styles';
 import Contents from './strings';
@@ -18,6 +21,12 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
   const { handleClose } = props;
   const language = localStorage.getItem('language');
 
+  const form = useForm({
+    defaultValues: {}
+  });
+
+  const { handleSubmit } = form;
+
   const [uiState, setUiState] = useState({
     isSaving: false,
     isSuccess: false,
@@ -25,37 +34,6 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
     isFormDisabled: false,
     isLoading: true
   });
-
-  const inventoryvalues = [
-    {
-      value: Contents[language].Store,
-      label: Contents[language].Store
-    },
-    {
-      value: Contents[language].Warehouse,
-      label: Contents[language].Warehouse
-    }
-  ];
-  const destinyvalues = [
-    {
-      value: Contents[language].Store,
-      label: Contents[language].Store
-    },
-    {
-      value: Contents[language].Warehouse,
-      label: Contents[language].Warehouse
-    }
-  ];
-
-  const [inventory, setinventory] = React.useState(Contents[language].Store);
-  const [destiny, setdestiny] = React.useState(Contents[language].Store);
-
-  const handleChange = event => {
-    setinventory(event.target.value);
-  };
-  const handleChange2 = event => {
-    setdestiny(event.target.value);
-  };
 
   useEffect(() => {
     setUiState(prevState => ({
@@ -65,82 +43,36 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
   }, []);
 
   const classes = useStyles();
+
+  const onSubmit = async (formData: Object) => {
+    console.log(formData);
+    const response = await API.post(`${Endpoints.Inventory}${Endpoints.InsertInventory}`, formData);
+    debugger;
+    console.log(response);
+  };
+
   return (
     <>
-      {/* <FormContext {...form}> */}
-      <DrawerFormLayout
-        title="title here"
-        onSubmit={() => {}}
-        onClose={handleClose}
-        // onSecondaryButtonClick={handleClose}
-        variant="borderless"
-        uiState={uiState}
-        initialText="Re-Validate"
-      >
-        <form className={classes.root} noValidate autoComplete="off">
-          <div>
-            <h1 className={classes.title}>{Contents[language].TransProducts}</h1>
-            <TextField
-              id="outlined-select-inventory-native"
-              select
-              label={Contents[language].Origin}
-              value={inventory}
-              onChange={handleChange}
-              SelectProps={{
-                native: true
-              }}
-              variant="outlined"
-              className={classes.textOrigin}
-              size="small"
-            >
-              {inventoryvalues.map(option => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </TextField>
-            <TextField
-              id="outlined-select-inventory-native"
-              select
-              label={Contents[language].Destiny}
-              value={destiny}
-              onChange={handleChange2}
-              SelectProps={{
-                native: true
-              }}
-              variant="outlined"
-              className={classes.textDestiny}
-              size="small"
-            >
-              {destinyvalues.map(option => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </TextField>
-          </div>
-          <TextField
-            id="outlined-number"
-            label={Contents[language].Products}
-            type="text"
-            InputLabelProps={{
-              shrink: true
-            }}
-            variant="outlined"
-            className={classes.textProducts}
-            size="small"
-            placeholder={Contents[language].Placeholder}
-          />
-        </form>
-        <div>contendio aqui</div>
-        <Box>
-          <div style={globalStyles.feeDrawerslabel}>
-            <Text variant="subtitle1" text="Modify The Declined Fields" fontSize={16} />
-          </div>
-        </Box>
-        <div />
-      </DrawerFormLayout>
-      {/* </FormContext> */}
+      <FormContext {...form}>
+        <DrawerFormLayout
+          title={Contents[language].Title}
+          onSubmit={handleSubmit(onSubmit)}
+          onClose={handleClose}
+          onSecondaryButtonClick={handleClose}
+          variant="borderless"
+          uiState={uiState}
+          initialText="Re-Validate"
+        >
+          <form className={classes.root} noValidate autoComplete="off" />
+          <Box>
+            <div style={globalStyles.feeDrawerslabel}>
+              <Text variant="body1" text={Contents[language].Subtitle} fontSize={14} />
+              <ProductForm />
+            </div>
+          </Box>
+          <div />
+        </DrawerFormLayout>
+      </FormContext>
     </>
   );
 };

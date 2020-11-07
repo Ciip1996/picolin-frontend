@@ -1,21 +1,11 @@
 const Contents = {
   English: {
-    Store: 'Store',
-    Warehouse: 'Warehouse',
-    TransProducts: 'TRANSFER PRODUCTS',
-    Destiny: 'Destiny',
-    Origin: 'Origin',
-    Products: 'Products',
-    Placeholder: 'Write the code'
+    Title: 'Register a new Product',
+    Subtitle: 'Insert the data of the product you may want to add to the inventory.'
   },
   Spanish: {
-    Store: 'Tienda',
-    Warehouse: 'Bodega',
-    TransProducts: 'TRANSFERIR PRODUCTOS',
-    Destiny: 'Destino',
-    Origin: 'Origen',
-    Products: 'Productos',
-    Placeholder: 'Escriba o registre el código de barras'
+    Title: 'Alta de producto',
+    Subtitle: 'Inserte los datos del producto que desea agregar al inventario.'
   }
 };
 export default Contents;

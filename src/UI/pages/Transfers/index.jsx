@@ -8,7 +8,7 @@ import { FormControl } from '@material-ui/core';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 
 import { showAlert } from 'actions/app';
-import { PageTitles } from 'UI/constants/defaults';
+import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 
 /** Atoms, Components and Styles */
 
@@ -16,6 +16,9 @@ import { PageTitles } from 'UI/constants/defaults';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import DataTable from 'UI/components/organisms/DataTable';
+import TransferProductsDrawer from 'UI/components/molecules/TransferDrawer';
+import Drawer from '@material-ui/core/Drawer';
+
 /** API / EntityRoutes / Endpoints / EntityType */
 // import Box from '@material-ui/core/Box';
 import API from 'services/API';
@@ -66,12 +69,12 @@ const TransferList = (props: TransferListProps) => {
   const savedParams = savedSearch?.params;
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
-  // const toggleDrawer = (drawer: string, open: boolean) => event => {
-  //   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-  //     return;
-  //   }
-  //   setUiState(prevState => ({ ...prevState, [drawer]: open }));
-  // };
+  const toggleDrawer = (drawer: string, open: boolean) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setUiState(prevState => ({ ...prevState, [drawer]: open }));
+  };
 
   const [uiState, setUiState] = useState({
     keyword: savedParams?.keyword || null,
@@ -85,7 +88,7 @@ const TransferList = (props: TransferListProps) => {
   const getData = useCallback(async () => {
     try {
       const { store_filter, gender_filter = {}, type_filter = {}, color_filter = {} } = filters;
-
+      console.log(store_filter);
       const params = {
         keyword: uiState.keyword || undefined,
         // orderBy: uiState.orderBy,
@@ -375,7 +378,7 @@ const TransferList = (props: TransferListProps) => {
   }, [error]);
 
   useEffect(() => {
-    document.title = PageTitles.Inventory;
+    document.title = PageTitles.Transfers;
     getData();
   }, [error, getData]);
 
@@ -419,6 +422,16 @@ const TransferList = (props: TransferListProps) => {
           onColumnDisplayClick={handleColumnDisplayClick}
         />
       </ListPageLayout>
+      <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isTransferDrawerOpen}
+        onClose={toggleDrawer('isTransferDrawerOpen', false)}
+      >
+        <div role="presentation">
+          <div />
+          <TransferProductsDrawer />
+        </div>
+      </Drawer>
     </ContentPageLayout>
   );
 };

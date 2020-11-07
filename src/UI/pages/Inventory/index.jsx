@@ -5,14 +5,13 @@ import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 import { FormControl } from '@material-ui/core';
+import Drawer from '@material-ui/core/Drawer';
+
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
+import ActionButton from 'UI/components/atoms/ActionButton';
 
 import { showAlert } from 'actions/app';
-// import Drawer from '@material-ui/core/Drawer';
-import {
-  // drawerAnchor,
-  PageTitles
-} from 'UI/constants/defaults';
+import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -20,7 +19,7 @@ import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 /** Components */
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-// import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
+import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -65,22 +64,17 @@ const InventoryList = (props: InventoryListProps) => {
   const [data, setData] = useState<any>(null);
   const [count, setCount] = useState(0);
 
-  const genders = [
-    { id: 0, title: Contents[language]?.Girl },
-    { id: 1, title: Contents[language]?.Boy }
-  ];
-
   const savedSearch = getFilters('inventory');
   const savedFilters = savedSearch?.filters;
   const savedParams = savedSearch?.params;
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
-  // const toggleDrawer = (drawer: string, open: boolean) => event => {
-  //   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-  //     return;
-  //   }
-  //   setUiState(prevState => ({ ...prevState, [drawer]: open }));
-  // };
+  const toggleDrawer = (drawer: string, open: boolean) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setUiState(prevState => ({ ...prevState, [drawer]: open }));
+  };
 
   const [uiState, setUiState] = useState({
     keyword: savedParams?.keyword || null,
@@ -88,7 +82,7 @@ const InventoryList = (props: InventoryListProps) => {
     direction: savedParams?.direction || null,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isTransferDrawerOpen: true
+    isAddProductDrawerOpen: true
   });
 
   const getData = useCallback(async () => {
@@ -249,16 +243,8 @@ const InventoryList = (props: InventoryListProps) => {
                   placeholder={Contents[language]?.labColor}
                   url={Endpoints.Colors}
                   selectedValue={filters.color_filter}
-                  // renderOption={option => (
-                  //   <>
-                  //     {statusStartAdornment('')}
-                  //     &nbsp;
-                  //     <span>{option.title && option.title}</span>
-                  //   </>
-                  // )}
                   onSelect={handleFilterChange}
                 />
-                      debugger;
               </FormControl>
             );
           }
@@ -329,9 +315,9 @@ const InventoryList = (props: InventoryListProps) => {
                 <AutocompleteSelect
                   name="gender_filter"
                   placeholder={Contents[language]?.labGender}
+                  url={Endpoints.Genders}
                   selectedValue={filters.gender_filter}
                   onSelect={handleFilterChange}
-                  defaultOptions={genders}
                 />
               </FormControl>
             );
@@ -446,6 +432,11 @@ const InventoryList = (props: InventoryListProps) => {
         onFilterRemove={handleFilterRemove}
         onFiltersReset={handleResetFiltersClick}
       >
+        <ActionButton
+          text={Contents[language].addNewProduct}
+          onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
+        />
+
         <DataTable
           error={error}
           loading={loading}
@@ -468,6 +459,15 @@ const InventoryList = (props: InventoryListProps) => {
           onColumnDisplayClick={handleColumnDisplayClick}
         />
       </ListPageLayout>
+      <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isAddProductDrawerOpen}
+        onClose={toggleDrawer('isAddProductDrawerOpen', false)}
+      >
+        <div role="presentation">
+          <InventoryProductDrawer handleClose={toggleDrawer('isAddProductDrawerOpen', false)} />
+        </div>
+      </Drawer>
     </ContentPageLayout>
   );
 };

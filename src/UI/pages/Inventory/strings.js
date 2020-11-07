@@ -12,6 +12,7 @@ const Contents = {
     labReserved: 'Reserved',
     labStock: 'Stock',
     labInventory: 'INVENTORY',
+    addNewProduct: 'New',
     Girl: 'Girl',
     Boy: 'Boy'
   },
@@ -28,6 +29,7 @@ const Contents = {
     labReserved: 'Apartados',
     labStock: 'Stock',
     labInventory: 'INVENTARIO',
+    addNewProduct: 'Entrada',
     Girl: 'Niña',
     Boy: 'Niño'
   }
