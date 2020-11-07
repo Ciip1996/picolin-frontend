@@ -108,9 +108,8 @@ const TransferList = (props: TransferListProps) => {
       // );
       const url = `${Endpoints.Transfers}/getTransfer`;
       const response = await API.get(`${url}${queryParams}`);
-      debugger;
       if (response?.status === 200) {
-        setData(response?.data?.transfers || []);
+        setData(response?.data || []);
       }
       setCount(Number(response?.data?.totalResults) || 0);
       setLoading(false);
