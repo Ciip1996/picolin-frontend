@@ -52,7 +52,6 @@ const InventoryDrawer = (props: InventoryDrawerProps) => {
         formData
       );
       if (response) {
-        debugger;
         console.log(formData, response);
         onShowAlert({
           severity: 'success',
@@ -63,7 +62,6 @@ const InventoryDrawer = (props: InventoryDrawerProps) => {
       }
     } catch (err) {
       console.log(err);
-      debugger;
       onShowAlert({
         severity: 'error',
         title: 'Error',
