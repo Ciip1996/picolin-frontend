@@ -109,13 +109,15 @@ const TransferList = (props: TransferListProps) => {
       const url = `${Endpoints.Transfers}/getTransfer`;
       const response = await API.get(`${url}${queryParams}`);
       if (response?.status === 200) {
-        setData(response?.data || []);
+        setData(response?.data?.tranfer || []);
       }
       setCount(Number(response?.data?.totalResults) || 0);
+      debugger;
       setLoading(false);
       setSearching(false);
       setError(false);
     } catch (err) {
+      console.log(err);
       setError(true);
       onShowAlert({
         severity: 'error',
@@ -199,6 +201,15 @@ const TransferList = (props: TransferListProps) => {
 
   const columns = [
     {
+      name: 'id',
+      options: {
+        filter: true,
+        sort: false,
+        display: 'excluded',
+        filterType: 'custom'
+      }
+    },
+    {
       name: 'idTransferProduct',
       label: Contents[language]?.IdTransfer,
       options: {
@@ -234,13 +245,6 @@ const TransferList = (props: TransferListProps) => {
                   placeholder={Contents[language]?.User}
                   url={Endpoints.Colors}
                   selectedValue={filters.color_filter}
-                  // renderOption={option => (
-                  //   <>
-                  //     {statusStartAdornment('')}
-                  //     &nbsp;
-                  //     <span>{option.title && option.title}</span>
-                  //   </>
-                  // )}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -405,8 +409,8 @@ const TransferList = (props: TransferListProps) => {
           data={data}
           columns={columns}
           count={count}
-          // page={uiState.page}
-          // rowsPerPage={uiState.perPage}
+          page={uiState.page}
+          rowsPerPage={uiState.perPage}
           searchText={uiState.keyword}
           onRowClick={handleRowClick}
           onResetfiltersClick={handleResetFiltersClick}
@@ -427,8 +431,10 @@ const TransferList = (props: TransferListProps) => {
         onClose={toggleDrawer('isTransferDrawerOpen', false)}
       >
         <div role="presentation">
-          <div />
-          <TransferProductsDrawer />
+          <TransferProductsDrawer
+            onShowAlert={onShowAlert}
+            handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
+          />
         </div>
       </Drawer>
     </ContentPageLayout>
