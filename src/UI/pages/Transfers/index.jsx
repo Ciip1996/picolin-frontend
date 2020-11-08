@@ -109,15 +109,13 @@ const TransferList = (props: TransferListProps) => {
       const url = `${Endpoints.Transfers}/getTransfer`;
       const response = await API.get(`${url}${queryParams}`);
       if (response?.status === 200) {
-        setData(response?.data?.tranfer || []);
+        setData(response?.data?.transfer || []);
       }
       setCount(Number(response?.data?.totalResults) || 0);
-      debugger;
       setLoading(false);
       setSearching(false);
       setError(false);
     } catch (err) {
-      console.log(err);
       setError(true);
       onShowAlert({
         severity: 'error',
@@ -384,6 +382,8 @@ const TransferList = (props: TransferListProps) => {
     document.title = PageTitles.Transfers;
     getData();
   }, [error, getData]);
+
+  console.log(data);
 
   return (
     <ContentPageLayout>

@@ -62,7 +62,7 @@ const Searchbar = (props: SearchbarProps) => {
       <IconButton
         type="button"
         className={classes.iconButton}
-        aria-label={Contents[language].Search}
+        aria-label={Contents[language]?.Search}
         onClick={handleSearchClick}
       >
         <SearchBarIcon fill={colors.inactiveSideBarTab} />
@@ -74,7 +74,7 @@ const Searchbar = (props: SearchbarProps) => {
 Searchbar.defaultProps = {
   width: '389px',
   value: null,
-  placeholder: Contents[language].SearchBy,
+  placeholder: Contents[language]?.SearchBy,
   onChange: () => {},
   onSearch: () => {}
 };

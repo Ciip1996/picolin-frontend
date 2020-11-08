@@ -423,7 +423,7 @@ const InventoryList = (props: InventoryListProps) => {
         selector={
           <>
             <ActionButton
-              text={Contents[language].addNewProduct}
+              text={Contents[language]?.addNewProduct}
               onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
             >
               <AddIcon fill={colors.white} size={18} />

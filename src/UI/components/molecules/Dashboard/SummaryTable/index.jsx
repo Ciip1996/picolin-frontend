@@ -93,7 +93,7 @@ const SummaryTable = (props: SummaryTableProps) => {
       <MuiThemeProvider theme={getMuiTheme()}>
         <MUIDataTable columns={columns} data={rows} options={options} />
       </MuiThemeProvider>,
-      <Box p="18px 32px">{Contents[language].data}</Box>
+      <Box p="18px 32px">{Contents[language]?.data}</Box>
     )
   );
 };

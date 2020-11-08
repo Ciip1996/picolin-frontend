@@ -23,7 +23,7 @@ export default function NewSale() {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
-      <h1 className={classes.title}>{Contents[language].HeaderTitle}</h1>
+      <h1 className={classes.title}>{Contents[language]?.HeaderTitle}</h1>
       <AutocompleteSelect
         className={classes.textbox1}
         name="date_filter"
@@ -36,7 +36,7 @@ export default function NewSale() {
       <TextBox
         className={classes.textbox2}
         name="payment"
-        label={Contents[language].Discount}
+        label={Contents[language]?.Discount}
         type="text"
         // inputRef={register({
         //  required: Contents[language]?.reqpwd || 'Se requiere una contraseña'
@@ -47,7 +47,7 @@ export default function NewSale() {
       <TextBox
         className={classes.textbox2}
         name="apart"
-        label={Contents[language].Apart}
+        label={Contents[language]?.Apart}
         type="text"
         // inputRef={register({
         //  required: Contents[language]?.reqpwd || 'Se requiere una contraseña'
@@ -59,31 +59,31 @@ export default function NewSale() {
         value="start"
         className={classes.Control}
         control={<Switch color="primary" />}
-        label={Contents[language].invoice}
+        label={Contents[language]?.invoice}
         labelPlacement="start"
       />
       <List component="nav" className={classes.List}>
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.lblList}>{Contents[language].Deposit}</span>}
+            primary={<span className={classes.lblList}>{Contents[language]?.Deposit}</span>}
           />
           <ListItemText secondary={<span className={classes.lblList2}>N/A</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.lblList}>{Contents[language].Subtotal}</span>}
+            primary={<span className={classes.lblList}>{Contents[language]?.Subtotal}</span>}
           />
           <ListItemText secondary={<span className={classes.lblList2}>$1299.00</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.lblList}>{Contents[language].Taxes}</span>}
+            primary={<span className={classes.lblList}>{Contents[language]?.Taxes}</span>}
           />
           <ListItemText secondary={<span className={classes.lblList2}>$207.84</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.lblList}>{Contents[language].lblDiscount}</span>}
+            primary={<span className={classes.lblList}>{Contents[language]?.lblDiscount}</span>}
           />
           <ListItemText secondary={<span className={classes.lblList2}>$0.00</span>} />
         </ListItem>
@@ -95,7 +95,7 @@ export default function NewSale() {
       </List>
       <ActionButton
         className={classes.Button}
-        text={Contents[language].Conclude}
+        text={Contents[language]?.Conclude}
         // onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
       >
         <AddIcon fill={colors.white} size={18} />

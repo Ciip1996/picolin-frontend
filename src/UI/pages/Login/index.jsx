@@ -62,8 +62,8 @@ const LogIn = (props: LogInProps) => {
     } catch (error) {
       const { response } = error;
       if (response?.status === 401) {
-        setError('user', 'notMatch', Contents[language].errUser);
-        setError('pwd', 'notMatch', Contents[language].errUser);
+        setError('user', 'notMatch', Contents[language]?.errUser);
+        setError('pwd', 'notMatch', Contents[language]?.errUser);
         showAlert({
           severity: 'warning',
           title: `Login`,
@@ -76,7 +76,7 @@ const LogIn = (props: LogInProps) => {
           title: response?.status ? `Error ${response.status}` : `Error`,
           code: response?.status || '500',
           autoHideDuration: 800000,
-          body: Contents[language].errServer
+          body: Contents[language]?.errServer
         });
       }
     } finally {

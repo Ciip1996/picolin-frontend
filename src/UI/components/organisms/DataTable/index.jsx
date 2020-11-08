@@ -14,11 +14,11 @@ const DataTableEmptyState = props => {
   const { error, defaultEmptyState, title, subtitle, customEmptyStateIcon } = props;
   const language = localStorage.getItem('language');
 
-  const defaultTitle = error ? Contents[language].errorTitle : Contents[language].defaultTitle;
+  const defaultTitle = error ? Contents[language]?.errorTitle : Contents[language]?.defaultTitle;
 
   const defaultSubtitle = error
-    ? Contents[language].errorSubtitle
-    : Contents[language].defaultSubtitle;
+    ? Contents[language]?.errorSubtitle
+    : Contents[language]?.defaultSubtitle;
 
   return (
     <EmptyPlaceholder

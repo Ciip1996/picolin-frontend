@@ -41,7 +41,7 @@ const FileChip = (props: FileChipProps) => {
         <CustomIconButton
           style={styles.button}
           disabled
-          tooltipText={Contents[language].txtLoading}
+          tooltipText={Contents[language]?.txtLoading}
         >
           <CircularProgress classes={circularProgressClasses} size={24} thickness={4} />
         </CustomIconButton>
@@ -53,7 +53,7 @@ const FileChip = (props: FileChipProps) => {
         <CustomIconButton
           style={styles.button}
           disabled
-          tooltipText={Contents[language].txtSuccess}
+          tooltipText={Contents[language]?.txtSuccess}
         >
           <SuccessIcon fill={colors.white} />
         </CustomIconButton>
@@ -64,7 +64,7 @@ const FileChip = (props: FileChipProps) => {
       adornment: (
         <CustomIconButton
           style={styles.button}
-          tooltipText={Contents[language].txtDelete}
+          tooltipText={Contents[language]?.txtDelete}
           onClick={handleDeleteClick}
         >
           <CloseIcon fill={colors.grey} />
@@ -76,7 +76,7 @@ const FileChip = (props: FileChipProps) => {
       adornment: (
         <CustomIconButton
           style={styles.button}
-          tooltipText={Contents[language].txtDelete}
+          tooltipText={Contents[language]?.txtDelete}
           onClick={handleDeleteClick}
         >
           <CloseIcon fill={colors.error} />

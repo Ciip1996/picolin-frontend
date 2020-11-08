@@ -76,7 +76,7 @@ const InventoryDrawer = (props: InventoryDrawerProps) => {
     <>
       <FormContext {...form}>
         <DrawerFormLayout
-          title={Contents[language].Title}
+          title={Contents[language]?.Title}
           onSubmit={handleSubmit(onSubmit)}
           onClose={handleClose}
           onSecondaryButtonClick={handleClose}
@@ -87,7 +87,7 @@ const InventoryDrawer = (props: InventoryDrawerProps) => {
           <form className={classes.root} noValidate autoComplete="off" />
           <Box>
             <div style={globalStyles.feeDrawerslabel}>
-              <Text variant="body1" text={Contents[language].Subtitle} fontSize={14} />
+              <Text variant="body1" text={Contents[language]?.Subtitle} fontSize={14} />
               <ProductForm />
             </div>
           </Box>

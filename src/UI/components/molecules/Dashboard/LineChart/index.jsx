@@ -87,11 +87,11 @@ const LineChart = (props: ChartProps) => {
         width="100%"
         height={`${height}px`}
         chartType="LineChart"
-        loader={<div>{Contents[language].loader}</div>}
+        loader={<div>{Contents[language]?.loader}</div>}
         data={chartData}
         options={lineChartOptions(horizontalTicks, GranularityFormats[granularity])}
       />,
-      <>{Contents[language].data}</>
+      <>{Contents[language]?.data}</>
     )
   );
 };

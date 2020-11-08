@@ -29,20 +29,20 @@ const ProductForm = (props: ProductFormProps) => {
   const { register, errors, setValue, getValues } = useFormContext();
 
   useEffect(() => {
-    register({ name: 'type' }, { required: `type ${Contents[language].RequiredMessage}` });
+    register({ name: 'type' }, { required: `type ${Contents[language]?.RequiredMessage}` });
     register(
       { name: 'characteristic' },
-      { required: `characteristic ${Contents[language].RequiredMessage}` }
+      { required: `characteristic ${Contents[language]?.RequiredMessage}` }
     );
-    register({ name: 'color' }, { required: `${Contents[language].RequiredMessage}` });
-    register({ name: 'provider' }, { required: `${Contents[language].RequiredMessage}` });
-    register({ name: 'size' }, { required: `${Contents[language].RequiredMessage}` });
-    register({ name: 'pieces' }, { required: `${Contents[language].RequiredMessage}` });
-    register({ name: 'cost' }, { required: `${Contents[language].RequiredMessage}` });
-    register({ name: 'salePrice' }, { required: `${Contents[language].RequiredMessage}` });
-    register({ name: 'idStore' }, { required: `${Contents[language].RequiredMessage}` });
-    register({ name: 'gender' }, { required: `${Contents[language].RequiredMessage}` });
-    register({ name: 'quantity' }, { required: `${Contents[language].RequiredMessage}` });
+    register({ name: 'color' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'provider' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'size' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'pieces' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'cost' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'salePrice' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'idStore' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'gender' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'quantity' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'description' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
   }, [language, register]);
 

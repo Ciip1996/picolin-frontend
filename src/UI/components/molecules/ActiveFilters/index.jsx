@@ -56,7 +56,7 @@ const ActiveFilters = (props: ActiveFiltersProps) => {
             ))}
             {activeFilters.length > 1 && (
               <Chip
-                label={Contents[language].labelFilter}
+                label={Contents[language]?.labelFilter}
                 onDelete={onReset}
                 className={classes.chip}
               />

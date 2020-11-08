@@ -43,7 +43,7 @@ const CustomRadioButtonOptions = (props: CustomRadioButtonOptionsProps) => {
   return (
     <FormControl component="fieldset">
       <RadioGroup
-        aria-label={Contents[language].labelRadio}
+        aria-label={Contents[language]?.labelRadio}
         name="options"
         value={value}
         onChange={handleChange}
