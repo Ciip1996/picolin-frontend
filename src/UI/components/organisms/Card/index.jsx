@@ -64,19 +64,21 @@ export default function NewSale() {
       />
       <List component="nav" className={classes.List}>
         <ListItem divider className={classes.Item}>
-          <ListItemText primary={<span className={classes.lblList}>DEPOSITO</span>} />
+          <ListItemText
+            primary={<span className={classes.lblList}>{Contents[language].Deposit}</span>}
+          />
           <ListItemText secondary={<span className={classes.lblList2}>N/A</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
-          <ListItemText primary={<span className={classes.lblList}>SUBTOTAL</span>} />
+          <ListItemText primary={<span className={classes.lblList}>{Contents[language].Subtotal}</span>} />
           <ListItemText secondary={<span className={classes.lblList2}>$1299.00</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
-          <ListItemText primary={<span className={classes.lblList}>IVA</span>} />
+          <ListItemText primary={<span className={classes.lblList}>{Contents[language].Taxes}</span>} />
           <ListItemText secondary={<span className={classes.lblList2}>$207.84</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
-          <ListItemText primary={<span className={classes.lblList}>DESCUENTO</span>} />
+          <ListItemText primary={<span className={classes.lblList}>{Contents[language].lblDiscount}</span>} />
           <ListItemText secondary={<span className={classes.lblList2}>$0.00</span>} />
         </ListItem>
         <br />

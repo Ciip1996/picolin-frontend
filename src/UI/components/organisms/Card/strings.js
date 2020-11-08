@@ -5,7 +5,12 @@ const Contents = {
     Discount: 'Discount',
     Apart: 'Apart',
     invoice: 'Invoice',
-    Conclude: 'FINISH'
+    Conclude: 'FINISH',
+    Deposit: 'DEPOSIT',
+    Subtotal: 'SUBTOTAL',
+    Taxes: 'VAT',
+    lblDiscount: 'DISCOUNT',
+    Total: 'TOTAL'
   },
   Spanish: {
     Resume: 'Resumen',
@@ -13,7 +18,12 @@ const Contents = {
     Discount: 'Descuento',
     Apart: 'Apartado',
     invoice: 'Factura',
-    Conclude: 'FINALIZAR'
+    Conclude: 'FINALIZAR',
+    Deposit: 'DEPÓSITO',
+    Subtotal: 'SUBTOTAL',
+    Taxes: 'IVA',
+    lblDiscount: 'DESCUENTO',
+    Total: 'TOTAL'
   }
 };
 export default Contents;
