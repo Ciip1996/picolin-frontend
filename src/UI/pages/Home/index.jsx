@@ -8,7 +8,7 @@ import TitleLabel from 'UI/components/atoms/TitleLabel';
 import { BackgroundGraphic, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
-import NewSale from 'UI/components/organisms/Card';
+import SummaryCard from 'UI/components/organisms/SummaryCard';
 
 import { type User } from 'types/app';
 
@@ -21,10 +21,6 @@ const Home = () => {
   useEffect(() => {
     document.title = PageTitles.Home;
   });
-
-  // const handleActionClick = action => {
-  //   history.push(action);
-  // };
 
   return (
     <>
@@ -43,7 +39,7 @@ const Home = () => {
               fontSize={47}
               text={`¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`}
             />
-            <NewSale />
+            <SummaryCard />
             {/* <GlobalSearchbar /> */}
           </Grid>
           {/* <Grid

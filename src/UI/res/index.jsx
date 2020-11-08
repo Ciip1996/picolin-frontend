@@ -1,7 +1,7 @@
 import { colors } from './colors';
 import {
   PicolinLogo,
-  GpacFullLogo,
+  FullLogo,
   SearchResultsNotFound,
   Error404,
   Error500,
@@ -153,7 +153,7 @@ export {
   MapJobOrderIcon,
   PlusIcon,
   BackgroundGraphic,
-  GpacFullLogo,
+  FullLogo,
   DotsPattern,
   DownloadIcon,
   DeleteIcon,

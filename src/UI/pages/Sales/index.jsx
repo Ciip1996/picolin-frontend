@@ -122,7 +122,7 @@ const SalesList = (props: SalesListProps) => {
       saveFilters('ventas', { filters, params });
 
       const queryParams = queryString.stringify(params);
-      const url = `${Endpoints.Sales}${Endpoints.GetSales}`.replace(
+      const url = `${Endpoints.Sales}${Endpoints.GetSales}?`.replace(
         ':idStore',
         store_filter ? store_filter?.id : 'ALL'
       );
@@ -137,7 +137,7 @@ const SalesList = (props: SalesListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
-      console.log(err);
+      // console.log(err);
       setError(true);
       onShowAlert({
         severity: 'error',

@@ -103,7 +103,7 @@ const InventoryList = (props: InventoryListProps) => {
       saveFilters('inventory', { filters, params });
 
       const queryParams = queryString.stringify(params);
-      const url = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
+      const url = `${Endpoints.Inventory}${Endpoints.GetInventory}?`.replace(
         ':idStore',
         store_filter ? store_filter?.id : 'ALL'
       );

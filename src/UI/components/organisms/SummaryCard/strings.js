@@ -1,6 +1,6 @@
 const Contents = {
   English: {
-    Resume: 'Resume',
+    HeaderTitle: 'Summary',
     Payment: 'Payment',
     Discount: 'Discount',
     Apart: 'Apart',
@@ -13,7 +13,7 @@ const Contents = {
     Total: 'TOTAL'
   },
   Spanish: {
-    Resume: 'Resumen',
+    HeaderTitle: 'Resumen',
     Payment: 'Tipo de pago',
     Discount: 'Descuento',
     Apart: 'Apartado',

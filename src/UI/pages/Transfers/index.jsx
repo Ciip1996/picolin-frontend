@@ -102,7 +102,7 @@ const TransferList = (props: TransferListProps) => {
       saveFilters('transfers', { filters, params });
 
       const queryParams = queryString.stringify(params);
-      // const url = `${Endpoints.Transfers}${Endpoints.GetTransfers}`.replace(
+      // const url = `${Endpoints.Transfers}${Endpoints.GetTransfers?}`.replace(
       //  ':idStore',
       //  store_filter ? store_filter?.idStore : 'ALL'
       // );

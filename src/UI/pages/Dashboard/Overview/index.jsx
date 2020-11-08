@@ -30,7 +30,7 @@ type DashboardOverviewProps = {
 
 const determineScope = (filters: Filters) => {
   const options = {
-    option1: 'gpac All',
+    option1: 'All',
     option2: 'ALL COACHES'
   };
 

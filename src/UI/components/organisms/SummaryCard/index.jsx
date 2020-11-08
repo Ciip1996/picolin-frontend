@@ -23,7 +23,7 @@ export default function NewSale() {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
-      <h1 className={classes.title}>{Contents[language].Resume}</h1>
+      <h1 className={classes.title}>{Contents[language].HeaderTitle}</h1>
       <AutocompleteSelect
         className={classes.textbox1}
         name="date_filter"
@@ -82,7 +82,9 @@ export default function NewSale() {
           <ListItemText secondary={<span className={classes.lblList2}>$207.84</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
-          <ListItemText primary={<span className={classes.lblList}>{Contents[language].lblDiscount}</span>} />
+          <ListItemText
+            primary={<span className={classes.lblList}>{Contents[language].lblDiscount}</span>}
+          />
           <ListItemText secondary={<span className={classes.lblList2}>$0.00</span>} />
         </ListItem>
         <br />

@@ -4,7 +4,6 @@ export const useStyles = makeStyles({
   card: {
     width: '398px',
     height: '568px',
-    marginLeft: '666px',
     boxShadow: '0px 3px 6px #00000029',
     borderTopLeftRadius: 26,
     borderTopRightRadius: 26,
