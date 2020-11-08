@@ -70,11 +70,15 @@ export default function NewSale() {
           <ListItemText secondary={<span className={classes.lblList2}>N/A</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
-          <ListItemText primary={<span className={classes.lblList}>{Contents[language].Subtotal}</span>} />
+          <ListItemText
+            primary={<span className={classes.lblList}>{Contents[language].Subtotal}</span>}
+          />
           <ListItemText secondary={<span className={classes.lblList2}>$1299.00</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
-          <ListItemText primary={<span className={classes.lblList}>{Contents[language].Taxes}</span>} />
+          <ListItemText
+            primary={<span className={classes.lblList}>{Contents[language].Taxes}</span>}
+          />
           <ListItemText secondary={<span className={classes.lblList2}>$207.84</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
