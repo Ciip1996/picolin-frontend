@@ -2,6 +2,8 @@ const Contents = {
   English: {
     pageTitle: 'SALES',
     labDate: 'Date',
+    startDate: 'From Date',
+    endDate: 'Until Date',
     labTotal: 'Total',
     labPayment: 'Payment',
     labStore: 'Store',
@@ -18,6 +20,8 @@ const Contents = {
   Spanish: {
     pageTitle: 'VENTAS',
     labDate: 'Fecha',
+    startDate: 'Desde Fecha',
+    endDate: 'Hasta Fecha',
     labTotal: 'Total',
     labPayment: 'Tipo de pago',
     labStore: 'Tienda',

@@ -30,12 +30,12 @@ const LogIn = (props: LogInProps) => {
   const url = `http://localhost:3307/login`;
   const history = useHistory();
   const language = localStorage.getItem('language');
-  console.log(Contents, Contents[language], language);
 
   const { register, handleSubmit, errors, setError } = useForm();
 
   useEffect(() => {
     localStorage.setItem('language', 'Spanish');
+    localStorage.setItem('locale', 'es');
   }, []);
 
   const onSubmit = async (formData: Object) => {

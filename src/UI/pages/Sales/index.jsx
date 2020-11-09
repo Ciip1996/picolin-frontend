@@ -3,30 +3,25 @@ import React, { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { FormControl } from '@material-ui/core';
-
-import { showAlert } from 'actions/app';
+import moment from 'moment';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
-import { DateFormats, PageTitles } from 'UI/constants/defaults';
-import { toLocalTime, getErrorMessage } from 'UI/utils';
-
-/** Components */
+import CustomDatePicker from 'UI/components/atoms/CustomDatePicker';
+import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
-
-// import API from 'services/API';
+import { DateFormats, PageTitles } from 'UI/constants/defaults';
+import { toLocalTime, getErrorMessage } from 'UI/utils';
 import { Endpoints } from 'UI/constants/endpoints';
-
 import type { Filters } from 'types/app';
-
-import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
 
+import { showAlert } from 'actions/app';
 import Contents from './strings';
 
 const CellSkeleton = ({ children, searching }) => {
@@ -104,21 +99,29 @@ const SalesList = (props: SalesListProps) => {
 
   const getData = useCallback(async () => {
     try {
-      const { store_filter, date_filter = {}, payment_filter = {}, invoice_filter = {} } = filters;
+      const {
+        store_filter,
+        date_filter = undefined,
+        payment_filter = undefined,
+        invoice_filter = undefined,
+        startDate_filter = undefined
+      } = filters;
 
       const params = {
-        keyword: uiState.keyword || undefined,
+        keyword: uiState.keyword,
         // orderBy: uiState.orderBy,
         page: uiState.page + 1,
         perPage: uiState.perPage,
-        date: date_filter?.title || undefined,
-        paymentMethod: payment_filter?.title || undefined,
+        date: date_filter?.title,
+        paymentMethod: payment_filter?.title,
         store: store_filter?.id,
         invoice: invoice_filter?.id,
-        initialDate: undefined,
+        initialDate: startDate_filter
+          ? startDate_filter.date.format(DateFormats.International.SimpleDate)
+          : undefined,
         finalDate: undefined
       };
-
+      // debugger;
       saveFilters('ventas', { filters, params });
 
       const queryParams = queryString.stringify(params);
@@ -158,6 +161,7 @@ const SalesList = (props: SalesListProps) => {
   };
 
   const handleFilterChange = (name: string, value: any) => {
+    debugger;
     setSearching(true);
     setFilters({ ...filters, [name]: value });
     setUiState(prevState => ({
@@ -239,12 +243,31 @@ const SalesList = (props: SalesListProps) => {
         sortDirection: sortDirection[0],
         customBodyRender: value => {
           const localTime = toLocalTime(value);
-          const formattedDate = localTime && localTime.format(DateFormats.International.SimpleDateTime);
+          const formattedDate =
+            localTime && localTime.format(DateFormats.International.SimpleDateTime);
           return (
             <CellSkeleton searching={searching}>
               <strong>{formattedDate}</strong>
             </CellSkeleton>
           );
+        },
+        filterOptions: {
+          display: () => {
+            return (
+              <FormControl>
+                <CustomDatePicker
+                  name="startDate_filter"
+                  value={filters?.startDate_filter || null}
+                  onDateChange={(name, date) =>
+                    handleFilterChange(name, {
+                      title: `Start Date ${date.format(DateFormats.International.SimpleDate)}`,
+                      date
+                    })
+                  }
+                />
+              </FormControl>
+            );
+          }
         },
         filterType: 'custom'
       }

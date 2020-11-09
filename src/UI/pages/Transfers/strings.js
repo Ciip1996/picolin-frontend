@@ -1,7 +1,7 @@
 const Contents = {
   English: {
     IdTransfer: 'IdTransfer',
-    User: 'User',
+    User: 'User / Employee',
     Code: 'Product Code',
     Type: 'Type',
     Color: 'Color',
@@ -13,7 +13,7 @@ const Contents = {
   },
   Spanish: {
     IdTransfer: 'IdTransferencia',
-    User: 'Usuario',
+    User: 'Usuario / Empleado',
     Code: 'Código de Producto',
     Type: 'Tipo',
     Color: 'Color',
