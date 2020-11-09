@@ -14,6 +14,7 @@ import { showAlert } from 'actions/app';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import SummaryCard from 'UI/components/organisms/SummaryCard';
+import ItemCard from 'UI/components/organisms/ItemCard';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 // import API from 'services/API';
@@ -127,7 +128,7 @@ const NewSaleList = (props: NewSaleListProps) => {
                 );
               }}
             />
-            Here goes the rest
+          <ItemCard />
           </Grid>
           <Grid>
             <SummaryCard />
