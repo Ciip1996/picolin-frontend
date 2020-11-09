@@ -92,8 +92,8 @@ const TransferList = (props: TransferListProps) => {
       const params = {
         keyword: uiState.keyword || undefined,
         // orderBy: uiState.orderBy,
-        // page: uiState.page + 1,
-        // perPage: uiState.perPage,
+        page: uiState.page + 1,
+        perPage: uiState.perPage,
         gender: gender_filter?.title || undefined,
         type: type_filter?.title || undefined,
         color: color_filter?.title || undefined
@@ -106,7 +106,7 @@ const TransferList = (props: TransferListProps) => {
       //  ':idStore',
       //  store_filter ? store_filter?.idStore : 'ALL'
       // );
-      const url = `${Endpoints.Transfers}/getTransfer`;
+      const url = `${Endpoints.Transfers}/getTransfer?`;
       const response = await API.get(`${url}${queryParams}`);
       if (response?.status === 200) {
         setData(response?.data?.transfer || []);
@@ -124,7 +124,7 @@ const TransferList = (props: TransferListProps) => {
         body: getErrorMessage(err)
       });
     }
-  }, [filters, onShowAlert, uiState.keyword, language]);
+  }, [filters, onShowAlert, uiState.keyword, uiState.page, uiState.perPage, language]);
 
   const handleSearchChange = newKeyword => {
     setSearching(true);
