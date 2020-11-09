@@ -26,7 +26,7 @@ export const useStyles = makeStyles({
     opacity: '1',
     letterSpacing: '0px'
   },
-  title2: {
+  subtitle: {
     marginTop: '23px',
     marginRight: '63%',
     marginBottom: '0px',
@@ -43,7 +43,7 @@ export const useStyles = makeStyles({
     height: '27px',
     marginTop: '17px'
   },
-  Chip: {
+  Gender: {
     width: '87%',
     height: '25px',
     textOverflow: 'ellipsis',
@@ -55,7 +55,7 @@ export const useStyles = makeStyles({
     color: '#FFFF',
     marginTop: '11px'
   },
-  Chip2: {
+  Size: {
     width: '87%',
     height: '25px',
     textOverflow: 'ellipsis',
@@ -67,7 +67,7 @@ export const useStyles = makeStyles({
     color: '#FFFF',
     marginTop: '11px'
   },
-  Chip3: {
+  Type: {
     width: '87%',
     height: '25px',
     textOverflow: 'ellipsis',
@@ -79,7 +79,7 @@ export const useStyles = makeStyles({
     color: '#FFFF',
     marginTop: '11px'
   },
-  Chip4: {
+  Color: {
     width: '87%',
     height: '25px',
     textOverflow: 'ellipsis',
@@ -91,7 +91,7 @@ export const useStyles = makeStyles({
     color: '#FFFF',
     marginTop: '11px'
   },
-  Circle: {
+  Delete: {
     backgroundColor: '#F7FAFE',
     color: '#C7D2DB',
     marginLeft: '85%',

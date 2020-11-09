@@ -24,14 +24,14 @@ type SummaryCardProps = {
 };
 
 const SummaryCard = (props: SummaryCardProps) => {
-  const { subtotal  } = props;
+  const { subtotal } = props;
   const classes = useStyles();
   return (
     <Card className={classes.card}>
-    {subtotal}
+      {subtotal}
       <h1 className={classes.title}>{Contents[language]?.HeaderTitle}</h1>
       <AutocompleteSelect
-        className={classes.textbox1}
+        className={classes.Payment}
         name="date_filter"
         placeholder={Contents[language]?.Payment}
         // url={Endpoints.Stores}
@@ -40,7 +40,7 @@ const SummaryCard = (props: SummaryCardProps) => {
         // defaultOptions={init}
       />
       <TextBox
-        className={classes.textbox2}
+        className={classes.Formulary}
         name="payment"
         label={Contents[language]?.Discount}
         type="text"
@@ -51,7 +51,7 @@ const SummaryCard = (props: SummaryCardProps) => {
         // helperText={errors.pwd && errors.pwd.message}
       />
       <TextBox
-        className={classes.textbox2}
+        className={classes.Formulary}
         name="apart"
         label={Contents[language]?.Apart}
         type="text"
@@ -63,7 +63,7 @@ const SummaryCard = (props: SummaryCardProps) => {
       />
       <FormControlLabel
         value="start"
-        className={classes.Control}
+        className={classes.Invoice}
         control={<Switch color="primary" />}
         label={Contents[language]?.invoice}
         labelPlacement="start"
@@ -71,36 +71,36 @@ const SummaryCard = (props: SummaryCardProps) => {
       <List component="nav" className={classes.List}>
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.lblList}>{Contents[language]?.Deposit}</span>}
+            primary={<span className={classes.Description}>{Contents[language]?.Deposit}</span>}
           />
-          <ListItemText secondary={<span className={classes.lblList2}>N/A</span>} />
+          <ListItemText secondary={<span className={classes.CostDescription}>N/A</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.lblList}>{Contents[language]?.Subtotal}</span>}
+            primary={<span className={classes.Description}>{Contents[language]?.Subtotal}</span>}
           />
-          <ListItemText secondary={<span className={classes.lblList2}>{subtotal}</span>} />
+          <ListItemText secondary={<span className={classes.CostDescription}>{subtotal}</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.lblList}>{Contents[language]?.Taxes}</span>}
+            primary={<span className={classes.Description}>{Contents[language]?.Taxes}</span>}
           />
-          <ListItemText secondary={<span className={classes.lblList2}>$207.84</span>} />
+          <ListItemText secondary={<span className={classes.CostDescription}>$207.84</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.lblList}>{Contents[language]?.lblDiscount}</span>}
+            primary={<span className={classes.Description}>{Contents[language]?.lblDiscount}</span>}
           />
-          <ListItemText secondary={<span className={classes.lblList2}>$0.00</span>} />
+          <ListItemText secondary={<span className={classes.CostDescription}>$0.00</span>} />
         </ListItem>
         <br />
         <ListItem className={classes.Item}>
-          <ListItemText primary={<span className={classes.lblList3}>TOTAL</span>} />
-          <ListItemText secondary={<span className={classes.lblList4}>$1506.84</span>} />
+          <ListItemText primary={<span className={classes.Total}>TOTAL</span>} />
+          <ListItemText secondary={<span className={classes.TotalCost}>$1506.84</span>} />
         </ListItem>
       </List>
       <ActionButton
-        className={classes.Button}
+        className={classes.Finish}
         text={Contents[language]?.Conclude}
         // onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
       >

@@ -20,19 +20,19 @@ export const useStyles = makeStyles({
     opacity: '0.5',
     letterSpacing: '1.68px'
   },
-  textbox1: {
+  Payment: {
     marginTop: '16px',
     marginLeft: '28px',
     width: '343px',
     height: '40px'
   },
-  textbox2: {
+  Formulary: {
     marginTop: '9px',
     marginLeft: '28px',
     width: '343px',
     height: '40px'
   },
-  Control: {
+  Invoice: {
     marginBottom: '10px',
     marginLeft: '270px'
   },
@@ -41,7 +41,7 @@ export const useStyles = makeStyles({
     marginLeft: '24px',
     marginRight: '24px'
   },
-  lblList: {
+  Description: {
     font: 'normal normal 300 14px/21px Poppins',
     color: '#515C6F',
     textoverflow: 'ellipsis',
@@ -56,7 +56,7 @@ export const useStyles = makeStyles({
   Item: {
     height: '38px'
   },
-  lblList2: {
+  CostDescription: {
     font: 'normal normal 300 18px/27px Poppins',
     opacity: '1',
     color: '#515C6F',
@@ -64,7 +64,7 @@ export const useStyles = makeStyles({
     float: 'right',
     marginRight: '-16px'
   },
-  lblList3: {
+  Total: {
     font: 'normal normal bold 20px/30px Poppins',
     color: '#515C6F',
     height: '28px',
@@ -75,7 +75,7 @@ export const useStyles = makeStyles({
     marginRight: '300px',
     width: '69px'
   },
-  lblList4: {
+  TotalCost: {
     font: 'normal normal bold 26px/39px Poppins',
     opacity: '1',
     color: '#515C6F',
@@ -83,7 +83,7 @@ export const useStyles = makeStyles({
     float: 'right',
     marginRight: '-16px'
   },
-  Button: {
+  Finish: {
     width: '171px',
     height: '48px',
     marginLeft: '201px'

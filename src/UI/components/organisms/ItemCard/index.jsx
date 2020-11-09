@@ -27,24 +27,24 @@ export default function NewSale() {
           <ListItemText
             primary={<span className={classes.title}>Ropón Mini: Ariete Blanco dffaf</span>}
           />
-          <ListItemText secondary={<span className={classes.title2}>$399.00</span>} />
+          <ListItemText secondary={<span className={classes.subtitle}>$399.00</span>} />
         </ListItem>
       </List>
       <Grid container>
         <Grid item xs={12} sm={2}>
-          <Chip label="Basic" className={classes.Chip} />
+          <Chip label="Basic" className={classes.Gender} />
         </Grid>
         <Grid item xs={6} sm={2}>
-          <Chip label="Basic" className={classes.Chip2} />
+          <Chip label="Basic" className={classes.Size} />
         </Grid>
         <Grid item xs={6} sm={2}>
-          <Chip label="Talla 1" className={classes.Chip3} />
+          <Chip label="Talla 1" className={classes.Type} />
         </Grid>
         <Grid item xs={6} sm={2}>
-          <Chip label="Basic" className={classes.Chip4} />
+          <Chip label="Basic" className={classes.Color} />
         </Grid>
       </Grid>
-      <IconButton className={classes.Circle} aria-label="delete">
+      <IconButton className={classes.Delete} aria-label="delete">
         <CloseIcon />
       </IconButton>
     </Card>
