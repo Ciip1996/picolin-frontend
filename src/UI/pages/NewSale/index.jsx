@@ -131,7 +131,7 @@ const NewSaleList = (props: NewSaleListProps) => {
           <ItemCard />
           </Grid>
           <Grid>
-            <SummaryCard />
+            <SummaryCard  />
           </Grid>
         </Grid>
       </ListPageLayout>

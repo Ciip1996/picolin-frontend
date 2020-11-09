@@ -14,8 +14,12 @@ export const useStyles = makeStyles({
   },
   title: {
     marginTop: '23px',
-    marginLeft: '20px',
+    marginLeft: '6px',
     marginBottom: '0px',
+    width: '260px',
+    height: '30px',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
     font: 'normal normal normal 22px/30px Avenir',
     color: '#94A6B3',
     float: 'left',
@@ -24,7 +28,7 @@ export const useStyles = makeStyles({
   },
   title2: {
     marginTop: '23px',
-    marginRight: '76px',
+    marginRight: '63%',
     marginBottom: '0px',
     font: 'normal normal 900 20px/27px Avenir',
     color: '#AD4DFF',
@@ -40,29 +44,57 @@ export const useStyles = makeStyles({
     marginTop: '17px'
   },
   Chip: {
-    width: '120px',
+    width: '87%',
     height: '25px',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
     backgroundColor: '#ED8A9C',
     font: 'normal normal 900 14px/19px Avenir',
     boxShadow: '0px 3px 6px #00000029',
-    marginLeft: '34px',
+    marginLeft: '22px',
     color: '#FFFF',
     marginTop: '11px'
   },
   Chip2: {
-    width: '120px',
+    width: '87%',
     height: '25px',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
     backgroundColor: '#ED8A9C',
     font: 'normal normal 900 14px/19px Avenir',
     boxShadow: '0px 3px 6px #00000029',
-    marginLeft: '34px',
+    marginLeft: '38px',
+    color: '#FFFF',
+    marginTop: '11px'
+  },
+  Chip3: {
+    width: '87%',
+    height: '25px',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    backgroundColor: '#ED8A9C',
+    font: 'normal normal 900 14px/19px Avenir',
+    boxShadow: '0px 3px 6px #00000029',
+    marginLeft: '54px',
+    color: '#FFFF',
+    marginTop: '11px'
+  },
+  Chip4: {
+    width: '87%',
+    height: '25px',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    backgroundColor: '#ED8A9C',
+    font: 'normal normal 900 14px/19px Avenir',
+    boxShadow: '0px 3px 6px #00000029',
+    marginLeft: '74px',
     color: '#FFFF',
     marginTop: '11px'
   },
   Circle: {
     backgroundColor: '#F7FAFE',
     color: '#C7D2DB',
-    marginLeft: '20px',
-    marginTop: '-16px'
+    marginLeft: '85%',
+    marginTop: '-80px'
   }
 });

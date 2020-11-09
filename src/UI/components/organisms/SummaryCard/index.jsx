@@ -19,10 +19,16 @@ const language = localStorage.getItem('language');
 // { id: 1, title: Contents[language]?.card }
 // ];
 
-export default function NewSale() {
+type SummaryCardProps = {
+  subtotal: string
+};
+
+const SummaryCard = (props: SummaryCardProps) => {
+  const { subtotal  } = props;
   const classes = useStyles();
   return (
     <Card className={classes.card}>
+    {subtotal}
       <h1 className={classes.title}>{Contents[language]?.HeaderTitle}</h1>
       <AutocompleteSelect
         className={classes.textbox1}
@@ -73,7 +79,7 @@ export default function NewSale() {
           <ListItemText
             primary={<span className={classes.lblList}>{Contents[language]?.Subtotal}</span>}
           />
-          <ListItemText secondary={<span className={classes.lblList2}>$1299.00</span>} />
+          <ListItemText secondary={<span className={classes.lblList2}>{subtotal}</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
@@ -103,3 +109,9 @@ export default function NewSale() {
     </Card>
   );
 }
+
+SummaryCard.defaultProps = {
+  subtotal:'1200'
+};
+
+export default SummaryCard;

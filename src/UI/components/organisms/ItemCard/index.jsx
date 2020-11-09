@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Chip from '@material-ui/core/Chip';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import Grid from '@material-ui/core/Grid';
 import Contents from './strings';
 import { useStyles } from './styles';
 
@@ -24,15 +25,25 @@ export default function NewSale() {
       <List component="nav" className={classes.List}>
         <ListItem className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.title}>Ropón Mini: Ariete Blanco</span>}
+            primary={<span className={classes.title}>Ropón Mini: Ariete Blanco dffaf</span>}
           />
           <ListItemText secondary={<span className={classes.title2}>$399.00</span>} />
         </ListItem>
       </List>
-      <Chip label="Basic" className={classes.Chip} />
-      <Chip label="Basic" className={classes.Chip2} />
-      <Chip label="Basic" className={classes.Chip2} />
-      <Chip label="Basic" className={classes.Chip2} />
+      <Grid container>
+        <Grid item xs={12} sm={2}>
+          <Chip label="Basic" className={classes.Chip} />
+        </Grid>
+        <Grid item xs={6} sm={2}>
+          <Chip label="Basic" className={classes.Chip2} />
+        </Grid>
+        <Grid item xs={6} sm={2}>
+          <Chip label="Talla 1" className={classes.Chip3} />
+        </Grid>
+        <Grid item xs={6} sm={2}>
+          <Chip label="Basic" className={classes.Chip4} />
+        </Grid>
+      </Grid>
       <IconButton className={classes.Circle} aria-label="delete">
         <CloseIcon />
       </IconButton>

@@ -44,6 +44,7 @@ export const useStyles = makeStyles({
   lblList: {
     font: 'normal normal 300 14px/21px Poppins',
     color: '#515C6F',
+    textoverflow: 'ellipsis',
     height: '20px',
     letterSpacing: '0.98px',
     textTransform: 'uppercase',
@@ -59,7 +60,7 @@ export const useStyles = makeStyles({
     font: 'normal normal 300 18px/27px Poppins',
     opacity: '1',
     color: '#515C6F',
-    height: '25px',
+    // height: '25px',
     float: 'right',
     marginRight: '-16px'
   },
