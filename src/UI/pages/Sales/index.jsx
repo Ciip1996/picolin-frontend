@@ -239,7 +239,7 @@ const SalesList = (props: SalesListProps) => {
         sortDirection: sortDirection[0],
         customBodyRender: value => {
           const localTime = toLocalTime(value);
-          const formattedDate = localTime && localTime.format(DateFormats.SimpleDateTime);
+          const formattedDate = localTime && localTime.format(DateFormats.International.SimpleDateTime);
           return (
             <CellSkeleton searching={searching}>
               <strong>{formattedDate}</strong>

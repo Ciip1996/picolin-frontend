@@ -8,7 +8,7 @@ import { FormControl } from '@material-ui/core';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 
 import { showAlert } from 'actions/app';
-import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
+import { drawerAnchor, PageTitles, DateFormats } from 'UI/constants/defaults';
 
 /** Atoms, Components and Styles */
 
@@ -23,7 +23,7 @@ import Drawer from '@material-ui/core/Drawer';
 // import Box from '@material-ui/core/Box';
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorMessage } from 'UI/utils';
+import { getErrorMessage, toLocalTime } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters, saveFilters } from 'services/FiltersStorage';
@@ -43,11 +43,12 @@ const columnItems = [
   { id: 0, name: 'idTransferProduct', display: true },
   { id: 1, name: 'user', display: true },
   { id: 2, name: 'productCode', display: true },
-  { id: 3, name: 'type', display: true },
-  { id: 4, name: 'color', display: true },
+  { id: 3, name: 'type', display: false },
+  { id: 4, name: 'color', display: false },
   { id: 5, name: 'origin', display: true },
   { id: 6, name: 'destination', display: true },
-  { id: 7, name: 'quantity', display: true }
+  { id: 7, name: 'quantity', display: true },
+  { id: 8, name: 'registrationDate', display: true }
 ];
 
 const getSortDirections = (orderBy: string, direction: string) =>
@@ -87,21 +88,31 @@ const TransferList = (props: TransferListProps) => {
 
   const getData = useCallback(async () => {
     try {
-      const { store_filter, gender_filter = {}, type_filter = {}, color_filter = {} } = filters;
-      console.log(store_filter);
+      const {
+        // store_filter,
+        gender_filter = undefined,
+        type_filter = undefined,
+        color_filter = undefined,
+        destination_filter = undefined,
+        origin_filter = undefined
+      } = filters;
+
       const params = {
-        keyword: uiState.keyword || undefined,
+        keyword: uiState.keyword,
         // orderBy: uiState.orderBy,
         page: uiState.page + 1,
         perPage: uiState.perPage,
-        gender: gender_filter?.title || undefined,
-        type: type_filter?.title || undefined,
-        color: color_filter?.title || undefined
+        gender: gender_filter?.title,
+        type: type_filter?.title,
+        color: color_filter?.title,
+        idDestination: destination_filter?.id,
+        idOrigin: origin_filter?.id
       };
 
       saveFilters('transfers', { filters, params });
 
       const queryParams = queryString.stringify(params);
+
       // const url = `${Endpoints.Transfers}${Endpoints.GetTransfers?}`.replace(
       //  ':idStore',
       //  store_filter ? store_filter?.idStore : 'ALL'
@@ -239,10 +250,10 @@ const TransferList = (props: TransferListProps) => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="color_filter"
+                  name="users"
                   placeholder={Contents[language]?.User}
-                  url={Endpoints.Colors}
-                  selectedValue={filters.color_filter}
+                  url={Endpoints.Users}
+                  selectedValue={filters.users}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -265,6 +276,21 @@ const TransferList = (props: TransferListProps) => {
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        },
+        filterOptions: {
+          display: () => {
+            return (
+              <FormControl>
+                <AutocompleteSelect
+                  name="type_filter"
+                  placeholder={Contents[language]?.Type}
+                  url={Endpoints.Types}
+                  selectedValue={filters.type_filter}
+                  onSelect={handleFilterChange}
+                />
+              </FormControl>
+            );
+          }
         }
       }
     },
@@ -313,11 +339,11 @@ const TransferList = (props: TransferListProps) => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="gender_filter"
-                  placeholder={Contents[language]?.origin}
-                  selectedValue={filters.gender_filter}
+                  name="origin_filter"
+                  placeholder={Contents[language]?.Origin}
+                  url={Endpoints.Stores}
+                  selectedValue={filters.origin_filter}
                   onSelect={handleFilterChange}
-                  // defaultOptions={genders}
                 />
               </FormControl>
             );
@@ -342,10 +368,10 @@ const TransferList = (props: TransferListProps) => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="type_filter"
-                  placeholder={Contents[language]?.labType}
-                  url="/getTypes"
-                  selectedValue={filters.type_filter}
+                  name="destination_filter"
+                  placeholder={Contents[language]?.Destination}
+                  url={Endpoints.Stores}
+                  selectedValue={filters.destination_filter}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -364,6 +390,27 @@ const TransferList = (props: TransferListProps) => {
         sortDirection: sortDirection[7],
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
+        },
+        filterType: 'custom'
+      }
+    },
+    {
+      name: 'registrationDate',
+      label: Contents[language]?.RegistrationDate,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[8].display,
+        sortDirection: sortDirection[8],
+        customBodyRender: value => {
+          const localTime = toLocalTime(value);
+          const formattedDate =
+            localTime && localTime.format(DateFormats.International.SimpleDateTime);
+          return (
+            <CellSkeleton searching={searching}>
+              <strong>{formattedDate || '--'}</strong>
+            </CellSkeleton>
+          );
         },
         filterType: 'custom'
       }
@@ -388,15 +435,6 @@ const TransferList = (props: TransferListProps) => {
       <ListPageLayout
         loading={loading}
         title={Contents[language]?.PageTitle}
-        // selector={
-        //   <AutocompleteSelect
-        //     name="store_filter"
-        //     placeholder={Contents[language]?.labInventory}
-        //     url={Endpoints.Stores}
-        //     selectedValue={filters.store_filter}
-        //     onSelect={handleFilterChange}
-        //   />
-        // }
         filters={filters}
         onFilterRemove={handleFilterRemove}
         onFiltersReset={handleResetFiltersClick}

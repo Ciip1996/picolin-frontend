@@ -11,13 +11,24 @@ export const usCenterCoordinates = {
 export const waitingTimeBeforeRedirect = 3000;
 
 export const DateFormats = {
-  DetailDate: 'MMMM DD, YYYY',
-  SimpleDate: 'MM/DD/YYYY',
-  SimpleDateTime: 'MM/DD/YYYY HH:mm a',
-  DayDate: 'dddd, MM/DD/YYYY',
-  QueryFormat: 'YYYY-MM-DD HH:mm:ss',
-  MonthDay: 'MMM DD',
-  MonthDayYear: 'MMM DD, YYYY'
+  Usa: {
+    DetailDate: 'MMMM DD, YYYY',
+    SimpleDate: 'MM/DD/YYYY',
+    SimpleDateTime: 'MM/DD/YYYY HH:mm a',
+    DayDate: 'dddd, MM/DD/YYYY',
+    QueryFormat: 'YYYY-MM-DD HH:mm:ss',
+    MonthDay: 'MMM DD',
+    MonthDayYear: 'MMM DD, YYYY'
+  },
+  International: {
+    DetailDate: 'DD MMMM, YYYY',
+    SimpleDate: 'DD/MM/YYYY',
+    SimpleDateTime: 'DD/MM/YYYY HH:mm a',
+    DayDate: 'dddd, DD/MM/YYYY',
+    QueryFormat: 'YYYY-MM-DD HH:mm:ss',
+    MonthDay: 'DD MMM',
+    MonthDayYear: 'DD MMM, YYYY'
+  }
 };
 
 export const FilterType = {

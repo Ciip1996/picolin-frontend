@@ -14,5 +14,6 @@ export const Endpoints = {
   Characteristics: 'lists/getCharacteristics',
   Provider: 'lists/getProviders', // todo: create on back
   Sizes: 'lists/getSizes',
-  Genders: 'lists/getGenders'
+  Genders: 'lists/getGenders',
+  Users: 'lists/getUsers'
 };
