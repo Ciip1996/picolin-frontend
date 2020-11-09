@@ -383,22 +383,20 @@ const TransferList = (props: TransferListProps) => {
     getData();
   }, [error, getData]);
 
-  console.log(data);
-
   return (
     <ContentPageLayout>
       <ListPageLayout
         loading={loading}
         title={Contents[language]?.PageTitle}
-        selector={
-          <AutocompleteSelect
-            name="store_filter"
-            placeholder={Contents[language]?.labInventory}
-            url={Endpoints.Stores}
-            selectedValue={filters.store_filter}
-            onSelect={handleFilterChange}
-          />
-        }
+        // selector={
+        //   <AutocompleteSelect
+        //     name="store_filter"
+        //     placeholder={Contents[language]?.labInventory}
+        //     url={Endpoints.Stores}
+        //     selectedValue={filters.store_filter}
+        //     onSelect={handleFilterChange}
+        //   />
+        // }
         filters={filters}
         onFilterRemove={handleFilterRemove}
         onFiltersReset={handleResetFiltersClick}

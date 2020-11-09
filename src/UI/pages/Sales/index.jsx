@@ -1,18 +1,16 @@
 // @flow
 import React, { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
-import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
-// import NumberFormat from 'react-number-format';
-
-// import queryString from 'query-string';
 import { connect } from 'react-redux';
-
 import { FormControl } from '@material-ui/core';
 
 import { showAlert } from 'actions/app';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
+import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
+import { DateFormats, PageTitles } from 'UI/constants/defaults';
+import { toLocalTime, getErrorMessage } from 'UI/utils';
 
 /** Components */
 import DataTable from 'UI/components/organisms/DataTable';
@@ -23,12 +21,12 @@ import API from 'services/API';
 
 // import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorMessage } from 'UI/utils';
+
 import type { Filters } from 'types/app';
 
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
-import { PageTitles } from 'UI/constants/defaults';
+
 import Contents from './strings';
 
 const CellSkeleton = ({ children, searching }) => {
@@ -68,7 +66,7 @@ const SalesList = (props: SalesListProps) => {
     { id: 1, title: Contents[language]?.card }
   ];
 
-  const invoice = [
+  const invoiceOptions = [
     { id: 0, title: Contents[language]?.no },
     { id: 1, title: Contents[language]?.yes }
   ];
@@ -115,8 +113,10 @@ const SalesList = (props: SalesListProps) => {
         perPage: uiState.perPage,
         date: date_filter?.title || undefined,
         paymentMethod: payment_filter?.title || undefined,
-        store: store_filter?.id || undefined,
-        invoice: invoice_filter?.id || undefined
+        store: store_filter?.id,
+        invoice: invoice_filter?.id,
+        initialDate: undefined,
+        finalDate: undefined
       };
 
       saveFilters('ventas', { filters, params });
@@ -238,9 +238,11 @@ const SalesList = (props: SalesListProps) => {
         display: columnItems[0].display,
         sortDirection: sortDirection[0],
         customBodyRender: value => {
+          const localTime = toLocalTime(value);
+          const formattedDate = localTime && localTime.format(DateFormats.SimpleDateTime);
           return (
             <CellSkeleton searching={searching}>
-              <strong>{value}</strong>
+              <strong>{formattedDate}</strong>
             </CellSkeleton>
           );
         },
@@ -348,7 +350,7 @@ const SalesList = (props: SalesListProps) => {
                   //   console.log(option);
                   //   return <span>{option === 0 ? 'NO' : 'SI'}</span>;
                   // }}
-                  defaultOptions={invoice}
+                  defaultOptions={invoiceOptions}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -356,7 +358,7 @@ const SalesList = (props: SalesListProps) => {
           }
         },
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return <CellSkeleton searching={searching}>{value ? 'SI' : 'NO'}</CellSkeleton>;
         }
       }
     },

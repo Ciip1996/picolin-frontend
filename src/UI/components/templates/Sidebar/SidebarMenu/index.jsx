@@ -12,21 +12,21 @@ const featureFlags = getFeatureFlags();
 
 const sideBarMenu = [
   {
-    title: 'Ventas',
-    route: EntityRoutes.Sales,
-    icon: {
-      inactive: <SalesIcon fill={colors.oxford} />,
-      opened: null,
-      active: <SalesIcon fill={colors.white} />
-    }
-  },
-  {
     title: 'Inventario',
     route: EntityRoutes.Inventory,
     icon: {
       inactive: <InventoryIcon fill={colors.oxford} />,
       opened: null,
       active: <InventoryIcon fill={colors.white} />
+    }
+  },
+  {
+    title: 'Ventas',
+    route: EntityRoutes.Sales,
+    icon: {
+      inactive: <SalesIcon fill={colors.oxford} />,
+      opened: null,
+      active: <SalesIcon fill={colors.white} />
     }
   },
   {
