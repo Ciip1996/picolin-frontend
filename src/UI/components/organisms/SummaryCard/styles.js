@@ -34,7 +34,8 @@ export const useStyles = makeStyles({
   },
   Invoice: {
     marginBottom: '10px',
-    marginLeft: '270px'
+    marginLeft: '270px',
+    color: '#94A6B3'
   },
   List: {
     marginTop: '-20px',

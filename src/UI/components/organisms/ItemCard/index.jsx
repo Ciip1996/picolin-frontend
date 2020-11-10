@@ -63,7 +63,7 @@ ItemCard.defaultProps = {
   size: 'Talla 1',
   type: 'Ropón',
   color: 'Blanco',
-  cost: '$399.00',
-  description: 'Ropón Mini: Ariete Blanco'
+  cost: '$999,999.98',
+  description: 'Ropón Mini: Ariete Blanco '
 };
 export default ItemCard;
