@@ -128,10 +128,10 @@ const NewSaleList = (props: NewSaleListProps) => {
                 );
               }}
             />
-          <ItemCard />
+            <ItemCard />
           </Grid>
           <Grid>
-            <SummaryCard  />
+            <SummaryCard />
           </Grid>
         </Grid>
       </ListPageLayout>

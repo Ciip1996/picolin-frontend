@@ -16,32 +16,39 @@ const language = localStorage.getItem('language');
 // { id: 0, title: Contents[language]?.cash },
 // { id: 1, title: Contents[language]?.card }
 // ];
+type ItemCardProps = {
+  gender: string,
+  size: string,
+  type: string,
+  color: string,
+  cost: string,
+  description: string
+};
 
-export default function NewSale() {
+const ItemCard = (props: ItemCardProps) => {
+  const { gender, size, type, color, cost, description } = props;
   const classes = useStyles();
   const [selected, setSelected] = React.useState(false);
   return (
     <Card className={classes.card}>
       <List component="nav" className={classes.List}>
         <ListItem className={classes.Item}>
-          <ListItemText
-            primary={<span className={classes.title}>Ropón Mini: Ariete Blanco dffaf</span>}
-          />
-          <ListItemText secondary={<span className={classes.subtitle}>$399.00</span>} />
+          <ListItemText primary={<span className={classes.title}>{description}</span>} />
+          <ListItemText secondary={<span className={classes.subtitle}>{cost}</span>} />
         </ListItem>
       </List>
       <Grid container>
         <Grid item xs={12} sm={2}>
-          <Chip label="Basic" className={classes.Gender} />
+          <Chip label={gender} className={classes.Gender} />
         </Grid>
         <Grid item xs={6} sm={2}>
-          <Chip label="Basic" className={classes.Size} />
+          <Chip label={size} className={classes.Size} />
         </Grid>
         <Grid item xs={6} sm={2}>
-          <Chip label="Talla 1" className={classes.Type} />
+          <Chip label={type} className={classes.Type} />
         </Grid>
         <Grid item xs={6} sm={2}>
-          <Chip label="Basic" className={classes.Color} />
+          <Chip label={color} className={classes.Color} />
         </Grid>
       </Grid>
       <IconButton className={classes.Delete} aria-label="delete">
@@ -49,4 +56,14 @@ export default function NewSale() {
       </IconButton>
     </Card>
   );
-}
+};
+
+ItemCard.defaultProps = {
+  gender: 'Niña',
+  size: 'Talla 1',
+  type: 'Ropón',
+  color: 'Blanco',
+  cost: '$399.00',
+  description: 'Ropón Mini: Ariete Blanco'
+};
+export default ItemCard;

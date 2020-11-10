@@ -20,15 +20,18 @@ const language = localStorage.getItem('language');
 // ];
 
 type SummaryCardProps = {
-  subtotal: string
+  subtotal: string,
+  deposit: string,
+  vat: string,
+  discount: string,
+  total: string
 };
 
 const SummaryCard = (props: SummaryCardProps) => {
-  const { subtotal } = props;
+  const { subtotal, deposit, vat, discount, total } = props;
   const classes = useStyles();
   return (
     <Card className={classes.card}>
-      {subtotal}
       <h1 className={classes.title}>{Contents[language]?.HeaderTitle}</h1>
       <AutocompleteSelect
         className={classes.Payment}
@@ -73,7 +76,7 @@ const SummaryCard = (props: SummaryCardProps) => {
           <ListItemText
             primary={<span className={classes.Description}>{Contents[language]?.Deposit}</span>}
           />
-          <ListItemText secondary={<span className={classes.CostDescription}>N/A</span>} />
+          <ListItemText secondary={<span className={classes.CostDescription}>{deposit}</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
@@ -85,18 +88,18 @@ const SummaryCard = (props: SummaryCardProps) => {
           <ListItemText
             primary={<span className={classes.Description}>{Contents[language]?.Taxes}</span>}
           />
-          <ListItemText secondary={<span className={classes.CostDescription}>$207.84</span>} />
+          <ListItemText secondary={<span className={classes.CostDescription}>{vat}</span>} />
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
             primary={<span className={classes.Description}>{Contents[language]?.lblDiscount}</span>}
           />
-          <ListItemText secondary={<span className={classes.CostDescription}>$0.00</span>} />
+          <ListItemText secondary={<span className={classes.CostDescription}>{discount}</span>} />
         </ListItem>
         <br />
         <ListItem className={classes.Item}>
           <ListItemText primary={<span className={classes.Total}>TOTAL</span>} />
-          <ListItemText secondary={<span className={classes.TotalCost}>$1506.84</span>} />
+          <ListItemText secondary={<span className={classes.TotalCost}>{total}</span>} />
         </ListItem>
       </List>
       <ActionButton
@@ -108,10 +111,14 @@ const SummaryCard = (props: SummaryCardProps) => {
       </ActionButton>
     </Card>
   );
-}
+};
 
 SummaryCard.defaultProps = {
-  subtotal:'1200'
+  deposit: 'N/A',
+  subtotal: '$1,299.00',
+  vat: '$207.84',
+  discount: '$0.00',
+  total: '$1506.84'
 };
 
 export default SummaryCard;

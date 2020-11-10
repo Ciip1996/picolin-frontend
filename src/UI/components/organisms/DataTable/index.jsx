@@ -10,9 +10,10 @@ import CustomFooter from './Footer/index';
 
 import Contents from './strings';
 
+const language = localStorage.getItem('language');
+
 const DataTableEmptyState = props => {
   const { error, defaultEmptyState, title, subtitle, customEmptyStateIcon } = props;
-  const language = localStorage.getItem('language');
 
   const defaultTitle = error ? Contents[language]?.errorTitle : Contents[language]?.defaultTitle;
 
@@ -106,7 +107,7 @@ const DataTable = (props: DataTableProps) => {
         page,
         rowsPerPage,
         searchText,
-        searchPlaceholder: 'Search for...',
+        searchPlaceholder: 'Buscar por...',
         customSearchRender: debounceSearchRender(400),
         onRowClick: (rowData, rowMeta) => {
           onRowClick && onRowClick(rowMeta);
