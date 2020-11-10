@@ -107,7 +107,7 @@ const DataTable = (props: DataTableProps) => {
         page,
         rowsPerPage,
         searchText,
-        searchPlaceholder: 'Buscar por...',
+        searchPlaceholder: Contents[language]?.Searchfor,
         customSearchRender: debounceSearchRender(400),
         onRowClick: (rowData, rowMeta) => {
           onRowClick && onRowClick(rowMeta);
@@ -158,7 +158,7 @@ const DataTable = (props: DataTableProps) => {
         textLabels: {
           body: {
             toolbar: {
-              search: 'search'
+              search: Contents[language]?.Search
             },
             noMatch: (
               <DataTableEmptyState
@@ -169,8 +169,8 @@ const DataTable = (props: DataTableProps) => {
                 customEmptyStateIcon={customEmptyStateIcon}
               />
             ),
-            toolTip: 'Sort',
-            columnHeaderTooltip: column => `Sort for ${column.label}`
+            toolTip: Contents[language]?.Sort,
+            columnHeaderTooltip: column => `${Contents[language]?.SortFor} ${column.label}`
           }
         }
       }

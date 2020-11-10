@@ -62,7 +62,7 @@ const ProductForm = (props: ProductFormProps) => {
         <AutocompleteSelect
           name="type"
           selectedValue={comboValues.type}
-          placeholder="Tipo de Producto *"
+          placeholder={Contents[language]?.ProductType}
           error={!!errors.type}
           errorText={errors.type && errors.type.message}
           onSelect={handleComboChange}
@@ -72,7 +72,7 @@ const ProductForm = (props: ProductFormProps) => {
         <AutocompleteSelect
           name="characteristic"
           selectedValue={comboValues.characteristic}
-          placeholder="Caracteristicas *"
+          placeholder={Contents[language]?.Characteristics}
           error={!!errors.characteristic}
           errorText={errors.characteristic && errors.characteristic.message}
           onSelect={handleComboChange}
@@ -83,7 +83,7 @@ const ProductForm = (props: ProductFormProps) => {
         <AutocompleteSelect
           name="color"
           selectedValue={comboValues.color}
-          placeholder="Color *"
+          placeholder={Contents[language]?.Color}
           error={!!errors.color}
           errorText={errors.color && errors.color.message}
           onSelect={handleComboChange}
@@ -93,7 +93,7 @@ const ProductForm = (props: ProductFormProps) => {
         <AutocompleteSelect
           name="provider"
           selectedValue={comboValues.provider}
-          placeholder="Proveedor *"
+          placeholder={Contents[language]?.Provider}
           error={!!errors.provider}
           errorText={errors.provider && errors.provider.message}
           onSelect={handleComboChange}
@@ -104,7 +104,7 @@ const ProductForm = (props: ProductFormProps) => {
         <TextBox
           inputType="number"
           name="size"
-          label="Talla *"
+          label={Contents[language]?.Size}
           error={!!errors.size}
           errorText={errors.size && errors.size.message}
           onChange={handleTextChange}
@@ -114,7 +114,7 @@ const ProductForm = (props: ProductFormProps) => {
         <TextBox
           inputType="number"
           name="pieces"
-          label="Piezas *"
+          label={Contents[language]?.Pieces}
           error={!!errors.pieces}
           errorText={errors.pieces && errors.pieces.message}
           onChange={handleTextChange}
@@ -125,7 +125,7 @@ const ProductForm = (props: ProductFormProps) => {
         <TextBox
           inputType="currency"
           name="cost"
-          label="Costo *"
+          label={Contents[language]?.Cost}
           error={!!errors.cost}
           errorText={errors.cost && errors.cost.message}
           onChange={handleTextChange}
@@ -135,7 +135,7 @@ const ProductForm = (props: ProductFormProps) => {
         <TextBox
           inputType="currency"
           name="salePrice"
-          label="Precio de Venta *"
+          label={Contents[language]?.Cost}
           error={!!errors.salePrice}
           errorText={errors.salePrice && errors.salePrice.message}
           onChange={handleTextChange}
@@ -146,7 +146,7 @@ const ProductForm = (props: ProductFormProps) => {
         <AutocompleteSelect
           name="idStore"
           selectedValue={comboValues.idStore}
-          placeholder="Lugar de recepción *"
+          placeholder={Contents[language]?.ReceptionPlace}
           error={!!errors.idStore}
           errorText={errors.idStore && errors.idStore.message}
           onSelect={handleComboChange}
@@ -155,7 +155,7 @@ const ProductForm = (props: ProductFormProps) => {
         <Separator />
         <AutocompleteSelect
           name="gender"
-          placeholder="Genero *"
+          placeholder={Contents[language]?.Gender}
           selectedValue={comboValues.gender}
           error={!!errors.gender}
           errorText={errors.gender && errors.gender.message}
@@ -167,7 +167,7 @@ const ProductForm = (props: ProductFormProps) => {
         <TextBox
           inputType="number"
           name="quantity"
-          label="Cantidad *"
+          label={Contents[language]?.Quantity}
           error={!!errors.quantity}
           errorText={errors.quantity && errors.quantity.message}
           onChange={handleTextChange}
@@ -177,7 +177,7 @@ const ProductForm = (props: ProductFormProps) => {
       <InputContainer>
         <TextBox
           name="description"
-          label="Descripción *"
+          label={Contents[language]?.Description}
           error={!!errors.description}
           errorText={errors.description && errors.description.message}
           onChange={handleTextChange}
