@@ -94,19 +94,21 @@ const TransferList = (props: TransferListProps) => {
         type_filter = undefined,
         color_filter = undefined,
         destination_filter = undefined,
-        origin_filter = undefined
+        origin_filter = undefined,
+        users_filter = undefined
       } = filters;
 
       const params = {
-        keyword: uiState.keyword,
+        keyword: uiState.keyword || undefined,
         // orderBy: uiState.orderBy,
         page: uiState.page + 1,
         perPage: uiState.perPage,
         gender: gender_filter?.title,
-        type: type_filter?.title,
+        idType: type_filter?.id,
         color: color_filter?.title,
         idDestination: destination_filter?.id,
-        idOrigin: origin_filter?.id
+        idOrigin: origin_filter?.id,
+        user: users_filter?.id
       };
 
       saveFilters('transfers', { filters, params });
@@ -250,10 +252,10 @@ const TransferList = (props: TransferListProps) => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="users"
+                  name="users_filter"
                   placeholder={Contents[language]?.User}
                   url={Endpoints.Users}
-                  selectedValue={filters.users}
+                  selectedValue={filters.users_filter}
                   onSelect={handleFilterChange}
                 />
               </FormControl>

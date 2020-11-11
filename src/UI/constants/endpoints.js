@@ -15,5 +15,6 @@ export const Endpoints = {
   Provider: 'lists/getProviders', // todo: create on back
   Sizes: 'lists/getSizes',
   Genders: 'lists/getGenders',
-  Users: 'lists/getUsers'
+  Users: 'lists/getUsers',
+  PaymentMethods: 'lists/getPaymentMethods'
 };

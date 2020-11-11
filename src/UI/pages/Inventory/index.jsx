@@ -15,11 +15,10 @@ import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
-
-/** Components */
+import TextBox from 'UI/components/atoms/TextBox';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
+import AddInventoryProductDrawer from 'UI/components/molecules/AddInventoryProductDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -88,7 +87,13 @@ const InventoryList = (props: InventoryListProps) => {
 
   const getData = useCallback(async () => {
     try {
-      const { store_filter, gender_filter = {}, type_filter = {}, color_filter = {} } = filters;
+      const {
+        store_filter,
+        gender_filter = {},
+        type_filter = {},
+        color_filter = {},
+        stock_filter = {}
+      } = filters;
 
       const params = {
         keyword: uiState.keyword || undefined,
@@ -97,7 +102,8 @@ const InventoryList = (props: InventoryListProps) => {
         perPage: uiState.perPage,
         gender: gender_filter?.title || undefined,
         type: type_filter?.title || undefined,
-        color: color_filter?.title || undefined
+        color: color_filter?.title || undefined,
+        stock: stock_filter?.numberValue || undefined
       };
 
       saveFilters('inventory', { filters, params });
@@ -116,7 +122,6 @@ const InventoryList = (props: InventoryListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
-      console.log(err);
       setError(true);
       onShowAlert({
         severity: 'error',
@@ -386,12 +391,22 @@ const InventoryList = (props: InventoryListProps) => {
             return (
               <FormControl>
                 <div display="flex">
-                  <AutocompleteSelect
-                    name="stock"
-                    placeholder={Contents[language]?.labStock}
-                    url=""
-                    selectedValue={filters.office}
-                    onSelect={handleFilterChange}
+                  <TextBox
+                    inputType="number"
+                    name="stock_filter"
+                    label={Contents[language]?.labStock}
+                    defaultValue={filters?.stock_filter?.numberValue}
+                    onChange={(name, numberValue) => {
+                      handleFilterChange(
+                        name,
+                        numberValue
+                          ? {
+                              numberValue,
+                              title: `Stock: ${numberValue}`
+                            }
+                          : undefined
+                      );
+                    }}
                   />
                 </div>
               </FormControl>
@@ -417,25 +432,25 @@ const InventoryList = (props: InventoryListProps) => {
 
   return (
     <ContentPageLayout>
+      <div style={{ position: 'absolute', right: 50, top: 180 }}>
+        <ActionButton
+          text={Contents[language]?.addNewProduct}
+          onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
+        >
+          <AddIcon fill={colors.white} size={18} />
+        </ActionButton>
+      </div>
       <ListPageLayout
         loading={loading}
         title={Contents[language]?.labInventory}
         selector={
-          <>
-            <ActionButton
-              text={Contents[language]?.addNewProduct}
-              onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
-            >
-              <AddIcon fill={colors.white} size={18} />
-            </ActionButton>
-            <AutocompleteSelect
-              name="store_filter"
-              placeholder={Contents[language]?.labInventory}
-              url={Endpoints.Stores}
-              selectedValue={filters.store_filter}
-              onSelect={handleFilterChange}
-            />
-          </>
+          <AutocompleteSelect
+            name="store_filter"
+            placeholder={Contents[language]?.labInventory}
+            url={Endpoints.Stores}
+            selectedValue={filters.store_filter}
+            onSelect={handleFilterChange}
+          />
         }
         filters={filters}
         onFilterRemove={handleFilterRemove}
@@ -469,7 +484,7 @@ const InventoryList = (props: InventoryListProps) => {
         onClose={toggleDrawer('isAddProductDrawerOpen', false)}
       >
         <div role="presentation">
-          <InventoryProductDrawer
+          <AddInventoryProductDrawer
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
           />

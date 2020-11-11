@@ -29,19 +29,19 @@ const ProductForm = (props: ProductFormProps) => {
   const { register, errors, setValue, getValues } = useFormContext();
 
   useEffect(() => {
-    register({ name: 'type' }, { required: `type ${Contents[language]?.RequiredMessage}` });
+    register({ name: 'idType' }, { required: `type ${Contents[language]?.RequiredMessage}` });
     register(
-      { name: 'characteristic' },
-      { required: `characteristic ${Contents[language]?.RequiredMessage}` }
+      { name: 'idCharacteristic' },
+      { required: `Characteristic ${Contents[language]?.RequiredMessage}` }
     );
     register({ name: 'color' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'provider' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'idProvider' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'size' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'pieces' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'cost' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'salePrice' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'idStore' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'gender' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'idGender' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'quantity' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'description' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
   }, [language, register]);
@@ -60,21 +60,21 @@ const ProductForm = (props: ProductFormProps) => {
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%">
       <InputContainer>
         <AutocompleteSelect
-          name="type"
-          selectedValue={comboValues.type}
+          name="idType"
+          selectedValue={comboValues.idType}
           placeholder={Contents[language]?.ProductType}
-          error={!!errors.type}
-          errorText={errors.type && errors.type.message}
+          error={!!errors.idType}
+          errorText={errors.idType && errors.type.message}
           onSelect={handleComboChange}
           url={Endpoints.Types}
         />
         <Separator />
         <AutocompleteSelect
-          name="characteristic"
-          selectedValue={comboValues.characteristic}
+          name="idCharacteristic"
+          selectedValue={comboValues.idCharacteristic}
           placeholder={Contents[language]?.Characteristics}
-          error={!!errors.characteristic}
-          errorText={errors.characteristic && errors.characteristic.message}
+          error={!!errors.idCharacteristic}
+          errorText={errors.idCharacteristic && errors.idCharacteristic.message}
           onSelect={handleComboChange}
           url={Endpoints.Characteristics}
         />
@@ -91,11 +91,11 @@ const ProductForm = (props: ProductFormProps) => {
         />
         <Separator />
         <AutocompleteSelect
-          name="provider"
-          selectedValue={comboValues.provider}
+          name="idProvider"
+          selectedValue={comboValues.idProvider}
           placeholder={Contents[language]?.Provider}
-          error={!!errors.provider}
-          errorText={errors.provider && errors.provider.message}
+          error={!!errors.idProvider}
+          errorText={errors.idProvider && errors.idProvider.message}
           onSelect={handleComboChange}
           url={Endpoints.Provider}
         />
@@ -135,7 +135,7 @@ const ProductForm = (props: ProductFormProps) => {
         <TextBox
           inputType="currency"
           name="salePrice"
-          label={Contents[language]?.Cost}
+          label={Contents[language]?.SalePrice}
           error={!!errors.salePrice}
           errorText={errors.salePrice && errors.salePrice.message}
           onChange={handleTextChange}
@@ -154,11 +154,11 @@ const ProductForm = (props: ProductFormProps) => {
         />
         <Separator />
         <AutocompleteSelect
-          name="gender"
+          name="idGender"
           placeholder={Contents[language]?.Gender}
-          selectedValue={comboValues.gender}
-          error={!!errors.gender}
-          errorText={errors.gender && errors.gender.message}
+          selectedValue={comboValues.idGender}
+          error={!!errors.idGender}
+          errorText={errors.idGender && errors.idGender.message}
           onSelect={handleComboChange}
           url={Endpoints.Genders}
         />

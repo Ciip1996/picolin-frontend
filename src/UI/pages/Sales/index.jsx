@@ -66,10 +66,11 @@ const SalesList = (props: SalesListProps) => {
     { id: 1, title: Contents[language]?.yes }
   ];
 
-  const init = [
-    { id: 0, title: Contents[language]?.day },
-    { id: 1, title: Contents[language]?.week },
-    { id: 2, title: Contents[language]?.month }
+  const dateSelectOptions = [
+    { id: 0, title: Contents[language]?.day, filterWord: 'day' },
+    { id: 1, title: Contents[language]?.week, filterWord: 'week' },
+    { id: 2, title: Contents[language]?.month, filterWord: 'month' },
+    { id: 3, title: Contents[language]?.year, filterWord: 'year' }
   ];
 
   const savedSearch = getFilters('ventas');
@@ -104,24 +105,23 @@ const SalesList = (props: SalesListProps) => {
         date_filter = undefined,
         payment_filter = undefined,
         invoice_filter = undefined,
-        startDate_filter = undefined
+        startDate_filter = undefined,
+        endDate_filter = undefined
       } = filters;
 
       const params = {
-        keyword: uiState.keyword,
+        keyword: uiState.keyword || undefined,
         // orderBy: uiState.orderBy,
         page: uiState.page + 1,
         perPage: uiState.perPage,
-        date: date_filter?.title,
-        paymentMethod: payment_filter?.title,
+        date: date_filter?.filterWord,
+        idPaymentMethod: payment_filter?.id,
         store: store_filter?.id,
         invoice: invoice_filter?.id,
-        initialDate: startDate_filter
-          ? startDate_filter.date.format(DateFormats.International.SimpleDate)
-          : undefined,
-        finalDate: undefined
+        initialDate: startDate_filter ? startDate_filter.date.format(DateFormats.SQL) : undefined,
+        finalDate: endDate_filter ? endDate_filter.date.format(DateFormats.SQL) : undefined
       };
-      // debugger;
+
       saveFilters('ventas', { filters, params });
 
       const queryParams = queryString.stringify(params);
@@ -161,7 +161,6 @@ const SalesList = (props: SalesListProps) => {
   };
 
   const handleFilterChange = (name: string, value: any) => {
-    debugger;
     setSearching(true);
     setFilters({ ...filters, [name]: value });
     setUiState(prevState => ({
@@ -256,11 +255,14 @@ const SalesList = (props: SalesListProps) => {
             return (
               <FormControl>
                 <CustomDatePicker
+                  label="Desde: "
                   name="startDate_filter"
-                  value={filters?.startDate_filter || null}
+                  value={filters?.startDate_filter?.date || null}
                   onDateChange={(name, date) =>
                     handleFilterChange(name, {
-                      title: `Start Date ${date.format(DateFormats.International.SimpleDate)}`,
+                      title: `Desde fecha ${
+                        date ? date.format(DateFormats.International.DetailDate) : ''
+                      }`,
                       date
                     })
                   }
@@ -283,6 +285,27 @@ const SalesList = (props: SalesListProps) => {
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        },
+        filterOptions: {
+          display: () => {
+            return (
+              <FormControl>
+                <CustomDatePicker
+                  label="Hasta"
+                  name="endDate_filter"
+                  value={filters?.endDate_filter?.date || null}
+                  onDateChange={(name, date) =>
+                    handleFilterChange(name, {
+                      title: `Hasta: ${
+                        date ? date.format(DateFormats.International.DetailDate) : ''
+                      }`,
+                      date
+                    })
+                  }
+                />
+              </FormControl>
+            );
+          }
         }
       }
     },
@@ -302,17 +325,10 @@ const SalesList = (props: SalesListProps) => {
                 <AutocompleteSelect
                   name="payment_filter"
                   placeholder={Contents[language]?.labPayment}
-                  // url={Endpoints.Sales}
+                  url={Endpoints.PaymentMethods}
                   selectedValue={filters.payment_filter}
-                  // renderOption={option => (
-                  //   <>
-                  //     {statusStartAdornment('')}
-                  //     &nbsp;
-                  //     <span>{option.title && option.title}</span>
-                  //   </>
-                  // )}
                   onSelect={handleFilterChange}
-                  defaultOptions={payment}
+                  // defaultOptions={payment}
                 />
               </FormControl>
             );
@@ -426,7 +442,7 @@ const SalesList = (props: SalesListProps) => {
             url={Endpoints.Stores}
             selectedValue={filters.date_filter}
             onSelect={handleFilterChange}
-            defaultOptions={init}
+            defaultOptions={dateSelectOptions}
           />
         }
         filters={filters}

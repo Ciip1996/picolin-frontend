@@ -13,12 +13,12 @@ import { globalStyles } from 'GlobalStyles';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-type InventoryDrawerProps = {
+type AddInventoryProductDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any
 };
 
-const InventoryDrawer = (props: InventoryDrawerProps) => {
+const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
   const { handleClose, onShowAlert } = props;
   const language = localStorage.getItem('language');
 
@@ -52,7 +52,6 @@ const InventoryDrawer = (props: InventoryDrawerProps) => {
         formData
       );
       if (response) {
-        console.log(formData, response);
         onShowAlert({
           severity: 'success',
           title: 'Producto Agregado',
@@ -61,7 +60,6 @@ const InventoryDrawer = (props: InventoryDrawerProps) => {
         });
       }
     } catch (err) {
-      console.log(err);
       onShowAlert({
         severity: 'error',
         title: 'Error',
@@ -98,6 +96,6 @@ const InventoryDrawer = (props: InventoryDrawerProps) => {
   );
 };
 
-InventoryDrawer.defaultProps = {};
+AddInventoryProductDrawer.defaultProps = {};
 
-export default InventoryDrawer;
+export default AddInventoryProductDrawer;

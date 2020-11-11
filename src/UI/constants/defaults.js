@@ -28,7 +28,8 @@ export const DateFormats = {
     QueryFormat: 'YYYY-MM-DD HH:mm:ss',
     MonthDay: 'DD MMM',
     MonthDayYear: 'DD MMM, YYYY'
-  }
+  },
+  SQL: 'YYYY-MM-DD'
 };
 
 export const FilterType = {

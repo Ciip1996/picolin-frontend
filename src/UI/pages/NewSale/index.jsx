@@ -1,7 +1,6 @@
 // @flow
 import React, { useState, useEffect } from 'react';
 // import queryString from 'query-string';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
 import { connect } from 'react-redux';
@@ -88,19 +87,6 @@ const NewSaleList = (props: NewSaleListProps) => {
         loading={loading}
         // title={Contents[language]?.pageTitle}
         title="NUEVA VENTA"
-        // selector={
-        //   <AutocompleteSelect
-        //     name="date_filter"
-        //     placeholder={Contents[language]?.pageTitle}
-        //     url={Endpoints.Stores}
-        //     selectedValue={filters.date_filter}
-        //     onSelect={handleFilterChange}
-        //     defaultOptions={init}
-        //   />
-        // }
-        // filters={filters}
-        // onFilterRemove={handleFilterRemove}
-        // onFiltersReset={handleResetFiltersClick}
       >
         <Grid container direction="row" justify="space-between" alignItems="stretch" spacing={4}>
           <Grid style={{ width: '60%', padding: '0px 48px 0px 48px', flex: 1 }}>

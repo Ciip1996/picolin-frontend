@@ -13,9 +13,10 @@ const Contents = {
     cash: 'Cash',
     yes: 'YES',
     no: 'NO',
-    day: 'Per day',
-    week: 'Per week',
-    month: 'Per month'
+    day: 'Of the day',
+    week: 'Of the week',
+    month: 'Of the month',
+    year: 'Of the year'
   },
   Spanish: {
     pageTitle: 'VENTAS',
@@ -32,8 +33,9 @@ const Contents = {
     yes: 'SI',
     no: 'NO',
     day: 'Del día',
-    week: 'Semana',
-    month: 'Del Mes'
+    week: 'De la Semana',
+    month: 'Del Mes',
+    year: 'Del Año'
   }
 };
 export default Contents;
