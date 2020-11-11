@@ -8,7 +8,7 @@ import TitleLabel from 'UI/components/atoms/TitleLabel';
 import { BackgroundGraphic, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
-import SummaryCard from 'UI/components/organisms/SummaryCard';
+import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
 
 import { type User } from 'types/app';
 
@@ -17,6 +17,14 @@ import { useStyles, styles } from './styles';
 const Home = () => {
   const classes = useStyles();
   const user: User = getCurrentUser();
+  const data = [
+    { title: '1 ROPON mini ariete blanco', content: '$1,200.00' },
+    { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' },
+    { title: '1 CALZADO NIÑA NACAR', content: '$119.5' },
+    { title: '1 PAÑALEROS BEIGE', content: '$160.0' },
+    { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' },
+    { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' }
+  ];
 
   useEffect(() => {
     document.title = PageTitles.Home;
@@ -39,7 +47,7 @@ const Home = () => {
               fontSize={47}
               text={`¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`}
             />
-            <SummaryCard />
+            <SalesDetailCard data={data} />
             {/* <GlobalSearchbar /> */}
           </Grid>
           {/* <Grid

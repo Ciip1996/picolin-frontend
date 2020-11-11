@@ -38,16 +38,16 @@ const ItemCard = (props: ItemCardProps) => {
         </ListItem>
       </List>
       <Grid container>
-        <Grid item xs={12} sm={2}>
+        <Grid item sm={2}>
           <Chip label={gender} className={classes.Gender} />
         </Grid>
-        <Grid item xs={6} sm={2}>
+        <Grid item sm={2}>
           <Chip label={size} className={classes.Size} />
         </Grid>
-        <Grid item xs={6} sm={2}>
+        <Grid item sm={2}>
           <Chip label={type} className={classes.Type} />
         </Grid>
-        <Grid item xs={6} sm={2}>
+        <Grid item sm={2}>
           <Chip label={color} className={classes.Color} />
         </Grid>
       </Grid>
