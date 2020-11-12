@@ -10,7 +10,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import { useStyles } from './styles';
 
-
 // const payment = [
 // { id: 0, title: Contents[language]?.cash },
 // { id: 1, title: Contents[language]?.card }
