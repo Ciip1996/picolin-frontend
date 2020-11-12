@@ -107,7 +107,7 @@ export const useStyles = makeStyles({
     letterSpacing: '1.4px',
     textTransform: 'uppercase',
     opacity: '0.5',
-    marginLeft: '100px',
+    marginLeft: '60px',
     marginTop: '120px',
     width: '69px'
   },

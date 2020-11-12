@@ -7,6 +7,8 @@ import TitleLabel from 'UI/components/atoms/TitleLabel';
 import { BackgroundGraphic, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
+import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
+import SalesSummary from 'UI/components/organisms/SalesSummary';
 
 import { type User } from 'types/app';
 
@@ -45,7 +47,7 @@ const Home = () => {
               fontSize={47}
               text={`¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`}
             />
-            {/* <SalesDetailCard data={data} /> */}
+            <SalesDetailCard data={data} />
             {/* <GlobalSearchbar /> */}
           </Grid>
           {/* <Grid

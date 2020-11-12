@@ -1,15 +1,8 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import GridList from '@material-ui/core/GridList';
-import TextBox from 'UI/components/atoms/TextBox';
-import ActionButton from 'UI/components/atoms/ActionButton';
-import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
-import { AddIcon, colors } from 'UI/res';
 import Contents from './strings';
 import { useStyles } from './styles';
 
@@ -126,7 +119,7 @@ const SummaryCard = (props: SummaryCardProps) => {
 
 SummaryCard.defaultProps = {
   subtotal: '$698.1',
-  total: '$1506.84',
+  total: '$15060000000.84',
   deposit: 'N/A',
   taxes: '$111.696',
   discount: '$0.00',
