@@ -21,7 +21,6 @@ import {
 } from './styles';
 import Contents from './strings';
 
-
 type AutocompleteSelectProps = {
   name: string,
   placeholder?: string,
@@ -43,7 +42,8 @@ type AutocompleteSelectProps = {
   groupBy?: (option: any) => any,
   getOptionSelected?: (option: any, value: any) => boolean,
   getOptionLabel?: (option: any) => string,
-  showAlert: any => void
+  showAlert: any => void,
+  dataFetchKeyName: string
 };
 
 const AutocompleteSelect = (props: AutocompleteSelectProps) => {
@@ -69,6 +69,7 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
     getOptionSelected,
     getOptionLabel,
     showAlert,
+    dataFetchKeyName,
     ...rest
   } = props;
 
@@ -173,24 +174,23 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
       setLoading(true);
       await API.get(`${url}?${queryParams}`)
         .then(response => {
-          // TODO: fix from server the reponse:
-          if (response.data.data) {
-            setOptions(response.data.data);
+          if (response?.data[dataFetchKeyName]) {
+            setOptions(response?.data[dataFetchKeyName]);
           } else {
-            setOptions(response.data);
+            setOptions(response?.data);
           }
         })
         .catch(err => {
           showAlert({
             severity: 'error',
-            title: 'Error',
+            title: 'Autocomplete Error',
             body: getErrorMessage(err)
           });
         });
       setLoading(false);
     };
     search();
-  }, [keyword, showAlert, typeahead, typeaheadLimit, typeaheadParams, url]);
+  }, [dataFetchKeyName, keyword, showAlert, typeahead, typeaheadLimit, typeaheadParams, url]);
 
   const chipProps = disabledItemsFocusable
     ? { onDelete: null, classes: chipClassesDisabled }
@@ -271,7 +271,8 @@ AutocompleteSelect.defaultProps = {
   disabledItemsFocusable: false,
   getOptionSelected: undefined,
   getOptionLabel: undefined,
-  startAdornment: undefined
+  startAdornment: undefined,
+  dataFetchKeyName: 'data'
 };
 
 const mapDispatchToProps = dispatch => {

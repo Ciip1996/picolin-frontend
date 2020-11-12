@@ -459,7 +459,7 @@ export const DotsPattern = props => {
   );
 };
 
-export const GpacFullLogo = props => {
+export const FullLogo = props => {
   return (
     <svg viewBox="0 0 574.649 179.494" {...props}>
       <defs>

@@ -8,6 +8,8 @@ import { input } from 'UI/constants/dimensions';
 import { useStyles } from './styles';
 import Contents from './strings';
 
+const language = localStorage.getItem('language');
+
 type SearchbarProps = {
   name: string,
   value?: ?string,
@@ -19,7 +21,6 @@ type SearchbarProps = {
 
 const Searchbar = (props: SearchbarProps) => {
   const { name, width, placeholder, onChange, value, onSearch } = props;
-  const language = localStorage.getItem('language');
 
   const customStyle = {
     width,
@@ -61,7 +62,7 @@ const Searchbar = (props: SearchbarProps) => {
       <IconButton
         type="button"
         className={classes.iconButton}
-        aria-label={Contents[language].Search}
+        aria-label={Contents[language]?.Search}
         onClick={handleSearchClick}
       >
         <SearchBarIcon fill={colors.inactiveSideBarTab} />
@@ -73,7 +74,7 @@ const Searchbar = (props: SearchbarProps) => {
 Searchbar.defaultProps = {
   width: '389px',
   value: null,
-  placeholder: Contents[language].SearchBy,
+  placeholder: Contents[language]?.SearchBy,
   onChange: () => {},
   onSearch: () => {}
 };

@@ -10,15 +10,16 @@ import CustomFooter from './Footer/index';
 
 import Contents from './strings';
 
+const language = localStorage.getItem('language');
+
 const DataTableEmptyState = props => {
   const { error, defaultEmptyState, title, subtitle, customEmptyStateIcon } = props;
-  const language = localStorage.getItem('language');
 
-  const defaultTitle = error ? Contents[language].errorTitle : Contents[language].defaultTitle;
+  const defaultTitle = error ? Contents[language]?.errorTitle : Contents[language]?.defaultTitle;
 
   const defaultSubtitle = error
-    ? Contents[language].errorSubtitle
-    : Contents[language].defaultSubtitle;
+    ? Contents[language]?.errorSubtitle
+    : Contents[language]?.defaultSubtitle;
 
   return (
     <EmptyPlaceholder
@@ -106,7 +107,7 @@ const DataTable = (props: DataTableProps) => {
         page,
         rowsPerPage,
         searchText,
-        searchPlaceholder: 'Search for...',
+        searchPlaceholder: Contents[language]?.Searchfor,
         customSearchRender: debounceSearchRender(400),
         onRowClick: (rowData, rowMeta) => {
           onRowClick && onRowClick(rowMeta);
@@ -157,7 +158,7 @@ const DataTable = (props: DataTableProps) => {
         textLabels: {
           body: {
             toolbar: {
-              search: 'search'
+              search: Contents[language]?.Search
             },
             noMatch: (
               <DataTableEmptyState
@@ -168,8 +169,8 @@ const DataTable = (props: DataTableProps) => {
                 customEmptyStateIcon={customEmptyStateIcon}
               />
             ),
-            toolTip: 'Sort',
-            columnHeaderTooltip: column => `Sort for ${column.label}`
+            toolTip: Contents[language]?.Sort,
+            columnHeaderTooltip: column => `${Contents[language]?.SortFor} ${column.label}`
           }
         }
       }

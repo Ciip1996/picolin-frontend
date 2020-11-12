@@ -3,11 +3,12 @@ import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-// import GlobalSearchbar from 'UI/components/molecules/GlobalSearchbar';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
 import { BackgroundGraphic, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
+// import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
+// import SalesSummary from 'UI/components/organisms/SalesSummary';
 
 import { type User } from 'types/app';
 
@@ -16,14 +17,18 @@ import { useStyles, styles } from './styles';
 const Home = () => {
   const classes = useStyles();
   const user: User = getCurrentUser();
+  // const data = [
+  //   { title: '1 ROPON mini ariete445', content: '$111,200.00' },
+  //   { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' },
+  //   { title: '1 CALZADO NIÑA NACAR', content: '$119.5' },
+  //   { title: '1 PAÑALEROS BEIGE', content: '$160.0' },
+  //   { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' },
+  //   { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' }
+  // ];
 
   useEffect(() => {
     document.title = PageTitles.Home;
   });
-
-  // const handleActionClick = action => {
-  //   history.push(action);
-  // };
 
   return (
     <>
@@ -42,6 +47,8 @@ const Home = () => {
               fontSize={47}
               text={`¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`}
             />
+            {/* <SalesDetailCard data={data} />
+            <SalesSummary cash={123.0} card={245.23} /> */}
             {/* <GlobalSearchbar /> */}
           </Grid>
           {/* <Grid

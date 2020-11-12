@@ -5,22 +5,21 @@ import queryString from 'query-string';
 import { connect } from 'react-redux';
 
 import { FormControl } from '@material-ui/core';
+import Drawer from '@material-ui/core/Drawer';
+
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
+import ActionButton from 'UI/components/atoms/ActionButton';
 
 import { showAlert } from 'actions/app';
-// import Drawer from '@material-ui/core/Drawer';
-import {
-  // drawerAnchor,
-  PageTitles
-} from 'UI/constants/defaults';
+import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
-
-/** Components */
+import TextBox from 'UI/components/atoms/TextBox';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-// import InventoryProductDrawer from 'UI/components/molecules/InventoryDrawer';
+import AddInventoryProductDrawer from 'UI/components/molecules/AddInventoryProductDrawer';
+import QRCodeDrawer from 'UI/components/molecules/QRCodeDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -29,6 +28,7 @@ import { getErrorMessage } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
+import { AddIcon, colors } from 'UI/res';
 import Contents from './strings';
 
 const CellSkeleton = ({ children, searching }) => {
@@ -65,22 +65,17 @@ const InventoryList = (props: InventoryListProps) => {
   const [data, setData] = useState<any>(null);
   const [count, setCount] = useState(0);
 
-  const genders = [
-    { id: 0, title: 'Niña' },
-    { id: 1, title: 'Niño' }
-  ];
-
   const savedSearch = getFilters('inventory');
   const savedFilters = savedSearch?.filters;
   const savedParams = savedSearch?.params;
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
-  // const toggleDrawer = (drawer: string, open: boolean) => event => {
-  //   if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-  //     return;
-  //   }
-  //   setUiState(prevState => ({ ...prevState, [drawer]: open }));
-  // };
+  const toggleDrawer = (drawer: string, open: boolean) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setUiState(prevState => ({ ...prevState, [drawer]: open }));
+  };
 
   const [uiState, setUiState] = useState({
     keyword: savedParams?.keyword || null,
@@ -88,12 +83,20 @@ const InventoryList = (props: InventoryListProps) => {
     direction: savedParams?.direction || null,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isTransferDrawerOpen: true
+    isAddProductDrawerOpen: false,
+    isQRCodeDrawerOpen: false,
+    productCode: null
   });
 
   const getData = useCallback(async () => {
     try {
-      const { store_filter, gender_filter = {}, type_filter = {}, color_filter = {} } = filters;
+      const {
+        store_filter,
+        gender_filter = {},
+        type_filter = {},
+        color_filter = {},
+        stock_filter = {}
+      } = filters;
 
       const params = {
         keyword: uiState.keyword || undefined,
@@ -102,17 +105,18 @@ const InventoryList = (props: InventoryListProps) => {
         perPage: uiState.perPage,
         gender: gender_filter?.title || undefined,
         type: type_filter?.title || undefined,
-        color: color_filter?.title || undefined
+        color: color_filter?.title || undefined,
+        stock: stock_filter?.numberValue || undefined
       };
 
       saveFilters('inventory', { filters, params });
 
       const queryParams = queryString.stringify(params);
-      const url = store_filter
-        ? '/getInventory/:filtros?'.replace(':filtros', store_filter?.title)
-        : '/getInventory/TODOS?';
+      const url = `${Endpoints.Inventory}${Endpoints.GetInventory}?`.replace(
+        ':idStore',
+        store_filter ? store_filter?.id : 'ALL'
+      );
       const response = await API.get(`${url}${queryParams}`);
-
       if (response?.status === 200) {
         setData(response?.data?.inventory || []);
       }
@@ -121,7 +125,6 @@ const InventoryList = (props: InventoryListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
-      console.log(err);
       setError(true);
       onShowAlert({
         severity: 'error',
@@ -158,6 +161,15 @@ const InventoryList = (props: InventoryListProps) => {
   const handleFilterRemove = (filterName: string) => {
     setSearching(true);
     setFilters({ ...filters, [filterName]: undefined });
+  };
+
+  const onProductInserted = (productCode: string) => {
+    setUiState(prevState => ({
+      ...prevState,
+      isQRCodeDrawerOpen: true,
+      isAddProductDrawerOpen: false,
+      productCode
+    }));
   };
 
   const handleColumnSortClick = newSortDirection => {
@@ -246,16 +258,9 @@ const InventoryList = (props: InventoryListProps) => {
               <FormControl>
                 <AutocompleteSelect
                   name="color_filter"
-                  placeholder="Color"
+                  placeholder={Contents[language]?.labColor}
                   url={Endpoints.Colors}
                   selectedValue={filters.color_filter}
-                  // renderOption={option => (
-                  //   <>
-                  //     {statusStartAdornment('')}
-                  //     &nbsp;
-                  //     <span>{option.title && option.title}</span>
-                  //   </>
-                  // )}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -328,9 +333,9 @@ const InventoryList = (props: InventoryListProps) => {
                 <AutocompleteSelect
                   name="gender_filter"
                   placeholder={Contents[language]?.labGender}
+                  url={Endpoints.Genders}
                   selectedValue={filters.gender_filter}
                   onSelect={handleFilterChange}
-                  defaultOptions={genders}
                 />
               </FormControl>
             );
@@ -357,7 +362,7 @@ const InventoryList = (props: InventoryListProps) => {
                 <AutocompleteSelect
                   name="type_filter"
                   placeholder={Contents[language]?.labType}
-                  url="/getTypes"
+                  url={Endpoints.Types}
                   selectedValue={filters.type_filter}
                   onSelect={handleFilterChange}
                 />
@@ -398,12 +403,22 @@ const InventoryList = (props: InventoryListProps) => {
             return (
               <FormControl>
                 <div display="flex">
-                  <AutocompleteSelect
-                    name="stock"
-                    placeholder={Contents[language]?.labStock}
-                    url=""
-                    selectedValue={filters.office}
-                    onSelect={handleFilterChange}
+                  <TextBox
+                    inputType="number"
+                    name="stock_filter"
+                    label={Contents[language]?.labStock}
+                    defaultValue={filters?.stock_filter?.numberValue}
+                    onChange={(name, numberValue) => {
+                      handleFilterChange(
+                        name,
+                        numberValue
+                          ? {
+                              numberValue,
+                              title: `Stock: ${numberValue}`
+                            }
+                          : undefined
+                      );
+                    }}
                   />
                 </div>
               </FormControl>
@@ -429,6 +444,14 @@ const InventoryList = (props: InventoryListProps) => {
 
   return (
     <ContentPageLayout>
+      <div style={{ position: 'absolute', right: 50, top: 180 }}>
+        <ActionButton
+          text={Contents[language]?.addNewProduct}
+          onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
+        >
+          <AddIcon fill={colors.white} size={18} />
+        </ActionButton>
+      </div>
       <ListPageLayout
         loading={loading}
         title={Contents[language]?.labInventory}
@@ -467,6 +490,32 @@ const InventoryList = (props: InventoryListProps) => {
           onColumnDisplayClick={handleColumnDisplayClick}
         />
       </ListPageLayout>
+      <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isAddProductDrawerOpen}
+        onClose={toggleDrawer('isAddProductDrawerOpen', false)}
+      >
+        <div role="presentation">
+          <AddInventoryProductDrawer
+            onProductInserted={onProductInserted}
+            onShowAlert={onShowAlert}
+            handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
+          />
+        </div>
+      </Drawer>
+      <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isQRCodeDrawerOpen}
+        onClose={toggleDrawer('isQRCodeDrawerOpen', false)}
+      >
+        <div role="presentation">
+          <QRCodeDrawer
+            productCode={uiState.productCode}
+            onShowAlert={onShowAlert}
+            handleClose={toggleDrawer('isQRCodeDrawerOpen', false)}
+          />
+        </div>
+      </Drawer>
     </ContentPageLayout>
   );
 };

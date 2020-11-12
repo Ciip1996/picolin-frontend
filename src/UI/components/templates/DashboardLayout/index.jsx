@@ -127,8 +127,10 @@ const DashboardLayout = (props: DashboardLayoutProps) => {
               label="Date range"
               onFocus={openDateRange}
               value={`${moment(selectedPeriod.startDate).format(
-                DateFormats.SimpleDateTime
-              )} - ${moment(selectedPeriod.endDate).format(DateFormats.SimpleDateTime)}`}
+                DateFormats.International.SimpleDateTime
+              )} - ${moment(selectedPeriod.endDate).format(
+                DateFormats.International.SimpleDateTime
+              )}`}
               inputProps={{
                 style: { cursor: 'pointer' }
               }}

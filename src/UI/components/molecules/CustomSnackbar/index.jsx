@@ -104,7 +104,7 @@ const CustomSnackbar = forwardRef<CustomSnackbarProps, any>(
           >
             <div className={classes.textContainer}>
               <div className={classes.title} style={styles.truncateText}>
-                {title} {code && Contents[language].labelCode`${code}`}
+                {title} {code && `${Contents[language]?.labelCode} ${code}`}
               </div>
               <div className={classes.body} style={styles.truncateText}>
                 {body}

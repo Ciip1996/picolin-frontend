@@ -1,65 +1,44 @@
 // @flow
 import React, { useState, useEffect, useCallback } from 'react';
-// import NumberFormat from 'react-number-format';
-
-import { useHistory } from 'react-router-dom';
-// import queryString from 'query-string';
-import moment from 'moment';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
-
 import { FormControl } from '@material-ui/core';
 
-import { showAlert } from 'actions/app';
-
 /** Atoms, Components and Styles */
-import AutocompleteSelect, {
-  statusRenderOption,
-  statusStartAdornment
-} from 'UI/components/molecules/AutocompleteSelect';
-import ColorIndicator from 'UI/components/atoms/ColorIndicator';
-
-/** Components */
+import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
+import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
+import CustomDatePicker from 'UI/components/atoms/CustomDatePicker';
+import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 
 /** API / EntityRoutes / Endpoints / EntityType */
-import { Urls } from 'UI/constants/mockData';
-import axios from 'axios';
-
-// import API from 'services/API';
-import { EntityRoutes } from 'routes/constants';
+import API from 'services/API';
+import { DateFormats, PageTitles } from 'UI/constants/defaults';
+import { toLocalTime, getErrorMessage } from 'UI/utils';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorMessage, nestTernary } from 'UI/utils';
-import { accountabilityFilters } from 'UI/constants/entityTypes';
 import type { Filters } from 'types/app';
-
-import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
-import { PageTitles } from 'UI/constants/defaults';
+
+import { showAlert } from 'actions/app';
 import Contents from './strings';
+
+const CellSkeleton = ({ children, searching }) => {
+  return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
+};
 
 type SalesListProps = {
   onShowAlert: any => void
 };
 
-const filterOptions = accountabilityFilters('Ventas');
-
-const chainedSelects = {
-  industry: ['specialty', 'subspecialty', 'position'],
-  specialty: ['subspecialty', 'position'],
-  state: ['city', 'zip']
-};
-
 const columnItems = [
-  { id: 0, name: 'type', display: true },
-  { id: 1, name: 'codigo', display: true },
-  { id: 2, name: 'color', display: true },
-  { id: 3, name: 'talla', display: true },
-  { id: 4, name: 'piezas', display: false },
-  { id: 5, name: 'precio', display: true },
-  { id: 6, name: 'genero', display: false },
-  { id: 7, name: 'tipo', display: true },
-  { id: 8, name: 'status', display: true }
+  { id: 0, name: 'idSale', display: true },
+  { id: 1, name: 'date', display: true },
+  { id: 2, name: 'total', display: true },
+  { id: 3, name: 'paymentMethod', display: true },
+  { id: 4, name: 'store', display: true },
+  { id: 5, name: 'invoice', display: true },
+  { id: 6, name: 'quantity', display: true }
 ];
 
 const getSortDirections = (orderBy: string, direction: string) =>
@@ -67,18 +46,26 @@ const getSortDirections = (orderBy: string, direction: string) =>
 
 const SalesList = (props: SalesListProps) => {
   const { onShowAlert } = props;
-  const history = useHistory();
   const language = localStorage.getItem('language');
 
-  useEffect(() => {
-    document.title = PageTitles.Sales;
-  }, []);
-
   const [error, setError] = useState(false);
+  const [searching, setSearching] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState<any>([{}]);
   const [count, setCount] = useState(0);
+
+  const invoiceOptions = [
+    { id: 0, title: Contents[language]?.no },
+    { id: 1, title: Contents[language]?.yes }
+  ];
+
+  const dateSelectOptions = [
+    { id: 0, title: Contents[language]?.day, filterWord: 'day' },
+    { id: 1, title: Contents[language]?.week, filterWord: 'week' },
+    { id: 2, title: Contents[language]?.month, filterWord: 'month' },
+    { id: 3, title: Contents[language]?.year, filterWord: 'year' }
+  ];
 
   const savedSearch = getFilters('ventas');
   const savedFilters = savedSearch?.filters;
@@ -87,91 +74,69 @@ const SalesList = (props: SalesListProps) => {
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
   const [uiState, setUiState] = useState({
-    keyword: savedParams?.keyword || '',
-    orderBy: savedParams?.orderBy || '',
-    direction: savedParams?.direction || '',
+    keyword: savedParams?.keyword || null,
+    orderBy: savedParams?.orderBy || null,
+    direction: savedParams?.direction || null,
     page: savedParams?.page - 1 || 0,
-    perPage: savedParams?.perPage || 10
+    perPage: savedParams?.perPage || 10,
+    isTransferDrawerOpen: true
   });
 
   const getData = useCallback(async () => {
     try {
       const {
-        userFilter,
-        state,
-        city,
-        zip,
-        industry,
-        specialty,
-        subspecialty,
-        position,
-        status,
-        coach,
-        itemType
+        store_filter,
+        date_filter = undefined,
+        payment_filter = undefined,
+        invoice_filter = undefined,
+        startDate_filter = undefined,
+        endDate_filter = undefined
       } = filters;
 
       const params = {
-        userFilter: userFilter ? userFilter.id : filterOptions[0].id,
-        keyword: uiState.keyword,
-        orderBy: uiState.orderBy,
-        direction: uiState.direction,
-        stateId: state ? state.id : null,
-        cityId: city ? city.id : null,
-        zip: zip ? zip.title : null,
-        industryId: industry ? industry.id : null,
-        specialtyId: specialty ? specialty.id : null,
-        subspecialtyId: subspecialty ? subspecialty.id : null,
-        positionId: position ? position.id : null,
-        statusId: status ? status.id : null,
-        coachId: coach ? coach.id : null,
-        typeId: itemType ? itemType.id : null,
+        keyword: uiState.keyword || undefined,
+        // orderBy: uiState.orderBy,
         page: uiState.page + 1,
-        perPage: uiState.perPage
+        perPage: uiState.perPage,
+        date: date_filter?.filterWord,
+        idPaymentMethod: payment_filter?.id,
+        store: store_filter?.id,
+        invoice: invoice_filter?.id,
+        initialDate: startDate_filter ? startDate_filter.date.format(DateFormats.SQL) : undefined,
+        finalDate: endDate_filter ? endDate_filter.date.format(DateFormats.SQL) : undefined
       };
 
       saveFilters('ventas', { filters, params });
 
-      // const queryParams = queryString.stringify(params);
+      const queryParams = queryString.stringify(params);
+      const url = `${Endpoints.Sales}${Endpoints.GetSales}?`.replace(
+        ':idStore',
+        store_filter ? store_filter?.id : 'ALL'
+      );
 
-      // const response =  await API.get(`${Endpoints.Ventas}?${queryParams}`);
-      axios
-        .get(Urls.sales)
-        .then(res => {
-          setData(res.data);
-          setError(false);
-        })
-        .catch(err => {
-          setError(true);
-          // handle error
-          onShowAlert({
-            severity: 'error',
-            title: Contents[language].errtitle,
-            autoHideDuration: 3000,
-            body: getErrorMessage(err)
-          });
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-      // setData(response.data.data);
-      // setCount(Number(response.data.total));
+      const response = await API.get(`${url}${queryParams}`);
+
+      if (response?.status === 200) {
+        setData(response?.data?.sales || []);
+      }
+      setCount(Number(response?.data?.totalResults) || 0);
       setLoading(false);
-      setCount(Number(1));
+      setSearching(false);
+      setError(false);
     } catch (err) {
+      // console.log(err);
+      setError(true);
       onShowAlert({
         severity: 'error',
-        title: Contents[language].pageTitle,
+        title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
         body: getErrorMessage(err)
       });
     }
-  }, [filters, uiState, onShowAlert, language]);
-
-  useEffect(() => {
-    getData();
-  }, [getData]);
+  }, [filters, onShowAlert, uiState.keyword, uiState.page, uiState.perPage, language]);
 
   const handleSearchChange = newKeyword => {
+    setSearching(true);
     setUiState(prevState => ({
       ...prevState,
       keyword: newKeyword,
@@ -179,30 +144,28 @@ const SalesList = (props: SalesListProps) => {
     }));
   };
 
-  const handleFilterChange = (name?: string, value: any) => {
+  const handleFilterChange = (name: string, value: any) => {
+    setSearching(true);
     setFilters({ ...filters, [name]: value });
     setUiState(prevState => ({
       ...prevState,
       page: 0
     }));
-
-    if (name && chainedSelects[name]) {
-      chainedSelects[name].forEach(chainedSelect => {
-        setFilters((prevState: Filters): Filters => ({ ...prevState, [chainedSelect]: null }));
-      });
-    }
   };
 
   const handleResetFiltersClick = () => {
+    setSearching(true);
     setFilters({});
   };
 
   const handleFilterRemove = (filterName: string) => {
-    setFilters({ ...filters, [filterName]: null });
+    setSearching(true);
+    setFilters({ ...filters, [filterName]: undefined });
   };
 
   const handleColumnSortClick = newSortDirection => {
     const { orderBy, direction } = newSortDirection;
+    setSearching(true);
 
     setUiState(prevState => ({
       ...prevState,
@@ -213,6 +176,7 @@ const SalesList = (props: SalesListProps) => {
   };
 
   const handlePerPageClick = newPerPage => {
+    setSearching(true);
     setUiState(prevState => ({
       ...prevState,
       page: 0,
@@ -221,6 +185,8 @@ const SalesList = (props: SalesListProps) => {
   };
 
   const handlePageClick = newPage => {
+    setSearching(true);
+
     setUiState(prevState => ({
       ...prevState,
       page: newPage
@@ -233,111 +199,93 @@ const SalesList = (props: SalesListProps) => {
     columnItems[index].display = display;
   };
 
-  const handleRowClick = newItem => {
-    const { id } = data[newItem.rowIndex];
-    history.push(EntityRoutes.CandidateProfile.replace(':id', id));
+  const handleRowClick = () => {
+    // const { id } = data[newItem.rowIndex];
+    // history.push(EntityRoutes.CandidateProfile.replace(':id', id));
   };
 
   const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
-  const statussUrl =
-    savedFilters?.userFilter && savedFilters.userFilter.id !== 0
-      ? nestTernary(
-          savedFilters.userFilter.id === 3,
-          `${Endpoints.Users}?role_id=1`,
-          `${Endpoints.statuss}/myTeam`
-        )
-      : '';
 
   const columns = [
     {
-      name: 'id',
+      name: 'idSale',
       options: {
         filter: true,
         sort: false,
         display: 'excluded',
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="industry"
-                  placeholder="Industry"
-                  url={Endpoints.Industries}
-                  selectedValue={filters.industry}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
+        filterType: 'custom'
       }
     },
     {
-      name: 'type',
-      label: 'Type',
+      name: 'date',
+      label: Contents[language]?.labDate,
       options: {
         filter: true,
         sort: true,
         display: columnItems[0].display,
         sortDirection: sortDirection[0],
         customBodyRender: value => {
+          const localTime = toLocalTime(value);
+          const formattedDate =
+            localTime && localTime.format(DateFormats.International.SimpleDateTime);
           return (
-            value?.type && (
-              <>
-                <ColorIndicator color={value.type_class_name} width={12} height={12} /> {value.type}
-              </>
-            )
+            <CellSkeleton searching={searching}>
+              <strong>{formattedDate}</strong>
+            </CellSkeleton>
           );
         },
-        filterType: 'custom',
         filterOptions: {
           display: () => {
             return (
               <FormControl>
-                <AutocompleteSelect
-                  name="specialty"
-                  placeholder="Specialty"
-                  url={
-                    filters.industry
-                      ? `${Endpoints.Specialties}?industryId=${filters.industry.id}`
-                      : ''
+                <CustomDatePicker
+                  label="Desde: "
+                  name="startDate_filter"
+                  value={filters?.startDate_filter?.date || null}
+                  onDateChange={(name, date) =>
+                    handleFilterChange(name, {
+                      title: `Desde fecha ${
+                        date ? date.format(DateFormats.International.DetailDate) : ''
+                      }`,
+                      date
+                    })
                   }
-                  selectedValue={filters.specialty}
-                  onSelect={handleFilterChange}
                 />
               </FormControl>
             );
           }
-        }
+        },
+        filterType: 'custom'
       }
     },
     {
-      name: 'codigo',
-      label: 'Codigo',
+      name: 'total',
+      label: Contents[language]?.labTotal,
       options: {
         filter: true,
         sort: true,
         display: columnItems[1].display,
         sortDirection: sortDirection[1],
-        customBodyRender: value => {
-          return <strong>{value}</strong>;
-        },
         filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        },
         filterOptions: {
           display: () => {
             return (
               <FormControl>
-                <AutocompleteSelect
-                  name="subspecialty"
-                  placeholder="Subspecialty"
-                  url={
-                    filters.specialty
-                      ? `${Endpoints.Specialties}/${filters.specialty.id}/subspecialties`
-                      : ''
+                <CustomDatePicker
+                  label="Hasta"
+                  name="endDate_filter"
+                  value={filters?.endDate_filter?.date || null}
+                  onDateChange={(name, date) =>
+                    handleFilterChange(name, {
+                      title: `Hasta: ${
+                        date ? date.format(DateFormats.International.DetailDate) : ''
+                      }`,
+                      date
+                    })
                   }
-                  selectedValue={filters.subspecialty}
-                  onSelect={handleFilterChange}
                 />
               </FormControl>
             );
@@ -346,8 +294,8 @@ const SalesList = (props: SalesListProps) => {
       }
     },
     {
-      name: 'color',
-      label: 'Color',
+      name: 'paymentMethod',
+      label: Contents[language]?.labPayment,
       options: {
         filter: true,
         sort: true,
@@ -359,25 +307,25 @@ const SalesList = (props: SalesListProps) => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="position"
-                  placeholder="Functional title"
-                  url={
-                    filters.specialty
-                      ? `${Endpoints.Positions}?specialtyId=${filters.specialty.id}`
-                      : ''
-                  }
-                  selectedValue={filters.position}
+                  name="payment_filter"
+                  placeholder={Contents[language]?.labPayment}
+                  url={Endpoints.PaymentMethods}
+                  selectedValue={filters.payment_filter}
                   onSelect={handleFilterChange}
+                  // defaultOptions={payment}
                 />
               </FormControl>
             );
           }
+        },
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }
       }
     },
     {
-      name: 'specialty_title',
-      label: 'Industry: Specialty',
+      name: 'store',
+      label: Contents[language]?.labStore,
       options: {
         filter: true,
         sort: true,
@@ -389,22 +337,24 @@ const SalesList = (props: SalesListProps) => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="coach"
-                  placeholder="Coach"
-                  url={`${Endpoints.Users}?role_id=2`}
-                  selectedValue={filters.coach}
-                  displayKey="codigo"
+                  name="store_filter"
+                  placeholder={Contents[language]?.labStore}
+                  url={Endpoints.Stores}
+                  selectedValue={filters.store_filter}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
             );
           }
+        },
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value?.title}</CellSkeleton>;
         }
       }
     },
     {
-      name: 'piezas',
-      label: 'Piezas',
+      name: 'invoice',
+      label: Contents[language]?.labInvoice,
       options: {
         filter: true,
         sort: true,
@@ -416,149 +366,63 @@ const SalesList = (props: SalesListProps) => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="status"
-                  placeholder="status"
-                  url={statussUrl}
-                  selectedValue={filters.status}
-                  displayKey="codigo"
+                  name="invoice_filter"
+                  placeholder={Contents[language]?.labInvoice}
+                  selectedValue={filters.invoice_filter}
+                  defaultOptions={invoiceOptions}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
             );
           }
+        },
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value ? 'SI' : 'NO'}</CellSkeleton>;
         }
       }
     },
     {
-      name: 'precio',
-      label: 'Precio',
+      name: 'quantity',
+      label: Contents[language]?.labQuantity,
       options: {
         filter: true,
         sort: true,
         display: columnItems[5].display,
         sortDirection: sortDirection[5],
         filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="itemType"
-                  placeholder="Candidate Status"
-                  url={Endpoints.CandidateTypes}
-                  selectedValue={filters.itemType}
-                  onSelect={handleFilterChange}
-                  renderOption={statusRenderOption}
-                  startAdornment={
-                    filters.itemType && statusStartAdornment(filters.itemType.style_class_name)
-                  }
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'genero',
-      label: 'Genero',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[6].display,
-        sortDirection: sortDirection[6],
         customBodyRender: value => {
-          return <span>{moment(value).format('MM/DD/YYYY')}</span>;
-        },
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="state"
-                  placeholder="States"
-                  url={Endpoints.States}
-                  selectedValue={filters.state}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'tipo',
-      label: 'Tipo',
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[7].display,
-        sortDirection: sortDirection[7],
-        customBodyRender: value => {
-          return value ? <span>{moment(value).format('MM/DD/YYYY')}</span> : 'No Activity';
-        },
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="city"
-                  placeholder="City"
-                  url={filters.state ? `${Endpoints.Cities}?stateId=${filters.state.id}` : ''}
-                  selectedValue={filters.city}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'status',
-      label: 'Status',
-      options: {
-        filter: false,
-        sort: true,
-        display: columnItems[8].display,
-        sortDirection: sortDirection[8],
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="zip"
-                  placeholder="Zip Code"
-                  url={
-                    filters.city ? `${Endpoints.Cities}/${filters.city.id}/${Endpoints.Zips}` : ''
-                  }
-                  selectedValue={filters.zip}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }
       }
     }
   ];
 
+  useEffect(() => {
+    if (error) {
+      setData([]);
+      setSearching(false);
+      setLoading(false);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    document.title = PageTitles.Sales;
+    getData();
+  }, [error, getData]);
+
   return (
     <ContentPageLayout>
       <ListPageLayout
         loading={loading}
-        title="VENTAS"
+        title={Contents[language]?.pageTitle}
         selector={
           <AutocompleteSelect
-            name="userFilter"
-            placeholder="Ventas to show"
-            selectedValue={filters.userFilter || filterOptions[0]}
+            name="date_filter"
+            placeholder={Contents[language]?.pageTitle}
+            url={Endpoints.Stores}
+            selectedValue={filters.date_filter}
             onSelect={handleFilterChange}
-            defaultOptions={filterOptions}
+            defaultOptions={dateSelectOptions}
           />
         }
         filters={filters}
@@ -577,6 +441,10 @@ const SalesList = (props: SalesListProps) => {
           onRowClick={handleRowClick}
           onResetfiltersClick={handleResetFiltersClick}
           onSearchTextChange={handleSearchChange}
+          onSearchClose={() => {
+            handleSearchChange();
+            setSearching(false);
+          }}
           onColumnSortClick={handleColumnSortClick}
           onPerPageClick={handlePerPageClick}
           onPageClick={handlePageClick}

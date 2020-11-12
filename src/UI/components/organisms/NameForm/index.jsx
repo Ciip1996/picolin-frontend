@@ -13,7 +13,6 @@ import {
   VALIDATION_REGEXS,
   PHONE_VALIDATION,
   EXT_PHONE_VALIDATION,
-  NAME_VALIDATION,
   TITLE_VALIDATION,
   URL_VALIDATION
 } from 'UI/utils';
@@ -90,8 +89,7 @@ const NameForm = (props: NameFormProps) => {
           name="first_name"
           label="First Name *"
           inputRef={register({
-            required: 'First Name is required',
-            ...NAME_VALIDATION
+            required: 'First Name is required'
           })}
           error={!!errors.first_name}
           errorText={errors.first_name && errors.first_name.message}
@@ -103,8 +101,7 @@ const NameForm = (props: NameFormProps) => {
           name="last_name"
           label="Last Name *"
           inputRef={register({
-            required: 'Last Name is required',
-            ...NAME_VALIDATION
+            required: 'Last Name is required'
           })}
           error={!!errors.last_name}
           errorText={errors.last_name && errors.last_name.message}

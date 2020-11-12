@@ -1,13 +1,27 @@
 const Contents = {
   English: {
-    pageTitle: 'TRANSFERS',
-    defaultSubtitle: 'Maybe you should try again.',
-    labTransfers: 'Transfer'
+    IdTransfer: 'IdTransfer',
+    User: 'User / Employee',
+    Code: 'Product Code',
+    Type: 'Type',
+    Color: 'Color',
+    Origin: 'Origin',
+    Destination: 'Destination',
+    Quantity: 'Quantity',
+    PageTitle: 'TRANSFERS',
+    RegistrationDate: 'Transfer Date'
   },
   Spanish: {
-    pageTitle: 'TRANSFERENCIAS',
-    defaultSubtitle: '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
-    labTransfers: 'Transferir'
+    IdTransfer: 'IdTransferencia',
+    User: 'Usuario / Empleado',
+    Code: 'Código de Producto',
+    Type: 'Tipo',
+    Color: 'Color',
+    Origin: 'Origen',
+    Destination: 'Destino',
+    Quantity: 'Cantidad',
+    PageTitle: 'TRANSFERENCIAS',
+    RegistrationDate: 'Fecha de Transferencia'
   }
 };
 export default Contents;

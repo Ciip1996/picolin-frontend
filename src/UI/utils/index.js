@@ -147,10 +147,11 @@ export const WARRANTY_VALIDATION = {
 };
 
 const nameMaxLength = 128;
-export const NAME_VALIDATION = {
+export const PRODUCT_DESCRIPTION_VALIDATION = {
+  required: 'description is required',
   maxLength: {
     value: nameMaxLength,
-    message: `Max length is ${nameMaxLength}`
+    message: `La longitud maxima es de ${nameMaxLength} caracteres`
   }
 };
 
@@ -219,10 +220,8 @@ export const getErrorMessage = (error: any) => {
   if (!error || !error.request || !error.response || error.request.responseType !== 'json') {
     return GenericContents[language].error.message;
   }
-  const errorData = error.response.data;
-  return errorData.length
-    ? errorData[0].message
-    : nestTernary(errorData.message, errorData.message, errorData.error?.message);
+  const errorData = error?.response?.data?.length ? error.response.data[0].message : error?.message;
+  return errorData || nestTernary(errorData.message, errorData.message, errorData.error?.message);
 };
 
 export const phoneFormatter = (value: ?string) => {
@@ -278,12 +277,14 @@ export const formatMetricPeriod = (metric: any) => {
   const isPeriodInSameMonth = startDate.month() === endDate.month();
   const isPeriodInSameYear = startDate.year() === endDate.year();
   return isPeriodInSameMonth
-    ? `${startDate.format(DateFormats.MonthDay)} - ${endDate.format('DD, YYYY')}`
+    ? `${startDate.format(DateFormats.International.MonthDay)} - ${endDate.format('DD, YYYY')}`
     : nestTernary(
         isPeriodInSameYear,
-        `${startDate.format(DateFormats.MonthDay)} - ${endDate.format(DateFormats.MonthDayYear)}`,
-        `${startDate.format(DateFormats.MonthDayYear)} - ${endDate.format(
-          DateFormats.MonthDayYear
+        `${startDate.format(DateFormats.International.MonthDay)} - ${endDate.format(
+          DateFormats.International.MonthDayYear
+        )}`,
+        `${startDate.format(DateFormats.International.MonthDayYear)} - ${endDate.format(
+          DateFormats.International.MonthDayYear
         )}`
       );
 };

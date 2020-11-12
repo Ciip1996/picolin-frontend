@@ -4,7 +4,7 @@ const containerXPadding = 24;
 
 export const styles = {
   drawerContainer: {
-    width: 485,
+    width: 565,
     height: '100vh',
     position: 'fixed',
     top: 0,
@@ -47,7 +47,7 @@ export const styles = {
   drawerTitle: {
     padding: `0 ${containerXPadding}px`,
     marginBottom: 16,
-    marginLeft: 31,
+    marginLeft: 0,
     font: 'normal normal bold 32px/48px Poppins'
   }
 };

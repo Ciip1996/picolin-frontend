@@ -30,7 +30,7 @@ type DashboardOverviewProps = {
 
 const determineScope = (filters: Filters) => {
   const options = {
-    option1: 'gpac All',
+    option1: 'All',
     option2: 'ALL COACHES'
   };
 
@@ -85,8 +85,8 @@ const DashboardOverview = (props: DashboardOverviewProps) => {
 
   const filtersParams = filtersToParams(filters);
   const queryParams = queryString.stringify({
-    startDate: moment(selectedPeriod.startDate).format(DateFormats.QueryFormat),
-    endDate: moment(selectedPeriod.endDate).format(DateFormats.QueryFormat),
+    startDate: moment(selectedPeriod.startDate).format(DateFormats.SQL),
+    endDate: moment(selectedPeriod.endDate).format(DateFormats.SQL),
     ...filtersParams
   });
 

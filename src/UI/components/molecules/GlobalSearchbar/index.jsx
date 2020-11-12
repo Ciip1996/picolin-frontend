@@ -18,6 +18,8 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { useStyles, useAutocompleteStyles, themeOverride } from './styles';
 import Contents from './strings';
 
+const language = localStorage.getItem('language');
+
 type GlobalSearchbarProps = {
   placeholder?: string,
   width?: string,
@@ -30,7 +32,6 @@ const limit = 15;
 const GlobalSearchbar = (props: GlobalSearchbarProps) => {
   const { width, onSelect } = props;
   const history = useHistory();
-  const language = localStorage.getItem('language');
 
   const classes = useStyles();
   const autoCompleteClasses = useAutocompleteStyles();
@@ -45,7 +46,7 @@ const GlobalSearchbar = (props: GlobalSearchbarProps) => {
   const searchOptions = {
     [EntityType.Candidate]: {
       inColumns: ['pst.title', 'can.email'],
-      placeholder: Contents[language].placeholder1,
+      placeholder: Contents[language]?.placeholder1,
       url: EntityRoutes.CandidateProfile,
       renderOption: option => (
         <div>
@@ -60,19 +61,19 @@ const GlobalSearchbar = (props: GlobalSearchbarProps) => {
     },
     [EntityType.Joborder]: {
       inColumns: [],
-      placeholder: Contents[language].placeholder2,
+      placeholder: Contents[language]?.placeholder2,
       url: EntityRoutes.JobOrderProfile,
       renderOption: defaultRenderOption('title')
     },
     [EntityType.Company]: {
       inColumns: ['spec.title', 'itry.title'],
-      placeholder: Contents[language].placeholder2,
+      placeholder: Contents[language]?.placeholder2,
       url: EntityRoutes.CompanyProfile,
       renderOption: defaultRenderOption('name')
     },
     [EntityType.Name]: {
       inColumns: [],
-      placeholder: Contents[language].placeholder3,
+      placeholder: Contents[language]?.placeholder3,
       url: EntityRoutes.NameProfile,
       renderOption: defaultRenderOption('title')
     }
@@ -144,7 +145,7 @@ const GlobalSearchbar = (props: GlobalSearchbarProps) => {
     >
       <Autocomplete
         autoComplete
-        noOptionsText={Contents[language].Nofound}
+        noOptionsText={Contents[language]?.Nofound}
         placeholder={searchOption.placeholder}
         style={{ width }}
         filterOptions={opts => opts}
@@ -186,7 +187,7 @@ const GlobalSearchbar = (props: GlobalSearchbarProps) => {
 };
 
 GlobalSearchbar.defaultProps = {
-  placeholder: Contents[language].Search,
+  placeholder: Contents[language]?.Search,
   width: '100%',
   onSelect: undefined
 };

@@ -70,11 +70,11 @@ const ColumnChart = (props: ChartProps) => {
         width="100%"
         height={`${height}px`}
         chartType="ColumnChart"
-        loader={<div>{Contents[language].loader}</div>}
+        loader={<div>{Contents[language]?.loader}</div>}
         data={chartData}
         options={columnChartOptions}
       />,
-      <>{Contents[language].data}</>
+      <>{Contents[language]?.data}</>
     )
   );
 };

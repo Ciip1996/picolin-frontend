@@ -9,6 +9,7 @@ import { EntityRoutes } from 'routes/constants';
 /** Pages */
 import Home from 'UI/pages/Home';
 import Sales from 'UI/pages/Sales';
+import NewSale from 'UI/pages/NewSale';
 import Inventory from 'UI/pages/Inventory';
 import Transfers from 'UI/pages/Transfers';
 
@@ -37,6 +38,7 @@ const Routes = () => {
 
         <PrivateRoute exact path={EntityRoutes.Home} component={Home} />
         <PrivateRoute exact path={EntityRoutes.Sales} component={Sales} />
+        <PrivateRoute exact path={EntityRoutes.NewSale} component={NewSale} />
         <PrivateRoute exact path={EntityRoutes.Inventory} component={Inventory} />
         <PrivateRoute exact path={EntityRoutes.Transfers} component={Transfers} />
 

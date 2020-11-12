@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import Box from '@material-ui/core/Box';
-import { newItemPadding, CancelSaveButton } from 'UI/constants/dimensions';
+import { newItemPadding } from 'UI/constants/dimensions';
 
 type InputContainerProps = {
   children: any,
@@ -14,7 +14,7 @@ const InputContainer = (props: InputContainerProps) => {
     <Box
       mr={newItemPadding}
       my={0.8131}
-      width={CancelSaveButton}
+      width="100%"
       height={61}
       display="flex"
       alignItems={flex === 'start' ? 'flex-start' : 'center'}

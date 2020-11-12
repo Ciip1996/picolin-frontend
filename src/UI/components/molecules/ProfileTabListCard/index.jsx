@@ -49,13 +49,13 @@ const ProfileTabListCard = (props: ProfileTabListCardProps) => {
   const MenuItems = [
     {
       icon: <DeleteIcon fill={colors.completeBlack} />,
-      title: Contents[language].Remove,
+      title: Contents[language]?.Remove,
       action: handleDeleteClick,
       visible: onDeleteClick
     },
     {
       icon: <EditIcon fill={colors.completeBlack} />,
-      title: Contents[language].Edit,
+      title: Contents[language]?.Edit,
       action: handleEditClick,
       visible: onEditClick
     }

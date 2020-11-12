@@ -7,6 +7,9 @@ import MuiTablePagination from '@material-ui/core/TablePagination';
 
 /** Styles components */
 import { footerStyle, resultStyle } from './styles';
+import Contents from './strings';
+
+const language = localStorage.getItem('language');
 
 type CustomFooterProps = {
   count?: number,
@@ -33,16 +36,16 @@ const CustomFooter = (props: CustomFooterProps) => {
       <TableRow>
         <TableCell style={footerStyle} colSpan={1000}>
           <p style={resultStyle}>
-            Resultados Totales: <strong>{count}</strong>
+            {Contents[language]?.TotalResults} <strong>{count}</strong>
           </p>
           <MuiTablePagination
             component="div"
             count={count}
             rowsPerPage={rowsPerPage}
             page={page}
-            labelRowsPerPage="Items por página:"
+            labelRowsPerPage={Contents[language]?.ItemsPerPage}
             labelDisplayedRows={({ from, to }) =>
-              `Resultados: ${from}-${to} ${'of'} ${Number(count)}`
+              `${Contents[language]?.Results} ${from}-${to} ${'of'} ${Number(count)}`
             }
             backIconButtonProps={{
               'aria-label': textLabels && textLabels.previous

@@ -9,8 +9,6 @@ import { hideAlert, showAlert } from 'actions/app';
 import CustomSnackbar from 'UI/components/molecules/CustomSnackbar';
 import DecisionDialog from 'UI/components/organisms/DecisionDialog';
 
-// import { messaging } from 'services/Firebase';
-
 let displayed = [];
 
 const Notifier = props => {

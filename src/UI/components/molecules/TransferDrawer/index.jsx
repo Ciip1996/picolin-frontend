@@ -29,22 +29,22 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
   });
   const inventoryvalues = [
     {
-      value: Contents[language].Store,
-      label: Contents[language].Store
+      value: Contents[language]?.Store,
+      label: Contents[language]?.Store
     },
     {
-      value: Contents[language].Warehouse,
-      label: Contents[language].Warehouse
+      value: Contents[language]?.Warehouse,
+      label: Contents[language]?.Warehouse
     }
   ];
   const destinyvalues = [
     {
-      value: Contents[language].Store,
-      label: Contents[language].Store
+      value: Contents[language]?.Store,
+      label: Contents[language]?.Store
     },
     {
-      value: Contents[language].Warehouse,
-      label: Contents[language].Warehouse
+      value: Contents[language]?.Warehouse,
+      label: Contents[language]?.Warehouse
     }
   ];
 
@@ -84,7 +84,7 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
             <TextField
               id="outlined-select-inventory-native"
               select
-              label={Contents[language].Origin}
+              label={Contents[language]?.Origin}
               value={inventory}
               onChange={handleChange}
               SelectProps={{
@@ -103,7 +103,7 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
             <TextField
               id="outlined-select-inventory-native"
               select
-              label={Contents[language].Destiny}
+              label={Contents[language]?.Destiny}
               value={destiny}
               onChange={handleChange2}
               SelectProps={{
@@ -122,7 +122,7 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
           </div>
           <TextField
             id="outlined-number"
-            label={Contents[language].Products}
+            label={Contents[language]?.Products}
             type="text"
             InputLabelProps={{
               shrink: true
@@ -130,7 +130,7 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
             variant="outlined"
             className={classes.textProducts}
             size="small"
-            placeholder={Contents[language].Placeholder}
+            placeholder={Contents[language]?.Placeholder}
           />
         </form>
         <div>contendio aqui</div>

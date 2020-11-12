@@ -24,7 +24,7 @@ const ProductCard = (props: ProductCardProps) => {
   const { date, creator, recruiter, otherRecruiter, isLoading, action, type } = props;
 
   const localTime = toLocalTime(date);
-  const formattedDate = localTime && localTime.format(DateFormats.SimpleDateTime);
+  const formattedDate = localTime && localTime.format(DateFormats.International.SimpleDateTime);
 
   return (
     <Box my={2}>
