@@ -7,10 +7,8 @@ import Chip from '@material-ui/core/Chip';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
-import Contents from './strings';
 import { useStyles } from './styles';
 
-const language = localStorage.getItem('language');
 
 // const payment = [
 // { id: 0, title: Contents[language]?.cash },
@@ -28,7 +26,6 @@ type ItemCardProps = {
 const ItemCard = (props: ItemCardProps) => {
   const { gender, size, type, color, cost, description } = props;
   const classes = useStyles();
-  const [selected, setSelected] = React.useState(false);
   return (
     <Card className={classes.card}>
       <List component="nav" className={classes.List}>

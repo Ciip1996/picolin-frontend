@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import Switch from '@material-ui/core/Switch';

@@ -16,6 +16,7 @@ export const useStyles = makeStyles({
     background: '#AD4DFF 0% 0% no-repeat padding-box',
     opacity: '1',
     color: '#FFFF',
+    boxShadow: '0px 3px 6px #00000029',
     borderRadius: '24px',
     float: 'right'
   },
@@ -27,6 +28,7 @@ export const useStyles = makeStyles({
     opacity: '1',
     color: '#FFFF',
     borderRadius: '24px',
+    boxShadow: '0px 3px 6px #00000029',
     float: 'right'
   },
   Description: {

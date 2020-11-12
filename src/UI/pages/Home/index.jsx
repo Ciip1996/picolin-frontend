@@ -48,6 +48,7 @@ const Home = () => {
               text={`¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`}
             />
             <SalesDetailCard data={data} />
+            <SalesSummary cash={123.0} card={245.23} />
             {/* <GlobalSearchbar /> */}
           </Grid>
           {/* <Grid
