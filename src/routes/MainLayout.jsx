@@ -47,7 +47,7 @@ const MainLayout = ({ children, ...rest }: Object) => {
         <div style={globalStyles.flexContentWrapper}>
           <div style={styles.sidebar}>
             <Sidebar>
-              <ActionButton text="Nueva Venta" onClick={GoToNewPage}>
+              <ActionButton disabled text="Nueva Venta" onClick={GoToNewPage}>
                 <AddIcon fill={colors.white} size={18} />
               </ActionButton>
             </Sidebar>
