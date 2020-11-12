@@ -24,50 +24,51 @@ import { PageTitles } from 'UI/constants/defaults';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 // import Contents from './strings';
 
-type NewSaleListProps = {
-  onShowAlert: any => void
-};
+// type NewSaleListProps = {
+//   onShowAlert: any => void
+// };
 
-const NewSaleList = (props: NewSaleListProps) => {
-  const { onShowAlert } = props;
+const NewSaleList = () => {
+  // const { onShowAlert } = props;
   // const language = localStorage.getItem('language');
 
-  const [error, setError] = useState(false);
-  const [searching, setSearching] = useState(false);
-  const [loading, setLoading] = useState(false); // TODO: change to true when the fetching is working
+  // const [error, setError] = useState(false);
+
+  // const [searching, setSearching] = useState(false);
+  // const [loading, setLoading] = useState(false); // TODO: change to true when the fetching is working
   const [comboValues, setComboValues] = useState<Map>({});
 
-  const [uiState, setUiState] = useState({
-    keyword: null,
-    isTransferDrawerOpen: true
-  });
+  // const [uiState, setUiState] = useState({
+  //   keyword: null,
+  //   isTransferDrawerOpen: true
+  // });
 
-  const handleSearchChange = newKeyword => {
-    setSearching(true);
-    setUiState(prevState => ({
-      ...prevState,
-      keyword: newKeyword,
-      page: 0
-    }));
-  };
+  // const handleSearchChange = newKeyword => {
+  //   setSearching(true);
+  //   setUiState(prevState => ({
+  //     ...prevState,
+  //     keyword: newKeyword,
+  //     page: 0
+  //   }));
+  // };
 
-  useEffect(() => {
-    if (error) {
-      setSearching(false);
-      setLoading(false);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (error) {
+  //     setSearching(false);
+  //     setLoading(false);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     document.title = PageTitles.NewSale;
   }, []);
 
-  const commonStyles = {
-    display: 'flex',
-    width: '50%',
-    height: '100%',
-    style: { border: '1px solid gray' }
-  };
+  // const commonStyles = {
+  //   display: 'flex',
+  //   width: '50%',
+  //   height: '100%',
+  //   style: { border: '1px solid gray' }
+  // };
 
   const handleComboChange = (name: string, value: any) => {
     setComboValues((prevState: Map): Map => ({ ...prevState, [name]: value }));
@@ -84,7 +85,7 @@ const NewSaleList = (props: NewSaleListProps) => {
   return (
     <ContentPageLayout>
       <ListPageLayout
-        loading={loading}
+        loading={false} // loading
         // title={Contents[language]?.pageTitle}
         title="NUEVA VENTA"
       >

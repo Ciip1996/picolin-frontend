@@ -56,11 +56,6 @@ const SalesList = (props: SalesListProps) => {
   const [data, setData] = useState<any>([{}]);
   const [count, setCount] = useState(0);
 
-  const payment = [
-    { id: 0, title: Contents[language]?.cash },
-    { id: 1, title: Contents[language]?.card }
-  ];
-
   const invoiceOptions = [
     { id: 0, title: Contents[language]?.no },
     { id: 1, title: Contents[language]?.yes }
@@ -76,16 +71,6 @@ const SalesList = (props: SalesListProps) => {
   const savedSearch = getFilters('ventas');
   const savedFilters = savedSearch?.filters;
   const savedParams = savedSearch?.params;
-
-  // const genders = [
-  // { id: 0, title: Contents[language]?.Girl },
-  // { id: 1, title: Contents[language]?.Boy }
-  // ];
-
-  // const genders = [
-  // { id: 0, title: Contents[language]?.Girl },
-  // { id: 1, title: Contents[language]?.Boy }
-  // ];
 
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
@@ -385,10 +370,6 @@ const SalesList = (props: SalesListProps) => {
                   name="invoice_filter"
                   placeholder={Contents[language]?.labInvoice}
                   selectedValue={filters.invoice_filter}
-                  // renderOption={option => {
-                  //   console.log(option);
-                  //   return <span>{option === 0 ? 'NO' : 'SI'}</span>;
-                  // }}
                   defaultOptions={invoiceOptions}
                   onSelect={handleFilterChange}
                 />
