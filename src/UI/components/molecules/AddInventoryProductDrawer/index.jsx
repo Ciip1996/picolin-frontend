@@ -15,11 +15,12 @@ import Contents from './strings';
 
 type AddInventoryProductDrawerProps = {
   handleClose: any => any,
-  onShowAlert: any => any
+  onShowAlert: any => any,
+  onProductInserted: any => any
 };
 
 const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
-  const { handleClose, onShowAlert } = props;
+  const { handleClose, onShowAlert, onProductInserted } = props;
   const language = localStorage.getItem('language');
 
   const form = useForm({
@@ -52,12 +53,14 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
         formData
       );
       if (response) {
+        const { productCode } = response?.data;
         onShowAlert({
           severity: 'success',
           title: 'Producto Agregado',
           autoHideDuration: 3000,
           body: 'Inserción Exitosa'
         });
+        productCode && onProductInserted(productCode);
       }
     } catch (err) {
       onShowAlert({

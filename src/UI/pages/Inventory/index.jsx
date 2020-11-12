@@ -19,6 +19,7 @@ import TextBox from 'UI/components/atoms/TextBox';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import AddInventoryProductDrawer from 'UI/components/molecules/AddInventoryProductDrawer';
+import QRCodeDrawer from 'UI/components/molecules/QRCodeDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -82,7 +83,9 @@ const InventoryList = (props: InventoryListProps) => {
     direction: savedParams?.direction || null,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isAddProductDrawerOpen: false
+    isAddProductDrawerOpen: false,
+    isQRCodeDrawerOpen: false,
+    productCode: null
   });
 
   const getData = useCallback(async () => {
@@ -158,6 +161,15 @@ const InventoryList = (props: InventoryListProps) => {
   const handleFilterRemove = (filterName: string) => {
     setSearching(true);
     setFilters({ ...filters, [filterName]: undefined });
+  };
+
+  const onProductInserted = (productCode: string) => {
+    setUiState(prevState => ({
+      ...prevState,
+      isQRCodeDrawerOpen: true,
+      isAddProductDrawerOpen: false,
+      productCode
+    }));
   };
 
   const handleColumnSortClick = newSortDirection => {
@@ -485,8 +497,22 @@ const InventoryList = (props: InventoryListProps) => {
       >
         <div role="presentation">
           <AddInventoryProductDrawer
+            onProductInserted={onProductInserted}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
+          />
+        </div>
+      </Drawer>
+      <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isQRCodeDrawerOpen}
+        onClose={toggleDrawer('isQRCodeDrawerOpen', false)}
+      >
+        <div role="presentation">
+          <QRCodeDrawer
+            productCode={uiState.productCode}
+            onShowAlert={onShowAlert}
+            handleClose={toggleDrawer('isQRCodeDrawerOpen', false)}
           />
         </div>
       </Drawer>

@@ -47,7 +47,7 @@ export const styles = {
   drawerTitle: {
     padding: `0 ${containerXPadding}px`,
     marginBottom: 16,
-    marginLeft: 31,
+    marginLeft: 0,
     font: 'normal normal bold 32px/48px Poppins'
   }
 };
