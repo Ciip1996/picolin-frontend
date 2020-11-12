@@ -1,6 +1,6 @@
 const Contents = {
   English: {
-    HeaderTitle: 'Summary',
+    HeaderTitle: 'DETAIL SALE',
     Payment: 'Payment',
     Discount: 'Discount',
     Apart: 'Apart',
@@ -10,10 +10,11 @@ const Contents = {
     Subtotal: 'SUBTOTAL',
     Taxes: 'VAT',
     lblDiscount: 'DISCOUNT',
+    Received: 'RECEIVED',
     Total: 'TOTAL'
   },
   Spanish: {
-    HeaderTitle: 'Resumen',
+    HeaderTitle: 'DETALLE DE VENTA',
     Payment: 'Tipo de pago',
     Discount: 'Descuento',
     Apart: 'Apartado',
@@ -22,7 +23,8 @@ const Contents = {
     Deposit: 'DEPÓSITO',
     Subtotal: 'SUBTOTAL',
     Taxes: 'IVA',
-    lblDiscount: 'DESCUENTO',
+    discount: 'DESCUENTO',
+    Received: 'RECIBÍ',
     Total: 'TOTAL'
   }
 };

@@ -18,7 +18,7 @@ const Home = () => {
   const classes = useStyles();
   const user: User = getCurrentUser();
   const data = [
-    { title: '1 ROPON mini ariete blanco', content: '$1,200.00' },
+    { title: '1 ROPON mini ariete445', content: '$111,200.00' },
     { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' },
     { title: '1 CALZADO NIÑA NACAR', content: '$119.5' },
     { title: '1 PAÑALEROS BEIGE', content: '$160.0' },

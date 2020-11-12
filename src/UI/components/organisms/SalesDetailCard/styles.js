@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export const useStyles = makeStyles({
   card: {
     width: '398px',
-    maxheight: '568px',
+    height: '568px',
     boxShadow: '0px 3px 6px #00000029',
     borderTopLeftRadius: 26,
     borderTopRightRadius: 26,
@@ -32,32 +32,52 @@ export const useStyles = makeStyles({
     color: '#94A6B3'
   },
   List: {
-    marginTop: '-20px',
+    marginTop: '4px',
     marginLeft: '24px',
     marginRight: '24px',
     float: 'center',
-    maxHeight: '40px',
-    width: '80%',
+    maxHeight: '200px',
+    width: '90%',
     overflowY: 'scroll',
     overflowX: 'hidden'
+  },
+  Resume: {
+    marginLeft: '24px',
+    marginRight: '24px',
+    float: 'center',
+    width: '90%'
   },
   Description: {
     font: 'normal normal 300 14px/21px Poppins',
     color: '#515C6F',
-    height: '20px',
+    height: '200px',
+    marginLeft: '-16px',
     letterSpacing: '0.98px',
     textAlign: 'Left',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     textTransform: 'uppercase',
-    float: 'left',
     opacity: '0.5',
-    marginLeft: '-16px',
-    marginRight: '300px',
     width: '50%'
   },
+  ScrollDescription: {
+    marginLeft: '-15px',
+    font: 'normal normal 300 14px/21px Poppins',
+    color: '#515C6F',
+    textAlign: 'Left',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    width: '200px',
+    height: '30px',
+    marginTop: '10px',
+    float: 'left',
+    opacity: '0.5'
+  },
   Item: {
-    height: '38px'
+    height: '50px'
+  },
+  Content: {
+    height: '36px'
   },
   CostDescription: {
     font: 'normal normal 300 18px/27px Poppins',
@@ -66,9 +86,19 @@ export const useStyles = makeStyles({
     textAlign: 'Right',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    width: '30%',
-    float: 'right',
-    marginRight: '-16px'
+    marginRight: '-15px',
+    width: '200px',
+    float: 'right'
+  },
+  ScrollCostDescription: {
+    font: 'normal normal 300 18px/27px Poppins',
+    opacity: '1',
+    color: '#515C6F',
+    textAlign: 'Right',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    width: '110px',
+    float: 'right'
   },
   Total: {
     font: 'normal normal bold 20px/30px Poppins',
@@ -77,9 +107,8 @@ export const useStyles = makeStyles({
     letterSpacing: '1.4px',
     textTransform: 'uppercase',
     opacity: '0.5',
-    marginLeft: '-16px',
-    marginRight: '300px',
-    marginTop: '-100px',
+    marginLeft: '100px',
+    marginTop: '120px',
     width: '69px'
   },
   TotalCost: {

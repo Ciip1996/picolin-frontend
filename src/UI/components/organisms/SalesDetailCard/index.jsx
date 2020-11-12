@@ -23,46 +23,115 @@ const language = localStorage.getItem('language');
 type SummaryCardProps = {
   total: string,
   subtotal: string,
-  data: string
+  data: string,
+  deposit: string,
+  taxes: string,
+  discount: string,
+  payment: string,
+  received: string
 };
 
 const SummaryCard = (props: SummaryCardProps) => {
-  const { data, subtotal, total } = props;
+  const { data, subtotal, total, deposit, taxes, discount, payment, received } = props; // [{}]
   const classes = useStyles();
-  debugger;
   return (
     <Card className={classes.card}>
-      <h1 className={classes.title}>DETALLE DE VENTA</h1>
-      <List component="nav" className={classes.List}>
-        <div>
-          <ListItem divider className={classes.Item}>
-            <ListItemText primary={<span className={classes.Description}>{data.title}</span>} />
-            <ListItemText
-              secondary={<span className={classes.CostDescription}>{data.content}</span>}
-            />
-          </ListItem>
-        </div>
+      <h1 className={classes.title}>{Contents[language].HeaderTitle}</h1>
+      <List component="nav">
+        <center>
+          <div className={classes.List}>
+            {data.map(each => {
+              return (
+                <ListItem divider className={classes.Item}>
+                  <ListItemText
+                    primary={<span className={classes.ScrollDescription}>{each.title}</span>}
+                  />
+                  <ListItemText
+                    secondary={
+                      <span className={classes.ScrollCostDescription}>{each.content}</span>
+                    }
+                  />
+                </ListItem>
+              );
+            })}
+          </div>
+        </center>
         <br />
-        <ListItem className={classes.Item}>
-          <ListItemText primary={<span className={classes.Total}>TOTAL</span>} />
-          <ListItemText secondary={<span className={classes.TotalCost}>{total}</span>} />
-        </ListItem>
+        <center>
+          <div className={classes.Resume}>
+            <ListItem divider className={classes.Content}>
+              <ListItemText
+                primary={<span className={classes.Description}>{Contents[language]?.Deposit}</span>}
+              />
+              <ListItemText
+                secondary={<span className={classes.CostDescription}>{deposit}</span>}
+              />
+            </ListItem>
+            <ListItem divider className={classes.Content}>
+              <ListItemText
+                primary={
+                  <span className={classes.Description}>{Contents[language]?.Subtotal}</span>
+                }
+              />
+              <ListItemText
+                secondary={<span className={classes.CostDescription}>{subtotal}</span>}
+              />
+            </ListItem>
+            <ListItem divider className={classes.Content}>
+              <ListItemText
+                primary={<span className={classes.Description}>{Contents[language]?.Taxes}</span>}
+              />
+              <ListItemText secondary={<span className={classes.CostDescription}>{taxes}</span>} />
+            </ListItem>
+            <ListItem divider className={classes.Content}>
+              <ListItemText
+                primary={
+                  <span className={classes.Description}>{Contents[language]?.discount}</span>
+                }
+              />
+              <ListItemText
+                secondary={<span className={classes.CostDescription}>{discount}</span>}
+              />
+            </ListItem>
+            <ListItem divider className={classes.Content}>
+              <ListItemText
+                primary={<span className={classes.Description}>{Contents[language]?.Payment}</span>}
+              />
+              <ListItemText
+                secondary={<span className={classes.CostDescription}>{payment}</span>}
+              />
+            </ListItem>
+            <ListItem divider className={classes.Content}>
+              <ListItemText
+                primary={
+                  <span className={classes.Description}>{Contents[language]?.Received}</span>
+                }
+              />
+              <ListItemText
+                secondary={<span className={classes.CostDescription}>{received}</span>}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemText
+                primary={<span className={classes.Total}>{Contents[language].Total}</span>}
+              />
+              <ListItemText secondary={<span className={classes.TotalCost}>{total}</span>} />
+            </ListItem>
+          </div>
+        </center>
       </List>
     </Card>
   );
 };
 
 SummaryCard.defaultProps = {
-  subtotal: '$1,299.00',
+  subtotal: '$698.1',
   total: '$1506.84',
-  data: [
-    { title: '1 ROPON mini ariete blanco', content: '$1,200.00' },
-    { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' },
-    { title: '1 CALZADO NIÑA NACAR', content: '$119.5' },
-    { title: '1 PAÑALEROS BEIGE', content: '$160.0' },
-    { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' },
-    { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' }
-  ]
+  deposit: 'N/A',
+  taxes: '$111.696',
+  discount: '$0.00',
+  payment: 'EFECTIVO',
+  received: '$1,000.00'
 };
 
 export default SummaryCard;
