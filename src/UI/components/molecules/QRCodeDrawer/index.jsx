@@ -18,7 +18,7 @@ import Contents from './strings';
 type QRCodeDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
-  productCode: string
+  productCode: string | null
 };
 
 const QRCodeDrawer = (props: QRCodeDrawerProps) => {

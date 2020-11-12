@@ -9,15 +9,10 @@ import { useStyles } from './styles';
 
 const language = localStorage.getItem('language');
 
-// const payment = [
-// { id: 0, title: Contents[language]?.cash },4
-// { id: 1, title: Contents[language]?.card }
-// ];
-
 type SummaryCardProps = {
   total: string,
   subtotal: string,
-  data: string,
+  data: Array<Object>,
   deposit: string,
   taxes: string,
   discount: string,

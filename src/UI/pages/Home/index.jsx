@@ -8,7 +8,6 @@ import { BackgroundGraphic, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
 import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
-import SalesSummary from 'UI/components/organisms/SalesSummary';
 
 import { type User } from 'types/app';
 

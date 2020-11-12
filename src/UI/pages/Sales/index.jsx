@@ -3,7 +3,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { FormControl } from '@material-ui/core';
-import moment from 'moment';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';

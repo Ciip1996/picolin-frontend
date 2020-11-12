@@ -277,12 +277,14 @@ export const formatMetricPeriod = (metric: any) => {
   const isPeriodInSameMonth = startDate.month() === endDate.month();
   const isPeriodInSameYear = startDate.year() === endDate.year();
   return isPeriodInSameMonth
-    ? `${startDate.format(DateFormats.MonthDay)} - ${endDate.format('DD, YYYY')}`
+    ? `${startDate.format(DateFormats.International.MonthDay)} - ${endDate.format('DD, YYYY')}`
     : nestTernary(
         isPeriodInSameYear,
-        `${startDate.format(DateFormats.MonthDay)} - ${endDate.format(DateFormats.MonthDayYear)}`,
-        `${startDate.format(DateFormats.MonthDayYear)} - ${endDate.format(
-          DateFormats.MonthDayYear
+        `${startDate.format(DateFormats.International.MonthDay)} - ${endDate.format(
+          DateFormats.International.MonthDayYear
+        )}`,
+        `${startDate.format(DateFormats.International.MonthDayYear)} - ${endDate.format(
+          DateFormats.International.MonthDayYear
         )}`
       );
 };

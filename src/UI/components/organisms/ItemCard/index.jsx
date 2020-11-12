@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
@@ -26,6 +27,9 @@ type ItemCardProps = {
 const ItemCard = (props: ItemCardProps) => {
   const { gender, size, type, color, cost, description } = props;
   const classes = useStyles();
+  // const language = localStorage.getItem('language');
+
+  // const [selected, setSelected] = React.useState(false);
   return (
     <Card className={classes.card}>
       <List component="nav" className={classes.List}>
