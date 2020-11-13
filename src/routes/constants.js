@@ -4,7 +4,8 @@ export const EntityRoutes = {
   Inventory: '/inventory',
   NewSale: '/newsale',
   Sales: '/sales',
-  Transfers: '/transfers'
+  Transfers: '/transfers',
+  Register: '/register'
   // Candidates: '/candidates',
   // CandidateProfile: '/candidates/profile/:id',
   // CandidateCreate: '/candidates/create',

@@ -50,8 +50,6 @@ const Register = (props: RegisterProps) => {
   }, []);
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
-  
-
   const onSubmit = async (formData: Object) => {
     try {
       setUiState(prevState => ({ ...prevState, isLoading: true }));
@@ -80,7 +78,7 @@ const Register = (props: RegisterProps) => {
         setError('pwd', 'notMatch', Contents[language]?.errUser);
         showAlert({
           severity: 'warning',
-          title: `Login`,
+          title: `Register`,
           autoHideDuration: 800000,
           body: `${response?.data?.mensaje}`
         });

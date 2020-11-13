@@ -56,6 +56,7 @@ export const PageTitles = {
   NewSale: `${AppName} | Nueva Venta`,
   Sales: `${AppName} | Ventas`,
   Login: `${AppName} | Inicio de Sesión`,
+  Register: `${AppName} | Registar usuario`,
   Home: `${AppName} | Inicio`,
   Dashboard: `${AppName} | Dashboard`,
   NotFound: `${AppName} | Not Found`,
