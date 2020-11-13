@@ -16,5 +16,6 @@ export const Endpoints = {
   Sizes: 'lists/getSizes',
   Genders: 'lists/getGenders',
   Users: 'lists/getUsers',
-  PaymentMethods: 'lists/getPaymentMethods'
+  PaymentMethods: 'lists/getPaymentMethods',
+  Login: '/login'
 };
