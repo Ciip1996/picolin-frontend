@@ -1,0 +1,51 @@
+const Contents = {
+  English: {
+    pageTitle: 'USER REGISTER',
+    defaultSubtitle: 'Maybe you should try again.',
+    errUser: 'Your user maybe is incorrect',
+    errPwd: 'Your password maybe is incorrect',
+    errServer:
+      'An error occurred in the server. Please try to connect to the server later, if the error stills please contact support.',
+    requser: 'It requires a username',
+    reqpwd: 'It requires a password',
+    user: 'User',
+    pwd: 'Password',
+    repwd: 'Write your password again',
+    role: 'Role',
+    reqrole: 'It requires a role',
+    name: 'Name',
+    reqname: 'It requires a name',
+    firstLastName: 'First Last Name',
+    reqfirstLastName: 'It requires first last name',
+    secondLastName: 'Second Last Name',
+    req2LastName: 'It requires second last name',
+    Register: 'Register',
+    worker: 'Worker',
+    manager: 'Manager',
+    admin: 'Admin'
+  },
+  Spanish: {
+    pageTitle: 'REGISTRAR USUARIO',
+    defaultSubtitle: '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
+    errUser: 'Tu usuario es incorrecto.',
+    errPwd: 'Tu contraseña es incorrecta',
+    errServer: 'Ocurrió un error en servidor. Porfavor intente mas tarde o contacte a soporte.',
+    requser: 'Se requiere un nombre de usuario',
+    reqpwd: 'Se requiere una contraseña',
+    user: 'Usuario',
+    pwd: 'Contraseña',
+    repwd2: 'Se requiere por segunda vez la contraseña',
+    role: 'Rol',
+    reqrole: 'Se requiere un rol',
+    name: 'Nombre',
+    reqname: 'Se requiere un nombre',
+    firstLastName: 'Apellido Paterno',
+    reqfirstLastName: 'Se requiere el apellido paterno',
+    req2LastName: 'Se requiere el apellido materno',
+    Register: 'Registrar',
+    worker: 'Empleado',
+    manager: 'Gerente',
+    admin: 'Admin'
+  }
+};
+export default Contents;
