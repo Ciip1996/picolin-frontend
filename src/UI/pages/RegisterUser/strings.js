@@ -19,7 +19,7 @@ const Contents = {
     reqfirstLastName: 'It requires first last name',
     secondLastName: 'Second Last Name',
     req2LastName: 'It requires second last name',
-    Register: 'Register',
+    RegisterUser: 'RegisterUser',
     worker: 'Worker',
     manager: 'Manager',
     admin: 'Admin'
@@ -42,7 +42,7 @@ const Contents = {
     firstLastName: 'Apellido Paterno',
     reqfirstLastName: 'Se requiere el apellido paterno',
     req2LastName: 'Se requiere el apellido materno',
-    Register: 'Registrar',
+    RegisterUser: 'Registrar',
     worker: 'Empleado',
     manager: 'Gerente',
     admin: 'Admin'

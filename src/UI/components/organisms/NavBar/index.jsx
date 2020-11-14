@@ -23,6 +23,7 @@ import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 // import GlobalSearchbar from 'UI/components/molecules/GlobalSearchbar';
 
 import { drawerAnchor } from 'UI/constants/defaults';
+import { EntityRoutes } from 'routes/constants';
 import { useStyles, styles } from './styles';
 
 const featureFlags = getFeatureFlags();
@@ -46,6 +47,11 @@ const NavBar = () => {
   const handleLogout = () => {
     logout();
     history.push('/login');
+  };
+
+  const navigateToRegisterUserPage = e => {
+    e.preventDefault();
+    history.push(EntityRoutes.RegisterUser);
   };
 
   const goHome = e => {
@@ -102,13 +108,18 @@ const NavBar = () => {
                 {featureFlags.includes(FeatureFlags.MenuNavBar) && (
                   <>
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
                   </>
                 )}
-
-                <MenuItem onClick={handleLogout} className={classes.menuLink}>
-                  Cerrar Sesión
-                </MenuItem>
+                <>
+                  {user?.role === 'Admin' ? (
+                    <MenuItem onClick={navigateToRegisterUserPage} className={classes.menuLink}>
+                      Registrar Usuario
+                    </MenuItem>
+                  ) : null}
+                  <MenuItem onClick={handleLogout} className={classes.loginLink}>
+                    Cerrar Sesión
+                  </MenuItem>
+                </>
               </Menu>
             </Box>
           </div>
