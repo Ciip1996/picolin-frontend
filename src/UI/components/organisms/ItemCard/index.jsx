@@ -23,8 +23,9 @@ type ItemCardProps = {
   description: string
 };
 
-const ItemCard = (props: ItemCardProps) => {
-  const { gender, size, type, color, cost, description } = props;
+const ItemCard = ({ product }) => {
+  const { gender, size, type, color, cost, description } = product.product;
+  // const { gender, size, type, color, cost, description } = props;
   const classes = useStyles();
   // const language = localStorage.getItem('language');
 
