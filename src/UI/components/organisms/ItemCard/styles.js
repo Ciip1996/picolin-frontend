@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { colors } from 'UI/res';
 
 export const useStyles = makeStyles({
   card: {
@@ -21,7 +22,7 @@ export const useStyles = makeStyles({
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     font: 'normal normal normal 22px/30px Avenir',
-    color: '#94A6B3',
+    color: colors.title,
     float: 'left',
     opacity: '1',
     letterSpacing: '0px'

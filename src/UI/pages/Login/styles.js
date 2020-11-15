@@ -28,7 +28,7 @@ export const useStyles = makeStyles({
     marginTop: '54px',
     marginBottom: '55px',
     font: 'normal normal bold 32px/48px Poppins',
-    color: '#94A6B3',
+    color: colors.title,
     height: '45px',
     letterspacing: '0px'
   },

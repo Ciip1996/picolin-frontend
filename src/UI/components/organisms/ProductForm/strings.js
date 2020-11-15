@@ -16,7 +16,7 @@ const Contents = {
   },
   Spanish: {
     RequiredMessage: 'Este es un campo obligatorio',
-    ProductType: 'Type of product *',
+    ProductType: 'Tipo de Producto *',
     Characteristics: 'Caracteristicas *',
     Color: 'Color *',
     Provider: 'Proveedor *',
@@ -25,7 +25,7 @@ const Contents = {
     Cost: 'Costo *',
     SalePrice: 'Precio de Venta *',
     ReceptionPlace: 'Lugar de recepción *',
-    Gender: 'Genero *',
+    Gender: 'Género *',
     Quantity: 'Cantidad *',
     Description: 'Descripción *'
   }

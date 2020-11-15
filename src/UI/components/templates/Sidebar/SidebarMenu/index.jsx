@@ -1,7 +1,13 @@
 // @flow
 import React from 'react';
 import { EntityRoutes } from 'routes/constants';
-import { InventoryIcon, DashboardIcon, DashboardActivityIcon, SalesIcon } from 'UI/res/icons';
+import {
+  InventoryIcon,
+  DashboardIcon,
+  TransfersIcon,
+  DashboardActivityIcon,
+  SalesIcon
+} from 'UI/res/icons';
 
 import { colors } from 'UI/res';
 
@@ -33,9 +39,9 @@ const sideBarMenu = [
     title: 'Transferencias',
     route: EntityRoutes.Transfers,
     icon: {
-      inactive: <InventoryIcon fill={colors.oxford} />,
+      inactive: <TransfersIcon fill={colors.oxford} />,
       opened: null,
-      active: <InventoryIcon fill={colors.white} />
+      active: <TransfersIcon fill={colors.white} />
     }
   }
   // The following code is used for the collapsible menu:

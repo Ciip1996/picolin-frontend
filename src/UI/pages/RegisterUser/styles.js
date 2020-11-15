@@ -8,36 +8,32 @@ export const useStyles = makeStyles({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100%'
+    height: '100vh'
   },
   containerBox: {
-    width: '398px',
-    height: '638px',
+    display: 'flex',
+    width: 398,
+    height: 'auto',
     boxShadow: '0px 3px 6px #00000029',
-    borderTopLeftRadius: 26,
-    borderTopRightRadius: 26,
-    borderBottomLeftRadius: 26,
-    borderBottomRightRadius: 26,
-    background: 'white'
+    borderRadius: 26,
+    background: colors.white,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   RegisterButton: {
-    marginTop: '30px',
-    width: '171px'
+    marginTop: 24,
+    width: 171
   },
   header: {
-    marginTop: '40px',
-    marginBottom: '20px',
+    marginBottom: 20,
     font: 'normal normal bold 32px/48px Poppins',
-    color: '#94A6B3',
-    height: '45px',
-    letterspacing: '0px'
+    color: colors.title,
+    height: 45,
+    letterspacing: 0
   },
-  Formulary: {
-    width: '315px',
-    height: '40px'
-  },
-  Content: {
-    width: '315px',
-    height: '40px'
+  formLayout: {
+    textAlign: 'center',
+    width: '100%',
+    margin: 32
   }
 });

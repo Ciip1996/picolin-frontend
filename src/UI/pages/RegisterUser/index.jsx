@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 // import { useHistory } from 'react-router-dom';
@@ -16,6 +16,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import { colors } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import TextBox from 'UI/components/atoms/TextBox';
+import InputContainer from 'UI/components/atoms/InputContainer';
 
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 import { useStyles } from './styles';
@@ -28,146 +29,170 @@ type RegisterProps = {
 const RegisterUser = (props: RegisterProps) => {
   const [uiState, setUiState] = useState({
     isLoading: false,
-    language: localStorage.getItem('language')
+    language: localStorage.getItem('language'),
+    role: undefined
   });
   const { showAlert } = props;
 
   const RoleOptions = [
-    { id: 0, title: Contents[uiState.language]?.worker },
-    { id: 1, title: Contents[uiState.language]?.manager },
-    { id: 1, title: Contents[uiState.language]?.admin }
+    { id: 0, title: Contents[uiState.language]?.worker, value: 'employee' },
+    { id: 1, title: Contents[uiState.language]?.manager, value: 'manager' },
+    { id: 1, title: Contents[uiState.language]?.admin, value: 'admin' }
   ];
 
   // const history = useHistory();
 
-  const { register, handleSubmit, errors, setError } = useForm();
+  const { register, handleSubmit, errors, setValue, watch } = useForm();
+
+  useEffect(() => {
+    register({ name: 'role' }, { required: Contents[uiState.language]?.requireRole });
+  }, [register, uiState.language]);
 
   const onSubmit = async (formData: Object) => {
     try {
+      console.log(formData);
       setUiState(prevState => ({ ...prevState, isLoading: true }));
-      const params = {
-        user: formData.user,
-        password: formData.pwd
-      };
-      const response = await API.post(`${Endpoints.RegisterUser}`, params);
-      if (response?.status === 200) {
-        // TODO: handle success
+      const { password, confirmPwd, name, firstLastName, role, secondLastName, user } = formData;
+      // react hook forms is doing this validation but we are double validating in order to prevent mistakes or code injection
+      if (password === confirmPwd) {
+        debugger;
+        const params = {
+          password,
+          name,
+          firstLastName,
+          role,
+          secondLastName,
+          user
+        };
+        const response = await API.post(`${Endpoints.RegisterUser}`, params);
+        if (response?.status === 200) {
+          // TODO: handle success
+          debugger;
+        }
+      } else {
+        // password mismatch
+        showAlert({
+          severity: 'warning',
+          title: `Password confirmation`,
+          autoHideDuration: 800000,
+          body: `Your password don't match. Try again or contact IT support.`
+        });
       }
     } catch (error) {
       const { response } = error;
-      if (response?.status === 401) {
-        setError('user', 'notMatch', Contents[uiState.language]?.errUser);
-        setError('pwd', 'notMatch', Contents[uiState.language]?.errUser);
-        showAlert({
-          severity: 'warning',
-          title: `RegisterUser`,
-          autoHideDuration: 800000,
-          body: `${response?.data?.mensaje}`
-        });
-      } else {
-        showAlert({
-          severity: 'error',
-          title: response?.status ? `Error ${response.status}` : `Error`,
-          code: response?.status || '500',
-          autoHideDuration: 800000,
-          body: Contents[uiState.language]?.errServer
-        });
-      }
+      showAlert({
+        severity: 'error',
+        title: response?.status ? `Error ${response.status}` : `Error`,
+        code: response?.status || '500',
+        autoHideDuration: 800000,
+        body: Contents[uiState.language]?.errServer
+      });
     } finally {
       setUiState(prevState => ({ ...prevState, isLoading: false }));
     }
+  };
+
+  const onSelectChanged = (name: string, value: Object) => {
+    setValue(name, value?.id ? value?.id : value?.title, true);
+    setUiState(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   const classes = useStyles();
   return (
     <ContentPageLayout>
       <div className={classes.wrapper}>
-        <Box className={classes.containerBox}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <center>
-              <h1 className={classes.header}>
-                {Contents[uiState.language]?.pageTitle || 'REGISTRAR USUARIO'}
-              </h1>
-              <TextBox
-                className={classes.Formulary}
-                name="user"
-                label={Contents[uiState.language]?.user || 'Usuario'}
-                inputRef={register({
-                  required:
-                    Contents[uiState.language]?.requser || 'Se requiere un nombre de usuario'
-                })}
-                error={!!errors.user}
-                helperText={errors.user && errors.user.message}
-              />
-              <TextBox
-                className={classes.Content}
-                name="pwd"
-                label={Contents[uiState.language]?.pwd}
-                type="password"
-                inputRef={register({
-                  required: Contents[uiState.language]?.reqpwd || 'Se requiere una contraseña'
-                })}
-                error={!!errors.pwd}
-                helperText={errors.pwd && errors.pwd.message}
-              />
-              <TextBox
-                className={classes.Content}
-                name="repwd"
-                label="Confirmar contraseña"
-                type="password"
-                inputRef={register({
-                  required:
-                    Contents[uiState.language]?.reqpwd2 ||
-                    'Se requiere por segunda vez la contraseña'
-                })}
-                error={!!errors.repwd}
-                helperText={errors.repwd && errors.repwd.message}
-              />
-              <AutocompleteSelect
-                className={classes.Formulary}
-                name="rol"
-                placeholder={Contents[uiState.language]?.role}
-                // selectedValue={filters.rol}
-                defaultOptions={RoleOptions}
-                // onSelect={handleFilterChange}
-                inputRef={register({
-                  required: Contents[uiState.language]?.reqrole || 'Se requiere el rol'
-                })}
-                error={!!errors.rol}
-                helperText={errors.rol && errors.rol.message}
-              />
-              <TextBox
-                className={classes.Formulary}
-                name="name"
-                label={Contents[uiState.language]?.name || 'Nombre'}
-                inputRef={register({
-                  required: Contents[uiState.language]?.reqname || 'Se requiere un nombre'
-                })}
-                error={!!errors.name}
-                helperText={errors.name && errors.name.message}
-              />
-              <TextBox
-                className={classes.Formulary}
-                name="firstLastName"
-                label={Contents[uiState.language]?.firstLastName || 'Apellido Paterno'}
-                inputRef={register({
-                  required:
-                    Contents[uiState.language]?.reqfirstLastName || 'Se requiere el primer apellido'
-                })}
-                error={!!errors.firstLastName}
-                helperText={errors.firstLastName && errors.firstLastName.message}
-              />
-              <TextBox
-                className={classes.Formulary}
-                name="secondLastName"
-                label={Contents[uiState.language]?.secondLastName || 'Apellido Materno'}
-                inputRef={register({
-                  required:
-                    Contents[uiState.language]?.req2LastName || 'Se requiere el segundo apellido'
-                })}
-                error={!!errors.secondLastName}
-                helperText={errors.secondLastName && errors.secondLastName.message}
-              />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Box className={classes.containerBox}>
+            <Box className={classes.formLayout}>
+              <h1 className={classes.header}>{Contents[uiState.language]?.pageTitle}</h1>
+              <InputContainer>
+                <TextBox
+                  name="user"
+                  label={Contents[uiState.language]?.user}
+                  inputRef={register({
+                    required: Contents[uiState.language]?.requireUser
+                  })}
+                  error={!!errors.user}
+                  helperText={errors.user && errors.user.message}
+                />
+              </InputContainer>
+              <InputContainer>
+                <TextBox
+                  name="password"
+                  label={Contents[uiState.language]?.password}
+                  type="password"
+                  inputRef={register({
+                    required: Contents[uiState.language]?.requirePassword
+                  })}
+                  error={!!errors.password}
+                  helperText={errors.password && errors.password.message}
+                />
+              </InputContainer>
+              <InputContainer>
+                <TextBox
+                  name="confirmPwd"
+                  label={Contents[uiState.language]?.confirmPwd}
+                  type="password"
+                  inputRef={register({
+                    required: Contents[uiState.language]?.requirePwdConfirmation,
+                    validate: value =>
+                      value === watch('password') ||
+                      Contents[uiState.language]?.passwordConfirmationMistake
+                  })}
+                  // inputRef={register({
+                  //   required: Contents[uiState.language]?.requirePwdConfirmation
+                  // })}
+                  error={!!errors.confirmPwd}
+                  helperText={errors.confirmPwd && errors.confirmPwd.message}
+                />
+              </InputContainer>
+              <InputContainer>
+                <TextBox
+                  name="name"
+                  label={Contents[uiState.language]?.name}
+                  inputRef={register({
+                    required: Contents[uiState.language]?.requireName
+                  })}
+                  error={!!errors.name}
+                  helperText={errors.name && errors.name.message}
+                />
+              </InputContainer>
+              <InputContainer>
+                <TextBox
+                  name="firstLastName"
+                  label={Contents[uiState.language]?.firstLastName}
+                  inputRef={register({
+                    required: Contents[uiState.language]?.requirefirstLastName
+                  })}
+                  error={!!errors.firstLastName}
+                  helperText={errors.firstLastName && errors.firstLastName.message}
+                />
+              </InputContainer>
+              <InputContainer>
+                <TextBox
+                  name="secondLastName"
+                  label={Contents[uiState.language]?.secondLastName}
+                  inputRef={register({
+                    required: Contents[uiState.language]?.require2LastName
+                  })}
+                  error={!!errors.secondLastName}
+                  helperText={errors.secondLastName && errors.secondLastName.message}
+                />
+              </InputContainer>
+              <InputContainer>
+                <AutocompleteSelect
+                  name="role"
+                  placeholder={Contents[uiState.language]?.role}
+                  error={!!errors.role}
+                  errorText={errors.role && errors.role.message}
+                  selectedValue={uiState.role}
+                  defaultOptions={RoleOptions}
+                  onSelect={onSelectChanged}
+                />
+              </InputContainer>
               <ActionButton
                 type="submit"
                 status="success"
@@ -176,9 +201,9 @@ const RegisterUser = (props: RegisterProps) => {
               >
                 {uiState.isLoading && <CircularProgress size={24} color={colors.white} />}
               </ActionButton>
-            </center>
-          </form>
-        </Box>
+            </Box>
+          </Box>
+        </form>
       </div>
     </ContentPageLayout>
   );
