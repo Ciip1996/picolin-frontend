@@ -447,9 +447,10 @@ const TransferList = (props: TransferListProps) => {
             flex={1}
             display="flex"
             flexDirection="column"
-            alignItems="center"
-            justifyContent="flex-start"
+            alignItems="flex-start"
+            justifyContent="center"
             flexWrap="wrap"
+            minWidth={238}
           >
             <ActionButton
               text={Contents[language]?.makeTransfer}
