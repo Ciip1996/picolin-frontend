@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import { FormControl } from '@material-ui/core';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
+import ActionButton from 'UI/components/atoms/ActionButton';
 
 import { showAlert } from 'actions/app';
 import { drawerAnchor, PageTitles, DateFormats } from 'UI/constants/defaults';
@@ -20,15 +21,16 @@ import TransferProductsDrawer from 'UI/components/molecules/TransferDrawer';
 import Drawer from '@material-ui/core/Drawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
-// import Box from '@material-ui/core/Box';
+import Box from '@material-ui/core/Box';
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
 import { getErrorMessage, toLocalTime } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters, saveFilters } from 'services/FiltersStorage';
-// import ActionButton from 'UI/components/atoms/ActionButton';
+import { AddIcon, colors } from 'UI/res';
 
+import { globalStyles } from 'GlobalStyles';
 import Contents from './strings';
 
 const CellSkeleton = ({ children, searching }) => {
@@ -440,6 +442,23 @@ const TransferList = (props: TransferListProps) => {
         filters={filters}
         onFilterRemove={handleFilterRemove}
         onFiltersReset={handleResetFiltersClick}
+        selector={
+          <Box
+            flex={1}
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            justifyContent="flex-start"
+            flexWrap="wrap"
+          >
+            <ActionButton
+              text={Contents[language]?.makeTransfer}
+              onClick={toggleDrawer('isTransferDrawerOpen', !uiState.isTransferDrawerOpen)}
+            >
+              <AddIcon fill={colors.white} size={18} />
+            </ActionButton>
+          </Box>
+        }
       >
         <DataTable
           error={error}

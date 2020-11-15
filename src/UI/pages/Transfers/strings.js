@@ -9,7 +9,8 @@ const Contents = {
     Destination: 'Destination',
     Quantity: 'Quantity',
     PageTitle: 'TRANSFERS',
-    RegistrationDate: 'Transfer Date'
+    RegistrationDate: 'Transfer Date',
+    makeTransfer: 'TRANSFER'
   },
   Spanish: {
     IdTransfer: 'IdTransferencia',
@@ -21,7 +22,8 @@ const Contents = {
     Destination: 'Destino',
     Quantity: 'Cantidad',
     PageTitle: 'TRANSFERENCIAS',
-    RegistrationDate: 'Fecha de Transferencia'
+    RegistrationDate: 'Fecha de Transferencia',
+    makeTransfer: 'TRANSFERIR'
   }
 };
 export default Contents;
