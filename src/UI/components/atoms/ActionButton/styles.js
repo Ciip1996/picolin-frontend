@@ -37,16 +37,33 @@ export const useStyles = makeStyles(theme => ({
     ...theme.button,
     color: colors.white,
     border: 0,
-    background: props =>
-      props.variant === 'contained'
-        ? 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)'
-        : undefined,
-    // backgroundColor: props => props.variant === 'contained' && colors.success,
-    '&:hover': {
-      background: props =>
-        props.variant === 'contained' && 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)'
-      // backgroundColor: props => props.variant === 'contained' && colors.success
+    background: props => {
+      switch (props.variant) {
+        case 'important':
+          return 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)';
+        case 'outlined':
+          return 'transparent';
+        case 'contained':
+          return colors.primary;
+        default:
+          return colors.primary;
+      }
     },
+    '&:hover': {
+      background: props => {
+        switch (props.variant) {
+          case 'important':
+            return 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)';
+          case 'outlined':
+            return colors.lightGrey;
+          case 'contained':
+            return colors.primaryLight;
+          default:
+            return colors.primaryLight;
+        }
+      }
+    },
+    // },
     // minWidth: props => (props.isResponsive ? 'unset' : 120),
     // width: props => (props.isResponsive ? 174 : 238),
     '& > span': {

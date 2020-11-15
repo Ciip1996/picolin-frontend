@@ -120,6 +120,7 @@ const LogIn = (props: LogInProps) => {
               status="success"
               className={classes.loginButton}
               text="Entrar"
+              variant="important"
             >
               {uiState.isLoading && <CircularProgress size={24} color={colors.white} />}
             </ActionButton>

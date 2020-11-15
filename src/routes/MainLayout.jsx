@@ -47,7 +47,12 @@ const MainLayout = ({ children, ...rest }: Object) => {
         <div style={globalStyles.flexContentWrapper}>
           <div style={styles.sidebar}>
             <Sidebar>
-              <ActionButton text="Nueva Venta" onClick={GoToNewPage}>
+              <ActionButton
+                style={{ width: 200, minHeight: 48 }}
+                text="Nueva Venta"
+                onClick={GoToNewPage}
+                variant="important"
+              >
                 <AddIcon fill={colors.white} size={18} />
               </ActionButton>
             </Sidebar>

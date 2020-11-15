@@ -30,7 +30,6 @@ import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters, saveFilters } from 'services/FiltersStorage';
 import { AddIcon, colors } from 'UI/res';
 
-import { globalStyles } from 'GlobalStyles';
 import Contents from './strings';
 
 const CellSkeleton = ({ children, searching }) => {
