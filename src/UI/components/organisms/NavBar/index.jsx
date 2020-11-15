@@ -10,6 +10,8 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Link from '@material-ui/core/Link';
 import { type User } from 'types/app';
+import { Roles } from 'UI/constants/roles';
+import { userHasRole } from 'services/Authorization';
 
 import { isAuthenticated, getCurrentUser, logout } from 'services/Authentication';
 // import { EntityRoutes } from 'routes/constants';
@@ -30,7 +32,7 @@ const featureFlags = getFeatureFlags();
 
 const NavBar = () => {
   const user: User = isAuthenticated() ? getCurrentUser() : {};
-
+  const isUserAdmin = userHasRole(Roles.Admin);
   const classes = useStyles();
   const history = useHistory();
 
@@ -81,7 +83,10 @@ const NavBar = () => {
             <Box display="flex" position="relative">
               <CardActionArea onClick={handleOpenMenuClick} className={classes.userCard}>
                 <div className={classes.name}>{user?.userName}</div>
-                <CustomAvatar acron={user?.role} backgroundColor={colors?.primary} />
+                <CustomAvatar
+                  acron={isUserAdmin ? 'ADM' : 'EMP'}
+                  backgroundColor={isUserAdmin ? colors?.primary : colors?.secondary}
+                />
                 <MoreVertIcon />
               </CardActionArea>
               <Menu
@@ -111,7 +116,7 @@ const NavBar = () => {
                   </>
                 )}
                 <>
-                  {user?.role === 'Admin' ? (
+                  {isUserAdmin ? (
                     <MenuItem onClick={navigateToRegisterUserPage} className={classes.menuLink}>
                       Registrar Usuario
                     </MenuItem>
