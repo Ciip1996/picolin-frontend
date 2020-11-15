@@ -155,9 +155,6 @@ const RegisterUser = (props: RegisterProps) => {
                       value === watch('password') ||
                       Contents[uiState.language]?.passwordConfirmationMistake
                   })}
-                  // inputRef={register({
-                  //   required: Contents[uiState.language]?.requirePwdConfirmation
-                  // })}
                   error={!!errors.confirmPwd}
                   helperText={errors.confirmPwd && errors.confirmPwd.message}
                 />
