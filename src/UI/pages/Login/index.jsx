@@ -3,15 +3,17 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios';
 // Material UI components:
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import API from 'services/API';
+
 // Custom components and others
 import { colors } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import TextBox from 'UI/components/atoms/TextBox';
+import { Endpoints } from 'UI/constants/endpoints';
 
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 import { useStyles } from './styles';
@@ -27,7 +29,8 @@ const LogIn = (props: LogInProps) => {
   });
   const { showAlert } = props;
 
-  const url = `http://localhost:3307/login`;
+  // const url = `${process.env.REACT_APP_API_URL}/login`;
+
   const history = useHistory();
   const language = localStorage.getItem('language');
 
@@ -46,8 +49,8 @@ const LogIn = (props: LogInProps) => {
         user: formData.user,
         password: formData.pwd
       };
-      // const response = await API.post(`${url}`, params);
-      await axios.post(`${url}`, params).then(response => {
+      const response = await API.post(`${Endpoints.Login}`, params);
+      if (response) {
         if (response?.status === 200) {
           // TODO: properly handle token with valid session
           const access = {
@@ -58,7 +61,7 @@ const LogIn = (props: LogInProps) => {
           API.defaults.headers.Authorization = `Bearer ${response.data.token}`;
           history.push('/home'); // TODO: change redirect url later
         }
-      });
+      }
     } catch (error) {
       const { response } = error;
       if (response?.status === 401) {

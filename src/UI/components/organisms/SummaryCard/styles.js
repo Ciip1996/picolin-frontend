@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { colors } from 'UI/res';
 
 export const useStyles = makeStyles({
   card: {
@@ -35,7 +36,7 @@ export const useStyles = makeStyles({
   Invoice: {
     marginBottom: '10px',
     marginLeft: '270px',
-    color: '#94A6B3'
+    color: colors.title
   },
   List: {
     marginTop: '-20px',

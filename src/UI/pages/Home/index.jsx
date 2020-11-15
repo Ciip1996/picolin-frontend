@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
-import { BackgroundGraphic, colors } from 'UI/res';
+// import { BackgroundGraphic, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
 // import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
@@ -32,7 +32,7 @@ const Home = () => {
 
   return (
     <>
-      <BackgroundGraphic fill={colors.backgroundGraphic} className={classes.backgroundImg} />
+      {/* <BackgroundGraphic fill={colors.backgroundGraphic} className={classes.backgroundImg} /> */}
       <ContentPageLayout>
         <div className={classes.root}>
           <Grid

@@ -1,5 +1,5 @@
 // @flow
-import type { UserRole } from 'types/app';
+// import type { UserRole } from 'types/app';
 
 import { AdditionalRecruiterStatus, AdditionalRecruiterType } from 'UI/constants/status';
 import { getCurrentUser } from './Authentication';
@@ -50,29 +50,11 @@ export const userHasPermission = (permission: string) => {
   return user.permissions.some(permissn => permissn.title === permission);
 };
 
-export const getUserHighestRole = (): UserRole => {
-  // const userInfo = getCurrentUser();
-  // if (!userInfo) return {};
-
-  // const higherUserRoleId =
-  //   userInfo?.roles?.length > 1
-  //     ? Math.max(...userInfo.roles.map(user => user?.role?.id))
-  //     : userInfo?.roles[0]?.role.id;
-
-  // const [highestRole] = userInfo.roles.filter(user => user?.role?.id === higherUserRoleId);
-  // return {
-  //   title: highestRole?.role?.title || '',
-  //   id: highestRole?.role?.id || ''
-  // };
-  return { title: 'Admin', id: 1 };
-};
-
 export const userHasRole = (roleId: number) => {
   const user = getCurrentUser();
 
-  if (!user || !user.roles || !user.roles.length) {
+  if (!user || !user.roleId) {
     return false;
   }
-
-  return user.roles.some(role => role.role.id === roleId);
+  return user.roleId === roleId;
 };

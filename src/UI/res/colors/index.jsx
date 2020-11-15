@@ -1,7 +1,9 @@
 export const colors = {
   loginBackground: '#FDF7F4',
   primary: '#E26A93',
+  primaryLight: '#e682a4',
   oxford: '#707070',
+  title: '#94A6B3',
   appBackground: '#F0F3F7',
   appBackgroundContrast: '#ECEFF5',
   iconInactive: '#A3A8B4',

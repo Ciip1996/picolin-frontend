@@ -150,7 +150,6 @@ const theme = createMuiTheme({
     textTransform: 'uppercase',
     fontSize: 16,
     fontWeight: 500,
-    background: 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)',
     boxShadow: '0px 3px 6px #00000029',
     width: 200,
     minHeight: '48px !important'

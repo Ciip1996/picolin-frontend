@@ -88,10 +88,18 @@ export const useStyles = makeStyles(theme => ({
     }
   },
   menuLink: {
+    color: colors.success,
+    textDecoration: 'none',
+    '&:hover': {
+      fontWeight: theme.typography.fontWeightBold,
+      cursor: 'pointer'
+    }
+  },
+  loginLink: {
     color: colors.error,
     textDecoration: 'none',
     '&:hover': {
-      color: colors.error,
+      fontWeight: theme.typography.fontWeightBold,
       cursor: 'pointer'
     }
   }

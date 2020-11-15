@@ -90,7 +90,7 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
                   onClose();
                 }
               }}
-              // variant="outlined"
+              variant="outlined"
               style={{ width: CancelSaveButton }}
             />
           )}

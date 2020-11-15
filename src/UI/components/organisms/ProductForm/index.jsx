@@ -29,11 +29,8 @@ const ProductForm = (props: ProductFormProps) => {
   const { register, errors, setValue, getValues } = useFormContext();
 
   useEffect(() => {
-    register({ name: 'idType' }, { required: `type ${Contents[language]?.RequiredMessage}` });
-    register(
-      { name: 'idCharacteristic' },
-      { required: `Characteristic ${Contents[language]?.RequiredMessage}` }
-    );
+    register({ name: 'idType' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'idCharacteristic' }, { required: ` ${Contents[language]?.RequiredMessage}` });
     register({ name: 'color' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'idProvider' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'size' }, { required: `${Contents[language]?.RequiredMessage}` });
@@ -63,8 +60,8 @@ const ProductForm = (props: ProductFormProps) => {
           name="idType"
           selectedValue={comboValues.idType}
           placeholder={Contents[language]?.ProductType}
-          error={!!errors.idType}
-          errorText={errors.idType && errors.type.message}
+          error={!!errors?.idType}
+          errorText={errors?.idType && errors?.idType?.message}
           onSelect={handleComboChange}
           url={Endpoints.Types}
         />
@@ -73,8 +70,8 @@ const ProductForm = (props: ProductFormProps) => {
           name="idCharacteristic"
           selectedValue={comboValues.idCharacteristic}
           placeholder={Contents[language]?.Characteristics}
-          error={!!errors.idCharacteristic}
-          errorText={errors.idCharacteristic && errors.idCharacteristic.message}
+          error={!!errors?.idCharacteristic}
+          errorText={errors?.idCharacteristic && errors?.idCharacteristic.message}
           onSelect={handleComboChange}
           url={Endpoints.Characteristics}
         />
@@ -84,8 +81,8 @@ const ProductForm = (props: ProductFormProps) => {
           name="color"
           selectedValue={comboValues.color}
           placeholder={Contents[language]?.Color}
-          error={!!errors.color}
-          errorText={errors.color && errors.color.message}
+          error={!!errors?.color}
+          errorText={errors?.color && errors?.color.message}
           onSelect={handleComboChange}
           url={Endpoints.Colors}
         />
@@ -94,8 +91,8 @@ const ProductForm = (props: ProductFormProps) => {
           name="idProvider"
           selectedValue={comboValues.idProvider}
           placeholder={Contents[language]?.Provider}
-          error={!!errors.idProvider}
-          errorText={errors.idProvider && errors.idProvider.message}
+          error={!!errors?.idProvider}
+          errorText={errors?.idProvider && errors?.idProvider.message}
           onSelect={handleComboChange}
           url={Endpoints.Provider}
         />
@@ -105,8 +102,8 @@ const ProductForm = (props: ProductFormProps) => {
           inputType="number"
           name="size"
           label={Contents[language]?.Size}
-          error={!!errors.size}
-          errorText={errors.size && errors.size.message}
+          error={!!errors?.size}
+          errorText={errors?.size && errors?.size.message}
           onChange={handleTextChange}
           value={getValues('size') || ''}
         />
@@ -115,8 +112,8 @@ const ProductForm = (props: ProductFormProps) => {
           inputType="number"
           name="pieces"
           label={Contents[language]?.Pieces}
-          error={!!errors.pieces}
-          errorText={errors.pieces && errors.pieces.message}
+          error={!!errors?.pieces}
+          errorText={errors?.pieces && errors?.pieces.message}
           onChange={handleTextChange}
           value={getValues('pieces') || ''}
         />
@@ -126,8 +123,8 @@ const ProductForm = (props: ProductFormProps) => {
           inputType="currency"
           name="cost"
           label={Contents[language]?.Cost}
-          error={!!errors.cost}
-          errorText={errors.cost && errors.cost.message}
+          error={!!errors?.cost}
+          errorText={errors?.cost && errors?.cost.message}
           onChange={handleTextChange}
           value={getValues('cost') || ''}
         />
@@ -136,8 +133,8 @@ const ProductForm = (props: ProductFormProps) => {
           inputType="currency"
           name="salePrice"
           label={Contents[language]?.SalePrice}
-          error={!!errors.salePrice}
-          errorText={errors.salePrice && errors.salePrice.message}
+          error={!!errors?.salePrice}
+          errorText={errors?.salePrice && errors?.salePrice.message}
           onChange={handleTextChange}
           value={getValues('salePrice') || ''}
         />
@@ -147,8 +144,8 @@ const ProductForm = (props: ProductFormProps) => {
           name="idStore"
           selectedValue={comboValues.idStore}
           placeholder={Contents[language]?.ReceptionPlace}
-          error={!!errors.idStore}
-          errorText={errors.idStore && errors.idStore.message}
+          error={!!errors?.idStore}
+          errorText={errors?.idStore && errors?.idStore.message}
           onSelect={handleComboChange}
           url={Endpoints.Stores}
         />
@@ -157,8 +154,8 @@ const ProductForm = (props: ProductFormProps) => {
           name="idGender"
           placeholder={Contents[language]?.Gender}
           selectedValue={comboValues.idGender}
-          error={!!errors.idGender}
-          errorText={errors.idGender && errors.idGender.message}
+          error={!!errors?.idGender}
+          errorText={errors?.idGender && errors?.idGender.message}
           onSelect={handleComboChange}
           url={Endpoints.Genders}
         />
@@ -168,8 +165,8 @@ const ProductForm = (props: ProductFormProps) => {
           inputType="number"
           name="quantity"
           label={Contents[language]?.Quantity}
-          error={!!errors.quantity}
-          errorText={errors.quantity && errors.quantity.message}
+          error={!!errors?.quantity}
+          errorText={errors?.quantity && errors?.quantity.message}
           onChange={handleTextChange}
           value={getValues('quantity') || ''}
         />
@@ -178,8 +175,8 @@ const ProductForm = (props: ProductFormProps) => {
         <TextBox
           name="description"
           label={Contents[language]?.Description}
-          error={!!errors.description}
-          errorText={errors.description && errors.description.message}
+          error={!!errors?.description}
+          errorText={errors?.description && errors?.description.message}
           onChange={handleTextChange}
           value={getValues('description') || ''}
         />

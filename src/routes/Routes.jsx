@@ -14,6 +14,8 @@ import Inventory from 'UI/pages/Inventory';
 import Transfers from 'UI/pages/Transfers';
 
 import Login from 'UI/pages/Login';
+import RegisterUser from 'UI/pages/RegisterUser';
+
 import ErrorPage from 'UI/pages/ErrorPage';
 
 import DashboardOverview from 'UI/pages/Dashboard/Overview';
@@ -36,6 +38,7 @@ const Routes = () => {
           render={() => (isAuthenticated() ? <Redirect to={EntityRoutes.Home} /> : <Login />)}
         />
 
+        <PrivateRoute exact path={EntityRoutes.RegisterUser} component={RegisterUser} />
         <PrivateRoute exact path={EntityRoutes.Home} component={Home} />
         <PrivateRoute exact path={EntityRoutes.Sales} component={Sales} />
         <PrivateRoute exact path={EntityRoutes.NewSale} component={NewSale} />
