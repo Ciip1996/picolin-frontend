@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 // Material UI components:
 import Box from '@material-ui/core/Box';
@@ -17,6 +17,8 @@ import { colors } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import TextBox from 'UI/components/atoms/TextBox';
 import InputContainer from 'UI/components/atoms/InputContainer';
+import { EntityRoutes } from 'routes/constants';
+import { VALIDATION_REGEXS } from 'UI/utils';
 
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 import { useStyles } from './styles';
@@ -34,15 +36,9 @@ const RegisterUser = (props: RegisterProps) => {
   });
   const { showAlert } = props;
 
-  const RoleOptions = [
-    { id: 0, title: Contents[uiState.language]?.worker, value: 'employee' },
-    { id: 1, title: Contents[uiState.language]?.manager, value: 'manager' },
-    { id: 1, title: Contents[uiState.language]?.admin, value: 'admin' }
-  ];
+  const history = useHistory();
 
-  // const history = useHistory();
-
-  const { register, handleSubmit, errors, setValue, watch } = useForm();
+  const { register, handleSubmit, errors, setValue, watch, setError } = useForm();
 
   useEffect(() => {
     register({ name: 'role' }, { required: Contents[uiState.language]?.requireRole });
@@ -50,24 +46,27 @@ const RegisterUser = (props: RegisterProps) => {
 
   const onSubmit = async (formData: Object) => {
     try {
-      console.log(formData);
       setUiState(prevState => ({ ...prevState, isLoading: true }));
       const { password, confirmPwd, name, firstLastName, role, secondLastName, user } = formData;
       // react hook forms is doing this validation but we are double validating in order to prevent mistakes or code injection
       if (password === confirmPwd) {
-        debugger;
         const params = {
           password,
           name,
           firstLastName,
-          role,
+          roleId: role,
           secondLastName,
           user
         };
         const response = await API.post(`${Endpoints.RegisterUser}`, params);
         if (response?.status === 200) {
-          // TODO: handle success
-          debugger;
+          showAlert({
+            severity: 'success',
+            title: `Registrar Usuario`,
+            autoHideDuration: 800000,
+            body: `El usuario "${user}" ha sido registrado exitosamente.`
+          });
+          history.push(EntityRoutes.Home);
         }
       } else {
         // password mismatch
@@ -80,20 +79,30 @@ const RegisterUser = (props: RegisterProps) => {
       }
     } catch (error) {
       const { response } = error;
-      showAlert({
-        severity: 'error',
-        title: response?.status ? `Error ${response.status}` : `Error`,
-        code: response?.status || '500',
-        autoHideDuration: 800000,
-        body: Contents[uiState.language]?.errServer
-      });
+      if (response?.status === 401) {
+        setError('user', 'notMatch', Contents[uiState.language]?.userAlreadyExists);
+        showAlert({
+          severity: 'warning',
+          title: `Login`,
+          autoHideDuration: 800000,
+          body: `${response?.data?.mensaje}`
+        });
+      } else {
+        showAlert({
+          severity: 'error',
+          title: response?.status ? `Error ${response.status}` : `Error`,
+          code: response?.status || '500',
+          autoHideDuration: 800000,
+          body: Contents[uiState.language]?.errServer
+        });
+      }
     } finally {
       setUiState(prevState => ({ ...prevState, isLoading: false }));
     }
   };
 
   const onSelectChanged = (name: string, value: Object) => {
-    setValue(name, value?.id ? value?.id : value?.title, true);
+    setValue(name, value?.id || undefined, true);
     setUiState(prevState => ({
       ...prevState,
       [name]: value
@@ -125,6 +134,10 @@ const RegisterUser = (props: RegisterProps) => {
                   label={Contents[uiState.language]?.password}
                   type="password"
                   inputRef={register({
+                    pattern: {
+                      value: VALIDATION_REGEXS.PASSWORD,
+                      message: Contents[uiState.language]?.passwordPattern
+                    },
                     required: Contents[uiState.language]?.requirePassword
                   })}
                   error={!!errors.password}
@@ -185,11 +198,11 @@ const RegisterUser = (props: RegisterProps) => {
               <InputContainer>
                 <AutocompleteSelect
                   name="role"
+                  selectedValue={uiState.role}
                   placeholder={Contents[uiState.language]?.role}
+                  url={Endpoints.GetRoles}
                   error={!!errors.role}
                   errorText={errors.role && errors.role.message}
-                  selectedValue={uiState.role}
-                  defaultOptions={RoleOptions}
                   onSelect={onSelectChanged}
                 />
               </InputContainer>

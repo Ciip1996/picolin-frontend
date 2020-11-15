@@ -14,7 +14,6 @@ import { Roles } from 'UI/constants/roles';
 import { userHasRole } from 'services/Authorization';
 
 import { isAuthenticated, getCurrentUser, logout } from 'services/Authentication';
-// import { EntityRoutes } from 'routes/constants';
 import { FeatureFlags } from 'UI/constants/featureFlags';
 import { getFeatureFlags } from 'UI/utils';
 

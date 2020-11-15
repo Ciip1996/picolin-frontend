@@ -22,9 +22,8 @@ const Contents = {
     secondLastName: 'Second Last Name',
     require2LastName: 'It requires second last name',
     RegisterUser: 'RegisterUser',
-    worker: 'Employee',
-    manager: 'Manager',
-    admin: 'Admin'
+    userAlreadyExists: 'User already exists. ',
+    passwordPattern: 'At least 8 characters, one letter and one number.'
   },
   Spanish: {
     pageTitle: 'REGISTRAR USUARIO',
@@ -48,9 +47,8 @@ const Contents = {
     secondLastName: 'Apellido Materno',
     require2LastName: 'Su Apellido Materno es requerido',
     RegisterUser: 'Registrar',
-    worker: 'Trabajador',
-    manager: 'Encargado',
-    admin: 'Administrador'
+    userAlreadyExists: 'Ya existe este usuario. ',
+    passwordPattern: 'Minimo 8 caracteres, una letra y un numero.'
   }
 };
 export default Contents;
