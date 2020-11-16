@@ -16,11 +16,11 @@ import {
   TITLE_VALIDATION,
   URL_VALIDATION
 } from 'UI/utils';
-import type { Map } from 'types';
+import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
 
 type NameFormProps = {
-  initialValues: Map
+  initialValues: MapType
 };
 
 const chainedSelects = {
@@ -31,7 +31,7 @@ const chainedSelects = {
 const NameForm = (props: NameFormProps) => {
   const { initialValues } = props;
 
-  const [comboValues, setComboValues] = useState<Map>(initialValues);
+  const [comboValues, setComboValues] = useState<MapType>(initialValues);
   const [hasSubspecialties, setHasSubspecialties] = useState(false);
 
   const { register, errors, setValue, getValues } = useFormContext();
@@ -57,12 +57,12 @@ const NameForm = (props: NameFormProps) => {
   }, [register, hasSubspecialties]);
 
   const handleComboChange = (name: string, value: any) => {
-    setComboValues((prevState: Map): Map => ({ ...prevState, [name]: value }));
+    setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
     setValue(name, value ? value.id : value, true);
 
     if (name && chainedSelects[name]) {
       chainedSelects[name].forEach(chainedSelect => {
-        setComboValues((prevState: Map): Map => ({
+        setComboValues((prevState: MapType): MapType => ({
           ...prevState,
           [chainedSelect]: null
         }));

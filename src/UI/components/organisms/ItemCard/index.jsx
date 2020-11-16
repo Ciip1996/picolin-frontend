@@ -8,23 +8,24 @@ import Chip from '@material-ui/core/Chip';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
+import { currencyFormatter } from 'UI/utils';
 import { useStyles } from './styles';
-
 // const payment = [
 // { id: 0, title: Contents[language]?.cash },
 // { id: 1, title: Contents[language]?.card }
 // ];
 type ItemCardProps = {
   gender: string,
-  size: string,
+  size: number,
   type: string,
   color: string,
-  cost: string,
-  description: string
+  cost: number,
+  description: string,
+  characteristic: string
 };
 
 const ItemCard = (props: ItemCardProps) => {
-  const { gender, size, type, color, cost, description } = props;
+  const { gender, size, type, color, cost, description, characteristic } = props;
   const classes = useStyles();
   // const language = localStorage.getItem('language');
 
@@ -34,21 +35,26 @@ const ItemCard = (props: ItemCardProps) => {
       <List component="nav" className={classes.List}>
         <ListItem className={classes.Item}>
           <ListItemText primary={<span className={classes.title}>{description}</span>} />
-          <ListItemText secondary={<span className={classes.subtitle}>{cost}</span>} />
+          <ListItemText
+            secondary={<span className={classes.subtitle}>{currencyFormatter(cost)}</span>}
+          />
         </ListItem>
       </List>
       <Grid container>
         <Grid item sm={2}>
-          <Chip label={gender} className={classes.Gender} />
+          <Chip label={gender} className={classes.Chip} />
         </Grid>
         <Grid item sm={2}>
-          <Chip label={size} className={classes.Size} />
+          <Chip label={`Talla ${size}`} className={classes.Chip} />
         </Grid>
         <Grid item sm={2}>
-          <Chip label={type} className={classes.Type} />
+          <Chip label={type} className={classes.Chip} />
         </Grid>
         <Grid item sm={2}>
-          <Chip label={color} className={classes.Color} />
+          <Chip label={color} className={classes.Chip} />
+        </Grid>
+        <Grid item sm={2}>
+          <Chip label={characteristic} className={classes.Chip} />
         </Grid>
       </Grid>
       <IconButton className={classes.Delete} aria-label="delete">
@@ -60,10 +66,11 @@ const ItemCard = (props: ItemCardProps) => {
 
 ItemCard.defaultProps = {
   gender: 'Niña',
-  size: 'Talla 1',
+  size: 24,
   type: 'Ropón',
   color: 'Blanco',
-  cost: '$999,999.98',
-  description: 'Ropón Mini: Ariete Blanco '
+  cost: 999999.98,
+  description: 'Ropón Mini: Ariete Blanco ',
+  characteristic: 'Chantung de seda'
 };
 export default ItemCard;

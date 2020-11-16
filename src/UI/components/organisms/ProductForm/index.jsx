@@ -9,13 +9,13 @@ import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { Endpoints } from 'UI/constants/endpoints';
 
 import { PRODUCT_DESCRIPTION_VALIDATION } from 'UI/utils';
-import type { Map } from 'types';
+import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
 
 import Contents from './strings';
 
 type ProductFormProps = {
-  initialValues: Map
+  initialValues: MapType
 };
 
 const Separator = () => <span style={{ width: 20 }} />;
@@ -24,7 +24,7 @@ const ProductForm = (props: ProductFormProps) => {
   const { initialValues } = props;
   const language = localStorage.getItem('language');
 
-  const [comboValues, setComboValues] = useState<Map>(initialValues);
+  const [comboValues, setComboValues] = useState<MapType>(initialValues);
 
   const { register, errors, setValue, getValues } = useFormContext();
 
@@ -44,7 +44,7 @@ const ProductForm = (props: ProductFormProps) => {
   }, [language, register]);
 
   const handleComboChange = (name: string, value: any) => {
-    setComboValues((prevState: Map): Map => ({ ...prevState, [name]: value }));
+    setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
     setValue(name, value?.id ? value?.id : value?.title, true);
   };
 

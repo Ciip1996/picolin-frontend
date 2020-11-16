@@ -41,14 +41,7 @@ export const useStyles = makeStyles({
     float: 'right',
     letterSpacing: '0px'
   },
-  List: {
-    marginTop: '-20px'
-  },
-  Item: {
-    height: '27px',
-    marginTop: '17px'
-  },
-  Gender: {
+  Chip: {
     width: '87%',
     height: '25px',
     textOverflow: 'ellipsis',
@@ -60,41 +53,12 @@ export const useStyles = makeStyles({
     color: '#FFFF',
     marginTop: '11px'
   },
-  Size: {
-    width: '87%',
-    height: '25px',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    backgroundColor: '#ED8A9C',
-    font: 'normal normal 900 14px/19px Avenir',
-    boxShadow: '0px 3px 6px #00000029',
-    marginLeft: '38px',
-    color: '#FFFF',
-    marginTop: '11px'
+  List: {
+    marginTop: '-20px'
   },
-  Type: {
-    width: '87%',
-    height: '25px',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    backgroundColor: '#ED8A9C',
-    font: 'normal normal 900 14px/19px Avenir',
-    boxShadow: '0px 3px 6px #00000029',
-    marginLeft: '54px',
-    color: '#FFFF',
-    marginTop: '11px'
-  },
-  Color: {
-    width: '87%',
-    height: '25px',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    backgroundColor: '#ED8A9C',
-    font: 'normal normal 900 14px/19px Avenir',
-    boxShadow: '0px 3px 6px #00000029',
-    marginLeft: '74px',
-    color: '#FFFF',
-    marginTop: '11px'
+  Item: {
+    height: '27px',
+    marginTop: '17px'
   },
   Delete: {
     backgroundColor: '#F7FAFE',

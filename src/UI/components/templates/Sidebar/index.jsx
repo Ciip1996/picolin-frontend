@@ -9,8 +9,6 @@ import Collapse from '@material-ui/core/Collapse';
 
 import { CollapsibleArrowOpen, CollapsibleArrowClosed } from 'UI/res';
 import { nestTernary } from 'UI/utils';
-// import { Roles } from 'UI/constants/roles';
-// import { userHasRole } from 'services/Authorization';
 import { styles, useStyles, useSidebarStyles } from './styles';
 import sideBarMenu from './SidebarMenu';
 
@@ -46,8 +44,6 @@ const Sidebar = (props: SidebarProps) => {
   const pathName = location.pathname;
   const { children } = props;
   const [selectedRoute, setSelectedRoute] = useState(pathName);
-
-  // const isUserAdmin = userHasRole(Roles.Admin);
 
   const classes = useStyles();
   const sidebarClasses = useSidebarStyles();

@@ -84,7 +84,7 @@ const TransferList = (props: TransferListProps) => {
     direction: savedParams?.direction || null,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isTransferDrawerOpen: false
+    isTransferDrawerOpen: true
   });
 
   const getData = useCallback(async () => {

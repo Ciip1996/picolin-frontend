@@ -50,10 +50,9 @@ const Home = () => {
               text={
                 wasReloaded
                   ? `¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`
-                  : 'Cargando...'
+                  : 'Cargando permisos porfavor espere...'
               }
             />
-
             {/* <GlobalSearchbar /> */}
           </Grid>
           {/* <Grid
