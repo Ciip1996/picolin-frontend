@@ -18,8 +18,8 @@ export const useStyles = makeStyles(theme => ({
       ...theme.input['& label']
     },
     '& fieldset': {
-      ...theme.input['& fieldset'],
-      borderColor: props => props.outPutValue && `${colors.darkGrey} !important`
+      ...theme.input['& fieldset']
+      // borderColor: props => props.outPutValue && `${colors.darkGrey} !important`
     },
     '& > div': {
       '& > textarea': {

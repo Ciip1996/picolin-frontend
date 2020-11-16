@@ -13,7 +13,7 @@ export const useChipStyles = makeStyles(() => ({
 
 export const useAutocompleteStyles = makeStyles(theme => ({
   inputRoot: {
-    borderColor: colors.inactiveInputText,
+    // borderColor: colors.inactiveInputText,
     borderRadius: input.borderRadius,
     minHeight: input.height,
     padding: '5px 60px 5px 5px !important',
