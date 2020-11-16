@@ -23,10 +23,18 @@ import DashboardOverview from 'UI/pages/Dashboard/Overview';
 import Notifier from 'UI/components/molecules/Notifier';
 import { FeatureFlags } from 'UI/constants/featureFlags';
 import { getFeatureFlags } from 'UI/utils';
+import { Roles } from 'UI/constants/roles';
+import { userHasRole } from 'services/Authorization';
 
 const featureFlags = getFeatureFlags();
 
 const Routes = () => {
+  const [isUserAdmin, setIsUserAdmin] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsUserAdmin(userHasRole(Roles.Admin));
+  }, []);
+
   return (
     <Router>
       <Notifier />
@@ -38,12 +46,22 @@ const Routes = () => {
           render={() => (isAuthenticated() ? <Redirect to={EntityRoutes.Home} /> : <Login />)}
         />
 
-        <PrivateRoute exact path={EntityRoutes.RegisterUser} component={RegisterUser} />
+        <PrivateRoute
+          exact
+          path={EntityRoutes.RegisterUser}
+          component={RegisterUser}
+          enabled={isUserAdmin}
+        />
         <PrivateRoute exact path={EntityRoutes.Home} component={Home} />
         <PrivateRoute exact path={EntityRoutes.Sales} component={Sales} />
         <PrivateRoute exact path={EntityRoutes.NewSale} component={NewSale} />
         <PrivateRoute exact path={EntityRoutes.Inventory} component={Inventory} />
-        <PrivateRoute exact path={EntityRoutes.Transfers} component={Transfers} />
+        <PrivateRoute
+          exact
+          path={EntityRoutes.Transfers}
+          component={Transfers}
+          enabled={isUserAdmin}
+        />
 
         <PrivateRoute
           exact

@@ -16,6 +16,7 @@ import TextBox from 'UI/components/atoms/TextBox';
 import { Endpoints } from 'UI/constants/endpoints';
 
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
+import { EntityRoutes } from 'routes/constants';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -28,8 +29,6 @@ const LogIn = (props: LogInProps) => {
     isLoading: false
   });
   const { showAlert } = props;
-
-  // const url = `${process.env.REACT_APP_API_URL}/login`;
 
   const history = useHistory();
   const language = localStorage.getItem('language');
@@ -52,14 +51,13 @@ const LogIn = (props: LogInProps) => {
       const response = await API.post(`${Endpoints.Login}`, params);
       if (response) {
         if (response?.status === 200) {
-          // TODO: properly handle token with valid session
           const access = {
             ...response?.data,
             type: 'bearer'
           };
           localStorage.setItem('access', JSON.stringify(access));
           API.defaults.headers.Authorization = `Bearer ${response.data.token}`;
-          history.push('/home'); // TODO: change redirect url later
+          history.push(EntityRoutes.Home);
         }
       }
     } catch (error) {

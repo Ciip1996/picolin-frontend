@@ -9,6 +9,8 @@ import Collapse from '@material-ui/core/Collapse';
 
 import { CollapsibleArrowOpen, CollapsibleArrowClosed } from 'UI/res';
 import { nestTernary } from 'UI/utils';
+// import { Roles } from 'UI/constants/roles';
+// import { userHasRole } from 'services/Authorization';
 import { styles, useStyles, useSidebarStyles } from './styles';
 import sideBarMenu from './SidebarMenu';
 
@@ -45,6 +47,8 @@ const Sidebar = (props: SidebarProps) => {
   const { children } = props;
   const [selectedRoute, setSelectedRoute] = useState(pathName);
 
+  // const isUserAdmin = userHasRole(Roles.Admin);
+
   const classes = useStyles();
   const sidebarClasses = useSidebarStyles();
 
@@ -74,6 +78,7 @@ const Sidebar = (props: SidebarProps) => {
 
   const SidebarSubitem = (SidebarSubitemProps: Object) => {
     const { item } = SidebarSubitemProps;
+
     return item.subItems.map(subitem => {
       const isActive = isActiveItem(subitem, selectedRoute);
       return (
@@ -100,7 +105,6 @@ const Sidebar = (props: SidebarProps) => {
   useEffect(() => {
     setSelectedRoute(location.pathname);
     const parent = getParent(location.pathname);
-
     parent && setOpenedItems(prevState => [...prevState, parent.route]);
   }, [location.pathname]);
 
@@ -122,7 +126,7 @@ const Sidebar = (props: SidebarProps) => {
       <div style={styles.itemWrapper}>{children}</div>
       <div className={classes.root}>
         <List component="nav">
-          {sideBarMenu.map(item =>
+          {sideBarMenu.map((item: Object) =>
             item.subItems ? (
               <div key={item.route} className="nav-link router-link">
                 <ListItem
