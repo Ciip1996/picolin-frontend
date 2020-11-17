@@ -96,8 +96,6 @@ const theme = createMuiTheme({
     // width: 200
   },
   input: {
-    backgroundColor: colors.white,
-    boxShadow: defaultTheme.shadows[1],
     minHeight: input.height,
     borderRadius: input.borderRadius,
     margin: '10px 0',
@@ -237,7 +235,9 @@ const theme = createMuiTheme({
     },
     MuiOutlinedInput: {
       notchedOutline: {
-        borderColor: 'transparent !important'
+        borderColor: 'transparent !important',
+        boxShadow: defaultTheme.shadows[1],
+        backgroundColor: colors.white
       }
     }
   }
