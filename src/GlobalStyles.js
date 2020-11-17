@@ -101,10 +101,12 @@ const theme = createMuiTheme({
     margin: '10px 0',
     width: '100%',
     '& fieldset': {
-      borderRadius: input.borderRadius
+      borderRadius: input.borderRadius,
+      backgroundColor: colors.white
     },
     '& input': {
-      padding: '0px 8px !important'
+      padding: '0px 8px !important',
+      zIndex: 1
     },
     '& label': {
       transform: 'translate(14px, 12px) scale(1)'
@@ -156,7 +158,7 @@ const theme = createMuiTheme({
   overrides: {
     MuiAutocomplete: {
       endAdornment: {
-        zIndex: 1000,
+        zIndex: 1,
         top: 'unset'
       }
     },
@@ -237,8 +239,7 @@ const theme = createMuiTheme({
     MuiOutlinedInput: {
       notchedOutline: {
         borderColor: 'transparent',
-        boxShadow: defaultTheme.shadows[1],
-        backgroundColor: colors.white
+        boxShadow: defaultTheme.shadows[1]
       }
     }
   }
