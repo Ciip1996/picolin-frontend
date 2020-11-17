@@ -14,7 +14,11 @@ const Contents = {
     labInventory: 'INVENTORY',
     addNewProduct: 'New',
     Girl: 'Girl',
-    Boy: 'Boy'
+    Boy: 'Boy',
+    minSalePrice: 'Min Sale Price',
+    minCost: 'Minimun cost',
+    maxSalePrice: 'Max Sale Price',
+    maxCost: 'Maximum Cost'
   },
   Spanish: {
     pageTitle: 'INVENTARIO',
@@ -31,7 +35,11 @@ const Contents = {
     labInventory: 'INVENTARIO',
     addNewProduct: 'Entrada',
     Girl: 'Niña',
-    Boy: 'Niño'
+    Boy: 'Niño',
+    minSalePrice: 'Precio de venta minimo',
+    minCost: 'Costo mínimo',
+    maxSalePrice: 'Max Sale Price',
+    maxCost: 'Maximum Cost'
   }
 };
 export default Contents;
