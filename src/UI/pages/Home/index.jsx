@@ -17,18 +17,20 @@ import { useStyles, styles } from './styles';
 const Home = () => {
   const classes = useStyles();
   const user: User = getCurrentUser();
-  // const data = [
-  //   { title: '1 ROPON mini ariete445', content: '$111,200.00' },
-  //   { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' },
-  //   { title: '1 CALZADO NIÑA NACAR', content: '$119.5' },
-  //   { title: '1 PAÑALEROS BEIGE', content: '$160.0' },
-  //   { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' },
-  //   { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' }
-  // ];
+  const wasReloaded = localStorage.getItem('reloaded');
 
   useEffect(() => {
     document.title = PageTitles.Home;
-  });
+    const forceRefreshingUIRestrictions = () => {
+      // A page reloaded is needed the first time we login in order to refresh the UI components
+      // with access for Admin / employees. Otherwise it wont refresh them.
+      if (!wasReloaded) {
+        localStorage.setItem('reloaded', 'true');
+        window.location.reload();
+      }
+    };
+    forceRefreshingUIRestrictions();
+  }, [wasReloaded]);
 
   return (
     <>
@@ -45,10 +47,12 @@ const Home = () => {
             <TitleLabel
               customStyle={styles.mainTitle}
               fontSize={47}
-              text={`¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`}
+              text={
+                wasReloaded
+                  ? `¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`
+                  : 'Cargando permisos porfavor espere...'
+              }
             />
-            {/* <SalesDetailCard data={data} />
-            <SalesSummary cash={123.0} card={245.23} /> */}
             {/* <GlobalSearchbar /> */}
           </Grid>
           {/* <Grid

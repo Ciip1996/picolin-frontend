@@ -2,8 +2,8 @@
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-import Tooltip from '@material-ui/core/Tooltip';
 import Box from '@material-ui/core/Box';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import InfoLabel from 'UI/components/molecules/InfoLabel';
 import Text from 'UI/components/atoms/Text';

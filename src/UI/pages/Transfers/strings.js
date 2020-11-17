@@ -5,11 +5,12 @@ const Contents = {
     Code: 'Product Code',
     Type: 'Type',
     Color: 'Color',
-    Origin: 'Origin',
+    origin: 'Origin',
     Destination: 'Destination',
     Quantity: 'Quantity',
     PageTitle: 'TRANSFERS',
-    RegistrationDate: 'Transfer Date'
+    RegistrationDate: 'Transfer Date',
+    makeTransfer: 'TRANSFER'
   },
   Spanish: {
     IdTransfer: 'IdTransferencia',
@@ -17,11 +18,12 @@ const Contents = {
     Code: 'Código de Producto',
     Type: 'Tipo',
     Color: 'Color',
-    Origin: 'Origen',
+    origin: 'Origen',
     Destination: 'Destino',
     Quantity: 'Cantidad',
     PageTitle: 'TRANSFERENCIAS',
-    RegistrationDate: 'Fecha de Transferencia'
+    RegistrationDate: 'Fecha de Transferencia',
+    makeTransfer: 'TRANSFERIR'
   }
 };
 export default Contents;

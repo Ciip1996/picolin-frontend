@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -22,10 +22,7 @@ type ErrorPageProps = {
 const ErrorPage = ({ history, error }: ErrorPageProps) => {
   const classes = useStyles();
   const language = localStorage.getItem('language');
-
-  useEffect(() => {
-    document.title = PageTitles.NotFound;
-  }, []);
+  const [errorType, setErrorType] = useState({});
 
   const handleGoBack = () => {
     history.goBack();
@@ -39,46 +36,57 @@ const ErrorPage = ({ history, error }: ErrorPageProps) => {
     window.location.reload();
   };
 
-  const errorType = {
-    image: (
-      <TitleLabel shadow text="Unkown ERROR" fontWeight={700} fontSize={120} color={colors.red} />
-    ),
-    title: Contents[language]?.errTitle,
-    firstRow: Contents[language]?.errTitle2,
-    secondRow: '',
-    buttonText: Contents[language]?.txtbtn,
-    action: handleGoBack
-  };
+  useEffect(() => {
+    document.title = PageTitles.NotFound;
 
-  switch (error) {
-    case 401:
-      errorType.image = <Error401 />;
-      errorType.title = Contents[language]?.err401title;
-      errorType.firstRow = Contents[language]?.err401first;
-      errorType.secondRow = Contents[language]?.err401second;
-      errorType.buttonText = Contents[language]?.err401btn;
-      errorType.action = handleGoHome;
-      break;
-    case 404:
-      errorType.image = <Error404 style={{ marginBottom: 75 }} />;
-      errorType.title = Contents[language]?.err404title;
-      errorType.firstRow = Contents[language]?.err404first;
-      errorType.secondRow = Contents[language]?.err404second;
-      errorType.buttonText = Contents[language]?.err404btn;
-      errorType.action = handleGoBack;
-      break;
-    case 500:
-      errorType.image = <Error500 />;
-      errorType.title = Contents[language]?.err500title;
-      errorType.firstRow = Contents[language]?.err500first;
-      errorType.secondRow = Contents[language]?.err500second;
-      errorType.buttonText = Contents[language]?.err500btn;
-      errorType.action = handleRefreshPage;
-      break;
-    default:
-      // any other problem will be the default
-      break;
-  }
+    setErrorType({
+      image: (
+        <TitleLabel shadow text="Unkown ERROR" fontWeight={700} fontSize={120} color={colors.red} />
+      ),
+      title: Contents[language]?.errTitle,
+      firstRow: Contents[language]?.errTitle2,
+      secondRow: '',
+      buttonText: Contents[language]?.txtbtn,
+      action: handleGoBack
+    });
+
+    switch (error) {
+      case 401:
+        setErrorType({
+          image: <Error401 />,
+          title: Contents[language]?.err401title,
+          firstRow: Contents[language]?.err401first,
+          secondRow: Contents[language]?.err401second,
+          buttonText: Contents[language]?.err401btn,
+          action: handleGoHome
+        });
+        break;
+      case 404:
+        setErrorType({
+          image: <Error404 style={{ marginBottom: 75 }} />,
+          title: Contents[language]?.err404title,
+          firstRow: Contents[language]?.err404first,
+          secondRow: Contents[language]?.err404second,
+          buttonText: Contents[language]?.err404btn,
+          action: handleGoBack
+        });
+        break;
+      case 500:
+        setErrorType({
+          image: <Error500 />,
+          title: Contents[language]?.err500title,
+          firstRow: Contents[language]?.err500first,
+          secondRow: Contents[language]?.err500second,
+          buttonText: Contents[language]?.err500btn,
+          action: handleRefreshPage
+        });
+        break;
+      default:
+        // any other problem will be the default
+        break;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [error, language]);
 
   return (
     <ContentPageLayout>

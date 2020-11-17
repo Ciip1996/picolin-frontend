@@ -1,5 +1,5 @@
 export const colors = {
-  loginBackground: '#FDF7F4',
+  picolinBackground: '#FDF7F4',
   primary: '#E26A93',
   primaryLight: '#e682a4',
   oxford: '#707070',

@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import { FormControl } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
+import Box from '@material-ui/core/Box';
 
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import ActionButton from 'UI/components/atoms/ActionButton';
@@ -444,25 +445,33 @@ const InventoryList = (props: InventoryListProps) => {
 
   return (
     <ContentPageLayout>
-      <div style={{ position: 'absolute', right: 50, top: 180 }}>
-        <ActionButton
-          text={Contents[language]?.addNewProduct}
-          onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
-        >
-          <AddIcon fill={colors.white} size={18} />
-        </ActionButton>
-      </div>
       <ListPageLayout
         loading={loading}
         title={Contents[language]?.labInventory}
         selector={
-          <AutocompleteSelect
-            name="store_filter"
-            placeholder={Contents[language]?.labInventory}
-            url={Endpoints.Stores}
-            selectedValue={filters.store_filter}
-            onSelect={handleFilterChange}
-          />
+          <Box
+            flex={1}
+            display="flex"
+            flexDirection="column"
+            alignItems="flex-start"
+            justifyContent="center"
+            flexWrap="wrap"
+            minWidth={238}
+          >
+            <AutocompleteSelect
+              name="store_filter"
+              placeholder={Contents[language]?.labInventory}
+              url={Endpoints.Stores}
+              selectedValue={filters.store_filter}
+              onSelect={handleFilterChange}
+            />
+            <ActionButton
+              text={Contents[language]?.addNewProduct}
+              onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
+            >
+              <AddIcon fill={colors.white} size={18} />
+            </ActionButton>
+          </Box>
         }
         filters={filters}
         onFilterRemove={handleFilterRemove}
