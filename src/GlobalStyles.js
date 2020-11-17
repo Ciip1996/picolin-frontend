@@ -156,6 +156,7 @@ const theme = createMuiTheme({
   overrides: {
     MuiAutocomplete: {
       endAdornment: {
+        zIndex: 1000,
         top: 'unset'
       }
     },
@@ -235,7 +236,7 @@ const theme = createMuiTheme({
     },
     MuiOutlinedInput: {
       notchedOutline: {
-        borderColor: 'transparent !important',
+        borderColor: 'transparent',
         boxShadow: defaultTheme.shadows[1],
         backgroundColor: colors.white
       }
