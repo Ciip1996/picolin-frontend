@@ -33,7 +33,7 @@ export const useAutocompleteStyles = makeStyles(theme => ({
       transform: 'translate(14px, 13px) scale(1)',
       padding: '0 !important',
       '& fieldset': {
-        borderColor: colors.componentFill,
+        // borderColor: colors.componentFill,
         borderWidth: 1
       }
     }
@@ -55,7 +55,7 @@ export const useStyles = makeStyles(() => ({
     maxWidth: 1024,
     height: input.height,
     borderRadius: input.borderRadius,
-    borderColor: colors.transparent,
+    // borderColor: colors.transparent,
     borderWidth: 0,
     position: 'relative',
     '&:hover': {

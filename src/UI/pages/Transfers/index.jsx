@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import { FormControl } from '@material-ui/core';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
+import ActionButton from 'UI/components/atoms/ActionButton';
 
 import { showAlert } from 'actions/app';
 import { drawerAnchor, PageTitles, DateFormats } from 'UI/constants/defaults';
@@ -20,14 +21,14 @@ import TransferProductsDrawer from 'UI/components/molecules/TransferDrawer';
 import Drawer from '@material-ui/core/Drawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
-// import Box from '@material-ui/core/Box';
+import Box from '@material-ui/core/Box';
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
 import { getErrorMessage, toLocalTime } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters, saveFilters } from 'services/FiltersStorage';
-// import ActionButton from 'UI/components/atoms/ActionButton';
+import { AddIcon, colors } from 'UI/res';
 
 import Contents from './strings';
 
@@ -78,9 +79,9 @@ const TransferList = (props: TransferListProps) => {
   };
 
   const [uiState, setUiState] = useState({
-    keyword: savedParams?.keyword || null,
-    orderBy: savedParams?.orderBy || null,
-    direction: savedParams?.direction || null,
+    keyword: savedParams?.keyword || undefined,
+    orderBy: savedParams?.orderBy || undefined,
+    direction: savedParams?.direction || undefined,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
     isTransferDrawerOpen: false
@@ -99,8 +100,9 @@ const TransferList = (props: TransferListProps) => {
       } = filters;
 
       const params = {
-        keyword: uiState.keyword || undefined,
-        // orderBy: uiState.orderBy,
+        keyword: uiState.keyword,
+        orderBy: uiState.orderBy,
+        direction: uiState.direction,
         page: uiState.page + 1,
         perPage: uiState.perPage,
         gender: gender_filter?.title,
@@ -137,8 +139,16 @@ const TransferList = (props: TransferListProps) => {
         body: getErrorMessage(err)
       });
     }
-  }, [filters, onShowAlert, uiState.keyword, uiState.page, uiState.perPage, language]);
-
+  }, [
+    filters,
+    onShowAlert,
+    uiState.keyword,
+    uiState.page,
+    uiState.perPage,
+    language,
+    uiState.orderBy,
+    uiState.direction
+  ]);
   const handleSearchChange = newKeyword => {
     setSearching(true);
     setUiState(prevState => ({
@@ -326,7 +336,7 @@ const TransferList = (props: TransferListProps) => {
     },
     {
       name: 'origin',
-      label: Contents[language]?.Origin,
+      label: Contents[language]?.origin,
       options: {
         filter: true,
         sort: true,
@@ -342,7 +352,7 @@ const TransferList = (props: TransferListProps) => {
               <FormControl>
                 <AutocompleteSelect
                   name="origin_filter"
-                  placeholder={Contents[language]?.Origin}
+                  placeholder={Contents[language]?.origin}
                   url={Endpoints.Stores}
                   selectedValue={filters.origin_filter}
                   onSelect={handleFilterChange}
@@ -432,6 +442,13 @@ const TransferList = (props: TransferListProps) => {
     getData();
   }, [error, getData]);
 
+  const onTransferCompleted = () => {
+    setUiState(prevState => ({ ...prevState, isTransferDrawerOpen: false }));
+    setSearching(true);
+    setLoading(true);
+    getData();
+  };
+
   return (
     <ContentPageLayout>
       <ListPageLayout
@@ -440,11 +457,31 @@ const TransferList = (props: TransferListProps) => {
         filters={filters}
         onFilterRemove={handleFilterRemove}
         onFiltersReset={handleResetFiltersClick}
+        selector={
+          <Box
+            flex={1}
+            display="flex"
+            flexDirection="column"
+            alignItems="flex-start"
+            justifyContent="center"
+            flexWrap="wrap"
+            minWidth={238}
+          >
+            <ActionButton
+              text={Contents[language]?.makeTransfer}
+              onClick={toggleDrawer('isTransferDrawerOpen', !uiState.isTransferDrawerOpen)}
+            >
+              <AddIcon fill={colors.white} size={18} />
+            </ActionButton>
+          </Box>
+        }
       >
         <DataTable
           error={error}
           loading={loading}
           data={data}
+          orderBy={uiState.orderBy}
+          direction={uiState.direction}
           columns={columns}
           count={count}
           page={uiState.page}
@@ -470,8 +507,9 @@ const TransferList = (props: TransferListProps) => {
       >
         <div role="presentation">
           <TransferProductsDrawer
+            onTransfered={onTransferCompleted}
             onShowAlert={onShowAlert}
-            handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
+            handleClose={toggleDrawer('isTransferDrawerOpen', false)}
           />
         </div>
       </Drawer>

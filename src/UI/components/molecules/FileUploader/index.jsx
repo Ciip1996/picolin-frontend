@@ -2,6 +2,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import Box from '@material-ui/core/Box';
+import Fab from '@material-ui/core/Fab';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 // TODO: check the functionality of this section
 import API from 'services/API';
 import FileSelectorButton from 'UI/components/molecules/FileSelectorButton';
@@ -13,12 +16,9 @@ import InputContainer from 'UI/components/atoms/InputContainer';
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 import { colors, EmptyFiles, UploadFile } from 'UI/res';
 
-import { globalStyles } from 'GlobalStyles';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
-import CircularProgress from '@material-ui/core/CircularProgress';
-import Tooltip from '@material-ui/core/Tooltip';
-import Fab from '@material-ui/core/Fab';
 import ActionButton from 'UI/components/atoms/ActionButton';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { styles } from './styles';
 
@@ -259,7 +259,7 @@ const FileUploader = (props: FileUploaderProps) => {
                     />
                   );
                 })}
-              <div style={globalStyles.floatingButtonContainer}>
+              <div style={styles.floatingButtonContainer}>
                 <FileSelectorButton onFileChange={handleFileUpload}>
                   <Tooltip title="UPLOAD FILES" placement="left">
                     <Fab

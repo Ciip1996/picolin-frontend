@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
-import { BackgroundGraphic, colors } from 'UI/res';
+// import { BackgroundGraphic, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
 // import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
@@ -17,22 +17,24 @@ import { useStyles, styles } from './styles';
 const Home = () => {
   const classes = useStyles();
   const user: User = getCurrentUser();
-  // const data = [
-  //   { title: '1 ROPON mini ariete445', content: '$111,200.00' },
-  //   { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' },
-  //   { title: '1 CALZADO NIÑA NACAR', content: '$119.5' },
-  //   { title: '1 PAÑALEROS BEIGE', content: '$160.0' },
-  //   { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' },
-  //   { title: '1 CALCETAS NIÑA BEIGE', content: '$28.6' }
-  // ];
+  const wasReloaded = localStorage.getItem('reloaded');
 
   useEffect(() => {
     document.title = PageTitles.Home;
-  });
+    const forceRefreshingUIRestrictions = () => {
+      // A page reloaded is needed the first time we login in order to refresh the UI components
+      // with access for Admin / employees. Otherwise it wont refresh them.
+      if (!wasReloaded) {
+        localStorage.setItem('reloaded', 'true');
+        window.location.reload();
+      }
+    };
+    forceRefreshingUIRestrictions();
+  }, [wasReloaded]);
 
   return (
     <>
-      <BackgroundGraphic fill={colors.backgroundGraphic} className={classes.backgroundImg} />
+      {/* <BackgroundGraphic fill={colors.backgroundGraphic} className={classes.backgroundImg} /> */}
       <ContentPageLayout>
         <div className={classes.root}>
           <Grid
@@ -45,10 +47,12 @@ const Home = () => {
             <TitleLabel
               customStyle={styles.mainTitle}
               fontSize={47}
-              text={`¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`}
+              text={
+                wasReloaded
+                  ? `¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`
+                  : 'Cargando permisos porfavor espere...'
+              }
             />
-            {/* <SalesDetailCard data={data} />
-            <SalesSummary cash={123.0} card={245.23} /> */}
             {/* <GlobalSearchbar /> */}
           </Grid>
           {/* <Grid

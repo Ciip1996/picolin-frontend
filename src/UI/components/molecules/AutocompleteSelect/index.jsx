@@ -43,7 +43,8 @@ type AutocompleteSelectProps = {
   getOptionSelected?: (option: any, value: any) => boolean,
   getOptionLabel?: (option: any) => string,
   showAlert: any => void,
-  dataFetchKeyName: string
+  dataFetchKeyName: string,
+  disabled: boolean
 };
 
 const AutocompleteSelect = (props: AutocompleteSelectProps) => {
@@ -70,6 +71,7 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
     getOptionLabel,
     showAlert,
     dataFetchKeyName,
+    disabled,
     ...rest
   } = props;
 
@@ -208,7 +210,8 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
       groupBy={groupBy}
       onChange={handleChange}
       value={selectedValue}
-      classes={disabledItemsFocusable ? classesDisabled : classes}
+      disabled={disabled}
+      classes={disabled || disabledItemsFocusable ? classesDisabled : classes}
       {...typeaheadProps}
       {...rest}
       renderInput={params => (

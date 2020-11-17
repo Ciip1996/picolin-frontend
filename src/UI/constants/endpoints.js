@@ -6,16 +6,19 @@ export const Endpoints = {
   GetSales: '/getSales/:idStore',
   Transfers: '/transfers',
   GetTransfers: '/getTransfer/:idStore',
+  InsertTransfer: '/insertTransfer',
   Roles: 'lists/roles',
   Dashboard: 'dashboard',
   Colors: 'lists/getColors',
   Stores: 'lists/getStore',
   Types: 'lists/getTypes',
   Characteristics: 'lists/getCharacteristics',
-  Provider: 'lists/getProviders', // todo: create on back
+  Provider: 'lists/getProviders',
   Sizes: 'lists/getSizes',
   Genders: 'lists/getGenders',
   Users: 'lists/getUsers',
   PaymentMethods: 'lists/getPaymentMethods',
-  Login: '/login'
+  Login: '/login',
+  RegisterUser: '/registerUser',
+  GetRoles: 'lists/getRoles'
 };

@@ -1,21 +1,27 @@
 const Contents = {
   English: {
-    Store: 'Store',
-    Warehouse: 'Warehouse',
-    TransProducts: 'TRANSFER PRODUCTS',
-    Destiny: 'Destiny',
-    Origin: 'Origin',
+    origin: 'Origin',
+    Destination: 'Destination',
     Products: 'Products',
-    Placeholder: 'Write the code'
+    Title: 'Transfer Products',
+    Subtitle: 'Select the products you may want to transfer from one inventory to another.',
+    FirstStep: '1. You have to choose the store origin and store destination.',
+    SecondStep: '2. Then you can pick the products and the amount of each one.',
+    requiredField: 'This field is required.',
+    sameStore: `Can't select the same store please select another one.`,
+    emptyProductList: 'Your products list cannot be empty.'
   },
   Spanish: {
-    Store: 'Tienda',
-    Warehouse: 'Bodega',
-    TransProducts: 'TRANSFERIR PRODUCTOS',
-    Destiny: 'Destino',
-    Origin: 'Origen',
+    origin: 'Origen',
+    Destination: 'Destino',
     Products: 'Productos',
-    Placeholder: 'Escriba o registre el código de barras'
+    Title: 'Transferir Productos',
+    Subtitle: 'Seleccione los productos que desea transferir de un inventario a otro.',
+    FirstStep: '1. Debe seleccionar de donde a donde desea trasferir los productos.',
+    SecondStep: '2. Ahora debe seleccionar cuales y cuantos productos desea transferir.',
+    requiredField: 'Este campo es requerido.',
+    sameStore: `Debes elegir ubicaciones diferentes.`,
+    emptyProductList: 'Su lista de productos no puede estar vacia.'
   }
 };
 export default Contents;

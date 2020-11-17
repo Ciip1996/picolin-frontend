@@ -8,7 +8,6 @@ import NavBar from 'UI/components/organisms/NavBar';
 import ActionButton from 'UI/components/atoms/ActionButton';
 
 import { AddIcon, colors } from 'UI/res';
-import { globalStyles } from 'GlobalStyles';
 import { sideBarWidth, navBarHeight } from 'UI/constants/dimensions';
 import { EntityRoutes } from 'routes/constants';
 
@@ -33,6 +32,11 @@ const MainLayout = ({ children, ...rest }: Object) => {
       zIndex: 101,
       borderRight: `1px solid ${colors.middleGrey}`,
       height: `calc(100% - ${navBarHeight}px)`
+    },
+    flexContentWrapper: {
+      height: '100%',
+      flex: 1,
+      display: 'flex'
     }
   };
 
@@ -44,10 +48,15 @@ const MainLayout = ({ children, ...rest }: Object) => {
     <ScrollToTop>
       <div className="App" style={styles.App}>
         <NavBar />
-        <div style={globalStyles.flexContentWrapper}>
+        <div style={styles.flexContentWrapper}>
           <div style={styles.sidebar}>
             <Sidebar>
-              <ActionButton disabled text="Nueva Venta" onClick={GoToNewPage}>
+              <ActionButton
+                style={{ width: 200, minHeight: 48 }}
+                text="Nueva Venta"
+                onClick={GoToNewPage}
+                variant="important"
+              >
                 <AddIcon fill={colors.white} size={18} />
               </ActionButton>
             </Sidebar>

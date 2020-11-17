@@ -74,9 +74,9 @@ const SalesList = (props: SalesListProps) => {
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
   const [uiState, setUiState] = useState({
-    keyword: savedParams?.keyword || null,
-    orderBy: savedParams?.orderBy || null,
-    direction: savedParams?.direction || null,
+    keyword: savedParams?.keyword || undefined,
+    orderBy: savedParams?.orderBy || undefined,
+    direction: savedParams?.direction || undefined,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
     isTransferDrawerOpen: true
@@ -94,8 +94,9 @@ const SalesList = (props: SalesListProps) => {
       } = filters;
 
       const params = {
-        keyword: uiState.keyword || undefined,
-        // orderBy: uiState.orderBy,
+        keyword: uiState.keyword,
+        orderBy: uiState.orderBy,
+        direction: uiState.direction,
         page: uiState.page + 1,
         perPage: uiState.perPage,
         date: date_filter?.filterWord,
@@ -133,7 +134,16 @@ const SalesList = (props: SalesListProps) => {
         body: getErrorMessage(err)
       });
     }
-  }, [filters, onShowAlert, uiState.keyword, uiState.page, uiState.perPage, language]);
+  }, [
+    filters,
+    onShowAlert,
+    uiState.keyword,
+    uiState.page,
+    uiState.perPage,
+    language,
+    uiState.orderBy,
+    uiState.direction
+  ]);
 
   const handleSearchChange = newKeyword => {
     setSearching(true);
@@ -211,9 +221,13 @@ const SalesList = (props: SalesListProps) => {
       name: 'idSale',
       options: {
         filter: true,
-        sort: false,
-        display: 'excluded',
-        filterType: 'custom'
+        sort: true,
+        display: columnItems[0].display,
+        sortDirection: sortDirection[0],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
       }
     },
     {
@@ -222,8 +236,8 @@ const SalesList = (props: SalesListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[0].display,
-        sortDirection: sortDirection[0],
+        display: columnItems[1].display,
+        sortDirection: sortDirection[1],
         customBodyRender: value => {
           const localTime = toLocalTime(value);
           const formattedDate =
@@ -264,8 +278,8 @@ const SalesList = (props: SalesListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[1].display,
-        sortDirection: sortDirection[1],
+        display: columnItems[2].display,
+        sortDirection: sortDirection[2],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
@@ -299,8 +313,8 @@ const SalesList = (props: SalesListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[2].display,
-        sortDirection: sortDirection[2],
+        display: columnItems[3].display,
+        sortDirection: sortDirection[3],
         filterType: 'custom',
         filterOptions: {
           display: () => {
@@ -329,8 +343,8 @@ const SalesList = (props: SalesListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[3].display,
-        sortDirection: sortDirection[3],
+        display: columnItems[4].display,
+        sortDirection: sortDirection[4],
         filterType: 'custom',
         filterOptions: {
           display: () => {
@@ -358,8 +372,8 @@ const SalesList = (props: SalesListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[4].display,
-        sortDirection: sortDirection[4],
+        display: columnItems[5].display,
+        sortDirection: sortDirection[5],
         filterType: 'custom',
         filterOptions: {
           display: () => {
@@ -387,8 +401,8 @@ const SalesList = (props: SalesListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[5].display,
-        sortDirection: sortDirection[5],
+        display: columnItems[6].display,
+        sortDirection: sortDirection[6],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
@@ -435,6 +449,8 @@ const SalesList = (props: SalesListProps) => {
           data={data}
           columns={columns}
           count={count}
+          orderBy={uiState.orderBy}
+          direction={uiState.direction}
           page={uiState.page}
           rowsPerPage={uiState.perPage}
           searchText={uiState.keyword}

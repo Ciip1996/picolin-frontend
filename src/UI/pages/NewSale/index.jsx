@@ -18,7 +18,7 @@ import ItemCard from 'UI/components/organisms/ItemCard';
 /** API / EntityRoutes / Endpoints / EntityType */
 // import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import type { Map } from 'types';
+import type { MapType } from 'types';
 
 import { PageTitles } from 'UI/constants/defaults';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -36,7 +36,7 @@ const NewSaleList = () => {
 
   // const [searching, setSearching] = useState(false);
   // const [loading, setLoading] = useState(false); // TODO: change to true when the fetching is working
-  const [comboValues, setComboValues] = useState<Map>({});
+  const [comboValues, setComboValues] = useState<MapType>({});
 
   // const [uiState, setUiState] = useState({
   //   keyword: null,
@@ -71,7 +71,7 @@ const NewSaleList = () => {
   // };
 
   const handleComboChange = (name: string, value: any) => {
-    setComboValues((prevState: Map): Map => ({ ...prevState, [name]: value }));
+    setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
     // setValue(name, value?.id ? value?.id : value?.title, true);
   };
 
@@ -95,8 +95,6 @@ const NewSaleList = () => {
               name="producto"
               selectedValue={comboValues.producto}
               placeholder="Producto"
-              // error={!!errors.producto}
-              // errorText={errors.producto && errors.producto.message}
               url={searchingProductsUrl}
               displayKey="name"
               typeahead
