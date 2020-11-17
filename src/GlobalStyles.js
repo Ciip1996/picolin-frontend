@@ -100,6 +100,9 @@ const theme = createMuiTheme({
     borderRadius: input.borderRadius,
     margin: '10px 0',
     width: '100%',
+    '& .MuiOutlinedInput-input:-webkit-autofill': {
+      borderRadius: '24px !important'
+    },
     '& fieldset': {
       borderRadius: input.borderRadius,
       backgroundColor: colors.white
@@ -109,7 +112,8 @@ const theme = createMuiTheme({
       zIndex: 1
     },
     '& label': {
-      transform: 'translate(14px, 12px) scale(1)'
+      transform: 'translate(14px, 12px) scale(1)',
+      zIndex: 2
     }
   },
   modalSettings: {
