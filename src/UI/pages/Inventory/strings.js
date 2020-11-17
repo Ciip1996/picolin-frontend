@@ -38,8 +38,8 @@ const Contents = {
     Boy: 'Niño',
     minSalePrice: 'Precio de venta minimo',
     minCost: 'Costo mínimo',
-    maxSalePrice: 'Max Sale Price',
-    maxCost: 'Maximum Cost'
+    maxSalePrice: 'Precio de venta máximo',
+    maxCost: 'Costo máximo'
   }
 };
 export default Contents;

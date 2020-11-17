@@ -138,7 +138,7 @@ const TransferList = (props: TransferListProps) => {
         body: getErrorMessage(err)
       });
     }
-  },[
+  }, [
     filters,
     onShowAlert,
     uiState.keyword,

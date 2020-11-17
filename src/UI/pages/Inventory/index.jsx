@@ -99,9 +99,7 @@ const InventoryList = (props: InventoryListProps) => {
         minSalePrice_filter = {},
         maxSalePrice_filter = {},
         minCost_filter = {},
-        maxCost_filter = {},
-
-
+        maxCost_filter = {}
       } = filters;
 
       const params = {
