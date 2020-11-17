@@ -20,7 +20,7 @@ import Contents from './strings';
 type TransferDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
-  onTransfered: any => any
+  onTransfered: () => any
 };
 
 const TransferDrawer = (props: TransferDrawerProps) => {
@@ -43,7 +43,6 @@ const TransferDrawer = (props: TransferDrawerProps) => {
       const products = Object.entries(rest).map(([key, value]) => {
         return { productCode: key, quantity: value };
       });
-      debugger;
       const params = {
         idDestination,
         idOrigin,
@@ -51,19 +50,18 @@ const TransferDrawer = (props: TransferDrawerProps) => {
       };
       const response = await API.post(`${Endpoints.Transfers}${Endpoints.InsertTransfer}`, params);
       if (response) {
-        const { productCode } = response?.data;
         onShowAlert({
           severity: 'success',
-          title: 'Transferencia Eitosa',
+          title: 'Transferencia Exitosa',
           autoHideDuration: 3000,
-          body: 'Se han transferido los productos de ${} a ${}'
+          body: `Se han transferido los productos de ${comboValues.idOrigin.title} a ${comboValues.idDestination.title}`
         });
-        productCode && onTransfered(productCode);
+        onTransfered();
       }
     } catch (err) {
       onShowAlert({
         severity: 'error',
-        title: 'Error',
+        title: 'Error al transferir',
         autoHideDuration: 3000,
         body: 'Ocurrio un problema'
       });
@@ -169,12 +167,12 @@ const TransferDrawer = (props: TransferDrawerProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [register]);
 
-  const Separator = () => <span style={{ width: 20 }} />;
-
   useEffect(() => {
-    console.log(productsList);
-    // debugger;
-  }, [productsList]);
+    if (productsList.length === 0 && comboValues.idOrigin && comboValues.idDestination)
+      setValue('products', undefined, true);
+  }, [comboValues.idDestination, comboValues.idOrigin, productsList, setValue]);
+
+  const Separator = () => <span style={{ width: 20 }} />;
 
   return (
     <>

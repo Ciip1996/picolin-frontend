@@ -84,7 +84,7 @@ const TransferList = (props: TransferListProps) => {
     direction: savedParams?.direction || null,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isTransferDrawerOpen: true
+    isTransferDrawerOpen: false
   });
 
   const getData = useCallback(async () => {
@@ -433,6 +433,13 @@ const TransferList = (props: TransferListProps) => {
     getData();
   }, [error, getData]);
 
+  const onTransferCompleted = () => {
+    setUiState(prevState => ({ ...prevState, isTransferDrawerOpen: false }));
+    setSearching(true);
+    setLoading(true);
+    getData();
+  };
+
   return (
     <ContentPageLayout>
       <ListPageLayout
@@ -489,11 +496,9 @@ const TransferList = (props: TransferListProps) => {
       >
         <div role="presentation">
           <TransferProductsDrawer
-            onTransfered={() => {
-              debugger;
-            }}
+            onTransfered={onTransferCompleted}
             onShowAlert={onShowAlert}
-            handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
+            handleClose={toggleDrawer('isTransferDrawerOpen', false)}
           />
         </div>
       </Drawer>
