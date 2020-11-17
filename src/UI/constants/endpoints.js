@@ -6,6 +6,7 @@ export const Endpoints = {
   GetSales: '/getSales/:idStore',
   Transfers: '/transfers',
   GetTransfers: '/getTransfer/:idStore',
+  InsertTransfer: '/insertTransfer',
   Roles: 'lists/roles',
   Dashboard: 'dashboard',
   Colors: 'lists/getColors',

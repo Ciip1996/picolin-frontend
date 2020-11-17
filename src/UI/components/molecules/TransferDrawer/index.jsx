@@ -32,38 +32,31 @@ const TransferDrawer = (props: TransferDrawerProps) => {
   const classes = useStyles();
 
   const form = useForm();
-  const {
-    register,
-    errors,
-    handleSubmit,
-    setValue,
-    watch,
-    // triggerValidation,
-    setError,
-    // getValues,
-    clearError,
-    unregister,
-    reset
-  } = form;
+  const { register, errors, handleSubmit, setValue, watch, unregister, reset } = form;
 
   // const vals = getValues();
   // console.log(vals);
 
   const onSubmit = async (formData: Object) => {
     try {
-      console.log(productsList);
+      const { idDestination, idOrigin, products: isProductsAvailable, ...rest } = formData;
+      const products = Object.entries(rest).map(([key, value]) => {
+        return { productCode: key, quantity: value };
+      });
       debugger;
-      const response = await API.post(
-        `${Endpoints.Inventory}${Endpoints.InsertInventory}`,
-        formData
-      );
+      const params = {
+        idDestination,
+        idOrigin,
+        products
+      };
+      const response = await API.post(`${Endpoints.Transfers}${Endpoints.InsertTransfer}`, params);
       if (response) {
         const { productCode } = response?.data;
         onShowAlert({
           severity: 'success',
-          title: 'Producto Agregado',
+          title: 'Transferencia Eitosa',
           autoHideDuration: 3000,
-          body: 'Inserción Exitosa'
+          body: 'Se han transferido los productos de ${} a ${}'
         });
         productCode && onTransfered(productCode);
       }
@@ -123,21 +116,13 @@ const TransferDrawer = (props: TransferDrawerProps) => {
   };
 
   const onModifyAmountOfItem = (productCode: Object, quantity: any, stock: number) => {
-    debugger;
     const updatedProducts = productsList.map((each: Object) => {
       if (each?.product?.productCode === productCode) {
         const isStockUnavailable = quantity ? stock < quantity : stock < 0;
         if (isStockUnavailable) {
-          // setError(
-          //   productCode,
-          //   'max',
-          //   `Insuficiente Stock: Solo hay ${stock} piezas en existencia`
-          // );
           setValue(productCode, quantity, true);
         } else {
-          debugger;
           setValue(productCode, quantity || 0, true);
-          // clearError(productCode);
         }
         return { ...each, quantity: parseInt(quantity, 10) };
       }
