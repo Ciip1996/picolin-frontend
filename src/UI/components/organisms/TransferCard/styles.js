@@ -13,7 +13,8 @@ export const useStyles = makeStyles(theme => ({
     borderBottomRightRadius: 26,
     marginTop: '26px',
     background: 'white',
-    padding: 24
+    padding: 24,
+    border: props => props.error && '1px solid red'
   },
   header: {
     display: 'flex',
@@ -48,5 +49,9 @@ export const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.error.main,
     color: colors.white
   },
-  deleteButtonWrapper: { position: 'absolute', right: 15, top: 15 }
+  deleteButtonWrapper: { position: 'absolute', right: 15, top: 15 },
+  errorMessage: {
+    position: 'absolute',
+    top: 8
+  }
 }));

@@ -1,9 +1,10 @@
 // @flow
 import React, { useState, useEffect } from 'react';
 import { FormContext, useForm } from 'react-hook-form';
+import Box from '@material-ui/core/Box';
+import Divider from '@material-ui/core/Divider';
 
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
-import Box from '@material-ui/core/Box';
 import Text from 'UI/components/atoms/Text';
 import InputContainer from 'UI/components/atoms/InputContainer';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -16,13 +17,13 @@ import { globalStyles } from 'GlobalStyles';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-type TransferProductsDrawerProps = {
+type TransferDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
   onTransfered: any => any
 };
 
-const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
+const TransferDrawer = (props: TransferDrawerProps) => {
   const { handleClose, onShowAlert, onTransfered } = props;
   const language = localStorage.getItem('language');
   const [comboValues, setComboValues] = useState<MapType>({});
@@ -30,35 +31,28 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
 
   const classes = useStyles();
 
-  const form = useForm({
-    defaultValues: {}
-  });
-  const { handleSubmit, register, errors, setValue } = form;
+  const form = useForm();
+  const {
+    register,
+    errors,
+    handleSubmit,
+    setValue,
+    watch,
+    // triggerValidation,
+    setError,
+    // getValues,
+    clearError,
+    unregister,
+    reset
+  } = form;
 
-  const [uiState, setUiState] = useState({
-    isSaving: false,
-    isSuccess: false,
-    isReadOnly: false,
-    isFormDisabled: false,
-    isLoading: true
-  });
-
-  useEffect(() => {
-    setUiState(prevState => ({
-      // TODO remove this is only for eslint not to crash
-      ...prevState
-    }));
-  }, []);
-
-  useEffect(() => {
-    setUiState(prevState => ({
-      // TODO remove this is only for eslint not to crash
-      ...prevState
-    }));
-  }, []);
+  // const vals = getValues();
+  // console.log(vals);
 
   const onSubmit = async (formData: Object) => {
     try {
+      console.log(productsList);
+      debugger;
       const response = await API.post(
         `${Endpoints.Inventory}${Endpoints.InsertInventory}`,
         formData
@@ -84,145 +78,209 @@ const TransferProductsDrawer = (props: TransferProductsDrawerProps) => {
     }
   };
 
-  const handleComboChange = (name: string, value: any) => {
+  const handleComboChange = (name?: string, value: any) => {
+    if (productsList.length > 0) {
+      // reset the form if there is a change in the selects
+      setProductsList([]);
+      setComboValues({});
+      reset();
+      registerFormField();
+    }
     setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
-    setValue(name, value?.id ? value?.id : value?.title, true);
+    setValue(name, value ? value.id : value, true);
   };
 
   const handleAddProduct = (name: string, value: any) => {
     setProductsList(prevState => {
       // validate that the item has not been added already (removes duplicates)
-      if (prevState.length === 0) return [...prevState, { ...value }];
-      const doesNotExistInArray = prevState.some(each => each.productCode === value.productCode);
+      if (prevState.length === 0) {
+        return [...prevState, { product: { ...value }, quantity: 1 }];
+      }
+      const doesNotExistInArray = prevState.some(
+        each => each.product.productCode === value.productCode
+      );
       if (doesNotExistInArray) return prevState;
-      return [...prevState, { ...value }];
+      return [...prevState, { product: { ...value }, quantity: 1 }];
     });
+    setValue(name, value ? true : undefined, true);
   };
-
-  useEffect(() => {
-    register({ name: 'copies' }, { required: `${Contents[language]?.CopiesRequired}` });
-  }, [language, register]);
-
-  const Separator = () => <span style={{ width: 20 }} />;
 
   const defaultOptionSelectedFn = (option, value) => option.id === value.id;
   const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
     ':idStore',
-    'All'
+    comboValues?.idOrigin?.id ? comboValues?.idOrigin?.id : ''
   );
 
-  const example = {
-    idInventory: 20,
-    productCode: 'PDIDOJU2012',
-    description: ' tiene incrustacion de oro falso',
-    characteristic: 'Lino',
-    provider: 'Ropones de san juan',
-    color: 'Dorado',
-    size: 3,
-    pieces: 7,
-    salePrice: 399,
-    cost: 199,
-    gender: 'niño',
-    type: 'Vestido',
-    stock: 1,
-    reservedQuantity: 0,
-    store: 'Tienda Centro'
+  const onRemoveProduct = (productCode: string) => {
+    setProductsList(prevState => {
+      // remove item with productCode
+      const filteredArray = prevState.filter(
+        (each: Object) => each.product.productCode !== productCode
+      );
+      return [...filteredArray];
+    });
+    unregister(productCode);
   };
+
+  const onModifyAmountOfItem = (productCode: Object, quantity: any, stock: number) => {
+    debugger;
+    const updatedProducts = productsList.map((each: Object) => {
+      if (each?.product?.productCode === productCode) {
+        const isStockUnavailable = quantity ? stock < quantity : stock < 0;
+        if (isStockUnavailable) {
+          // setError(
+          //   productCode,
+          //   'max',
+          //   `Insuficiente Stock: Solo hay ${stock} piezas en existencia`
+          // );
+          setValue(productCode, quantity, true);
+        } else {
+          debugger;
+          setValue(productCode, quantity || 0, true);
+          // clearError(productCode);
+        }
+        return { ...each, quantity: parseInt(quantity, 10) };
+      }
+      return each;
+    });
+    setProductsList(updatedProducts);
+  };
+
+  const isProductFieldEnabled =
+    comboValues.idOrigin &&
+    comboValues.idDestination &&
+    comboValues.idOrigin.id !== comboValues.idDestination.id &&
+    !errors.idDestination &&
+    !errors.idOrigin;
+
+  const registerFormField = () => {
+    register(
+      { name: 'idOrigin' },
+      {
+        required: `${Contents[language]?.requiredField}`,
+        validate: value => {
+          return value !== watch('idDestination') || `${Contents[language]?.sameStore}`;
+        }
+      }
+    );
+    register(
+      { name: 'idDestination' },
+      {
+        required: `${Contents[language]?.requiredField}`,
+        validate: value => {
+          return value !== watch('idOrigin') || `${Contents[language]?.sameStore}`;
+        }
+      }
+    );
+    register(
+      { name: 'products' },
+      {
+        required: `${Contents[language]?.emptyProductList}`
+      }
+    );
+  };
+  useEffect(() => {
+    registerFormField();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [register]);
+
+  const Separator = () => <span style={{ width: 20 }} />;
+
+  useEffect(() => {
+    console.log(productsList);
+    // debugger;
+  }, [productsList]);
 
   return (
     <>
-      <FormContext {...form}>
-        <DrawerFormLayout
-          title={Contents[language]?.Title}
-          onSubmit={handleSubmit(onSubmit)}
-          onClose={handleClose}
-          onSecondaryButtonClick={handleClose}
-          variant="borderless"
-          uiState={uiState}
-          initialText="Agregar"
-        >
-          <form className={classes.root} noValidate autoComplete="off" />
-          <Box>
-            <div style={globalStyles.feeDrawerslabel}>
-              <Text variant="body1" text={Contents[language]?.Subtitle} fontSize={14} />
-
-              <InputContainer>
-                <AutocompleteSelect
-                  name="idOrigin"
-                  selectedValue={comboValues.idOrigin}
-                  placeholder={Contents[language]?.Origin}
-                  error={!!errors?.idOrigin}
-                  errorText={errors?.idOrigin && errors?.idOrigin.message}
-                  onSelect={handleComboChange}
-                  url={Endpoints.Stores}
-                />
-                <Separator />
-                <AutocompleteSelect
-                  name="idDestination"
-                  selectedValue={comboValues.idDestination}
-                  placeholder={Contents[language]?.Destination}
-                  error={!!errors?.idDestination}
-                  errorText={errors?.idDestination && errors?.idDestination.message}
-                  onSelect={handleComboChange}
-                  url={Endpoints.Stores}
-                />
-              </InputContainer>
-              <InputContainer>
-                <AutocompleteSelect
-                  name="products"
-                  // selectedValue={comboValues.producto}
-                  placeholder="Escriba un Producto"
-                  url={searchingProductsUrl}
-                  displayKey="name"
-                  typeahead
-                  typeaheadLimit={25}
-                  onSelect={handleAddProduct}
-                  getOptionSelected={defaultOptionSelectedFn}
-                  dataFetchKeyName="inventory"
-                  renderOption={option => {
-                    return (
-                      <div>
-                        <strong>{option.productCode}</strong>
-                        <br />
-                        <span>{option.type}</span> | <span>{option.gender}</span> |
-                        <span>{option.characteristic}</span>| <span>{option.color}</span>
-                      </div>
-                    );
-                  }}
-                />
-              </InputContainer>
-              <div>
-                <TransferCard />
-                <TransferCard
-                  description={`${example?.productCode} - ${example?.description}`}
-                  characteristic={example?.characteristic}
-                  color={example?.color}
-                  cost={example?.cost}
-                  gender={example?.gender}
-                  size={example?.size}
-                  type={example.type}
-                />
-                {productsList.map(each => (
-                  <TransferCard
-                    description={`${each?.productCode} - ${each?.description}`}
-                    characteristic={each?.characteristic}
-                    color={each?.color}
-                    cost={each?.cost}
-                    gender={each?.gender}
-                    size={each.size}
-                    type={each.type}
+      <DrawerFormLayout
+        title={Contents[language]?.Title}
+        onSubmit={handleSubmit(onSubmit)}
+        onClose={handleClose}
+        onSecondaryButtonClick={handleClose}
+        variant="borderless"
+        // uiState={{}}
+        initialText="Transferir"
+      >
+        <FormContext {...form}>
+          <div className={classes.root}>
+            <Box>
+              <div style={globalStyles.feeDrawerslabel}>
+                <Text variant="h2" text={Contents[language]?.Subtitle} fontSize={14} />
+                <br />
+                <Text variant="subtitle1" text={Contents[language]?.FirstStep} fontSize={12} />
+                <InputContainer>
+                  <AutocompleteSelect
+                    name="idOrigin"
+                    selectedValue={comboValues.idOrigin}
+                    placeholder={Contents[language]?.origin}
+                    error={!!errors?.idOrigin}
+                    errorText={errors?.idOrigin && errors?.idOrigin.message}
+                    onSelect={handleComboChange}
+                    url={Endpoints.Stores}
                   />
-                ))}
+                  <Separator />
+                  <AutocompleteSelect
+                    name="idDestination"
+                    selectedValue={comboValues.idDestination}
+                    placeholder={Contents[language]?.Destination}
+                    error={!!errors?.idDestination}
+                    errorText={errors?.idDestination && errors?.idDestination.message}
+                    onSelect={handleComboChange}
+                    url={Endpoints.Stores}
+                  />
+                </InputContainer>
+                <Divider />
+                <Text variant="subtitle1" text={Contents[language]?.SecondStep} fontSize={12} />
+                <InputContainer>
+                  <AutocompleteSelect
+                    name="products"
+                    // selectedValue={comboValues.producto}
+                    disabled={!isProductFieldEnabled}
+                    placeholder="Escriba un Producto"
+                    url={searchingProductsUrl}
+                    displayKey="name"
+                    typeahead
+                    typeaheadLimit={15}
+                    onSelect={handleAddProduct}
+                    getOptionSelected={defaultOptionSelectedFn}
+                    dataFetchKeyName="inventory"
+                    error={!!errors?.products}
+                    errorText={errors?.products && errors?.products.message}
+                    renderOption={option => {
+                      return (
+                        <div>
+                          <strong>{option.productCode}</strong>
+                          <br />
+                          <span>{option.type}</span> | <span>{option.gender}</span> |
+                          <span>{option.characteristic}</span>| <span>{option.color}</span>
+                        </div>
+                      );
+                    }}
+                  />
+                </InputContainer>
+                <div>
+                  {/* <Text variant="body1" text={Contents[language]?.Subtitle} fontSize= {14} /> */}
+                  {productsList.map(each => {
+                    return (
+                      <TransferCard
+                        product={each?.product}
+                        quantityOfProducts={each?.quantity}
+                        onRemoveItem={onRemoveProduct}
+                        onAmountOfProductsChanged={onModifyAmountOfItem}
+                      />
+                    );
+                  })}
+                </div>
               </div>
-            </div>
-          </Box>
-          <div />
-        </DrawerFormLayout>
-      </FormContext>
+            </Box>
+          </div>
+        </FormContext>
+      </DrawerFormLayout>
     </>
   );
 };
 
-TransferProductsDrawer.defaultProps = {};
+TransferDrawer.defaultProps = {};
 
-export default TransferProductsDrawer;
+export default TransferDrawer;
