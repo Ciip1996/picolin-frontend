@@ -74,6 +74,7 @@ const Sidebar = (props: SidebarProps) => {
 
   const SidebarSubitem = (SidebarSubitemProps: Object) => {
     const { item } = SidebarSubitemProps;
+
     return item.subItems.map(subitem => {
       const isActive = isActiveItem(subitem, selectedRoute);
       return (
@@ -100,7 +101,6 @@ const Sidebar = (props: SidebarProps) => {
   useEffect(() => {
     setSelectedRoute(location.pathname);
     const parent = getParent(location.pathname);
-
     parent && setOpenedItems(prevState => [...prevState, parent.route]);
   }, [location.pathname]);
 
@@ -122,7 +122,7 @@ const Sidebar = (props: SidebarProps) => {
       <div style={styles.itemWrapper}>{children}</div>
       <div className={classes.root}>
         <List component="nav">
-          {sideBarMenu.map(item =>
+          {sideBarMenu.map((item: Object) =>
             item.subItems ? (
               <div key={item.route} className="nav-link router-link">
                 <ListItem

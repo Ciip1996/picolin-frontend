@@ -6,7 +6,7 @@ import { styles, useStyles } from './styles';
 
 type ActionButtonProps = {
   status: 'success' | 'error' | 'default',
-  variant: 'contained' | 'outlined',
+  variant: 'contained' | 'outlined' | 'important',
   type: 'button' | 'submit',
   text: string,
   isResponsive: boolean,

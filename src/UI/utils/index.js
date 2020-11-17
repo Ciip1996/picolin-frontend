@@ -103,7 +103,8 @@ export const VALIDATION_REGEXS = {
   // eslint-disable-next-line no-useless-escape
   URL: /^(?:[A-Za-z0-9]+:\/\/)?(?:(?:(?:[A-Za-z0-9])|(?:[A-Za-z0-9](?:[A-Za-z0-9\-]+)?[A-Za-z0-9]))+(\.))+([A-Za-z]{2,})([\/?])?([\/?][A-Za-z0-9\-%._~:\/?#\[\]@!\$&\'\(\)\*\+,;=]+)?$/,
   // eslint-disable-next-line no-useless-escape
-  EMAIL: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,13})+$/
+  EMAIL: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,13})+$/,
+  PASSWORD: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
 };
 
 export const PHONE_VALIDATION = {

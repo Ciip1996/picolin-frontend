@@ -1,64 +1,15 @@
 import { createMuiTheme } from '@material-ui/core/styles';
-import {
-  input,
-  middlePadding,
-  mapAutocompletePadding,
-  container,
-  skeletonRadius,
-  layout
-} from 'UI/constants/dimensions';
+import { input, skeletonRadius } from 'UI/constants/dimensions';
 import { colors } from './UI/res';
 
 export const globalStyles = {
-  contentLayout: {
-    maxWidth: layout.mainPageContentWidth.maxWidth,
-    width: '100%',
-    margin: '40px 36px'
-  },
-  flexContentWrapper: {
-    height: '100%',
-    flex: 1,
-    display: 'flex'
-  },
-  sheetQuestionItem: {
-    margin: '23px 0 0'
-  },
-  sheetInputMargin: {
-    marginTop: 5
-  },
-  newItemBoxContent: {
-    display: 'flex',
-    padding: '18px 32px',
-    borderRadius: '0 0 4px 4px',
-    backgroundColor: colors.white,
-    alignItems: 'center'
-  },
-
-  floatingButtonContainer: {
-    position: 'absolute',
-    right: 20,
-    bottom: 20,
-    zIndex: 10
-  },
   resetButton: {
+    // TODO: update this to tables
     margin: 0,
     padding: 0,
     color: colors.middlegrey,
     textTransform: 'capitalize',
     textDecoration: 'underline'
-  },
-  inputSpacing: {
-    padding: middlePadding
-  },
-  inputMinSpacing: {
-    padding: mapAutocompletePadding
-  },
-  containerBoxShadow: {
-    boxShadow: container.boxShadow
-  },
-  mapActionButton: {
-    letterSpacing: '1.43px',
-    width: '100%'
   },
   profileSkeletonItem: {
     width: '70%',
@@ -98,21 +49,12 @@ export const globalStyles = {
     marginTop: 0,
     marginBottom: 24
   },
-  skeletonItemOnTitleBar: {
-    display: 'flex',
-    flex: '1 1 auto',
-    height: 18,
-    borderRadius: skeletonRadius
-  },
   feeDrawerslabel: {
     marginBottom: 8
-  },
-  cardContainer: {
-    width: '100%',
-    boxShadow: container.boxShadow,
-    borderRadius: 4
   }
 };
+
+const defaultTheme = createMuiTheme();
 
 const theme = createMuiTheme({
   sidebarItem: {
@@ -143,31 +85,35 @@ const theme = createMuiTheme({
     height: input.height,
     maxHeight: input.height,
     borderRadius: input.borderRadius,
-    // width: 238,
+    width: 238,
     minWidth: 120,
     maxWidth: 400,
     alignItems: 'center',
     textTransform: 'uppercase',
     fontSize: 16,
     fontWeight: 500,
-    background: 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)',
-    boxShadow: '0px 3px 6px #00000029',
-    width: 200,
-    minHeight: '48px !important'
+    boxShadow: '0px 3px 6px #00000029'
+    // width: 200
   },
   input: {
     minHeight: input.height,
     borderRadius: input.borderRadius,
     margin: '10px 0',
     width: '100%',
+    '& .MuiOutlinedInput-input:-webkit-autofill': {
+      borderRadius: '24px !important'
+    },
     '& fieldset': {
-      borderRadius: input.borderRadius
+      borderRadius: input.borderRadius,
+      backgroundColor: colors.white
     },
     '& input': {
-      padding: '0px 8px !important'
+      padding: '0px 8px !important',
+      zIndex: 1
     },
     '& label': {
-      transform: 'translate(14px, 12px) scale(1)'
+      transform: 'translate(14px, 12px) scale(1)',
+      zIndex: 2
     }
   },
   modalSettings: {
@@ -206,17 +152,17 @@ const theme = createMuiTheme({
       // dark: colors.black,
       main: colors.black,
       contrastText: colors.success
+    },
+    error: {
+      light: '#fd685d',
+      main: '#fd685d',
+      contrastText: colors.white
     }
-  },
-  tooltip: {
-    backgroundColor: colors.inactiveSideBarTab,
-    color: colors.darkGrey,
-    fontSize: '12px !important'
-    // marginTop: 24 // TODO: check where this out is affecting the tooltip
   },
   overrides: {
     MuiAutocomplete: {
       endAdornment: {
+        zIndex: 1,
         top: 'unset'
       }
     },
@@ -284,6 +230,20 @@ const theme = createMuiTheme({
         borderRadius: skeletonRadius,
         width: '100%',
         margin: '24px 0px'
+      }
+    },
+    MuiTooltip: {
+      tooltip: {
+        backgroundColor: colors.inactiveSideBarTab,
+        color: colors.darkGrey,
+        fontSize: '12px !important',
+        boxShadow: defaultTheme.shadows[6]
+      }
+    },
+    MuiOutlinedInput: {
+      notchedOutline: {
+        borderColor: 'transparent',
+        boxShadow: defaultTheme.shadows[1]
       }
     }
   }

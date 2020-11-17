@@ -6,4 +6,4 @@ export type GlobalState = {
   app: AppState
 };
 
-export type Map = { [name: string]: any };
+export type MapType = { [name: string]: any };

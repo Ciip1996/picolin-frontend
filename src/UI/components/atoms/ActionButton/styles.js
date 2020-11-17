@@ -14,14 +14,14 @@ export const styles = {
     padding: '0 20px'
   },
   success: {
-    backgroundColor: colors.success
+    background: colors.success
   },
   outlineSuccess: {
     color: colors.success,
     border: ` 1px solid ${colors.success}`
   },
   error: {
-    backgroundColor: colors.red
+    background: colors.red
   },
   largeContent: {
     width: 'max-content'
@@ -37,10 +37,33 @@ export const useStyles = makeStyles(theme => ({
     ...theme.button,
     color: colors.white,
     border: 0,
-    backgroundColor: props => props.variant === 'contained' && colors.success,
-    '&:hover': {
-      backgroundColor: props => props.variant === 'contained' && colors.success
+    background: props => {
+      switch (props.variant) {
+        case 'important':
+          return 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)';
+        case 'outlined':
+          return 'transparent';
+        case 'contained':
+          return colors.primary;
+        default:
+          return colors.primary;
+      }
     },
+    '&:hover': {
+      background: props => {
+        switch (props.variant) {
+          case 'important':
+            return 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)';
+          case 'outlined':
+            return colors.lightGrey;
+          case 'contained':
+            return colors.primaryLight;
+          default:
+            return colors.primaryLight;
+        }
+      }
+    },
+    // },
     // minWidth: props => (props.isResponsive ? 'unset' : 120),
     // width: props => (props.isResponsive ? 174 : 238),
     '& > span': {
@@ -58,7 +81,7 @@ export const useStyles = makeStyles(theme => ({
   outlined: {
     ...theme.button,
     '&:hover': {
-      backgroundColor: props =>
+      background: props =>
         props.variant === 'outlined' &&
         `${
           props.status === 'success'
@@ -70,6 +93,6 @@ export const useStyles = makeStyles(theme => ({
     border: ` 1px solid ${colors.black}`
   },
   disabled: {
-    backgroundColor: `${colors.inactiveSideBarTab} !important`
+    background: `${colors.inactiveSideBarTab} !important`
   }
 }));

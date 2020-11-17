@@ -33,7 +33,10 @@ export const useSidebarStyles = makeStyles(theme => ({
     backgroundColor: colors.primary,
     color: colors.white,
     fontWeight: 700,
-    height: sidebarItem.height
+    height: sidebarItem.height,
+    '&:hover': {
+      backgroundColor: colors.primaryLight
+    }
   },
   collapsibleMenu: {
     fontWeight: 700,

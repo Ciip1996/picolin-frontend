@@ -10,7 +10,7 @@ export const useStyles = makeStyles(theme => ({
     width: 389,
     height: input.height,
     borderRadius: input.borderRadius,
-    borderColor: '#CDD8E6',
+    // borderColor: '#CDD8E6',
     borderWidth: 1
   },
   input: {

@@ -15,7 +15,7 @@ export const styles = {
     overflowY: 'auto',
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: colors.sideBar
+    backgroundColor: colors.picolinBackground
   },
   blueDrawer: {
     background: '#E26A93',

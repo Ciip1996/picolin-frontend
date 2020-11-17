@@ -23,10 +23,13 @@ export type Confirmation = {
 export type Filters = { [name: string]: any };
 
 export type User = {
-  // token: string,
+  idUser: number,
   userName: string,
+  roleId: number,
   name: string,
-  role: string
+  firstLastName: string,
+  secondLastName: string
+  // role?: string
 };
 
 export type AppUiState = {
