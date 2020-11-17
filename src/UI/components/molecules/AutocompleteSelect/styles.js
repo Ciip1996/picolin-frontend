@@ -31,21 +31,30 @@ export const useAutocompleteStyles = makeStyles(theme => ({
   }
 }));
 
-export const useAutocompleteStylesDisabled = makeStyles(() => ({
+export const useAutocompleteStylesDisabled = makeStyles(theme => ({
   inputRoot: {
     borderRadius: input.borderRadius,
-    maxHeight: `${input.height}`,
-    padding: '0px !important',
-    backgroundColor: colors.transparent
-  },
-  input: {
-    display: 'none'
+    minHeight: input.height,
+    padding: '5px 60px 5px 5px !important',
+    backgroundColor: colors.lightgrey,
+    color: 'rgb(166, 166, 166)'
   },
   root: {
+    ...theme.input,
+    display: 'flex',
+    alignItems: 'flex-start',
     '& fieldset': {
       border: `1px solid ${colors.black}`
     }
+  },
+  input: {
+    flex: 1,
+    display: 'flex',
+    padding: '0px 0px 0px 6px !important'
   }
+  // input: {
+  //   display: 'none'
+  // }
 }));
 
 export const useChipStylesDisabled = makeStyles(theme => ({

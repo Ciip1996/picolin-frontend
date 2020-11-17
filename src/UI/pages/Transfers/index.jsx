@@ -327,7 +327,7 @@ const TransferList = (props: TransferListProps) => {
     },
     {
       name: 'origin',
-      label: Contents[language]?.Origin,
+      label: Contents[language]?.origin,
       options: {
         filter: true,
         sort: true,
@@ -343,7 +343,7 @@ const TransferList = (props: TransferListProps) => {
               <FormControl>
                 <AutocompleteSelect
                   name="origin_filter"
-                  placeholder={Contents[language]?.Origin}
+                  placeholder={Contents[language]?.origin}
                   url={Endpoints.Stores}
                   selectedValue={filters.origin_filter}
                   onSelect={handleFilterChange}
@@ -489,6 +489,9 @@ const TransferList = (props: TransferListProps) => {
       >
         <div role="presentation">
           <TransferProductsDrawer
+            onTransfered={() => {
+              debugger;
+            }}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
           />

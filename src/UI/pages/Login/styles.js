@@ -3,7 +3,7 @@ import { colors } from 'UI/res';
 
 export const useStyles = makeStyles({
   wrapper: {
-    backgroundColor: colors.loginBackground,
+    backgroundColor: colors.picolinBackground,
     display: 'flex',
     flex: 1,
     justifyContent: 'center',

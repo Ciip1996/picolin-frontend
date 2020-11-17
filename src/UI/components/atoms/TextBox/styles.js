@@ -11,7 +11,8 @@ export const useStyles = makeStyles(theme => ({
       borderRadius: input.borderRadius,
       backgroundColor: props =>
         props.outPutValue ? `${colors.appBackground} !important` : 'unset',
-      color: props => props.outPutValue && `${colors.black} !important`
+      color: props => props.outPutValue && `${colors.black} !important`,
+      zIndex: 1
     },
     '& label': {
       color: props => props.outPutValue && `${colors.darkGrey} !important `,
