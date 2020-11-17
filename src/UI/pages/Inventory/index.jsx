@@ -96,18 +96,27 @@ const InventoryList = (props: InventoryListProps) => {
         gender_filter = {},
         type_filter = {},
         color_filter = {},
-        stock_filter = {}
+        stock_filter = {},
+        minSalePrice_filter = {},
+        maxSalePrice_filter = {},
+        minCost_filter = {},
+        maxCost_filter = {}
       } = filters;
 
       const params = {
         keyword: uiState.keyword || undefined,
-        // orderBy: uiState.orderBy,
+        orderBy: uiState.orderBy || undefined,
+        direction: uiState.direction || undefined,
         page: uiState.page + 1,
         perPage: uiState.perPage,
         gender: gender_filter?.title || undefined,
         type: type_filter?.title || undefined,
         color: color_filter?.title || undefined,
-        stock: stock_filter?.numberValue || undefined
+        stock: stock_filter?.numberValue || undefined,
+        minSalePrice: minSalePrice_filter?.numberValue || undefined,
+        maxSalePrice: maxSalePrice_filter?.numberValue || undefined,
+        minCost: minCost_filter?.numberValue || undefined,
+        maxCost: maxCost_filter?.numberValue || undefined
       };
 
       saveFilters('inventory', { filters, params });
@@ -134,7 +143,16 @@ const InventoryList = (props: InventoryListProps) => {
         body: getErrorMessage(err)
       });
     }
-  }, [filters, onShowAlert, uiState.keyword, uiState.page, uiState.perPage, language]);
+  }, [
+    filters,
+    onShowAlert,
+    uiState.keyword,
+    uiState.page,
+    uiState.perPage,
+    language,
+    uiState.orderBy,
+    uiState.direction
+  ]);
 
   const handleSearchChange = newKeyword => {
     setSearching(true);
@@ -218,7 +236,7 @@ const InventoryList = (props: InventoryListProps) => {
 
   const columns = [
     {
-      name: 'id',
+      name: 'idInventory',
       options: {
         filter: true,
         sort: false,
@@ -263,6 +281,40 @@ const InventoryList = (props: InventoryListProps) => {
                   url={Endpoints.Colors}
                   selectedValue={filters.color_filter}
                   onSelect={handleFilterChange}
+                />
+                <TextBox
+                  inputType="number"
+                  name="minSalePrice_filter"
+                  placeholder={Contents[language]?.minSalePrice}
+                  defaultValue={filters?.minSalePrice_filter?.numberValue}
+                  onChange={(name, numberValue) => {
+                    handleFilterChange(
+                      name,
+                      numberValue
+                        ? {
+                            numberValue,
+                            title: `minSalePrice: ${numberValue}`
+                          }
+                        : undefined
+                    );
+                  }}
+                />
+                <TextBox
+                  inputType="number"
+                  name="minCost_filter"
+                  placeholder={Contents[language]?.minCost}
+                  defaultValue={filters?.minCost_filter?.numberValue}
+                  onChange={(name, numberValue) => {
+                    handleFilterChange(
+                      name,
+                      numberValue
+                        ? {
+                            numberValue,
+                            title: `minCost: ${numberValue}`
+                          }
+                        : undefined
+                    );
+                  }}
                 />
               </FormControl>
             );
@@ -311,7 +363,7 @@ const InventoryList = (props: InventoryListProps) => {
         sortDirection: sortDirection[4],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return <CellSkeleton searching={searching}>${value}</CellSkeleton>;
         }
       }
     },
@@ -337,6 +389,40 @@ const InventoryList = (props: InventoryListProps) => {
                   url={Endpoints.Genders}
                   selectedValue={filters.gender_filter}
                   onSelect={handleFilterChange}
+                />
+                <TextBox
+                  inputType="number"
+                  name="maxSalePrice_filter"
+                  placeholder={Contents[language]?.maxSalePrice}
+                  defaultValue={filters?.maxSalePrice_filter?.numberValue}
+                  onChange={(name, numberValue) => {
+                    handleFilterChange(
+                      name,
+                      numberValue
+                        ? {
+                            numberValue,
+                            title: `maxSalePrice: ${numberValue}`
+                          }
+                        : undefined
+                    );
+                  }}
+                />
+                <TextBox
+                  inputType="number"
+                  name="maxCost_filter"
+                  placeholder={Contents[language]?.maxCost}
+                  defaultValue={filters?.maxCost_filter?.numberValue}
+                  onChange={(name, numberValue) => {
+                    handleFilterChange(
+                      name,
+                      numberValue
+                        ? {
+                            numberValue,
+                            title: `maxCost: ${numberValue}`
+                          }
+                        : undefined
+                    );
+                  }}
                 />
               </FormControl>
             );
@@ -483,6 +569,8 @@ const InventoryList = (props: InventoryListProps) => {
           data={data}
           columns={columns}
           count={count}
+          orderBy={uiState.orderBy}
+          direction={uiState.direction}
           page={uiState.page}
           rowsPerPage={uiState.perPage}
           searchText={uiState.keyword}

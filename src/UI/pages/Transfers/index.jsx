@@ -79,9 +79,9 @@ const TransferList = (props: TransferListProps) => {
   };
 
   const [uiState, setUiState] = useState({
-    keyword: savedParams?.keyword || null,
-    orderBy: savedParams?.orderBy || null,
-    direction: savedParams?.direction || null,
+    keyword: savedParams?.keyword || undefined,
+    orderBy: savedParams?.orderBy || undefined,
+    direction: savedParams?.direction || undefined,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
     isTransferDrawerOpen: false
@@ -100,8 +100,9 @@ const TransferList = (props: TransferListProps) => {
       } = filters;
 
       const params = {
-        keyword: uiState.keyword || undefined,
-        // orderBy: uiState.orderBy,
+        keyword: uiState.keyword,
+        orderBy: uiState.orderBy,
+        direction: uiState.direction,
         page: uiState.page + 1,
         perPage: uiState.perPage,
         gender: gender_filter?.title,
@@ -138,8 +139,16 @@ const TransferList = (props: TransferListProps) => {
         body: getErrorMessage(err)
       });
     }
-  }, [filters, onShowAlert, uiState.keyword, uiState.page, uiState.perPage, language]);
-
+  }, [
+    filters,
+    onShowAlert,
+    uiState.keyword,
+    uiState.page,
+    uiState.perPage,
+    language,
+    uiState.orderBy,
+    uiState.direction
+  ]);
   const handleSearchChange = newKeyword => {
     setSearching(true);
     setUiState(prevState => ({
@@ -471,6 +480,8 @@ const TransferList = (props: TransferListProps) => {
           error={error}
           loading={loading}
           data={data}
+          orderBy={uiState.orderBy}
+          direction={uiState.direction}
           columns={columns}
           count={count}
           page={uiState.page}
