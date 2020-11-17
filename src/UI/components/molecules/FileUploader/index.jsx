@@ -16,7 +16,6 @@ import InputContainer from 'UI/components/atoms/InputContainer';
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 import { colors, EmptyFiles, UploadFile } from 'UI/res';
 
-import { globalStyles } from 'GlobalStyles';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import Tooltip from '@material-ui/core/Tooltip';
