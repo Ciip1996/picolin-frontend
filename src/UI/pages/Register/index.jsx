@@ -40,7 +40,7 @@ const Register = (props: RegisterProps) => {
   const history = useHistory();
 
   const { register, handleSubmit, errors, setError } = useForm();
-  const [setSearching] = useState(false);
+  const [searching, setSearching] = useState(false);
   const savedSearch = getFilters('register');
   const savedFilters = savedSearch?.filters;
 

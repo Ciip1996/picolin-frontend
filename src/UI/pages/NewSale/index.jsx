@@ -1,7 +1,7 @@
 // @flow
 import React, { useState, useEffect } from 'react';
 // import queryString from 'query-string';
-import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 
 import { connect } from 'react-redux';
 
@@ -9,8 +9,6 @@ import { showAlert } from 'actions/app';
 
 /** Atoms, Components and Styles */
 
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 /** Components */
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
@@ -116,9 +114,25 @@ const NewSaleList = () => {
         // title={Contents[language]?.pageTitle}
         title="NUEVA VENTA"
       >
-        <Grid container direction="row" justify="space-between" alignItems="stretch" spacing={4}>
-          <Grid style={{ width: '60%', padding: '0px 48px 0px 48px', flex: 1 }}>
-            <form onSubmit={onSubmit} className="search-form">
+        <form onSubmit={onSubmit} className="search-form">
+          <Box
+            // container
+            direction="row"
+            display="flex"
+            justify="space-between"
+            alignItems="stretch"
+            spacing={4}
+          >
+            <Box
+              spacing={12}
+              style={{
+                minWidth: 300,
+                // background: 'yellow',
+                display: 'flex',
+                flex: 1,
+                margin: '0px 24px'
+              }}
+            >
               <AutocompleteSelect
                 name="producto"
                 selectedValue={comboValues.producto}
@@ -146,17 +160,18 @@ const NewSaleList = () => {
                   );
                 }}
               />
-            </form>
-            <div>
-              {products !== [] &&
-                products.map(product => <ItemCard key={uuidv4()} product={product} />)}
-              <div className="push" />
-            </div>
-          </Grid>
-          <Grid>
-            <SummaryCard />
-          </Grid>
-        </Grid>
+              <div>
+                {products.map(product => (
+                  <ItemCard key={uuidv4()} product={product} />
+                ))}
+                <div className="push" />
+              </div>
+            </Box>
+            <Box style={{ display: 'flex' }}>
+              <SummaryCard />
+            </Box>
+          </Box>
+        </form>
       </ListPageLayout>
     </ContentPageLayout>
   );

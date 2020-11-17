@@ -15,17 +15,14 @@ import { useStyles } from './styles';
 // { id: 1, title: Contents[language]?.card }
 // ];
 type ItemCardProps = {
-  gender: string,
-  size: string,
-  type: string,
-  color: string,
-  cost: string,
-  description: string
+  product: Object
 };
 
-const ItemCard = ({ product }) => {
-  const { gender, size, type, color, cost, description } = product.product;
-  // const { gender, size, type, color, cost, description } = props;
+const ItemCard = (props: ItemCardProps) => {
+  // debugger;
+  const { product } = props;
+  const { gender, size, type, color, cost, description } = product;
+
   const classes = useStyles();
   // const language = localStorage.getItem('language');
 
@@ -60,11 +57,13 @@ const ItemCard = ({ product }) => {
 };
 
 ItemCard.defaultProps = {
-  gender: 'Niña',
-  size: 'Talla 1',
-  type: 'Ropón',
-  color: 'Blanco',
-  cost: '$999,999.98',
-  description: 'Ropón Mini: Ariete Blanco '
+  product: {
+    gender: 'Niña',
+    size: 'Talla 1',
+    type: 'Ropón',
+    color: 'Blanco',
+    cost: '$999,999.98',
+    description: 'Ropón Mini: Ariete Blanco '
+  }
 };
 export default ItemCard;
