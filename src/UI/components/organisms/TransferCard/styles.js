@@ -14,7 +14,7 @@ export const useStyles = makeStyles(theme => ({
     marginTop: '26px',
     background: 'white',
     padding: 24,
-    border: props => props.error && '1px solid red'
+    border: props => props.error && `1px solid ${theme.palette.error.main}`
   },
   header: {
     display: 'flex',
