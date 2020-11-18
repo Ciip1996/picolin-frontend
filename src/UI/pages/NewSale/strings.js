@@ -1,6 +1,6 @@
 const Contents = {
   English: {
-    pageTitle: 'SALES',
+    pageTitle: 'NEW SALES',
     labDate: 'Date',
     labTotal: 'Total',
     labPayment: 'Payment',
@@ -16,7 +16,7 @@ const Contents = {
     month: 'Per month'
   },
   Spanish: {
-    pageTitle: 'VENTAS',
+    pageTitle: 'NUEVA VENTA',
     labDate: 'Fecha',
     labTotal: 'Total',
     labPayment: 'Tipo de pago',

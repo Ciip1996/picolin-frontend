@@ -4,7 +4,8 @@ import { colors } from 'UI/res';
 export const useStyles = makeStyles({
   card: {
     width: '398px',
-    height: '568px',
+    height: 'fit-content',
+    paddingBottom: 24,
     boxShadow: '0px 3px 6px #00000029',
     borderTopLeftRadius: 26,
     borderTopRightRadius: 26,
@@ -13,33 +14,26 @@ export const useStyles = makeStyles({
     background: 'white'
   },
   title: {
-    marginTop: '23px',
-    marginLeft: '35px',
-    marginBottom: '0px',
+    marginTop: 23,
+    marginLeft: 35,
+    marginBottom: 9,
     font: 'normal normal bold 24px/35px Poppins',
     color: '#515C6F',
     opacity: '0.5',
     letterSpacing: '1.68px'
   },
-  Payment: {
+  formulary: {
     marginTop: '16px',
     marginLeft: '28px',
     width: '343px',
     height: '40px'
   },
-  Formulary: {
-    marginTop: '9px',
-    marginLeft: '28px',
-    width: '343px',
-    height: '40px'
-  },
-  Invoice: {
+  invoice: {
     marginBottom: '10px',
     marginLeft: '270px',
     color: colors.title
   },
   List: {
-    marginTop: '-20px',
     marginLeft: '24px',
     marginRight: '24px'
   },
@@ -55,9 +49,9 @@ export const useStyles = makeStyles({
     width: '87px'
   },
   Item: {
-    height: '38px'
+    height: 50
   },
-  CostDescription: {
+  currencyValue: {
     font: 'normal normal 300 18px/27px Poppins',
     opacity: '1',
     color: '#515C6F',
@@ -91,9 +85,9 @@ export const useStyles = makeStyles({
     textAlign: 'Right',
     marginRight: '-16px'
   },
-  Finish: {
+  submitButton: {
     width: '171px',
-    height: '48px',
-    marginLeft: '201px'
+    height: '48px'
+    // marginLeft: '201px'
   }
 });

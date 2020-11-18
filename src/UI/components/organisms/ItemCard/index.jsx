@@ -1,5 +1,7 @@
 // @flow
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useFormContext } from 'react-hook-form';
+
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
@@ -7,6 +9,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import { currencyFormatter } from 'UI/utils';
 import { Tooltip } from '@material-ui/core';
+
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import Text from 'UI/components/atoms/Text';
 import { useStyles } from './styles';
@@ -25,8 +28,19 @@ const ItemCard = (props: ItemCardProps) => {
   const prepareRemoveItem = () => {
     onRemoveItem(productCode);
   };
+
+  const { register, setValue } = useFormContext();
+
+  useEffect(() => {
+    register({
+      name: productCode
+    });
+    setValue(productCode, 1, true);
+  }, [productCode, register, setValue]);
+
   return (
     <Card className={classes.card}>
+      <input name={productCode} ref={register} style={{ display: 'none' }} />
       <Box className={classes.header} spacing={2}>
         <Tooltip title={`${currencyFormatter(cost)}`}>
           <span>
@@ -89,7 +103,8 @@ ItemCard.defaultProps = {
     type: 'Ropón',
     color: 'Blanco',
     cost: 999999.98,
-    description: 'Ropón Mini con cosAS QUE TENGO QUEE EXPLICAR AQUI GGGGGG',
+    description:
+      'Ropón Mini con cosAS QUE TENGO QUEE EXPLICAR AQUI GGGG adfa sdf adsf asdfdasf aGG',
     characteristic: ' Shantung de seda '
   }
 };

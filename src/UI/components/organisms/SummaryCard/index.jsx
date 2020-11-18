@@ -5,6 +5,8 @@ import { useFormContext } from 'react-hook-form';
 import Card from '@material-ui/core/Card';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Box from '@material-ui/core/Box';
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -15,66 +17,69 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { AddIcon, colors } from 'UI/res';
 import { Endpoints } from 'UI/constants/endpoints';
+import { currencyFormatter } from 'UI/utils';
 import Contents from './strings';
 import { useStyles } from './styles';
 
 const language = localStorage.getItem('language');
 
-type SummaryCardProps = {
-  initialValues: Object
-};
+// type SummaryCardProps = {
+//   defaultValues: Object
+// };
 
-const SummaryCard = (props: SummaryCardProps) => {
-  const { initialValues } = props;
+const SummaryCard = () => {
+  // const { defaultValues } = props;
+  // console.log('defaultValues', defaultValues);
   const classes = useStyles();
 
-  const [comboValues, setComboValues] = useState({});
+  const [formValues, setFormValues] = useState({});
 
-  const { register, errors, setValue, getValues } = useFormContext();
-
+  const { register, getValues, setValue, watch, errors } = useFormContext();
+  const watchFields = watch(); // when pass nothing as argument, you are watching everything
   const values = getValues();
-  console.log(values);
-
-  useEffect(() => {
-    register({ name: 'idPaymentMethod' }, { required: `El tipo de pago es requerido` });
-    // register({ name: 'discount' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
-  }, [register]);
+  console.log('useFormContext values:', values);
 
   const onSelectChanged = (name: string, value: any) => {
-    setComboValues(prevState => ({ ...prevState, [name]: value }));
     setValue(name, value?.id ? value?.id : value?.title, true);
+    setFormValues(prevState => ({ ...prevState, [name]: value }));
   };
 
-  const handleTextChange = (name?: string, value: any) => {
+  const handleTextChange = (name: string, value: any) => {
     setValue(name, value, true);
-    setComboValues({ ...comboValues });
+    setFormValues(prevState => ({ ...prevState, [name]: value }));
+    debugger;
   };
 
   return (
     <Card className={classes.card}>
       <h1 className={classes.title}>{Contents[language]?.HeaderTitle}</h1>
       <AutocompleteSelect
-        className={classes.Payment}
+        className={classes.formulary}
         name="idPaymentMethod"
         placeholder={Contents[language]?.Payment}
         url={Endpoints.PaymentMethods}
+        inputRef={register}
         error={!!errors.idPaymentMethod}
         errorText={errors.idPaymentMethod && errors.idPaymentMethod.message}
         onSelect={onSelectChanged}
+        // inputRef={register({
+        //   required: 'El tipo de pago es requerido'
+        // })}
       />
       <TextBox
-        className={classes.Formulary}
+        className={classes.formulary}
+        inputType="currency"
         name="discount"
         label={Contents[language]?.Discount}
-        inputType="currency"
-        inputRef={register}
-        error={!!errors.discount}
-        helperText={errors.discount && errors.discount.message}
+        error={!!errors?.discount}
+        errorText={errors?.discount && errors?.discount.message}
         onChange={handleTextChange}
+        value={getValues('discount') || ''}
+        inputRef={register({ max: { value: 100, message: 'no max' } })}
       />
-      <TextBox
+      {/* <TextBox
         outPutValue
-        className={classes.Formulary}
+        className={classes.formulary}
         name="apart"
         label={Contents[language]?.Apart}
         inputType="text"
@@ -82,40 +87,50 @@ const SummaryCard = (props: SummaryCardProps) => {
         error={!!errors.discount}
         helperText={errors.discount && errors.discount.message}
         onChange={handleTextChange}
-      />
+      /> */}
       <FormControlLabel
         name="invoice"
         control={<Switch color="primary" />}
-        className={classes.Invoice}
-        // checked={}
+        className={classes.invoice}
+        checked
         label={Contents[language]?.invoice}
         labelPlacement="start"
         inputRef={register}
-        error={!!errors.invoice}
-        helperText={errors.invoice && errors.invoice.message}
+        // error={!!errors.invoice}
+        // helperText={errors.invoice && errors.invoice.message}
+        // inputRef={register}
       />
       <List component="nav" className={classes.List}>
-        <ListItem divider className={classes.Item}>
+        {/* <ListItem divider className={classes.Item}>
           <ListItemText
             primary={<span className={classes.Description}>{Contents[language]?.Deposit}</span>}
           />
-          <Text
-            name="deposit"
-            inputRef={register}
-            variant="body1"
-            text={Contents[language]?.Subtitle}
-            fontSize={14}
+          <ListItemText
+            secondary={
+              <Text
+                className={classes.currencyValue}
+                name="deposit"
+                variant="body1"
+                text={watchFields.deposit ? currencyFormatter(watchFields.deposit) : 'N/A'}
+                fontSize={16}
+              />
+            }
           />
-          {/* <ListItemText
-            secondary={<span className={classes.CostDescription}>{deposit || 'N/A'}</span>}
-          /> */}
-        </ListItem>
-        {/* <ListItem divider className={classes.Item}>
+        </ListItem> */}
+        <ListItem divider className={classes.Item}>
           <ListItemText
             primary={<span className={classes.Description}>{Contents[language]?.Subtotal}</span>}
           />
           <ListItemText
-            secondary={<span className={classes.CostDescription}>{subtotal || '--'}</span>}
+            secondary={
+              <Text
+                className={classes.currencyValue}
+                variant="body1"
+                text={watchFields.subtotal ? currencyFormatter(watchFields.subtotal) : 'N/A'}
+                fontSize={16}
+                inputRef={register}
+              />
+            }
           />
         </ListItem>
         <ListItem divider className={classes.Item}>
@@ -123,7 +138,14 @@ const SummaryCard = (props: SummaryCardProps) => {
             primary={<span className={classes.Description}>{Contents[language]?.Taxes}</span>}
           />
           <ListItemText
-            secondary={<span className={classes.CostDescription}>{vat || '--'}</span>}
+            secondary={
+              <Text
+                className={classes.currencyValue}
+                variant="body1"
+                text={watchFields.vat ? currencyFormatter(watchFields.vat) : 'N/A'}
+                fontSize={16}
+              />
+            }
           />
         </ListItem>
         <ListItem divider className={classes.Item}>
@@ -131,34 +153,48 @@ const SummaryCard = (props: SummaryCardProps) => {
             primary={<span className={classes.Description}>{Contents[language]?.lblDiscount}</span>}
           />
           <ListItemText
-            secondary={<span className={classes.CostDescription}>{discount || '--'}</span>}
+            secondary={
+              <Text
+                className={classes.currencyValue}
+                name="display_discount"
+                variant="body1"
+                text={watchFields.discount ? currencyFormatter(watchFields.discount) : '--'}
+                fontSize={16}
+              />
+            }
           />
         </ListItem>
         <br />
+      </List>
+      <Box className={classes.List}>
         <ListItem className={classes.Item}>
           <ListItemText primary={<span className={classes.Total}>TOTAL</span>} />
-          <ListItemText secondary={<span className={classes.TotalCost}>{total || '--'}</span>} />
-        </ListItem> */}
-      </List>
-      <ActionButton
-        type="submit"
-        status="success"
-        className={classes.Finish}
-        text={Contents[language]?.Conclude}
-        // onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
-      >
-        <AddIcon fill={colors.white} size={18} />
-      </ActionButton>
+          <ListItemText
+            secondary={
+              <Text
+                name="diaplay_total"
+                className={classes.TotalCost}
+                variant="body1"
+                text={watchFields.total ? currencyFormatter(watchFields.total) : '--'}
+                fontSize={18}
+              />
+            }
+          />
+        </ListItem>
+        <Box display="flex" flex={1} justifyContent="flex-end" alignItems="center">
+          <ActionButton
+            type="submit"
+            status="success"
+            className={classes.submitButton}
+            text={Contents[language]?.Conclude}
+            // onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
+          >
+            <AddIcon fill={colors.white} size={18} />
+          </ActionButton>
+        </Box>
+      </Box>
     </Card>
   );
-};
-
-SummaryCard.defaultProps = {
-  deposit: 'N/A',
-  subtotal: '$1,299.00',
-  vat: '$207.84',
-  discount: '$0.00',
-  total: '$1506.84'
 };
 
 export default SummaryCard;
