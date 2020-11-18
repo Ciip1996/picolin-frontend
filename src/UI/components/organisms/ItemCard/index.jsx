@@ -1,74 +1,96 @@
 // @flow
 import React from 'react';
 import Card from '@material-ui/core/Card';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import Box from '@material-ui/core/Box';
 import Chip from '@material-ui/core/Chip';
 import CloseIcon from '@material-ui/icons/Close';
-import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import { currencyFormatter } from 'UI/utils';
+import { Tooltip } from '@material-ui/core';
+import CustomIconButton from 'UI/components/atoms/CustomIconButton';
+import Text from 'UI/components/atoms/Text';
 import { useStyles } from './styles';
-// const payment = [
-// { id: 0, title: Contents[language]?.cash },
-// { id: 1, title: Contents[language]?.card }
-// ];
+
 type ItemCardProps = {
-  product: Object
+  product: Object,
+  onRemoveItem: string => any
 };
 
 const ItemCard = (props: ItemCardProps) => {
   // debugger;
-  const { product } = props;
-  const { gender, size, type, color, cost, description } = product;
-
+  const { product, onRemoveItem } = props;
+  const { productCode, gender, size, type, color, cost, description, characteristic } = product;
   const classes = useStyles();
-  // const language = localStorage.getItem('language');
 
-  // const [selected, setSelected] = React.useState(false);
+  const prepareRemoveItem = () => {
+    onRemoveItem(productCode);
+  };
   return (
     <Card className={classes.card}>
-      <List component="nav" className={classes.List}>
-        <ListItem className={classes.Item}>
-          <ListItemText primary={<span className={classes.title}>{description}</span>} />
-          <ListItemText
-            secondary={<span className={classes.subtitle}>{currencyFormatter(cost)}</span>}
-          />
-        </ListItem>
-      </List>
+      <Box className={classes.header} spacing={2}>
+        <Tooltip title={`${currencyFormatter(cost)}`}>
+          <span>
+            <Text variant="h2" className={classes.price} text={`${currencyFormatter(cost)}`} />
+          </span>
+        </Tooltip>
+        <Tooltip title={`${productCode}: ${description}`} placement="top">
+          <span>
+            <Text variant="h2" className={classes.title} text={`${productCode}: ${description}`} />
+          </span>
+        </Tooltip>
+        <Box width={24} />
+        <CustomIconButton
+          tooltipText="Quitar de la venta"
+          wrapperStyle={classes.deleteButtonWrapper}
+          className={classes.deleteButton}
+          aria-label="delete"
+          onClick={prepareRemoveItem}
+        >
+          <CloseIcon />
+        </CustomIconButton>
+      </Box>
+      <Box height={10} />
       <Grid container>
-        <Grid item sm={2}>
-          <Chip label={gender} className={classes.Chip} />
+        <Grid item xs={2}>
+          <Tooltip title={gender}>
+            <Chip label={gender} className={classes.chip} />
+          </Tooltip>
         </Grid>
-        <Grid item sm={2}>
-          <Chip label={`Talla ${size}`} className={classes.Chip} />
+        <Grid item xs={3}>
+          <Tooltip title={`Talla ${size}`}>
+            <Chip label={`Talla ${size}`} className={classes.chip} />
+          </Tooltip>
         </Grid>
-        <Grid item sm={2}>
-          <Chip label={type} className={classes.Chip} />
+        <Grid item xs={2}>
+          <Tooltip title={type}>
+            <Chip label={type} className={classes.chip} />
+          </Tooltip>
         </Grid>
-        <Grid item sm={2}>
-          <Chip label={color} className={classes.Chip} />
+        <Grid item xs={2}>
+          <Tooltip title={color}>
+            <Chip label={color} className={classes.chip} />
+          </Tooltip>
         </Grid>
-        <Grid item sm={2}>
-          <Chip label={characteristic} className={classes.Chip} />
+        <Grid item xs={3}>
+          <Tooltip title={characteristic}>
+            <Chip label={characteristic} className={classes.chip} />
+          </Tooltip>
         </Grid>
       </Grid>
-      <IconButton className={classes.Delete} aria-label="delete">
-        <CloseIcon />
-      </IconButton>
     </Card>
   );
 };
 
 ItemCard.defaultProps = {
   product: {
+    productCode: 'PASDF2141241',
     gender: 'Niña',
-    size: 'Talla 1',
+    size: 1,
     type: 'Ropón',
     color: 'Blanco',
-    cost: '$999,999.98',
-    description: 'Ropón Mini: Ariete Blanco '
+    cost: 999999.98,
+    description: 'Ropón Mini con cosAS QUE TENGO QUEE EXPLICAR AQUI GGGGGG',
+    characteristic: ' Shantung de seda '
   }
 };
 export default ItemCard;

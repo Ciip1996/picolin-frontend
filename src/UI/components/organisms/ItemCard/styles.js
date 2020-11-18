@@ -1,47 +1,53 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from 'UI/res';
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles(theme => ({
   card: {
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'relative',
     width: '100%',
-    height: '96px',
+    height: 'auto',
     boxShadow: '0px 3px 6px #00000029',
     borderTopLeftRadius: 26,
     borderTopRightRadius: 26,
     borderBottomLeftRadius: 26,
     borderBottomRightRadius: 26,
     marginTop: '26px',
-    background: 'white'
+    background: 'white',
+    padding: 16,
+    border: props => props.error && `1px solid ${theme.palette.error.main}`
+  },
+  header: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1
   },
   title: {
-    marginTop: '23px',
-    marginLeft: '6px',
-    marginBottom: '0px',
-    width: '220px',
-    height: '30px',
+    height: 30,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    font: 'normal normal normal 22px/30px Avenir',
     color: colors.title,
-    float: 'left',
-    opacity: '1',
-    letterSpacing: '0px'
+    opacity: 1,
+    letterSpacing: '0px',
+    whiteSpace: 'nowrap',
+    minWidth: 180,
+    maxWidth: 300,
+    marginRight: 12
   },
-  subtitle: {
-    marginTop: '23px',
-    marginRight: '48%',
-    marginBottom: '0px',
+  price: {
+    display: 'flex',
     font: 'normal normal 900 20px/27px Avenir',
     color: '#AD4DFF',
-    textOverflow: 'ellipsis',
-    textAlign: 'Right',
-    overflow: 'hidden',
-    width: '120px',
+    width: 'auto',
     opacity: '1',
-    float: 'right',
-    letterSpacing: '0px'
+    letterSpacing: '0px',
+    justifyContent: 'flex-end',
+    flex: 1,
+    paddingRight: 10
   },
-  Chip: {
+  chip: {
     width: '87%',
     height: '25px',
     textOverflow: 'ellipsis',
@@ -49,9 +55,7 @@ export const useStyles = makeStyles({
     backgroundColor: '#ED8A9C',
     font: 'normal normal 900 14px/19px Avenir',
     boxShadow: '0px 3px 6px #00000029',
-    marginLeft: '22px',
-    color: '#FFFF',
-    marginTop: '11px'
+    color: '#FFFF'
   },
   List: {
     marginTop: '-20px'
@@ -60,10 +64,10 @@ export const useStyles = makeStyles({
     height: '27px',
     marginTop: '17px'
   },
-  Delete: {
-    backgroundColor: '#F7FAFE',
-    color: '#C7D2DB',
-    marginLeft: '85%',
-    marginTop: '-80px'
+  deleteButton: {
+    height: 32,
+    width: 32,
+    backgroundColor: theme.palette.error.main,
+    color: colors.white
   }
-});
+}));
