@@ -1,13 +1,19 @@
 // @flow
 import React, { useState, useEffect } from 'react';
+import queryString from 'query-string';
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Link, useLocation } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
+import { Endpoints } from 'UI/constants/endpoints';
+import API from 'services/API';
 
 import { CollapsibleArrowOpen, CollapsibleArrowClosed } from 'UI/res';
+import SalesSummary from 'UI/components/organisms/SalesSummary';
+
 import { nestTernary } from 'UI/utils';
 import { styles, useStyles, useSidebarStyles } from './styles';
 import sideBarMenu from './SidebarMenu';
@@ -44,6 +50,10 @@ const Sidebar = (props: SidebarProps) => {
   const pathName = location.pathname;
   const { children } = props;
   const [selectedRoute, setSelectedRoute] = useState(pathName);
+  const [income, setIncome] = useState({
+    cash: null,
+    card: null
+  });
 
   const classes = useStyles();
   const sidebarClasses = useSidebarStyles();
@@ -103,6 +113,28 @@ const Sidebar = (props: SidebarProps) => {
     const parent = getParent(location.pathname);
     parent && setOpenedItems(prevState => [...prevState, parent.route]);
   }, [location.pathname]);
+  useEffect(() => {
+    // GetDayIncome;
+    const getData = async () => {
+      try {
+        const queryParams = queryString.stringify({
+          idStore: 1
+        });
+        const response = await API.get(`${Endpoints.GetDayIncome}?${queryParams}`);
+        if (response) {
+          setIncome({
+            cash: response.data.find(each => each.paymentMethod === 'Tarjeta')?.value,
+            card: response.data.find(each => each.paymentMethod === 'Efectivo')?.value
+          });
+        }
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.log('getIncome Error: ', err.response);
+        // throw err;
+      }
+    };
+    getData();
+  }, []);
 
   const toggleParent = route => {
     setOpenedItems(prevState => {
@@ -173,6 +205,7 @@ const Sidebar = (props: SidebarProps) => {
           )}
         </List>
       </div>
+      <SalesSummary cash={income.cash} card={income.card} />
     </div>
   );
 };

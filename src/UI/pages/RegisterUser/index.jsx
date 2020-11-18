@@ -28,10 +28,11 @@ type RegisterProps = {
   showAlert: any => void
 };
 
+const language = localStorage.getItem('language');
+
 const RegisterUser = (props: RegisterProps) => {
   const [uiState, setUiState] = useState({
     isLoading: false,
-    language: localStorage.getItem('language'),
     role: undefined
   });
   const { showAlert } = props;
@@ -41,8 +42,8 @@ const RegisterUser = (props: RegisterProps) => {
   const { register, handleSubmit, errors, setValue, watch, setError } = useForm();
 
   useEffect(() => {
-    register({ name: 'role' }, { required: Contents[uiState.language]?.requireRole });
-  }, [register, uiState.language]);
+    register({ name: 'role' }, { required: Contents[language]?.requireRole });
+  }, [register]);
 
   const onSubmit = async (formData: Object) => {
     try {
@@ -80,7 +81,7 @@ const RegisterUser = (props: RegisterProps) => {
     } catch (error) {
       const { response } = error;
       if (response?.status === 401) {
-        setError('user', 'notMatch', Contents[uiState.language]?.userAlreadyExists);
+        setError('user', 'notMatch', Contents[language]?.userAlreadyExists);
         showAlert({
           severity: 'warning',
           title: `Login`,
@@ -93,7 +94,7 @@ const RegisterUser = (props: RegisterProps) => {
           title: response?.status ? `Error ${response.status}` : `Error`,
           code: response?.status || '500',
           autoHideDuration: 800000,
-          body: Contents[uiState.language]?.errServer
+          body: Contents[language]?.errServer
         });
       }
     } finally {
@@ -116,13 +117,13 @@ const RegisterUser = (props: RegisterProps) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box className={classes.containerBox}>
             <Box className={classes.formLayout}>
-              <h1 className={classes.header}>{Contents[uiState.language]?.pageTitle}</h1>
+              <h1 className={classes.header}>{Contents[language]?.pageTitle}</h1>
               <InputContainer>
                 <TextBox
                   name="user"
-                  label={Contents[uiState.language]?.user}
+                  label={Contents[language]?.user}
                   inputRef={register({
-                    required: Contents[uiState.language]?.requireUser
+                    required: Contents[language]?.requireUser
                   })}
                   error={!!errors.user}
                   helperText={errors.user && errors.user.message}
@@ -131,14 +132,14 @@ const RegisterUser = (props: RegisterProps) => {
               <InputContainer>
                 <TextBox
                   name="password"
-                  label={Contents[uiState.language]?.password}
+                  label={Contents[language]?.password}
                   type="password"
                   inputRef={register({
                     pattern: {
                       value: VALIDATION_REGEXS.PASSWORD,
-                      message: Contents[uiState.language]?.passwordPattern
+                      message: Contents[language]?.passwordPattern
                     },
-                    required: Contents[uiState.language]?.requirePassword
+                    required: Contents[language]?.requirePassword
                   })}
                   error={!!errors.password}
                   helperText={errors.password && errors.password.message}
@@ -147,13 +148,12 @@ const RegisterUser = (props: RegisterProps) => {
               <InputContainer>
                 <TextBox
                   name="confirmPwd"
-                  label={Contents[uiState.language]?.confirmPwd}
+                  label={Contents[language]?.confirmPwd}
                   type="password"
                   inputRef={register({
-                    required: Contents[uiState.language]?.requirePwdConfirmation,
+                    required: Contents[language]?.requirePwdConfirmation,
                     validate: value =>
-                      value === watch('password') ||
-                      Contents[uiState.language]?.passwordConfirmationMistake
+                      value === watch('password') || Contents[language]?.passwordConfirmationMistake
                   })}
                   error={!!errors.confirmPwd}
                   helperText={errors.confirmPwd && errors.confirmPwd.message}
@@ -162,9 +162,9 @@ const RegisterUser = (props: RegisterProps) => {
               <InputContainer>
                 <TextBox
                   name="name"
-                  label={Contents[uiState.language]?.name}
+                  label={Contents[language]?.name}
                   inputRef={register({
-                    required: Contents[uiState.language]?.requireName
+                    required: Contents[language]?.requireName
                   })}
                   error={!!errors.name}
                   helperText={errors.name && errors.name.message}
@@ -173,9 +173,9 @@ const RegisterUser = (props: RegisterProps) => {
               <InputContainer>
                 <TextBox
                   name="firstLastName"
-                  label={Contents[uiState.language]?.firstLastName}
+                  label={Contents[language]?.firstLastName}
                   inputRef={register({
-                    required: Contents[uiState.language]?.requirefirstLastName
+                    required: Contents[language]?.requirefirstLastName
                   })}
                   error={!!errors.firstLastName}
                   helperText={errors.firstLastName && errors.firstLastName.message}
@@ -184,9 +184,9 @@ const RegisterUser = (props: RegisterProps) => {
               <InputContainer>
                 <TextBox
                   name="secondLastName"
-                  label={Contents[uiState.language]?.secondLastName}
+                  label={Contents[language]?.secondLastName}
                   inputRef={register({
-                    required: Contents[uiState.language]?.require2LastName
+                    required: Contents[language]?.require2LastName
                   })}
                   error={!!errors.secondLastName}
                   helperText={errors.secondLastName && errors.secondLastName.message}
@@ -196,7 +196,7 @@ const RegisterUser = (props: RegisterProps) => {
                 <AutocompleteSelect
                   name="role"
                   selectedValue={uiState.role}
-                  placeholder={Contents[uiState.language]?.role}
+                  placeholder={Contents[language]?.role}
                   url={Endpoints.GetRoles}
                   error={!!errors.role}
                   errorText={errors.role && errors.role.message}
@@ -207,7 +207,7 @@ const RegisterUser = (props: RegisterProps) => {
                 type="submit"
                 status="success"
                 className={classes.RegisterButton}
-                text={Contents[uiState.language]?.RegisterUser}
+                text={Contents[language]?.RegisterUser}
               >
                 {uiState.isLoading && <CircularProgress size={24} color={colors.white} />}
               </ActionButton>

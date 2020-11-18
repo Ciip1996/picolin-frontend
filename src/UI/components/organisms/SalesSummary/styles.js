@@ -2,16 +2,17 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles({
   content: {
-    width: '240px',
-    height: '104px',
-    opacity: '1',
+    width: '100%',
+    height: 150,
+    paddingTop: 15,
     borderRadius: '0',
-    background: '#EFF1F5EF',
-    float: 'left'
+    background: 'transparent',
+    paddingLeft: 10,
+    paddingRight: 10
   },
   cash: {
-    width: '115px',
-    height: '25px',
+    width: 115,
+    height: 25,
     font: 'normal normal 300 18px/27px Poppins',
     background: '#AD4DFF 0% 0% no-repeat padding-box',
     opacity: '1',
@@ -21,13 +22,13 @@ export const useStyles = makeStyles({
     float: 'right'
   },
   card: {
-    width: '115px',
-    height: '25px',
+    width: 115,
+    height: 25,
     font: 'normal normal 300 18px/27px Poppins',
     background: '#E26A93 0% 0% no-repeat padding-box',
     opacity: '1',
     color: '#FFFF',
-    borderRadius: '24px',
+    borderRadius: 24,
     boxShadow: '0px 3px 6px #00000029',
     float: 'right'
   },

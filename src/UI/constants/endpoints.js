@@ -20,5 +20,6 @@ export const Endpoints = {
   PaymentMethods: 'lists/getPaymentMethods',
   Login: '/login',
   RegisterUser: '/registerUser',
-  GetRoles: 'lists/getRoles'
+  GetRoles: 'lists/getRoles',
+  GetDayIncome: 'lists/getDayIncome'
 };
