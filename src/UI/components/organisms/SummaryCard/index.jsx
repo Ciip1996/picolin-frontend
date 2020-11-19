@@ -35,7 +35,7 @@ const SummaryCard = () => {
   const [comboValues, setComboValues] = useState<MapType>({});
 
   const { setValue, watch, errors, getValues } = useFormContext();
-  const watchFields = watch(); // when pass nothing as argument, you are watching everything
+  // const watchFields = watch(); // when pass nothing as argument, you are watching everything
   // const values = getValues();
   // console.log('useFormContext values:', values);
 
@@ -130,7 +130,7 @@ const SummaryCard = () => {
               <Text
                 className={classes.currencyValue}
                 variant="body1"
-                text={watchFields.subtotal ? currencyFormatter(watchFields.subtotal) : 'N/A'}
+                // text={watchFields.subtotal ? currencyFormatter(watchFields.subtotal) : 'N/A'}
                 fontSize={16}
               />
             }
@@ -145,7 +145,7 @@ const SummaryCard = () => {
               <Text
                 className={classes.currencyValue}
                 variant="body1"
-                text={watchFields.vat ? currencyFormatter(watchFields.vat) : 'N/A'}
+                // text={watchFields.vat ? currencyFormatter(watchFields.vat) : 'N/A'}
                 fontSize={16}
               />
             }
@@ -161,7 +161,7 @@ const SummaryCard = () => {
                 className={classes.currencyValue}
                 name="display_discount"
                 variant="body1"
-                text={watchFields.discount ? currencyFormatter(watchFields.discount) : '--'}
+                // text={watchFields.discount ? currencyFormatter(watchFields.discount) : '--'}
                 fontSize={16}
               />
             }
@@ -178,7 +178,7 @@ const SummaryCard = () => {
                 name="diaplay_total"
                 className={classes.TotalCost}
                 variant="body1"
-                text={watchFields.total ? currencyFormatter(watchFields.total) : '--'}
+                // text={watchFields.total ? currencyFormatter(watchFields.total) : '--'}
                 fontSize={18}
               />
             }
