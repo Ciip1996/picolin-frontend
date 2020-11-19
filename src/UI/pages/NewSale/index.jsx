@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 // import queryString from 'query-string';
 import Box from '@material-ui/core/Box';
 import { FormContext, useForm } from 'react-hook-form';
@@ -15,6 +15,7 @@ import SummaryCard from 'UI/components/organisms/SummaryCard';
 import TransferCard from 'UI/components/organisms/TransferCard';
 
 /** API / EntityRoutes / Endpoints / EntityType */
+import API from 'services/API';
 import { v4 as uuidv4 } from 'uuid';
 import { Endpoints } from 'UI/constants/endpoints';
 import type { MapType } from 'types';
@@ -23,112 +24,180 @@ import { PageTitles } from 'UI/constants/defaults';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import Contents from './strings';
 
-// type NewSaleListProps = {
-//   onShowAlert: any => void
-// };
+type NewSaleListProps = {
+  onShowAlert: any => void
+};
 
-const NewSaleList = () => {
-  // const { onShowAlert } = props;
+const NewSaleList = (props: NewSaleListProps) => {
+  const { onShowAlert } = props;
   const language = localStorage.getItem('language');
-
-  // const [error, setError] = useState(false);
-  // const [searching, setSearching] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [productList, setProductsList] = useState([]);
+  const [comboValues, setComboValues] = useState<MapType>({});
+  const [productsList, setProductsList] = useState([]);
 
-  const productExample = {
-    characteristic: 'Mini',
-    color: 'Azul Cielo',
-    cost: 122,
-    description: 'con tiras de neopreno',
-    gender: 'unisex',
-    idInventory: 30,
-    pieces: 1,
-    productCode: 'PFAAZRO14019',
-    provider: 'Ropones de san juan',
-    reservedQuantity: null,
-    salePrice: 333,
-    size: 14,
-    stock: -27,
-    store: 'Bodega',
-    type: 'Faldón'
+  const form = useForm();
+  const { register, errors, handleSubmit, setValue, unregister, getValues } = form;
+
+  const onNewSaleFinished = () => {
+    debugger;
   };
-
-  const initialValues = {
-    total: '10000',
-    subtotal: '1000',
-    iva: '1000',
-    discount: '1000',
-    received: '1000',
-    idPaymentMethod: {},
-    deposit: '1000',
-    invoice: true,
-    idStore: {},
-    saleDetail: [{ productCode: productExample.productCode, quantity: 1 }]
-  };
-  const [formValues, setFormValues] = useState<MapType>(initialValues);
-
-  // const [uiState, setUiState] = useState({
-  //   keyword: null
-  // });
-
-  const methods = useForm({
-    defaultValues: initialValues
-  });
-
-  const { handleSubmit, errors, setValue, getValues } = methods;
+  const vals = getValues();
+  console.log('vals', vals);
 
   useEffect(() => {
     document.title = PageTitles.NewSale;
+    debugger;
   }, []);
 
-  // useEffect(() => {
+  const onSubmit = async (formData: Object) => {
+    try {
+      debugger;
 
-  //   register({ name: 'idPaymentMethod' }, { required: 'idPaymentMethod required' });
-  //   const values2 = getValues();
-  //   console.log('useForm values:', values2);
-  // }, [register]);
+      const {
+        idPaymentMethod,
+        invoice,
+        total,
+        subtotal,
+        iva,
+        discount,
+        deposit,
+        saleType,
+        idStore = 1,
+        products: isProductsAvailable,
+        ...rest
+      } = formData;
 
-  const handleComboChange = (name: string, value: any) => {
-    setProductsList(prevState => [...prevState, value]);
-    setFormValues((prevState: MapType): MapType => ({
-      ...prevState,
-      saleDetail: [...prevState.saleDetail, { productCode: value.productCode, quantity: 1 }] // TODO: change quantity
-    }));
-    setValue(name, productList, true);
+      const products = Object.entries(rest).map(([key, value]) => {
+        return { productCode: key, quantity: value };
+      });
+
+      const params = {
+        idPaymentMethod,
+        invoice,
+        total,
+        subtotal,
+        iva,
+        discount,
+        deposit,
+        saleType,
+        idStore,
+        products
+      };
+      const response = await API.post(`${Endpoints.Sales}${Endpoints.NewSale}`, params);
+      if (response) {
+        onShowAlert({
+          severity: 'success',
+          title: 'Venta Exitosa',
+          autoHideDuration: 3000,
+          body: `Se han transferido los productos de ${comboValues.idOrigin.title} a ${comboValues.idDestination.title}`
+        });
+        onNewSaleFinished();
+      }
+    } catch (err) {
+      onShowAlert({
+        severity: 'error',
+        title: 'Error en venta',
+        autoHideDuration: 3000,
+        body: 'Ocurrio un problema'
+      });
+      throw err;
+    }
   };
 
-  useEffect(() => {
-    console.log('productList:', productList);
-    console.log('formValues:', formValues);
-    const values = getValues();
-    console.log('useForm values:', values);
-    debugger;
-  }, [formValues, getValues, productList]);
+  // const handleComboChange = (name?: string, value: any) => {
+  //   if (productsList.length > 0) {
+  //     // reset the form if there is a change in the selects
+  //     setProductsList([]);
+  //     setComboValues({});
+  //     reset();
+  //     registerFormField();
+  //   }
+  //   setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
+  //   setValue(name, value ? value.id : value, true);
+  // };
 
-  const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
-    ':idStore',
-    'All'
-  );
-
-  const onSubmit = (formData: Object) => {
-    console.log(formData);
+  const handleAddProduct = (name: string, value: any) => {
     debugger;
+
+    setProductsList(prevState => {
+      // validate that the item has not been added already (removes duplicates)
+      if (prevState.length === 0) {
+        return [...prevState, { product: { ...value }, quantity: 1 }];
+      }
+      const doesNotExistInArray = prevState.some(
+        each => each.product.productCode === value.productCode
+      );
+      if (doesNotExistInArray) return prevState;
+      return [...prevState, { product: { ...value }, quantity: 1 }];
+    });
+
+    setValue(name, value ? true : undefined, true);
   };
 
   const defaultOptionSelectedFn = (option, value) => option.id === value.id;
 
-  const onRemoveItem = (productCode: string) => {
-    console.log(productCode, productList);
+  const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
+    ':idStore',
+    '1'
+  );
+
+  const onRemoveProduct = (productCode: string) => {
+    debugger;
+
     setProductsList(prevState => {
-      debugger;
       // remove item with productCode
-      const filteredArray = prevState.filter((each: Object) => each.productCode !== productCode);
+      const filteredArray = prevState.filter(
+        (each: Object) => each.product.productCode !== productCode
+      );
       return [...filteredArray];
     });
-    // unregister(productCode);
+    unregister(productCode);
   };
+
+  const onModifyAmountOfItem = (productCode: Object, quantity: any, stock: number) => {
+    debugger;
+
+    // TODO: check why is not taking the stock validation
+    const updatedProducts = productsList.map((each: Object) => {
+      if (each?.product?.productCode === productCode) {
+        const isStockUnavailable = quantity ? stock < quantity : stock < 0;
+        if (isStockUnavailable) {
+          setValue(productCode, quantity, true);
+        } else {
+          setValue(productCode, quantity || 0, true);
+        }
+        return { ...each, quantity: parseInt(quantity, 10) };
+      }
+      return each;
+    });
+    setProductsList(updatedProducts);
+  };
+
+  const registerFormField = useCallback(() => {
+    register(
+      { name: 'idPaymentMethod' },
+      {
+        required: `Tipo de pago requerido`
+      }
+    );
+    register({ name: 'discount' });
+    register({ name: 'invoice' });
+    register(
+      { name: 'products' },
+      {
+        required: `Al menos un producto es necesario para realizar la venta.`
+      }
+    );
+  }, [register]);
+
+  useEffect(() => {
+    registerFormField();
+  }, [register, registerFormField]);
+
+  useEffect(() => {
+    if (productsList.length === 0) setValue('products', undefined, false);
+  }, [productsList, setValue]);
 
   return (
     <ContentPageLayout>
@@ -136,8 +205,8 @@ const NewSaleList = () => {
         loading={loading} // loading
         title={Contents[language]?.pageTitle}
       >
-        <FormContext {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)} className="search-form">
+        <FormContext {...form}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Box
               // container
               direction="row"
@@ -155,16 +224,16 @@ const NewSaleList = () => {
                 minWidth={472}
               >
                 <AutocompleteSelect
-                  name="saleDetail"
-                  // selectedValue={productList.producto}
-                  placeholder="Escriba para buscar un producto "
+                  name="products"
+                  // selectedValue={comboValues.producto}
+                  // disabled={!isProductFieldEnabled}
+                  placeholder="Escriba un Producto"
                   url={searchingProductsUrl}
                   displayKey="name"
                   typeahead
-                  typeaheadLimit={25}
-                  onSelect={handleComboChange}
+                  typeaheadLimit={15}
+                  onSelect={handleAddProduct}
                   getOptionSelected={defaultOptionSelectedFn}
-                  inputRef={methods.register}
                   dataFetchKeyName="inventory"
                   error={!!errors?.products}
                   errorText={errors?.products && errors?.products.message}
@@ -173,23 +242,24 @@ const NewSaleList = () => {
                       <div>
                         <strong>{option.productCode}</strong>
                         <br />
-                        <span>{option.type}</span> | <span>{option.gender}</span> |{' '}
+                        <span>{option.type}</span> | <span>{option.gender}</span> |
                         <span>{option.characteristic}</span>| <span>{option.color}</span>
                       </div>
                     );
                   }}
                 />
                 <div>
-                  {productList &&
-                    productList.map(product => (
+                  {productsList.map(each => {
+                    return (
                       <TransferCard
-                        onRemoveItem={onRemoveItem}
-                        onAmountOfProductsChanged={() => {}}
-                        quantityOfProducts={1}
                         key={uuidv4()}
-                        product={product}
+                        product={each?.product}
+                        quantityOfProducts={each?.quantity}
+                        onRemoveItem={onRemoveProduct}
+                        onAmountOfProductsChanged={onModifyAmountOfItem}
                       />
-                    ))}
+                    );
+                  })}
                   <div className="push" />
                 </div>
               </Box>

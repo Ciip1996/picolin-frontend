@@ -4,6 +4,7 @@ export const Endpoints = {
   InsertInventory: '/insertInventory',
   Sales: '/sales',
   GetSales: '/getSales/:idStore',
+  NewSale: '/insertSale',
   Transfers: '/transfers',
   GetTransfers: '/getTransfer/:idStore',
   InsertTransfer: '/insertTransfer',

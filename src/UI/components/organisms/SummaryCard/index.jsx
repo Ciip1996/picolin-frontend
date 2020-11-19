@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Card from '@material-ui/core/Card';
@@ -18,6 +18,7 @@ import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { AddIcon, colors } from 'UI/res';
 import { Endpoints } from 'UI/constants/endpoints';
 import { currencyFormatter } from 'UI/utils';
+import type { MapType } from 'types';
 import Contents from './strings';
 import { useStyles } from './styles';
 
@@ -31,24 +32,32 @@ const SummaryCard = () => {
   // const { defaultValues } = props;
   // console.log('defaultValues', defaultValues);
   const classes = useStyles();
+  const [comboValues, setComboValues] = useState<MapType>({});
 
-  const [formValues, setFormValues] = useState({});
-
-  const { register, getValues, setValue, watch, errors } = useFormContext();
+  const { setValue, watch, errors, getValues } = useFormContext();
   const watchFields = watch(); // when pass nothing as argument, you are watching everything
-  const values = getValues();
-  console.log('useFormContext values:', values);
+  // const values = getValues();
+  // console.log('useFormContext values:', values);
 
-  const onSelectChanged = (name: string, value: any) => {
-    setValue(name, value?.id ? value?.id : value?.title, true);
-    setFormValues(prevState => ({ ...prevState, [name]: value }));
+  const onSelectionChange = (name: string, value: any) => {
+    setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
+    setValue(name, value?.id ? value.id : value, true);
   };
 
-  const handleTextChange = (name: string, value: any) => {
-    setValue(name, value, true);
-    setFormValues(prevState => ({ ...prevState, [name]: value }));
+  const onSwitcherChange = (event: Object) => {
+    setValue([event.target.name], event.target.checked, true);
+    calculateCosts();
+  };
+
+  const calculateCosts = () => {
+    // TODO
     debugger;
   };
+
+  // const handleTextChange = (name: string, value: any) => {
+  //   setValue(name, value, true);
+  //   setFormValues(prevState => ({ ...prevState, [name]: value }));
+  // };
 
   return (
     <Card className={classes.card}>
@@ -56,26 +65,22 @@ const SummaryCard = () => {
       <AutocompleteSelect
         className={classes.formulary}
         name="idPaymentMethod"
+        selectedValue={comboValues.idPaymentMethod}
         placeholder={Contents[language]?.Payment}
+        error={!!errors?.idPaymentMethod}
+        errorText={errors?.idPaymentMethod && errors?.idPaymentMethod.message}
         url={Endpoints.PaymentMethods}
-        inputRef={register}
-        error={!!errors.idPaymentMethod}
-        errorText={errors.idPaymentMethod && errors.idPaymentMethod.message}
-        onSelect={onSelectChanged}
-        // inputRef={register({
-        //   required: 'El tipo de pago es requerido'
-        // })}
+        onSelect={onSelectionChange}
       />
       <TextBox
         className={classes.formulary}
-        inputType="currency"
+        inputType="text"
         name="discount"
         label={Contents[language]?.Discount}
         error={!!errors?.discount}
         errorText={errors?.discount && errors?.discount.message}
-        onChange={handleTextChange}
+        onChange={onSelectionChange}
         value={getValues('discount') || ''}
-        inputRef={register({ max: { value: 100, message: 'no max' } })}
       />
       {/* <TextBox
         outPutValue
@@ -92,13 +97,12 @@ const SummaryCard = () => {
         name="invoice"
         control={<Switch color="primary" />}
         className={classes.invoice}
-        checked
+        checked={getValues('invoice') || false}
+        onChange={onSwitcherChange}
         label={Contents[language]?.invoice}
         labelPlacement="start"
-        inputRef={register}
-        // error={!!errors.invoice}
-        // helperText={errors.invoice && errors.invoice.message}
-        // inputRef={register}
+        error={!!errors.invoice}
+        helperText={errors.invoice && errors.invoice.message}
       />
       <List component="nav" className={classes.List}>
         {/* <ListItem divider className={classes.Item}>
@@ -128,7 +132,6 @@ const SummaryCard = () => {
                 variant="body1"
                 text={watchFields.subtotal ? currencyFormatter(watchFields.subtotal) : 'N/A'}
                 fontSize={16}
-                inputRef={register}
               />
             }
           />
