@@ -13,7 +13,8 @@ const Contents = {
     no: 'No',
     day: 'Per day',
     week: 'Per week',
-    month: 'Per month'
+    month: 'Per month',
+    discountMin: 'The discount should be greater than 0.'
   },
   Spanish: {
     pageTitle: 'NUEVA VENTA',
@@ -29,7 +30,8 @@ const Contents = {
     no: 'No',
     day: 'Del día',
     week: 'Semana',
-    month: 'Del Mes'
+    month: 'Del Mes',
+    discountMin: 'El descuento debe ser mayor a 0.'
   }
 };
 export default Contents;

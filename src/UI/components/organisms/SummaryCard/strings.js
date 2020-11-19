@@ -9,8 +9,9 @@ const Contents = {
     Deposit: 'DEPOSIT',
     Subtotal: 'SUBTOTAL',
     Taxes: 'VAT',
-    lblDiscount: 'DISCOUNT',
-    Total: 'TOTAL'
+    Total: 'TOTAL',
+    received: 'Cash received',
+    receivedRequired: 'Debe especificar cuanto Efectivo está Recibiendo.'
   },
   Spanish: {
     HeaderTitle: 'Resumen',
@@ -22,8 +23,10 @@ const Contents = {
     Deposit: 'DEPÓSITO',
     Subtotal: 'SUBTOTAL',
     Taxes: 'IVA',
-    lblDiscount: 'DESCUENTO',
-    Total: 'TOTAL'
+    change: 'CAMBIO',
+    Total: 'TOTAL',
+    received: 'Efectivo Recibido',
+    receivedRequired: 'Debe especificar cuanto Efectivo está Recibiendo.'
   }
 };
 export default Contents;

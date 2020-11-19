@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from 'UI/res';
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles(theme => ({
   card: {
     width: '398px',
     height: 'fit-content',
@@ -51,6 +51,9 @@ export const useStyles = makeStyles({
   Item: {
     height: 50
   },
+  discount: {
+    color: `${theme.palette.error.main} !important`
+  },
   currencyValue: {
     font: 'normal normal 300 18px/27px Poppins',
     opacity: '1',
@@ -90,4 +93,4 @@ export const useStyles = makeStyles({
     height: '48px'
     // marginLeft: '201px'
   }
-});
+}));

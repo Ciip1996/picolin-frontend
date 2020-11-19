@@ -18,7 +18,7 @@ import TransferCard from 'UI/components/organisms/TransferCard';
 import API from 'services/API';
 import { v4 as uuidv4 } from 'uuid';
 import { Endpoints } from 'UI/constants/endpoints';
-import type { MapType } from 'types';
+// import type { MapType } from 'types';
 
 import { PageTitles } from 'UI/constants/defaults';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -28,32 +28,47 @@ type NewSaleListProps = {
   onShowAlert: any => void
 };
 
+const language = localStorage.getItem('language');
+
 const NewSaleList = (props: NewSaleListProps) => {
   const { onShowAlert } = props;
-  const language = localStorage.getItem('language');
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
 
-  const [comboValues, setComboValues] = useState<MapType>({});
+  // const [comboValues, setComboValues] = useState<MapType>({});
   const [productsList, setProductsList] = useState([]);
 
+  const defaultOptionSelectedFn = (option, value) => option.id === value.id;
+
+  const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
+    ':idStore',
+    '1'
+  );
+
   const form = useForm();
-  const { register, errors, handleSubmit, setValue, unregister, getValues } = form;
+  const { register, errors, handleSubmit, setValue, unregister, watch, getValues } = form;
+
+  const watchFields = watch([
+    'discount',
+    'subtotal',
+    'iva',
+    'total',
+    'change',
+    'totalWithDiscount'
+  ]); // you can also target specific fields by their names
 
   const onNewSaleFinished = () => {
-    debugger;
+    // debugger;
   };
   const vals = getValues();
   console.log('vals', vals);
 
   useEffect(() => {
     document.title = PageTitles.NewSale;
-    debugger;
   }, []);
 
   const onSubmit = async (formData: Object) => {
     try {
       debugger;
-
       const {
         idPaymentMethod,
         invoice,
@@ -90,7 +105,7 @@ const NewSaleList = (props: NewSaleListProps) => {
           severity: 'success',
           title: 'Venta Exitosa',
           autoHideDuration: 3000,
-          body: `Se han transferido los productos de ${comboValues.idOrigin.title} a ${comboValues.idDestination.title}`
+          body: `Su venta de {total} fue realizada con exito`
         });
         onNewSaleFinished();
       }
@@ -105,21 +120,7 @@ const NewSaleList = (props: NewSaleListProps) => {
     }
   };
 
-  // const handleComboChange = (name?: string, value: any) => {
-  //   if (productsList.length > 0) {
-  //     // reset the form if there is a change in the selects
-  //     setProductsList([]);
-  //     setComboValues({});
-  //     reset();
-  //     registerFormField();
-  //   }
-  //   setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
-  //   setValue(name, value ? value.id : value, true);
-  // };
-
   const handleAddProduct = (name: string, value: any) => {
-    debugger;
-
     setProductsList(prevState => {
       // validate that the item has not been added already (removes duplicates)
       if (prevState.length === 0) {
@@ -131,20 +132,11 @@ const NewSaleList = (props: NewSaleListProps) => {
       if (doesNotExistInArray) return prevState;
       return [...prevState, { product: { ...value }, quantity: 1 }];
     });
-
     setValue(name, value ? true : undefined, true);
   };
 
-  const defaultOptionSelectedFn = (option, value) => option.id === value.id;
-
-  const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
-    ':idStore',
-    '1'
-  );
-
   const onRemoveProduct = (productCode: string) => {
-    debugger;
-
+    // debugger;
     setProductsList(prevState => {
       // remove item with productCode
       const filteredArray = prevState.filter(
@@ -156,7 +148,7 @@ const NewSaleList = (props: NewSaleListProps) => {
   };
 
   const onModifyAmountOfItem = (productCode: Object, quantity: any, stock: number) => {
-    debugger;
+    // debugger;
 
     // TODO: check why is not taking the stock validation
     const updatedProducts = productsList.map((each: Object) => {
@@ -181,7 +173,38 @@ const NewSaleList = (props: NewSaleListProps) => {
         required: `Tipo de pago requerido`
       }
     );
-    register({ name: 'discount' });
+    register(
+      { name: 'received' },
+      {
+        required: `Campo requerido`,
+        validate: value => {
+          return (
+            parseFloat(value) >= parseFloat(watchFields.total) ||
+            `Debe ser mayor o igual que el total`
+          );
+        }
+      }
+    );
+    register({ name: 'subtotal' });
+    register({ name: 'total' });
+    register({ name: 'totalWithDiscount' });
+
+    register({ name: 'change' });
+    register({ name: 'iva' });
+    register(
+      { name: 'discount' },
+      {
+        min: { value: 0, message: Contents[language]?.discountMin },
+        validate: value => {
+          if (value) {
+            const total = parseFloat(watch('total'));
+            const constraint = parseFloat(value) <= total * 0.3;
+            return constraint || `El descuento debe ser menor al 30% del total`;
+          }
+          return true;
+        }
+      }
+    );
     register({ name: 'invoice' });
     register(
       { name: 'products' },
@@ -189,11 +212,41 @@ const NewSaleList = (props: NewSaleListProps) => {
         required: `Al menos un producto es necesario para realizar la venta.`
       }
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [register]);
 
   useEffect(() => {
     registerFormField();
   }, [register, registerFormField]);
+
+  const calculateSaleCosts = useCallback(() => {
+    // const values = getValues();
+    // console.log(values);
+    const { received, discount, invoice } = getValues();
+
+    console.log(productsList);
+    debugger;
+    // productsList.length > 0 &&
+    //   productsList.reduce((accumulator, currentValue) => {
+    //     debugger;
+    //     return parseFloat(accumulator) + parseFloat(currentValue);
+    //   });
+
+    const subtotal = parseFloat(100);
+    const iva = invoice ? parseFloat(subtotal || 0.0) * 0.16 : 0.0;
+    const total = parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0);
+    const totalWithDiscount =
+      parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0) - parseFloat(discount || 0.0);
+
+    const change =
+      totalWithDiscount && received ? parseFloat(totalWithDiscount) - parseFloat(received) : 0.0;
+
+    setValue('subtotal', `${subtotal}`, false);
+    setValue('iva', `${iva}`, false);
+    setValue('change', `${change}`, false);
+    setValue('total', `${total}`, false);
+    setValue('totalWithDiscount', `${totalWithDiscount}`, false);
+  }, [getValues, productsList, setValue]);
 
   useEffect(() => {
     if (productsList.length === 0) setValue('products', undefined, false);
@@ -202,7 +255,7 @@ const NewSaleList = (props: NewSaleListProps) => {
   return (
     <ContentPageLayout>
       <ListPageLayout
-        loading={loading} // loading
+        // loading={loading} // loading
         title={Contents[language]?.pageTitle}
       >
         <FormContext {...form}>
@@ -264,7 +317,7 @@ const NewSaleList = (props: NewSaleListProps) => {
                 </div>
               </Box>
               <Box style={{ display: 'flex' }}>
-                <SummaryCard />
+                <SummaryCard onNewItemAdded={calculateSaleCosts} watchFields={watchFields} />
               </Box>
             </Box>
           </form>

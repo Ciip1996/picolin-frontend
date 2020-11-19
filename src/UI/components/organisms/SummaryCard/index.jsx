@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Card from '@material-ui/core/Card';
@@ -19,45 +19,58 @@ import { AddIcon, colors } from 'UI/res';
 import { Endpoints } from 'UI/constants/endpoints';
 import { currencyFormatter } from 'UI/utils';
 import type { MapType } from 'types';
+import { isEmpty } from 'lodash';
 import Contents from './strings';
 import { useStyles } from './styles';
 
 const language = localStorage.getItem('language');
 
-// type SummaryCardProps = {
-//   defaultValues: Object
-// };
+type SummaryCardProps = {
+  watchFields: Object,
+  onNewItemAdded: any => any
+};
 
-const SummaryCard = () => {
-  // const { defaultValues } = props;
-  // console.log('defaultValues', defaultValues);
+const SummaryCard = (props: SummaryCardProps) => {
+  const { watchFields, onNewItemAdded } = props;
   const classes = useStyles();
   const [comboValues, setComboValues] = useState<MapType>({});
 
-  const { setValue, watch, errors, getValues } = useFormContext();
-  // const watchFields = watch(); // when pass nothing as argument, you are watching everything
-  // const values = getValues();
-  // console.log('useFormContext values:', values);
+  const { register, unregister, setValue, errors, getValues } = useFormContext();
 
   const onSelectionChange = (name: string, value: any) => {
     setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
     setValue(name, value?.id ? value.id : value, true);
+    onNewItemAdded();
   };
 
   const onSwitcherChange = (event: Object) => {
-    setValue([event.target.name], event.target.checked, true);
-    calculateCosts();
+    setValue([event.target.name], event.target.checked, false);
+    onNewItemAdded();
   };
 
-  const calculateCosts = () => {
-    // TODO
-    debugger;
-  };
+  // useEffect(() => {
+  //   // TODO: This hook calculates the subtotal and the rest of the amounts that need to be send.
+  //   onNewItemAdded();
+  // }, [onNewItemAdded]);
 
-  // const handleTextChange = (name: string, value: any) => {
-  //   setValue(name, value, true);
-  //   setFormValues(prevState => ({ ...prevState, [name]: value }));
-  // };
+  useEffect(() => {
+    // This hook validates if the field received is going to be required or not depending if the payment method is cash or not
+    if (comboValues?.idPaymentMethod?.id === 2 && !comboValues.received) {
+      unregister('received');
+      register(
+        { name: 'received' },
+        {
+          required: Contents[language]?.receivedRequired,
+          validate: value => {
+            return (
+              parseFloat(value) >= parseFloat(watchFields.total) ||
+              `Debe ser mayor o igual que el total`
+            );
+          }
+        }
+      );
+    }
+  }, [comboValues, register, unregister, watchFields.total]);
 
   return (
     <Card className={classes.card}>
@@ -74,7 +87,18 @@ const SummaryCard = () => {
       />
       <TextBox
         className={classes.formulary}
-        inputType="text"
+        disabled={!!(comboValues?.idPaymentMethod?.id !== 2)}
+        inputType="currency"
+        name="received"
+        label={Contents[language]?.received}
+        error={!!errors?.received}
+        errorText={errors?.received && errors?.received.message}
+        onChange={onSelectionChange}
+        value={getValues('received') || ''}
+      />
+      <TextBox
+        className={classes.formulary}
+        inputType="currency"
         name="discount"
         label={Contents[language]?.Discount}
         error={!!errors?.discount}
@@ -128,9 +152,14 @@ const SummaryCard = () => {
           <ListItemText
             secondary={
               <Text
+                name="display_subtotal"
                 className={classes.currencyValue}
                 variant="body1"
-                // text={watchFields.subtotal ? currencyFormatter(watchFields.subtotal) : 'N/A'}
+                text={
+                  watchFields.subtotal && isEmpty(errors)
+                    ? currencyFormatter(watchFields.subtotal)
+                    : '--'
+                }
                 fontSize={16}
               />
             }
@@ -143,9 +172,12 @@ const SummaryCard = () => {
           <ListItemText
             secondary={
               <Text
+                name="display_taxes"
                 className={classes.currencyValue}
                 variant="body1"
-                // text={watchFields.vat ? currencyFormatter(watchFields.vat) : 'N/A'}
+                text={
+                  watchFields.iva && isEmpty(errors) ? currencyFormatter(watchFields.iva) : 'N/A'
+                }
                 fontSize={16}
               />
             }
@@ -153,15 +185,40 @@ const SummaryCard = () => {
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.Description}>{Contents[language]?.lblDiscount}</span>}
+            primary={<span className={classes.Description}>{Contents[language]?.Discount}</span>}
+          />
+          <ListItemText
+            secondary={
+              <Text
+                className={[classes.currencyValue, classes.discount]}
+                name="display_discount"
+                variant="body1"
+                text={
+                  watchFields?.discount && isEmpty(errors)
+                    ? currencyFormatter(watchFields.discount * -1)
+                    : '--'
+                }
+                fontSize={16}
+              />
+            }
+          />
+        </ListItem>
+
+        <ListItem divider className={classes.Item}>
+          <ListItemText
+            primary={<span className={classes.Description}>{Contents[language]?.change}</span>}
           />
           <ListItemText
             secondary={
               <Text
                 className={classes.currencyValue}
-                name="display_discount"
+                name="display_change"
                 variant="body1"
-                // text={watchFields.discount ? currencyFormatter(watchFields.discount) : '--'}
+                text={
+                  watchFields?.change && isEmpty(errors)
+                    ? currencyFormatter(watchFields?.change)
+                    : '--'
+                }
                 fontSize={16}
               />
             }
@@ -178,7 +235,11 @@ const SummaryCard = () => {
                 name="diaplay_total"
                 className={classes.TotalCost}
                 variant="body1"
-                // text={watchFields.total ? currencyFormatter(watchFields.total) : '--'}
+                text={
+                  watchFields?.totalWithDiscount && isEmpty(errors)
+                    ? currencyFormatter(watchFields.totalWithDiscount)
+                    : '--'
+                }
                 fontSize={18}
               />
             }
@@ -190,7 +251,6 @@ const SummaryCard = () => {
             status="success"
             className={classes.submitButton}
             text={Contents[language]?.Conclude}
-            // onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
           >
             <AddIcon fill={colors.white} size={18} />
           </ActionButton>
