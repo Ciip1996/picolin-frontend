@@ -86,7 +86,7 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const onSubmit = async (formData: Object) => {
     try {
-      debugger;
+      // debugger;
       const {
         idPaymentMethod,
         invoice,
@@ -139,7 +139,7 @@ const NewSaleList = (props: NewSaleListProps) => {
   };
 
   const handleAddProduct = (name: string, value: any) => {
-    debugger;
+    // debugger;
 
     setProductsList(prevState => {
       // validate that the item has not been added already (removes duplicates)
@@ -155,7 +155,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         return false;
       });
 
-      debugger;
+      // debugger;
 
       if (productAlreadyAdded) {
         const updatedArray = prevState;
@@ -250,7 +250,7 @@ const NewSaleList = (props: NewSaleListProps) => {
     const { received, discount, invoice } = getValues();
 
     console.log(productsList);
-    debugger;
+    // debugger;
     // productsList.length > 0 &&
     //   productsList.reduce((accumulator, currentValue) => {
     //     debugger;
@@ -279,7 +279,7 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const onComboAdded = () => {
     // TODO: add logic
-    debugger;
+    // debugger;
   };
 
   return (
