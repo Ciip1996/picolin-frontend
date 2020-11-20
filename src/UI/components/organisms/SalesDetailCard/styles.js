@@ -41,7 +41,8 @@ export const useStyles = makeStyles({
     maxHeight: '200px',
     width: '90%',
     overflowY: 'scroll',
-    overflowX: 'hidden'
+    overflowX: 'hidden',
+    overflow: 'hidden'
   },
   Resume: {
     marginLeft: '24px',
