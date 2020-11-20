@@ -10,39 +10,41 @@ import { useStyles } from './styles';
 const language = localStorage.getItem('language');
 
 type SummaryCardProps = {
-  total: string,
-  subtotal: string,
-  data: Array<Object>,
-  deposit: string,
-  taxes: string,
-  discount: string,
-  payment: string,
-  received: string
+  saleData: Object,
+  sale: Object,
+  detail: Array<Object>
 };
 
 const SummaryCard = (props: SummaryCardProps) => {
-  const { data, subtotal, total, deposit, taxes, discount, payment, received } = props; // [{}]
+  const { saleData } = props;
+  const { sale = {}, detail: data } = saleData;
+  const { total, subtotal, iva: taxes, discount, received, paymentMethod, deposit } = sale;
+  if (sale) {
+    debugger;
+  }
   const classes = useStyles();
+
   return (
     <Card className={classes.card}>
       <h1 className={classes.title}>{Contents[language].HeaderTitle}</h1>
       <List component="nav">
         <center>
           <div className={classes.List}>
-            {data.map(each => {
-              return (
-                <ListItem divider className={classes.Item}>
-                  <ListItemText
-                    primary={<span className={classes.ScrollDescription}>{each.title}</span>}
-                  />
-                  <ListItemText
-                    secondary={
-                      <span className={classes.ScrollCostDescription}>{each.content}</span>
-                    }
-                  />
-                </ListItem>
-              );
-            })}
+            {data &&
+              data.map(each => {
+                return (
+                  <ListItem divider className={classes.Item}>
+                    <ListItemText
+                      primary={<span className={classes.ScrollDescription}>{each.title}</span>}
+                    />
+                    <ListItemText
+                      secondary={
+                        <span className={classes.ScrollCostDescription}>{each.content}</span>
+                      }
+                    />
+                  </ListItem>
+                );
+              })}
           </div>
         </center>
         <br />
@@ -84,10 +86,12 @@ const SummaryCard = (props: SummaryCardProps) => {
             </ListItem>
             <ListItem divider className={classes.Content}>
               <ListItemText
-                primary={<span className={classes.Description}>{Contents[language]?.Payment}</span>}
+                primary={
+                  <span className={classes.Description}>{Contents[language]?.paymentMethod}</span>
+                }
               />
               <ListItemText
-                secondary={<span className={classes.CostDescription}>{payment}</span>}
+                secondary={<span className={classes.CostDescription}>{paymentMethod}</span>}
               />
             </ListItem>
             <ListItem divider className={classes.Content}>
@@ -111,16 +115,6 @@ const SummaryCard = (props: SummaryCardProps) => {
       </List>
     </Card>
   );
-};
-
-SummaryCard.defaultProps = {
-  subtotal: '$698.1',
-  total: '$15060000000.84',
-  deposit: 'N/A',
-  taxes: '$111.696',
-  discount: '$0.00',
-  payment: 'EFECTIVO',
-  received: '$1,000.00'
 };
 
 export default SummaryCard;

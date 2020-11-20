@@ -54,6 +54,8 @@ const SalesList = (props: SalesListProps) => {
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState<any>([{}]);
+  const [selectedSale, setSelectedSale] = useState({});
+
   const [count, setCount] = useState(0);
 
   const invoiceOptions = [
@@ -210,14 +212,45 @@ const SalesList = (props: SalesListProps) => {
     columnItems[index].display = display;
   };
 
-  const handleRowClick = newItem => {
-    const { id } = data[newItem.rowIndex];
-    debugger;
+  const getSaleDetail = async (id: any) => {
+    try {
+      const response = await API.get(
+        `${Endpoints.Sales}${Endpoints.GetSaleDetails}`.replace(':id', id)
+      );
+      if (response.status === 200) {
+        const detailedData = { ...response.data };
+        setSelectedSale(detailedData);
+      }
+    } catch (getSaleDetailError) {
+      setError(true);
+      onShowAlert({
+        severity: 'error',
+        autoHideDuration: 3000,
+        title: getErrorData(getSaleDetailError).title,
+        body: getErrorData(getSaleDetailError).message
+      });
+      throw getSaleDetailError;
+    }
+  };
+
+  const handleRowClick = (rowData: Object) => {
+    const { id } = data[rowData.rowIndex];
+    getSaleDetail(id);
   };
 
   const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
 
   const columns = [
+    {
+      name: 'id',
+      options: {
+        filter: true,
+        sort: false,
+        print: false,
+        display: 'excluded',
+        filterType: 'custom'
+      }
+    },
     {
       name: 'idSale',
       options: {
@@ -471,16 +504,7 @@ const SalesList = (props: SalesListProps) => {
             />
           </Box>
           <Box display="flex" flex={1} justifyContent="center">
-            <SalesDetailCard
-              total="0"
-              subtotal="0"
-              data={['0']}
-              deposit="0"
-              taxes="0"
-              discount="0"
-              payment="0"
-              received="0"
-            />
+            <SalesDetailCard saleData={selectedSale} />
           </Box>
         </Box>
       </ListPageLayout>

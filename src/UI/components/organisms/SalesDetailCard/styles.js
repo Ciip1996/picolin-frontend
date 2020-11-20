@@ -10,7 +10,8 @@ export const useStyles = makeStyles({
     borderTopRightRadius: 26,
     borderBottomLeftRadius: 26,
     borderBottomRightRadius: 26,
-    background: 'white'
+    background: colors.white,
+    marginLeft: 32
   },
   title: {
     marginTop: '23px',
