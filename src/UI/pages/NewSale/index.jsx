@@ -42,7 +42,7 @@ const NewSaleList = (props: NewSaleListProps) => {
   const [loading, setLoading] = useState(true);
 
   const [uiState, setUiState] = useState({
-    isAddComboToSaleDrawerOpen: true
+    isAddComboToSaleDrawerOpen: false
   });
 
   const defaultOptionSelectedFn = (option, value) => option.id === value.id;

@@ -34,7 +34,7 @@ const SummaryCard = (props: SummaryCardProps) => {
   const classes = useStyles();
   const [comboValues, setComboValues] = useState<MapType>({});
 
-  const { register, unregister, setValue, errors, getValues } = useFormContext();
+  const { register, unregister, setValue, errors, getValues, triggerValidation } = useFormContext();
 
   const onSelectionChange = (name: string, value: any) => {
     setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
@@ -46,11 +46,6 @@ const SummaryCard = (props: SummaryCardProps) => {
     setValue([event.target.name], event.target.checked, false);
     onNewItemAdded();
   };
-
-  // useEffect(() => {
-  //   // TODO: This hook calculates the subtotal and the rest of the amounts that need to be send.
-  //   onNewItemAdded();
-  // }, [onNewItemAdded]);
 
   useEffect(() => {
     // This hook validates if the field received is going to be required or not depending if the payment method is cash or not
@@ -68,17 +63,14 @@ const SummaryCard = (props: SummaryCardProps) => {
           }
         }
       );
+    } else if (!comboValues?.idPaymentMethod || comboValues?.idPaymentMethod?.id !== 2) {
+      unregister('received');
+      triggerValidation();
     }
-    //  else {
-    //   setComboValues((prevState: MapType): MapType => ({
-    //     ...prevState,
-    //     idPaymentMethod: undefined
-    //   }));
-    // }
-  }, [comboValues, register, unregister, watchFields.total]);
+  }, [comboValues, register, triggerValidation, unregister, watchFields.total]);
 
   const hasAnImportantError = !!errors?.received || !!errors?.discount;
-  console.log('hasAnImportantError', hasAnImportantError);
+  // console.log('hasAnImportantError', hasAnImportantError);
 
   return (
     <Card className={classes.card}>
