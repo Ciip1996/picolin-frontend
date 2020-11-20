@@ -19,7 +19,6 @@ import { AddIcon, colors } from 'UI/res';
 import { Endpoints } from 'UI/constants/endpoints';
 import { currencyFormatter } from 'UI/utils';
 import type { MapType } from 'types';
-import { isEmpty } from 'lodash';
 import Contents from './strings';
 import { useStyles } from './styles';
 
@@ -70,7 +69,16 @@ const SummaryCard = (props: SummaryCardProps) => {
         }
       );
     }
+    //  else {
+    //   setComboValues((prevState: MapType): MapType => ({
+    //     ...prevState,
+    //     idPaymentMethod: undefined
+    //   }));
+    // }
   }, [comboValues, register, unregister, watchFields.total]);
+
+  const hasAnImportantError = !!errors?.received || !!errors?.discount;
+  console.log('hasAnImportantError', hasAnImportantError);
 
   return (
     <Card className={classes.card}>
@@ -155,11 +163,7 @@ const SummaryCard = (props: SummaryCardProps) => {
                 name="display_subtotal"
                 className={classes.currencyValue}
                 variant="body1"
-                text={
-                  watchFields.subtotal && isEmpty(errors)
-                    ? currencyFormatter(watchFields.subtotal)
-                    : '--'
-                }
+                text={watchFields.subtotal ? currencyFormatter(watchFields.subtotal) : '--'}
                 fontSize={16}
               />
             }
@@ -175,9 +179,7 @@ const SummaryCard = (props: SummaryCardProps) => {
                 name="display_taxes"
                 className={classes.currencyValue}
                 variant="body1"
-                text={
-                  watchFields.iva && isEmpty(errors) ? currencyFormatter(watchFields.iva) : 'N/A'
-                }
+                text={watchFields.iva ? currencyFormatter(watchFields.iva) : 'N/A'}
                 fontSize={16}
               />
             }
@@ -194,7 +196,7 @@ const SummaryCard = (props: SummaryCardProps) => {
                 name="display_discount"
                 variant="body1"
                 text={
-                  watchFields?.discount && isEmpty(errors)
+                  watchFields?.discount && !hasAnImportantError
                     ? currencyFormatter(watchFields.discount * -1)
                     : '--'
                 }
@@ -215,7 +217,7 @@ const SummaryCard = (props: SummaryCardProps) => {
                 name="display_change"
                 variant="body1"
                 text={
-                  watchFields?.change && isEmpty(errors)
+                  watchFields?.change && !hasAnImportantError
                     ? currencyFormatter(watchFields?.change)
                     : '--'
                 }
@@ -236,7 +238,7 @@ const SummaryCard = (props: SummaryCardProps) => {
                 className={classes.TotalCost}
                 variant="body1"
                 text={
-                  watchFields?.totalWithDiscount && isEmpty(errors)
+                  watchFields?.totalWithDiscount
                     ? currencyFormatter(watchFields.totalWithDiscount)
                     : '--'
                 }

@@ -54,7 +54,8 @@ CustomIconButton.defaultProps = {
   disabled: false,
   tooltipText: '',
   tooltipPosition: 'bottom',
-  onClick: () => {}
+  onClick: () => {},
+  wrapperStyle: {}
 };
 
 export default CustomIconButton;

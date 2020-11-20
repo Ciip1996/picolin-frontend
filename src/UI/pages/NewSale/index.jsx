@@ -12,7 +12,7 @@ import { showAlert } from 'actions/app';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import SummaryCard from 'UI/components/organisms/SummaryCard';
-import TransferCard from 'UI/components/organisms/TransferCard';
+import SaleCard from 'UI/components/organisms/SaleCard';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -121,15 +121,33 @@ const NewSaleList = (props: NewSaleListProps) => {
   };
 
   const handleAddProduct = (name: string, value: any) => {
+    debugger;
+
     setProductsList(prevState => {
       // validate that the item has not been added already (removes duplicates)
       if (prevState.length === 0) {
         return [...prevState, { product: { ...value }, quantity: 1 }];
       }
-      const doesNotExistInArray = prevState.some(
-        each => each.product.productCode === value.productCode
-      );
-      if (doesNotExistInArray) return prevState;
+      let addedProductIndex = 0;
+      const productAlreadyAdded = prevState.forEach((each, i) => {
+        if (each.product.productCode === value.productCode) {
+          addedProductIndex = i;
+          return true;
+        }
+        return false;
+      });
+
+      debugger;
+
+      if (productAlreadyAdded) {
+        const updatedArray = prevState;
+        updatedArray[addedProductIndex] = {
+          product: { ...value },
+          quantity: productAlreadyAdded.quantity
+        };
+        return [...updatedArray];
+      }
+
       return [...prevState, { product: { ...value }, quantity: 1 }];
     });
     setValue(name, value ? true : undefined, true);
@@ -173,18 +191,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         required: `Tipo de pago requerido`
       }
     );
-    register(
-      { name: 'received' },
-      {
-        required: `Campo requerido`,
-        validate: value => {
-          return (
-            parseFloat(value) >= parseFloat(watchFields.total) ||
-            `Debe ser mayor o igual que el total`
-          );
-        }
-      }
-    );
+    register({ name: 'received' });
     register({ name: 'subtotal' });
     register({ name: 'total' });
     register({ name: 'totalWithDiscount' });
@@ -304,7 +311,7 @@ const NewSaleList = (props: NewSaleListProps) => {
                 <div>
                   {productsList.map(each => {
                     return (
-                      <TransferCard
+                      <SaleCard
                         key={uuidv4()}
                         product={each?.product}
                         quantityOfProducts={each?.quantity}
