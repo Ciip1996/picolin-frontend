@@ -82,15 +82,6 @@ const SaleForm = (props: SaleFormProps) => {
         onSelect={handleComboChange}
         url={Endpoints.Provider}
       />
-      <TextBox
-        inputType="number"
-        name="size"
-        label={Contents[language]?.Size}
-        error={!!errors?.size}
-        errorText={errors?.size && errors?.size.message}
-        onChange={handleTextChange}
-        value={getValues('size') || ''}
-      />
     </Box>
   );
 };
