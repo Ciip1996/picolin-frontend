@@ -39,7 +39,7 @@ const SaleCard = (props: SaleCardProps) => {
     size,
     type,
     color,
-    cost,
+    salePrice,
     characteristic,
     stock,
     description
@@ -108,7 +108,11 @@ const SaleCard = (props: SaleCardProps) => {
           </Box>
           <Box width={24} />
           <Text variant="h2" className={classes.title} text={`${productCode}`} />
-          <Text variant="h2" className={classes.cost} text={`${currencyFormatter(cost)}`} />
+          <Text
+            variant="h2"
+            className={classes.salePrice}
+            text={`${currencyFormatter(salePrice)}`}
+          />
           <Box width={24} />
           <CustomIconButton
             tooltipText="Quitar de la lista"
