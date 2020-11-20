@@ -5,6 +5,7 @@ import Box from '@material-ui/core/Box';
 import { FormContext, useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { showAlert } from 'actions/app';
+import Drawer from '@material-ui/core/Drawer';
 
 /** Atoms, Components and Styles */
 
@@ -13,15 +14,19 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import SummaryCard from 'UI/components/organisms/SummaryCard';
 import SaleCard from 'UI/components/organisms/SaleCard';
+import ActionButton from 'UI/components/atoms/ActionButton';
+import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
+import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import { v4 as uuidv4 } from 'uuid';
 import { Endpoints } from 'UI/constants/endpoints';
 // import type { MapType } from 'types';
+import { AddIcon, colors } from 'UI/res';
 
-import { PageTitles } from 'UI/constants/defaults';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
+import { sleep } from 'UI/utils';
 import Contents from './strings';
 
 type NewSaleListProps = {
@@ -32,10 +37,13 @@ const language = localStorage.getItem('language');
 
 const NewSaleList = (props: NewSaleListProps) => {
   const { onShowAlert } = props;
-  // const [loading, setLoading] = useState(false);
 
-  // const [comboValues, setComboValues] = useState<MapType>({});
   const [productsList, setProductsList] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const [uiState, setUiState] = useState({
+    isAddComboToSaleDrawerOpen: true
+  });
 
   const defaultOptionSelectedFn = (option, value) => option.id === value.id;
 
@@ -43,6 +51,13 @@ const NewSaleList = (props: NewSaleListProps) => {
     ':idStore',
     '1'
   );
+
+  const toggleDrawer = (drawer: string, open: boolean) => event => {
+    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+    setUiState(prevState => ({ ...prevState, [drawer]: open }));
+  };
 
   const form = useForm();
   const { register, errors, handleSubmit, setValue, unregister, watch, getValues } = form;
@@ -64,6 +79,9 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   useEffect(() => {
     document.title = PageTitles.NewSale;
+    sleep(1000).then(() => {
+      setLoading(false);
+    });
   }, []);
 
   const onSubmit = async (formData: Object) => {
@@ -259,11 +277,37 @@ const NewSaleList = (props: NewSaleListProps) => {
     if (productsList.length === 0) setValue('products', undefined, false);
   }, [productsList, setValue]);
 
+  const onComboAdded = () => {
+    // TODO: add logic
+    debugger;
+  };
+
   return (
     <ContentPageLayout>
       <ListPageLayout
-        // loading={loading} // loading
+        loading={loading}
         title={Contents[language]?.pageTitle}
+        selector={
+          <Box
+            flex={1}
+            display="flex"
+            flexDirection="column"
+            alignItems="flex-start"
+            justifyContent="center"
+            flexWrap="wrap"
+            minWidth={238}
+          >
+            <ActionButton
+              text={Contents[language]?.addCombo}
+              onClick={toggleDrawer(
+                'isAddComboToSaleDrawerOpen',
+                !uiState.isAddComboToSaleDrawerOpen
+              )}
+            >
+              <AddIcon fill={colors.white} size={18} />
+            </ActionButton>
+          </Box>
+        }
       >
         <FormContext {...form}>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -330,6 +374,19 @@ const NewSaleList = (props: NewSaleListProps) => {
           </form>
         </FormContext>
       </ListPageLayout>
+      <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isAddComboToSaleDrawerOpen}
+        onClose={toggleDrawer('isAddComboToSaleDrawerOpen', false)}
+      >
+        <div role="presentation">
+          <AddComboToSaleDrawer
+            onComboAdded={onComboAdded}
+            onShowAlert={onShowAlert}
+            handleClose={toggleDrawer('isAddComboToSaleDrawerOpen', false)}
+          />
+        </div>
+      </Drawer>
     </ContentPageLayout>
   );
 };

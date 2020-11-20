@@ -14,7 +14,8 @@ const Contents = {
     day: 'Per day',
     week: 'Per week',
     month: 'Per month',
-    discountMin: 'The discount should be greater than 0.'
+    discountMin: 'The discount should be greater than 0.',
+    addCombo: 'Add Combo'
   },
   Spanish: {
     pageTitle: 'NUEVA VENTA',
@@ -31,7 +32,8 @@ const Contents = {
     day: 'Del día',
     week: 'Semana',
     month: 'Del Mes',
-    discountMin: 'El descuento debe ser mayor a 0.'
+    discountMin: 'El descuento debe ser mayor a 0.',
+    addCombo: 'Agregar Paquete'
   }
 };
 export default Contents;

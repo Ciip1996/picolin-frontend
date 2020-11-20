@@ -15,7 +15,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import { DateFormats, PageTitles } from 'UI/constants/defaults';
-import { toLocalTime, getErrorMessage } from 'UI/utils';
+import { toLocalTime, getErrorData } from 'UI/utils';
 import { Endpoints } from 'UI/constants/endpoints';
 import type { Filters } from 'types/app';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
@@ -129,9 +129,10 @@ const SalesList = (props: SalesListProps) => {
       setError(true);
       onShowAlert({
         severity: 'error',
-        title: Contents[language]?.pageTitle,
+        // title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
-        body: getErrorMessage(err)
+        title: getErrorData(err).title,
+        body: getErrorData(err).message
       });
     }
   }, [
@@ -140,7 +141,6 @@ const SalesList = (props: SalesListProps) => {
     uiState.keyword,
     uiState.page,
     uiState.perPage,
-    language,
     uiState.orderBy,
     uiState.direction
   ]);

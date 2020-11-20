@@ -25,7 +25,7 @@ import QRCodeDrawer from 'UI/components/molecules/QRCodeDrawer';
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorMessage } from 'UI/utils';
+import { getErrorData } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
@@ -138,9 +138,10 @@ const InventoryList = (props: InventoryListProps) => {
       setError(true);
       onShowAlert({
         severity: 'error',
-        title: Contents[language]?.pageTitle,
+        // title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
-        body: getErrorMessage(err)
+        title: getErrorData(err).title,
+        body: getErrorData(err).message
       });
     }
   }, [
@@ -149,7 +150,6 @@ const InventoryList = (props: InventoryListProps) => {
     uiState.keyword,
     uiState.page,
     uiState.perPage,
-    language,
     uiState.orderBy,
     uiState.direction
   ]);
