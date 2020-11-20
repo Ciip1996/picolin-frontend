@@ -24,7 +24,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorMessage, toLocalTime } from 'UI/utils';
+import { getErrorData, toLocalTime } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters, saveFilters } from 'services/FiltersStorage';
@@ -134,9 +134,10 @@ const TransferList = (props: TransferListProps) => {
       setError(true);
       onShowAlert({
         severity: 'error',
-        title: Contents[language]?.pageTitle,
+        // title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
-        body: getErrorMessage(err)
+        title: getErrorData(err).title,
+        body: getErrorData(err).message
       });
     }
   }, [
@@ -145,7 +146,6 @@ const TransferList = (props: TransferListProps) => {
     uiState.keyword,
     uiState.page,
     uiState.perPage,
-    language,
     uiState.orderBy,
     uiState.direction
   ]);

@@ -1,6 +1,6 @@
 const Contents = {
   English: {
-    pageTitle: 'SALES',
+    pageTitle: 'NEW SALES',
     labDate: 'Date',
     labTotal: 'Total',
     labPayment: 'Payment',
@@ -13,10 +13,12 @@ const Contents = {
     no: 'No',
     day: 'Per day',
     week: 'Per week',
-    month: 'Per month'
+    month: 'Per month',
+    discountMin: 'The discount should be greater than 0.',
+    addCombo: 'Add Combo'
   },
   Spanish: {
-    pageTitle: 'VENTAS',
+    pageTitle: 'NUEVA VENTA',
     labDate: 'Fecha',
     labTotal: 'Total',
     labPayment: 'Tipo de pago',
@@ -29,7 +31,9 @@ const Contents = {
     no: 'No',
     day: 'Del día',
     week: 'Semana',
-    month: 'Del Mes'
+    month: 'Del Mes',
+    discountMin: 'El descuento debe ser mayor a 0.',
+    addCombo: 'Agregar Paquete'
   }
 };
 export default Contents;

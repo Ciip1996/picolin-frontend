@@ -9,7 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import ColorIndicator from 'UI/components/atoms/ColorIndicator';
 import { showAlert as showAlertAction } from 'actions/app';
 import queryString from 'query-string';
-import { getErrorMessage } from 'UI/utils';
+import { getErrorData } from 'UI/utils';
 import API from 'services/API';
 import { type DataResponseFilter } from 'types/app';
 
@@ -154,8 +154,8 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
         .catch(err => {
           showAlert({
             severity: 'error',
-            title: 'Error',
-            body: getErrorMessage(err)
+            title: getErrorData(err).title,
+            body: getErrorData(err).message
           });
         });
       setLoading(false);
@@ -185,8 +185,8 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
         .catch(err => {
           showAlert({
             severity: 'error',
-            title: 'Autocomplete Error',
-            body: getErrorMessage(err)
+            title: getErrorData(err).title,
+            body: getErrorData(err).message
           });
         });
       setLoading(false);

@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-import { FormControl } from '@material-ui/core';
+import { FormControl, Box } from '@material-ui/core';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -11,11 +11,12 @@ import CustomDatePicker from 'UI/components/atoms/CustomDatePicker';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
+import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import { DateFormats, PageTitles } from 'UI/constants/defaults';
-import { toLocalTime, getErrorMessage } from 'UI/utils';
+import { toLocalTime, getErrorData } from 'UI/utils';
 import { Endpoints } from 'UI/constants/endpoints';
 import type { Filters } from 'types/app';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
@@ -53,6 +54,8 @@ const SalesList = (props: SalesListProps) => {
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState<any>([{}]);
+  const [selectedSale, setSelectedSale] = useState({});
+
   const [count, setCount] = useState(0);
 
   const invoiceOptions = [
@@ -129,9 +132,10 @@ const SalesList = (props: SalesListProps) => {
       setError(true);
       onShowAlert({
         severity: 'error',
-        title: Contents[language]?.pageTitle,
+        // title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
-        body: getErrorMessage(err)
+        title: getErrorData(err).title,
+        body: getErrorData(err).message
       });
     }
   }, [
@@ -140,7 +144,6 @@ const SalesList = (props: SalesListProps) => {
     uiState.keyword,
     uiState.page,
     uiState.perPage,
-    language,
     uiState.orderBy,
     uiState.direction
   ]);
@@ -209,14 +212,45 @@ const SalesList = (props: SalesListProps) => {
     columnItems[index].display = display;
   };
 
-  const handleRowClick = () => {
-    // const { id } = data[newItem.rowIndex];
-    // history.push(EntityRoutes.CandidateProfile.replace(':id', id));
+  const getSaleDetail = async (id: any) => {
+    try {
+      const response = await API.get(
+        `${Endpoints.Sales}${Endpoints.GetSaleDetails}`.replace(':id', id)
+      );
+      if (response.status === 200) {
+        const detailedData = { ...response.data };
+        setSelectedSale(detailedData);
+      }
+    } catch (getSaleDetailError) {
+      setError(true);
+      onShowAlert({
+        severity: 'error',
+        autoHideDuration: 3000,
+        title: getErrorData(getSaleDetailError).title,
+        body: getErrorData(getSaleDetailError).message
+      });
+      throw getSaleDetailError;
+    }
+  };
+
+  const handleRowClick = (rowData: Object) => {
+    const { id } = data[rowData.rowIndex];
+    getSaleDetail(id);
   };
 
   const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
 
   const columns = [
+    {
+      name: 'id',
+      options: {
+        filter: true,
+        sort: false,
+        print: false,
+        display: 'excluded',
+        filterType: 'custom'
+      }
+    },
     {
       name: 'idSale',
       options: {
@@ -443,29 +477,36 @@ const SalesList = (props: SalesListProps) => {
         onFilterRemove={handleFilterRemove}
         onFiltersReset={handleResetFiltersClick}
       >
-        <DataTable
-          error={error}
-          loading={loading}
-          data={data}
-          columns={columns}
-          count={count}
-          orderBy={uiState.orderBy}
-          direction={uiState.direction}
-          page={uiState.page}
-          rowsPerPage={uiState.perPage}
-          searchText={uiState.keyword}
-          onRowClick={handleRowClick}
-          onResetfiltersClick={handleResetFiltersClick}
-          onSearchTextChange={handleSearchChange}
-          onSearchClose={() => {
-            handleSearchChange();
-            setSearching(false);
-          }}
-          onColumnSortClick={handleColumnSortClick}
-          onPerPageClick={handlePerPageClick}
-          onPageClick={handlePageClick}
-          onColumnDisplayClick={handleColumnDisplayClick}
-        />
+        <Box display="flex" flex={1}>
+          <Box flex={2}>
+            <DataTable
+              error={error}
+              loading={loading}
+              data={data}
+              columns={columns}
+              count={count}
+              orderBy={uiState.orderBy}
+              direction={uiState.direction}
+              page={uiState.page}
+              rowsPerPage={uiState.perPage}
+              searchText={uiState.keyword}
+              onRowClick={handleRowClick}
+              onResetfiltersClick={handleResetFiltersClick}
+              onSearchTextChange={handleSearchChange}
+              onSearchClose={() => {
+                handleSearchChange();
+                setSearching(false);
+              }}
+              onColumnSortClick={handleColumnSortClick}
+              onPerPageClick={handlePerPageClick}
+              onPageClick={handlePageClick}
+              onColumnDisplayClick={handleColumnDisplayClick}
+            />
+          </Box>
+          <Box display="flex" flex={1} justifyContent="center">
+            <SalesDetailCard saleData={selectedSale} />
+          </Box>
+        </Box>
       </ListPageLayout>
     </ContentPageLayout>
   );

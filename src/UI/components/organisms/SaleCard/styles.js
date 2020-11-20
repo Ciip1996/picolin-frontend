@@ -3,8 +3,6 @@ import { colors } from 'UI/res';
 
 export const useStyles = makeStyles(theme => ({
   card: {
-    display: 'flex',
-    flexDirection: 'column',
     position: 'relative',
     width: '100%',
     height: 'auto',
@@ -14,60 +12,69 @@ export const useStyles = makeStyles(theme => ({
     borderBottomLeftRadius: 26,
     borderBottomRightRadius: 26,
     marginTop: '26px',
-    background: 'white',
-    padding: 16,
+    background: colors.white,
+    padding: 28,
     border: props => props.error && `1px solid ${theme.palette.error.main}`
   },
   header: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    flex: 1
+    flexDirection: 'row'
   },
   title: {
-    height: 30,
+    height: '30px',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     color: colors.title,
-    opacity: 1,
-    letterSpacing: '0px',
-    whiteSpace: 'nowrap',
-    minWidth: 180,
-    maxWidth: 300,
-    marginRight: 12
-  },
-  price: {
-    display: 'flex',
-    font: 'normal normal 900 20px/27px Avenir',
-    color: '#AD4DFF',
-    width: 'auto',
     opacity: '1',
     letterSpacing: '0px',
-    justifyContent: 'flex-end',
-    flex: 1,
-    paddingRight: 10
+    whiteSpace: 'nowrap',
+    width: '100%',
+    paddingRight: 32,
+    display: 'flex',
+    flex: 4
   },
-  chip: {
-    width: '87%',
-    height: '25px',
+  Chip: {
+    flex: 1,
+    display: 'flex',
+    height: '30px',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
-    backgroundColor: '#ED8A9C',
+    backgroundColor: '#FAFBFD',
     font: 'normal normal 900 14px/19px Avenir',
     boxShadow: '0px 3px 6px #00000029',
-    color: '#FFFF'
-  },
-  List: {
-    marginTop: '-20px'
-  },
-  Item: {
-    height: '27px',
-    marginTop: '17px'
+    color: colors.black
   },
   deleteButton: {
     height: 32,
     width: 32,
     backgroundColor: theme.palette.error.main,
     color: colors.white
+  },
+  errorMessage: {
+    position: 'absolute',
+    top: 8
+  },
+  amountOfProducts: {
+    flex: 0,
+    display: 'flex'
+  },
+  cost: {
+    flex: 2,
+    display: 'flex',
+    justifyContent: 'flex-end',
+    marginRight: 10,
+    color: '#AD4DFF',
+    textAlign: 'right'
+  },
+  description: {
+    display: '-webkit-box',
+    '-webkit-line-clamp': 1,
+    '-webkit-box-orient': 'vertical',
+    overflow: 'hidden',
+    width: '100%',
+    marginTop: 10,
+    marginBottom: 10
   }
 }));

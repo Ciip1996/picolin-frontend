@@ -182,7 +182,6 @@ const TransferDrawer = (props: TransferDrawerProps) => {
         onClose={handleClose}
         onSecondaryButtonClick={handleClose}
         variant="borderless"
-        // uiState={{}}
         initialText="Transferir"
       >
         <FormContext {...form}>

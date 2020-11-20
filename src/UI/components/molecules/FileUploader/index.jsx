@@ -8,7 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 // TODO: check the functionality of this section
 import API from 'services/API';
 import FileSelectorButton from 'UI/components/molecules/FileSelectorButton';
-import { getErrorMessage } from 'UI/utils';
+import { getErrorData } from 'UI/utils';
 import FileChip from 'UI/components/molecules/FileChip';
 import FileItem from 'UI/components/molecules/FileItem';
 
@@ -106,7 +106,8 @@ const FileUploader = (props: FileUploaderProps) => {
     } catch (error) {
       processUploadResponse(newAttachments, {
         ...fileInfo,
-        message: getErrorMessage(error),
+        title: getErrorData(error).title,
+        message: getErrorData(error).message,
         hasError: true
       });
     }
@@ -145,8 +146,8 @@ const FileUploader = (props: FileUploaderProps) => {
         } catch (err) {
           showAlert({
             severity: 'error',
-            title: 'Attachments',
-            body: getErrorMessage(err)
+            title: getErrorData(err).title,
+            body: getErrorData(err).message
           });
         }
       }

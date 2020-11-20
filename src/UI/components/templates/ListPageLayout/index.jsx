@@ -108,7 +108,7 @@ const ListPageLayout = (props: ListPageLayoutProps) => {
 
 ListPageLayout.defaultProps = {
   filters: null,
-  loading: null,
+  loading: false,
   onFilterRemove: () => {},
   onFiltersReset: () => {},
   title: '',
