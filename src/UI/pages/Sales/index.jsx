@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-import { FormControl } from '@material-ui/core';
+import { FormControl, Box } from '@material-ui/core';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -11,6 +11,7 @@ import CustomDatePicker from 'UI/components/atoms/CustomDatePicker';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
+import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -209,9 +210,9 @@ const SalesList = (props: SalesListProps) => {
     columnItems[index].display = display;
   };
 
-  const handleRowClick = () => {
-    // const { id } = data[newItem.rowIndex];
-    // history.push(EntityRoutes.CandidateProfile.replace(':id', id));
+  const handleRowClick = newItem => {
+    const { id } = data[newItem.rowIndex];
+    debugger;
   };
 
   const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
@@ -443,29 +444,45 @@ const SalesList = (props: SalesListProps) => {
         onFilterRemove={handleFilterRemove}
         onFiltersReset={handleResetFiltersClick}
       >
-        <DataTable
-          error={error}
-          loading={loading}
-          data={data}
-          columns={columns}
-          count={count}
-          orderBy={uiState.orderBy}
-          direction={uiState.direction}
-          page={uiState.page}
-          rowsPerPage={uiState.perPage}
-          searchText={uiState.keyword}
-          onRowClick={handleRowClick}
-          onResetfiltersClick={handleResetFiltersClick}
-          onSearchTextChange={handleSearchChange}
-          onSearchClose={() => {
-            handleSearchChange();
-            setSearching(false);
-          }}
-          onColumnSortClick={handleColumnSortClick}
-          onPerPageClick={handlePerPageClick}
-          onPageClick={handlePageClick}
-          onColumnDisplayClick={handleColumnDisplayClick}
-        />
+        <Box display="flex" flex={1}>
+          <Box flex={2}>
+            <DataTable
+              error={error}
+              loading={loading}
+              data={data}
+              columns={columns}
+              count={count}
+              orderBy={uiState.orderBy}
+              direction={uiState.direction}
+              page={uiState.page}
+              rowsPerPage={uiState.perPage}
+              searchText={uiState.keyword}
+              onRowClick={handleRowClick}
+              onResetfiltersClick={handleResetFiltersClick}
+              onSearchTextChange={handleSearchChange}
+              onSearchClose={() => {
+                handleSearchChange();
+                setSearching(false);
+              }}
+              onColumnSortClick={handleColumnSortClick}
+              onPerPageClick={handlePerPageClick}
+              onPageClick={handlePageClick}
+              onColumnDisplayClick={handleColumnDisplayClick}
+            />
+          </Box>
+          <Box display="flex" flex={1} justifyContent="center">
+            <SalesDetailCard
+              total="0"
+              subtotal="0"
+              data={['0']}
+              deposit="0"
+              taxes="0"
+              discount="0"
+              payment="0"
+              received="0"
+            />
+          </Box>
+        </Box>
       </ListPageLayout>
     </ContentPageLayout>
   );
