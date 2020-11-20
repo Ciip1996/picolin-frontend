@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
-import SaleForm from 'UI/components/organisms/SaleForm';
+import ProductForm from 'UI/components/organisms/ProductForm';
 import { Endpoints } from 'UI/constants/endpoints';
 
 import API from 'services/API';
@@ -13,14 +13,14 @@ import { globalStyles } from 'GlobalStyles';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-type AddComboToSaleDrawerProps = {
+type AddSaleProps = {
   handleClose: any => any,
   onShowAlert: any => any,
-  onComboAdded: any => any
+  onProductInserted: any => any
 };
 
-const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
-  const { handleClose, onShowAlert, onComboAdded } = props;
+const AddSale = (props: AddSaleProps) => {
+  const { handleClose, onShowAlert, onProductInserted } = props;
   const language = localStorage.getItem('language');
 
   const form = useForm({
@@ -60,7 +60,7 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
           autoHideDuration: 3000,
           body: 'Inserción Exitosa'
         });
-        productCode && onComboAdded(productCode);
+        productCode && onProductInserted(productCode);
       }
     } catch (err) {
       onShowAlert({
@@ -89,7 +89,7 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
           <Box>
             <div style={globalStyles.feeDrawerslabel}>
               <Text variant="body1" text={Contents[language]?.Subtitle} fontSize={14} />
-              <SaleForm />
+              <ProductForm />
             </div>
           </Box>
           <div />
@@ -99,6 +99,6 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
   );
 };
 
-AddComboToSaleDrawer.defaultProps = {};
+AddSale.defaultProps = {};
 
-export default AddComboToSaleDrawer;
+export default AddSale;
