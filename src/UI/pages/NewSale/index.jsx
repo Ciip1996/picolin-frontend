@@ -39,7 +39,8 @@ const language = localStorage.getItem('language');
 const NewSaleList = (props: NewSaleListProps) => {
   const { onShowAlert } = props;
 
-  const [productsList, setProductsList] = useState([]);
+  const [productsList, setProductsList] = useState<Array<Object>>([]);
+
   const [loading, setLoading] = useState(true);
 
   const [uiState, setUiState] = useState({
