@@ -4,6 +4,8 @@ export const Endpoints = {
   InsertInventory: '/insertInventory',
   Sales: '/sales',
   GetSales: '/getSales/:idStore',
+  GetSaleDetails: '/getSaleDetail/:id',
+  NewSale: '/insertSale',
   Transfers: '/transfers',
   GetTransfers: '/getTransfer/:idStore',
   InsertTransfer: '/insertTransfer',
@@ -20,5 +22,6 @@ export const Endpoints = {
   PaymentMethods: 'lists/getPaymentMethods',
   Login: '/login',
   RegisterUser: '/registerUser',
-  GetRoles: 'lists/getRoles'
+  GetRoles: 'lists/getRoles',
+  GetDayIncome: 'lists/getDayIncome'
 };

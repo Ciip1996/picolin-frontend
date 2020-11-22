@@ -10,39 +10,49 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 
 import { currencyFormatter } from 'UI/utils';
-import TextBox from 'UI/components/atoms/TextBox';
+// import TextBox from 'UI/components/atoms/TextBox';
 import Text from 'UI/components/atoms/Text';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 
 import { useStyles } from './styles';
 
-type TransferCardProps = {
+type SaleCardProps = {
   product: Object,
   quantityOfProducts: number,
-  onRemoveItem: any => any,
-  onAmountOfProductsChanged: (Object, any, number) => any
+  onRemoveItem: any => any
+  // onAmountOfProductsChanged: (Object, any, number) => any
   // errors: any
 };
 
-const TransferCard = (props: TransferCardProps) => {
+const SaleCard = (props: SaleCardProps) => {
   const {
     product,
     quantityOfProducts,
-    onRemoveItem,
-    onAmountOfProductsChanged
+    onRemoveItem
+    // onAmountOfProductsChanged
     // errors
   } = props;
 
-  const { productCode, gender, size, type, color, cost, characteristic, stock } = product;
+  const {
+    productCode,
+    gender,
+    size,
+    type,
+    color,
+    salePrice,
+    characteristic,
+    stock,
+    description
+  } = product;
 
   const prepareRemoveItem = () => {
     onRemoveItem(productCode);
   };
 
-  const prepareModifyAmountOfItems = (e, quantityString) => {
-    const quantityNumber = parseInt(quantityString, 10) || null;
-    onAmountOfProductsChanged(productCode, quantityNumber, stock);
-  };
+  // const prepareModifyAmountOfItems = (e, quantityString) => {
+  //   const quantityNumber = parseInt(quantityString, 10) || null;
+  //   onAmountOfProductsChanged(productCode, quantityNumber, stock);
+  // };
 
   const { register, errors, setValue } = useFormContext({
     defaultValues: {
@@ -85,55 +95,52 @@ const TransferCard = (props: TransferCardProps) => {
         >
           <FormHelperText>{errors[productCode] && errors[productCode].message}</FormHelperText>
         </FormControl>
-        <CustomIconButton
-          tooltipText="Quitar de la lista"
-          wrapperStyle={classes.deleteButtonWrapper}
-          className={classes.deleteButton}
-          aria-label="delete"
-          onClick={prepareRemoveItem}
-        >
-          <CloseIcon />
-        </CustomIconButton>
         <Box className={classes.header} spacing={2}>
-          <Box width={70}>
-            <TextBox
+          <Box className={classes.amountOfProducts}>
+            <Text
+              variant="h2"
               name={productCode}
-              inputType="number"
-              value={`${quantityOfProducts}`}
-              onChange={prepareModifyAmountOfItems}
-              error={!!errors[productCode]}
+              // inputType="number"
+              text={`${quantityOfProducts}`}
+              // onChange={prepareModifyAmountOfItems}
+              // error={!!errors[productCode]}
             />
           </Box>
           <Box width={24} />
+          <Text variant="h2" className={classes.title} text={`${productCode}`} />
           <Text
             variant="h2"
-            className={classes.title}
-            text={`${productCode} : ${stock} en stock`}
+            className={classes.salePrice}
+            text={`${currencyFormatter(salePrice)}`}
           />
+          <Box width={24} />
+          <CustomIconButton
+            tooltipText="Quitar de la lista"
+            className={classes.deleteButton}
+            aria-label="delete"
+            onClick={prepareRemoveItem}
+          >
+            <CloseIcon />
+          </CustomIconButton>
         </Box>
-        <Grid container margin={10} spacing={3}>
-          <Grid item xs={4}>
-            <Chip
-              label={currencyFormatter(cost)}
-              style={{ color: '#AD4DFF' }}
-              className={classes.Chip}
-            />
+        <Text variant="subtitle1" className={classes.description} text={`${description}`} />
+        <Grid container marginTop={6} spacing={2}>
+          <Grid item xs={4} lg={2}>
+            <Chip label={`${stock} en stock`} className={classes.Chip} />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} lg={2}>
             <Chip label={`Talla ${size}`} className={classes.Chip} />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} lg={2}>
             <Chip label={type} className={classes.Chip} />
           </Grid>
-          {/* </Grid> */}
-          {/* <Grid container spacing={3}> */}
-          <Grid item xs={4}>
+          <Grid item xs={4} lg={2}>
             <Chip label={color} className={classes.Chip} />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} lg={2}>
             <Chip label={characteristic} className={classes.Chip} />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item xs={4} lg={2}>
             <Chip label={gender} className={classes.Chip} />
           </Grid>
         </Grid>
@@ -142,4 +149,4 @@ const TransferCard = (props: TransferCardProps) => {
   );
 };
 
-export default TransferCard;
+export default SaleCard;

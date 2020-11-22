@@ -10,18 +10,17 @@ import { Endpoints } from 'UI/constants/endpoints';
 
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
-import { getErrorData } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-type AddInventoryProductDrawerProps = {
+type AddComboToSaleDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
-  onProductInserted: any => any
+  onComboAdded: any => any
 };
 
-const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
-  const { handleClose, onShowAlert, onProductInserted } = props;
+const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
+  const { handleClose, onShowAlert, onComboAdded } = props;
   const language = localStorage.getItem('language');
 
   const form = useForm({
@@ -61,14 +60,14 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
           autoHideDuration: 3000,
           body: 'Inserción Exitosa'
         });
-        productCode && onProductInserted(productCode);
+        productCode && onComboAdded(productCode);
       }
     } catch (err) {
       onShowAlert({
         severity: 'error',
-        title: getErrorData(err)?.title,
-        autoHideDuration: 800000,
-        body: getErrorData(err)?.message
+        title: 'Error',
+        autoHideDuration: 3000,
+        body: 'Ocurrio un problema'
       });
       throw err;
     }
@@ -100,6 +99,6 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
   );
 };
 
-AddInventoryProductDrawer.defaultProps = {};
+AddComboToSaleDrawer.defaultProps = {};
 
-export default AddInventoryProductDrawer;
+export default AddComboToSaleDrawer;

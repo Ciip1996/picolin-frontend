@@ -10,7 +10,8 @@ export const useStyles = makeStyles({
     borderTopRightRadius: 26,
     borderBottomLeftRadius: 26,
     borderBottomRightRadius: 26,
-    background: 'white'
+    background: colors.white,
+    marginLeft: 32
   },
   title: {
     marginTop: '23px',
@@ -40,7 +41,8 @@ export const useStyles = makeStyles({
     maxHeight: '200px',
     width: '90%',
     overflowY: 'scroll',
-    overflowX: 'hidden'
+    overflowX: 'hidden',
+    overflow: 'hidden'
   },
   Resume: {
     marginLeft: '24px',

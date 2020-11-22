@@ -1,19 +1,28 @@
 // @flow
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import queryString from 'query-string';
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import { Link, useLocation } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
+import { Endpoints } from 'UI/constants/endpoints';
+import API from 'services/API';
+import { getErrorData, nestTernary } from 'UI/utils';
 
 import { CollapsibleArrowOpen, CollapsibleArrowClosed } from 'UI/res';
-import { nestTernary } from 'UI/utils';
+import SalesSummary from 'UI/components/organisms/SalesSummary';
+import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
+
 import { styles, useStyles, useSidebarStyles } from './styles';
 import sideBarMenu from './SidebarMenu';
 
 type SidebarProps = {
-  children?: any
+  children?: any,
+  showAlert: any => void
 };
 
 type SidebarIcon = {
@@ -42,8 +51,12 @@ const getParent = route =>
 const Sidebar = (props: SidebarProps) => {
   const location = useLocation();
   const pathName = location.pathname;
-  const { children } = props;
+  const { children, showAlert } = props;
   const [selectedRoute, setSelectedRoute] = useState(pathName);
+  const [income, setIncome] = useState({
+    cash: null,
+    card: null
+  });
 
   const classes = useStyles();
   const sidebarClasses = useSidebarStyles();
@@ -103,6 +116,31 @@ const Sidebar = (props: SidebarProps) => {
     const parent = getParent(location.pathname);
     parent && setOpenedItems(prevState => [...prevState, parent.route]);
   }, [location.pathname]);
+  useEffect(() => {
+    // GetDayIncome;
+    const getData = async () => {
+      try {
+        const queryParams = queryString.stringify({
+          idStore: 1
+        });
+        const response = await API.get(`${Endpoints.GetDayIncome}?${queryParams}`);
+        if (response) {
+          setIncome({
+            cash: response.data.find(each => each.paymentMethod === 'Tarjeta')?.value,
+            card: response.data.find(each => each.paymentMethod === 'Efectivo')?.value
+          });
+        }
+      } catch (err) {
+        showAlert({
+          severity: 'error',
+          title: getErrorData(err)?.title,
+          autoHideDuration: 800000,
+          body: getErrorData(err)?.message
+        });
+      }
+    };
+    getData();
+  }, [showAlert]);
 
   const toggleParent = route => {
     setOpenedItems(prevState => {
@@ -173,6 +211,7 @@ const Sidebar = (props: SidebarProps) => {
           )}
         </List>
       </div>
+      <SalesSummary cash={income.cash} card={income.card} />
     </div>
   );
 };
@@ -181,4 +220,13 @@ Sidebar.defaultProps = {
   children: undefined
 };
 
-export default Sidebar;
+const mapDispatchToProps = dispatch => {
+  return {
+    showAlert: alert => dispatch(showAlertAction(alert)),
+    showConfirm: confirmation => dispatch(confirmAction(confirmation))
+  };
+};
+
+const SidebarConnected = connect(null, mapDispatchToProps)(Sidebar);
+
+export default SidebarConnected;

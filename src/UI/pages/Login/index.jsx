@@ -14,6 +14,7 @@ import { colors } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import TextBox from 'UI/components/atoms/TextBox';
 import { Endpoints } from 'UI/constants/endpoints';
+import { getErrorData } from 'UI/utils';
 
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 import { EntityRoutes } from 'routes/constants';
@@ -74,10 +75,10 @@ const LogIn = (props: LogInProps) => {
       } else {
         showAlert({
           severity: 'error',
-          title: response?.status ? `Error ${response.status}` : `Error`,
+          title: getErrorData(error)?.title || `Error`,
           code: response?.status || '500',
           autoHideDuration: 800000,
-          body: Contents[language]?.errServer
+          body: getErrorData(error)?.message || Contents[language]?.errServer
         });
       }
     } finally {

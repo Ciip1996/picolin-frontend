@@ -217,11 +217,26 @@ export const makeMultiFieldFiltering = (fieldsToLookupInto: string[]) => (
  * Extracts the first message of a response with errors (could be an object or array payload)
  * @param {Error} error Error catched in an Exception
  */
-export const getErrorMessage = (error: any) => {
+export const getErrorData = (error: any) => {
   if (!error || !error.request || !error.response || error.request.responseType !== 'json') {
     return GenericContents[language].error.message;
   }
-  const errorData = error?.response?.data?.length ? error.response.data[0].message : error?.message;
+  const errorData = {
+    message: error?.response?.data?.length
+      ? error.response.data[0].message
+      : nestTernary(
+          error?.response?.data?.message,
+          error?.response?.data?.message,
+          GenericContents[language].error.message
+        ),
+    title: error?.response?.data?.length
+      ? error.response.data[0].title
+      : nestTernary(
+          error?.response?.data?.title,
+          error?.response?.data?.title,
+          GenericContents[language].error.title
+        )
+  };
   return errorData || nestTernary(errorData.message, errorData.message, errorData.error?.message);
 };
 
@@ -293,4 +308,9 @@ export const formatMetricPeriod = (metric: any) => {
 export const toLocalTime = (dateTime: string) => {
   if (!dateTime) return null;
   return moment.utc(dateTime).local();
+};
+
+// Seleep to delay time
+export const sleep = (time: any) => {
+  return new Promise<any>(resolve => setTimeout(resolve, time));
 };
