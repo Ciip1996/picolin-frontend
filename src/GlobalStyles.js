@@ -245,6 +245,11 @@ const theme = createMuiTheme({
         borderColor: 'transparent',
         boxShadow: defaultTheme.shadows[1]
       }
+    },
+    MuiInputAdornment: {
+      root: {
+        zIndex: 1
+      }
     }
   }
 });

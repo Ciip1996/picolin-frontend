@@ -8,12 +8,11 @@ import { currencyFormatter } from 'UI/utils';
 import Contents from './string';
 import { useStyles } from './styles';
 
-const language = localStorage.getItem('language');
-
 type SalesSummaryProps = {
   cash: number | null,
   card: number | null
 };
+const language = localStorage.getItem('language');
 
 const SalesSummary = (props: SalesSummaryProps) => {
   const { cash, card } = props;
@@ -23,7 +22,7 @@ const SalesSummary = (props: SalesSummaryProps) => {
     <Card className={classes.content}>
       <ListItem>
         <ListItemText
-          primary={<span className={classes.Description}>{Contents[language].cash}</span>}
+          primary={<span className={classes.Description}>{Contents[language]?.cash}</span>}
         />
         <ListItemText
           secondary={
@@ -33,7 +32,7 @@ const SalesSummary = (props: SalesSummaryProps) => {
       </ListItem>
       <ListItem>
         <ListItemText
-          primary={<span className={classes.Description}>{Contents[language].card}</span>}
+          primary={<span className={classes.Description}>{Contents[language]?.card}</span>}
         />
         <ListItemText
           secondary={
