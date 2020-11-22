@@ -68,13 +68,14 @@ const SummaryCard = (props: SummaryCardProps) => {
       );
     } else if (!comboValues?.idPaymentMethod || comboValues?.idPaymentMethod?.id !== 2) {
       unregister('received');
-      triggerValidation();
+      // debugger;
+      // triggerValidation();
     }
   }, [comboValues, register, triggerValidation, unregister, watchFields.total]);
 
   const hasAnImportantError = !!errors?.received || !!errors?.discount;
-  // console.log('hasAnImportantError', hasAnImportantError);
-  console.log(errors);
+
+  console.log(getValues(), errors);
   return (
     <Card className={classes.card}>
       <h1 className={classes.title}>{Contents[language]?.HeaderTitle}</h1>
