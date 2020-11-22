@@ -138,7 +138,6 @@ const InventoryList = (props: InventoryListProps) => {
       setError(true);
       onShowAlert({
         severity: 'error',
-        // title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
         title: getErrorData(err).title,
         body: getErrorData(err).message

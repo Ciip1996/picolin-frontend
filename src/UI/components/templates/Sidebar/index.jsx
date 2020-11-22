@@ -1,5 +1,6 @@
 // @flow
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import queryString from 'query-string';
 
 import List from '@material-ui/core/List';
@@ -10,16 +11,18 @@ import { Link, useLocation } from 'react-router-dom';
 import Collapse from '@material-ui/core/Collapse';
 import { Endpoints } from 'UI/constants/endpoints';
 import API from 'services/API';
+import { getErrorData, nestTernary } from 'UI/utils';
 
 import { CollapsibleArrowOpen, CollapsibleArrowClosed } from 'UI/res';
 import SalesSummary from 'UI/components/organisms/SalesSummary';
+import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
 
-import { nestTernary } from 'UI/utils';
 import { styles, useStyles, useSidebarStyles } from './styles';
 import sideBarMenu from './SidebarMenu';
 
 type SidebarProps = {
-  children?: any
+  children?: any,
+  showAlert: any => void
 };
 
 type SidebarIcon = {
@@ -48,7 +51,7 @@ const getParent = route =>
 const Sidebar = (props: SidebarProps) => {
   const location = useLocation();
   const pathName = location.pathname;
-  const { children } = props;
+  const { children, showAlert } = props;
   const [selectedRoute, setSelectedRoute] = useState(pathName);
   const [income, setIncome] = useState({
     cash: null,
@@ -128,13 +131,16 @@ const Sidebar = (props: SidebarProps) => {
           });
         }
       } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log('getIncome Error: ', err.response);
-        // throw err;
+        showAlert({
+          severity: 'error',
+          title: getErrorData(err)?.title,
+          autoHideDuration: 800000,
+          body: getErrorData(err)?.message
+        });
       }
     };
     getData();
-  }, []);
+  }, [showAlert]);
 
   const toggleParent = route => {
     setOpenedItems(prevState => {
@@ -214,4 +220,13 @@ Sidebar.defaultProps = {
   children: undefined
 };
 
-export default Sidebar;
+const mapDispatchToProps = dispatch => {
+  return {
+    showAlert: alert => dispatch(showAlertAction(alert)),
+    showConfirm: confirmation => dispatch(confirmAction(confirmation))
+  };
+};
+
+const SidebarConnected = connect(null, mapDispatchToProps)(Sidebar);
+
+export default SidebarConnected;
