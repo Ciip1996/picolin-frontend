@@ -52,7 +52,7 @@ type DataTableProps = {
   onSearchTextChange?: (search: string) => void,
   onColumnSortClick?: (row: any) => void,
   onPerPageClick?: (perPage: number) => void,
-  onPageClick?: (page: number) => void,
+  onPageClick?: (page: number) => void | any,
   defaultEmptyState?: boolean,
   customEmptyStateIcon?: any,
   title?: string,

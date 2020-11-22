@@ -17,6 +17,7 @@ import SaleCard from 'UI/components/organisms/SaleCard';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
+import { currencyFormatter, sleep } from 'UI/utils';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -26,7 +27,7 @@ import { Endpoints } from 'UI/constants/endpoints';
 import { AddIcon, colors } from 'UI/res';
 
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
-import { sleep } from 'UI/utils';
+
 import Contents from './strings';
 
 type NewSaleListProps = {
@@ -38,11 +39,12 @@ const language = localStorage.getItem('language');
 const NewSaleList = (props: NewSaleListProps) => {
   const { onShowAlert } = props;
 
-  const [productsList, setProductsList] = useState([]);
+  const [productsList, setProductsList] = useState<Array<Object>>([]);
+
   const [loading, setLoading] = useState(true);
 
   const [uiState, setUiState] = useState({
-    isAddComboToSaleDrawerOpen: true
+    isAddComboToSaleDrawerOpen: false
   });
 
   const defaultOptionSelectedFn = (option, value) => option.id === value.id;
@@ -74,8 +76,6 @@ const NewSaleList = (props: NewSaleListProps) => {
   const onNewSaleFinished = () => {
     // debugger;
   };
-  const vals = getValues();
-  console.log('vals', vals);
 
   useEffect(() => {
     document.title = PageTitles.NewSale;
@@ -86,7 +86,6 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const onSubmit = async (formData: Object) => {
     try {
-      // debugger;
       const {
         idPaymentMethod,
         invoice,
@@ -96,34 +95,39 @@ const NewSaleList = (props: NewSaleListProps) => {
         discount,
         deposit,
         saleType,
+        received,
         idStore = 1,
+        totalWithDiscount,
+        change,
         products: isProductsAvailable,
         ...rest
       } = formData;
 
-      const products = Object.entries(rest).map(([key, value]) => {
+      const saleDetail = Object.entries(rest).map(([key, value]) => {
         return { productCode: key, quantity: value };
       });
 
       const params = {
         idPaymentMethod,
-        invoice,
+        invoice: invoice || false,
         total,
         subtotal,
         iva,
-        discount,
-        deposit,
-        saleType,
+        discount: discount || 0,
+        deposit: null,
+        saleType: '{PAQUETE COMPLETO}', // todo change with combos
         idStore,
-        products
+        saleDetail,
+        received: received || null
       };
+
       const response = await API.post(`${Endpoints.Sales}${Endpoints.NewSale}`, params);
       if (response) {
         onShowAlert({
           severity: 'success',
           title: 'Venta Exitosa',
           autoHideDuration: 3000,
-          body: `Su venta de {total} fue realizada con exito`
+          body: `Su venta de ${currencyFormatter(total)} fue realizada con exito!`
         });
         onNewSaleFinished();
       }
@@ -139,42 +143,38 @@ const NewSaleList = (props: NewSaleListProps) => {
   };
 
   const handleAddProduct = (name: string, value: any) => {
-    // debugger;
+    setProductsList(prevList => {
+      return [...prevList, { product: { ...value }, quantity: 1 }];
+      // #region
+      /*  
+      The following code validates if it has already been added and adds one to the quanitity
 
-    setProductsList(prevState => {
-      // validate that the item has not been added already (removes duplicates)
-      if (prevState.length === 0) {
-        return [...prevState, { product: { ...value }, quantity: 1 }];
-      }
       let addedProductIndex = 0;
-      const productAlreadyAdded = prevState.forEach((each, i) => {
+
+      const productAlreadyAdded = prevList.find((each, index) => {
         if (each.product.productCode === value.productCode) {
-          addedProductIndex = i;
+          addedProductIndex = index;
           return true;
         }
         return false;
       });
 
-      // debugger;
-
       if (productAlreadyAdded) {
-        const updatedArray = prevState;
-        updatedArray[addedProductIndex] = {
-          product: { ...value },
-          quantity: productAlreadyAdded.quantity
+        const newproduct = {
+          ...productAlreadyAdded,
+          quantity: productAlreadyAdded.quantity + 1
         };
-        return [...updatedArray];
-      }
-
-      return [...prevState, { product: { ...value }, quantity: 1 }];
+        const updatedListOfProducts = prevList;
+        updatedListOfProducts[addedProductIndex] = newproduct;
+        return [...updatedListOfProducts];
+      } */
+      // #endregion
     });
     setValue(name, value ? true : undefined, true);
   };
 
   const onRemoveProduct = (productCode: string) => {
-    // debugger;
     setProductsList(prevState => {
-      // remove item with productCode
       const filteredArray = prevState.filter(
         (each: Object) => each.product.productCode !== productCode
       );
@@ -183,9 +183,8 @@ const NewSaleList = (props: NewSaleListProps) => {
     unregister(productCode);
   };
 
-  const onModifyAmountOfItem = (productCode: Object, quantity: any, stock: number) => {
-    // debugger;
-
+  // #region modify amount of item
+  /*   const onModifyAmountOfItem = (productCode: Object, quantity: any, stock: number) => {
     // TODO: check why is not taking the stock validation
     const updatedProducts = productsList.map((each: Object) => {
       if (each?.product?.productCode === productCode) {
@@ -200,7 +199,8 @@ const NewSaleList = (props: NewSaleListProps) => {
       return each;
     });
     setProductsList(updatedProducts);
-  };
+  }; */
+  // #endregion
 
   const registerFormField = useCallback(() => {
     register(
@@ -213,7 +213,6 @@ const NewSaleList = (props: NewSaleListProps) => {
     register({ name: 'subtotal' });
     register({ name: 'total' });
     register({ name: 'totalWithDiscount' });
-
     register({ name: 'change' });
     register({ name: 'iva' });
     register(
@@ -245,19 +244,22 @@ const NewSaleList = (props: NewSaleListProps) => {
   }, [register, registerFormField]);
 
   const calculateSaleCosts = useCallback(() => {
-    // const values = getValues();
-    // console.log(values);
     const { received, discount, invoice } = getValues();
 
-    console.log(productsList);
-    // debugger;
-    // productsList.length > 0 &&
-    //   productsList.reduce((accumulator, currentValue) => {
-    //     debugger;
-    //     return parseFloat(accumulator) + parseFloat(currentValue);
-    //   });
+    let saleCostSumatory;
+    if (productsList.length === 0) {
+      saleCostSumatory = 0.0;
+    } else if (productsList.length === 1) {
+      saleCostSumatory = parseFloat(productsList[0]?.product?.salePrice);
+    } else if (productsList.length > 1) {
+      saleCostSumatory = productsList.reduce((accumulator: Object, currentValue: Object) => {
+        return (
+          parseFloat(accumulator?.product?.salePrice) + parseFloat(currentValue?.product?.salePrice)
+        );
+      });
+    }
 
-    const subtotal = parseFloat(100);
+    const subtotal = parseFloat(saleCostSumatory);
     const iva = invoice ? parseFloat(subtotal || 0.0) * 0.16 : 0.0;
     const total = parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0);
     const totalWithDiscount =
@@ -275,7 +277,8 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   useEffect(() => {
     if (productsList.length === 0) setValue('products', undefined, false);
-  }, [productsList, setValue]);
+    calculateSaleCosts();
+  }, [calculateSaleCosts, productsList, setValue]);
 
   const onComboAdded = () => {
     // TODO: add logic
@@ -353,14 +356,14 @@ const NewSaleList = (props: NewSaleListProps) => {
                   }}
                 />
                 <div>
-                  {productsList.map(each => {
+                  {productsList.map((each: Object) => {
                     return (
                       <SaleCard
                         key={uuidv4()}
                         product={each?.product}
                         quantityOfProducts={each?.quantity}
                         onRemoveItem={onRemoveProduct}
-                        onAmountOfProductsChanged={onModifyAmountOfItem}
+                        // onAmountOfProductsChanged={onModifyAmountOfItem}
                       />
                     );
                   })}

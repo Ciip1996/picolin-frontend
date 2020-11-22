@@ -52,7 +52,6 @@ const MainLayout = ({ children, ...rest }: Object) => {
           <div style={styles.sidebar}>
             <Sidebar>
               <ActionButton
-                disabled
                 style={{ width: 200, minHeight: 48 }}
                 text="Nueva Venta"
                 onClick={GoToNewPage}

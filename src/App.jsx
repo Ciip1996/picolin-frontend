@@ -8,7 +8,9 @@ import 'App.css';
 import { THEME } from 'GlobalStyles';
 import Routes from 'routes/Routes';
 import moment from 'moment';
+import { getCurrentSessionExpirationDate, logout } from 'services/Authentication';
 import 'moment/locale/es';
+import { now } from 'lodash';
 
 const DEFAULT_LOCALE = 'es';
 const DEFAULT_LANGUAGE = 'Spanish';
@@ -21,6 +23,20 @@ moment.locale(DEFAULT_LOCALE); // set default locale manually to Spanish
 const App = () => {
   const [locale, setLocale] = useState('');
   const [language, setLanguage] = useState('');
+
+  useEffect(() => {
+    // everytime the user refresh the website or opens it for the first time:
+    const sessionExpirationDate = getCurrentSessionExpirationDate();
+    if (sessionExpirationDate) {
+      // there is a session stored locally
+      const isSessionValid = sessionExpirationDate.getTime() >= now();
+      if (!isSessionValid) {
+        // session invalid -> logout
+        logout();
+      }
+    }
+    // !sessionExpirationDate no session stored -> let login or leave the site open
+  }, []);
 
   useEffect(() => {
     setLocale(DEFAULT_LOCALE);

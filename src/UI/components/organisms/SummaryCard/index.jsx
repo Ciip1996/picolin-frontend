@@ -10,6 +10,8 @@ import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
 
 import Text from 'UI/components/atoms/Text';
 import TextBox from 'UI/components/atoms/TextBox';
@@ -19,6 +21,7 @@ import { AddIcon, colors } from 'UI/res';
 import { Endpoints } from 'UI/constants/endpoints';
 import { currencyFormatter } from 'UI/utils';
 import type { MapType } from 'types';
+import { isEmpty } from 'lodash';
 import Contents from './strings';
 import { useStyles } from './styles';
 
@@ -31,10 +34,10 @@ type SummaryCardProps = {
 
 const SummaryCard = (props: SummaryCardProps) => {
   const { watchFields, onNewItemAdded } = props;
-  const classes = useStyles();
   const [comboValues, setComboValues] = useState<MapType>({});
 
-  const { register, unregister, setValue, errors, getValues } = useFormContext();
+  const { register, unregister, setValue, errors, getValues, triggerValidation } = useFormContext();
+  const classes = useStyles();
 
   const onSelectionChange = (name: string, value: any) => {
     setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
@@ -46,11 +49,6 @@ const SummaryCard = (props: SummaryCardProps) => {
     setValue([event.target.name], event.target.checked, false);
     onNewItemAdded();
   };
-
-  // useEffect(() => {
-  //   // TODO: This hook calculates the subtotal and the rest of the amounts that need to be send.
-  //   onNewItemAdded();
-  // }, [onNewItemAdded]);
 
   useEffect(() => {
     // This hook validates if the field received is going to be required or not depending if the payment method is cash or not
@@ -68,18 +66,16 @@ const SummaryCard = (props: SummaryCardProps) => {
           }
         }
       );
+    } else if (!comboValues?.idPaymentMethod || comboValues?.idPaymentMethod?.id !== 2) {
+      unregister('received');
+      // debugger;
+      // triggerValidation();
     }
-    //  else {
-    //   setComboValues((prevState: MapType): MapType => ({
-    //     ...prevState,
-    //     idPaymentMethod: undefined
-    //   }));
-    // }
-  }, [comboValues, register, unregister, watchFields.total]);
+  }, [comboValues, register, triggerValidation, unregister, watchFields.total]);
 
   const hasAnImportantError = !!errors?.received || !!errors?.discount;
-  console.log('hasAnImportantError', hasAnImportantError);
 
+  console.log(getValues(), errors);
   return (
     <Card className={classes.card}>
       <h1 className={classes.title}>{Contents[language]?.HeaderTitle}</h1>
@@ -247,6 +243,14 @@ const SummaryCard = (props: SummaryCardProps) => {
             }
           />
         </ListItem>
+        <FormControl component="fieldset" className={classes.errorMessage} error={!isEmpty(errors)}>
+          <FormHelperText>
+            {isEmpty(errors)
+              ? 'Revise el formulario antes de finalizar.'
+              : 'Corrija los errores antes de finalizar.'}
+          </FormHelperText>
+        </FormControl>
+
         <Box display="flex" flex={1} justifyContent="flex-end" alignItems="center">
           <ActionButton
             type="submit"

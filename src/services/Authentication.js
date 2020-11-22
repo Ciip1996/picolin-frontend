@@ -12,6 +12,18 @@ const getToken = () => {
   return access && access.token;
 };
 
+const transformUnixTimeStampToDate = (unixTimestamp: number) => {
+  const milliseconds = parseInt(unixTimestamp, 10) * 1000; // 1575909015000
+  return new Date(milliseconds);
+};
+
+const getCurrentSessionExpirationDate = () => {
+  const access = getAccess();
+  const decodedToken: Object = access && jwt.decode(access.token);
+  const expDate = transformUnixTimeStampToDate(decodedToken?.exp);
+  return expDate && decodedToken ? expDate : null;
+};
+
 const getCurrentUser = () => {
   const access = getAccess();
   const decodedToken: Object = access && jwt.decode(access.token);
@@ -36,4 +48,12 @@ const getRedirectPage = () => {
   return localStorage.getItem('redirectPage');
 };
 
-export { getToken, getCurrentUser, isAuthenticated, logout, cleanLocalStorage, getRedirectPage };
+export {
+  getToken,
+  getCurrentUser,
+  isAuthenticated,
+  logout,
+  cleanLocalStorage,
+  getRedirectPage,
+  getCurrentSessionExpirationDate
+};

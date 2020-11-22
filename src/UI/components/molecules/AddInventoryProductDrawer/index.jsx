@@ -10,6 +10,7 @@ import { Endpoints } from 'UI/constants/endpoints';
 
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
+import { getErrorData } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -65,9 +66,9 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
     } catch (err) {
       onShowAlert({
         severity: 'error',
-        title: 'Error',
-        autoHideDuration: 3000,
-        body: 'Ocurrio un problema'
+        title: getErrorData(err)?.title,
+        autoHideDuration: 800000,
+        body: getErrorData(err)?.message
       });
       throw err;
     }

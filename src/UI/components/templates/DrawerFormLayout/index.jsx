@@ -131,7 +131,8 @@ DrawerFormLayout.defaultProps = {
   triggerActionText: '',
   contentStyle: null,
   isBottomToolbarNeeded: true,
-  isTopToolbarNeeded: true
+  isTopToolbarNeeded: true,
+  uiState: {}
 };
 
 export default DrawerFormLayout;

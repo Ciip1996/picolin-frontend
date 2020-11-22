@@ -22,6 +22,7 @@ export const DateFormats = {
   },
   International: {
     DetailDate: 'DD MMMM, YYYY',
+    DetailDateTime: 'DD/MMMM/YYYY HH:mm a',
     SimpleDate: 'DD/MM/YYYY',
     SimpleDateTime: 'DD/MM/YYYY HH:mm a',
     DayDate: 'dddd, DD/MM/YYYY',

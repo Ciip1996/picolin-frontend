@@ -2,7 +2,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-import { FormControl } from '@material-ui/core';
+import { FormControl, Box } from '@material-ui/core';
+import moment from 'moment';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -11,11 +12,13 @@ import CustomDatePicker from 'UI/components/atoms/CustomDatePicker';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
+import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
+import { toLocalTime, getErrorData } from 'UI/utils';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import { DateFormats, PageTitles } from 'UI/constants/defaults';
-import { toLocalTime, getErrorData } from 'UI/utils';
+
 import { Endpoints } from 'UI/constants/endpoints';
 import type { Filters } from 'types/app';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
@@ -53,6 +56,8 @@ const SalesList = (props: SalesListProps) => {
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState<any>([{}]);
+  const [selectedSale, setSelectedSale] = useState({});
+
   const [count, setCount] = useState(0);
 
   const invoiceOptions = [
@@ -82,6 +87,15 @@ const SalesList = (props: SalesListProps) => {
     isTransferDrawerOpen: true
   });
 
+  const getDateStringFromFilter = (filterDate: any) => {
+    if (filterDate) {
+      return typeof filterDate.date === 'object'
+        ? filterDate.date.format(DateFormats.SQL)
+        : moment(filterDate.date).format(DateFormats.SQL);
+    }
+    return undefined;
+  };
+
   const getData = useCallback(async () => {
     try {
       const {
@@ -89,8 +103,8 @@ const SalesList = (props: SalesListProps) => {
         date_filter = undefined,
         payment_filter = undefined,
         invoice_filter = undefined,
-        startDate_filter = undefined,
-        endDate_filter = undefined
+        startDate_filter,
+        endDate_filter
       } = filters;
 
       const params = {
@@ -103,8 +117,8 @@ const SalesList = (props: SalesListProps) => {
         idPaymentMethod: payment_filter?.id,
         store: store_filter?.id,
         invoice: invoice_filter?.id,
-        initialDate: startDate_filter ? startDate_filter.date.format(DateFormats.SQL) : undefined,
-        finalDate: endDate_filter ? endDate_filter.date.format(DateFormats.SQL) : undefined
+        initialDate: getDateStringFromFilter(startDate_filter),
+        finalDate: getDateStringFromFilter(endDate_filter)
       };
 
       saveFilters('ventas', { filters, params });
@@ -125,14 +139,15 @@ const SalesList = (props: SalesListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
-      // console.log(err);
+      const { response } = err;
+      console.log(err, response);
       setError(true);
       onShowAlert({
         severity: 'error',
         // title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
         title: getErrorData(err).title,
-        body: getErrorData(err).message
+        body: getErrorData(err).message || JSON.stringify(err)
       });
     }
   }, [
@@ -156,6 +171,7 @@ const SalesList = (props: SalesListProps) => {
 
   const handleFilterChange = (name: string, value: any) => {
     setSearching(true);
+    debugger;
     setFilters({ ...filters, [name]: value });
     setUiState(prevState => ({
       ...prevState,
@@ -209,14 +225,45 @@ const SalesList = (props: SalesListProps) => {
     columnItems[index].display = display;
   };
 
-  const handleRowClick = () => {
-    // const { id } = data[newItem.rowIndex];
-    // history.push(EntityRoutes.CandidateProfile.replace(':id', id));
+  const getSaleDetail = async (id: any) => {
+    try {
+      const response = await API.get(
+        `${Endpoints.Sales}${Endpoints.GetSaleDetails}`.replace(':id', id)
+      );
+      if (response.status === 200) {
+        const detailedData = { ...response.data };
+        setSelectedSale(detailedData);
+      }
+    } catch (getSaleDetailError) {
+      setError(true);
+      onShowAlert({
+        severity: 'error',
+        autoHideDuration: 3000,
+        title: getErrorData(getSaleDetailError).title,
+        body: getErrorData(getSaleDetailError).message
+      });
+      throw getSaleDetailError;
+    }
+  };
+
+  const handleRowClick = (rowData: Object) => {
+    const { id } = data[rowData.rowIndex];
+    getSaleDetail(id);
   };
 
   const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
 
   const columns = [
+    {
+      name: 'id',
+      options: {
+        filter: true,
+        sort: false,
+        print: false,
+        display: 'excluded',
+        filterType: 'custom'
+      }
+    },
     {
       name: 'idSale',
       options: {
@@ -241,7 +288,7 @@ const SalesList = (props: SalesListProps) => {
         customBodyRender: value => {
           const localTime = toLocalTime(value);
           const formattedDate =
-            localTime && localTime.format(DateFormats.International.SimpleDateTime);
+            localTime && localTime.format(DateFormats.International.DetailDateTime);
           return (
             <CellSkeleton searching={searching}>
               <strong>{formattedDate}</strong>
@@ -257,12 +304,15 @@ const SalesList = (props: SalesListProps) => {
                   name="startDate_filter"
                   value={filters?.startDate_filter?.date || null}
                   onDateChange={(name, date) =>
-                    handleFilterChange(name, {
-                      title: `Desde fecha ${
-                        date ? date.format(DateFormats.International.DetailDate) : ''
-                      }`,
-                      date
-                    })
+                    handleFilterChange(
+                      name && name,
+                      date && {
+                        title: `Desde fecha ${
+                          date ? date.format(DateFormats.International.DetailDate) : ''
+                        }`,
+                        date
+                      }
+                    )
                   }
                 />
               </FormControl>
@@ -293,12 +343,15 @@ const SalesList = (props: SalesListProps) => {
                   name="endDate_filter"
                   value={filters?.endDate_filter?.date || null}
                   onDateChange={(name, date) =>
-                    handleFilterChange(name, {
-                      title: `Hasta: ${
-                        date ? date.format(DateFormats.International.DetailDate) : ''
-                      }`,
-                      date
-                    })
+                    handleFilterChange(
+                      name && name,
+                      date && {
+                        title: `Hasta fecha ${
+                          date ? date.format(DateFormats.International.DetailDate) : ''
+                        }`,
+                        date
+                      }
+                    )
                   }
                 />
               </FormControl>
@@ -443,29 +496,36 @@ const SalesList = (props: SalesListProps) => {
         onFilterRemove={handleFilterRemove}
         onFiltersReset={handleResetFiltersClick}
       >
-        <DataTable
-          error={error}
-          loading={loading}
-          data={data}
-          columns={columns}
-          count={count}
-          orderBy={uiState.orderBy}
-          direction={uiState.direction}
-          page={uiState.page}
-          rowsPerPage={uiState.perPage}
-          searchText={uiState.keyword}
-          onRowClick={handleRowClick}
-          onResetfiltersClick={handleResetFiltersClick}
-          onSearchTextChange={handleSearchChange}
-          onSearchClose={() => {
-            handleSearchChange();
-            setSearching(false);
-          }}
-          onColumnSortClick={handleColumnSortClick}
-          onPerPageClick={handlePerPageClick}
-          onPageClick={handlePageClick}
-          onColumnDisplayClick={handleColumnDisplayClick}
-        />
+        <Box display="flex" flex={1}>
+          <Box flex={2}>
+            <DataTable
+              error={error}
+              loading={loading}
+              data={data}
+              columns={columns}
+              count={count}
+              orderBy={uiState.orderBy}
+              direction={uiState.direction}
+              page={uiState.page}
+              rowsPerPage={uiState.perPage}
+              searchText={uiState.keyword}
+              onRowClick={handleRowClick}
+              onResetfiltersClick={handleResetFiltersClick}
+              onSearchTextChange={handleSearchChange}
+              onSearchClose={() => {
+                handleSearchChange();
+                setSearching(false);
+              }}
+              onColumnSortClick={handleColumnSortClick}
+              onPerPageClick={handlePerPageClick}
+              onPageClick={handlePageClick}
+              onColumnDisplayClick={handleColumnDisplayClick}
+            />
+          </Box>
+          <Box display="flex" flex={1} justifyContent="center">
+            <SalesDetailCard saleData={selectedSale} />
+          </Box>
+        </Box>
       </ListPageLayout>
     </ContentPageLayout>
   );

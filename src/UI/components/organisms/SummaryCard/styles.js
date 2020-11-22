@@ -92,5 +92,11 @@ export const useStyles = makeStyles(theme => ({
     width: '171px',
     height: '48px'
     // marginLeft: '201px'
+  },
+  errorMessage: {
+    width: '100%',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'flex-end'
   }
 }));

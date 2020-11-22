@@ -4,58 +4,69 @@ import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { currencyFormatter } from 'UI/utils';
 import Contents from './strings';
 import { useStyles } from './styles';
 
 const language = localStorage.getItem('language');
 
 type SummaryCardProps = {
-  total: string,
-  subtotal: string,
-  data: Array<Object>,
-  deposit: string,
-  taxes: string,
-  discount: string,
-  payment: string,
-  received: string
+  saleData: Object
 };
 
 const SummaryCard = (props: SummaryCardProps) => {
-  const { data, subtotal, total, deposit, taxes, discount, payment, received } = props; // [{}]
+  const {
+    saleData: { sale = {}, detail: data }
+  } = props;
+
+  const { total, subtotal, iva: taxes, discount, received, paymentMethod } = sale;
+
+  console.log(data);
+
   const classes = useStyles();
+
   return (
     <Card className={classes.card}>
       <h1 className={classes.title}>{Contents[language].HeaderTitle}</h1>
       <List component="nav">
         <center>
           <div className={classes.List}>
-            {data.map(each => {
-              return (
-                <ListItem divider className={classes.Item}>
-                  <ListItemText
-                    primary={<span className={classes.ScrollDescription}>{each.title}</span>}
-                  />
-                  <ListItemText
-                    secondary={
-                      <span className={classes.ScrollCostDescription}>{each.content}</span>
-                    }
-                  />
-                </ListItem>
-              );
-            })}
+            {data &&
+              data.map(each => {
+                return (
+                  <ListItem divider className={classes.Item}>
+                    <ListItemText
+                      primary={
+                        <span className={classes.ScrollDescription}>
+                          {`${each?.quantity} ${each?.type} ` || '--'}
+                        </span>
+                      }
+                    />
+                    <ListItemText
+                      secondary={
+                        <span className={classes.ScrollCostDescription}>
+                          {currencyFormatter(each?.salePrice) || '--'}
+                        </span>
+                      }
+                    />
+                  </ListItem>
+                );
+              })}
           </div>
         </center>
         <br />
         <center>
           <div className={classes.Resume}>
-            <ListItem divider className={classes.Content}>
+            {/* <ListItem divider className={classes.Content}>
               <ListItemText
                 primary={<span className={classes.Description}>{Contents[language]?.Deposit}</span>}
               />
               <ListItemText
-                secondary={<span className={classes.CostDescription}>{deposit}</span>}
+                secondary={
+                  <span className={classes.CostDescription}>{currencyFormatter(deposit)}</span>
+                }
               />
-            </ListItem>
+            </ListItem> */}
             <ListItem divider className={classes.Content}>
               <ListItemText
                 primary={
@@ -63,14 +74,24 @@ const SummaryCard = (props: SummaryCardProps) => {
                 }
               />
               <ListItemText
-                secondary={<span className={classes.CostDescription}>{subtotal}</span>}
+                secondary={
+                  <span className={classes.CostDescription}>
+                    {subtotal ? currencyFormatter(subtotal) : '--'}
+                  </span>
+                }
               />
             </ListItem>
             <ListItem divider className={classes.Content}>
               <ListItemText
                 primary={<span className={classes.Description}>{Contents[language]?.Taxes}</span>}
               />
-              <ListItemText secondary={<span className={classes.CostDescription}>{taxes}</span>} />
+              <ListItemText
+                secondary={
+                  <span className={classes.CostDescription}>
+                    {taxes ? currencyFormatter(taxes) : '--'}
+                  </span>
+                }
+              />
             </ListItem>
             <ListItem divider className={classes.Content}>
               <ListItemText
@@ -79,7 +100,11 @@ const SummaryCard = (props: SummaryCardProps) => {
                 }
               />
               <ListItemText
-                secondary={<span className={classes.CostDescription}>{discount}</span>}
+                secondary={
+                  <span className={classes.CostDescription}>
+                    {discount ? currencyFormatter(parseFloat(discount) * -1) : '--'}
+                  </span>
+                }
               />
             </ListItem>
             <ListItem divider className={classes.Content}>
@@ -87,7 +112,7 @@ const SummaryCard = (props: SummaryCardProps) => {
                 primary={<span className={classes.Description}>{Contents[language]?.Payment}</span>}
               />
               <ListItemText
-                secondary={<span className={classes.CostDescription}>{payment}</span>}
+                secondary={<span className={classes.CostDescription}>{paymentMethod || '--'}</span>}
               />
             </ListItem>
             <ListItem divider className={classes.Content}>
@@ -97,30 +122,30 @@ const SummaryCard = (props: SummaryCardProps) => {
                 }
               />
               <ListItemText
-                secondary={<span className={classes.CostDescription}>{received}</span>}
+                secondary={
+                  <span className={classes.CostDescription}>
+                    {received ? currencyFormatter(received) : '--'}
+                  </span>
+                }
               />
             </ListItem>
             <ListItem>
               <ListItemText
                 primary={<span className={classes.Total}>{Contents[language].Total}</span>}
               />
-              <ListItemText secondary={<span className={classes.TotalCost}>{total}</span>} />
+              <ListItemText
+                secondary={
+                  <span className={classes.TotalCost}>
+                    {total ? currencyFormatter(total) : '--'}
+                  </span>
+                }
+              />
             </ListItem>
           </div>
         </center>
       </List>
     </Card>
   );
-};
-
-SummaryCard.defaultProps = {
-  subtotal: '$698.1',
-  total: '$15060000000.84',
-  deposit: 'N/A',
-  taxes: '$111.696',
-  discount: '$0.00',
-  payment: 'EFECTIVO',
-  received: '$1,000.00'
 };
 
 export default SummaryCard;
