@@ -54,5 +54,13 @@ export const useStyles = makeStyles(theme => ({
   },
   iframeStyle: {
     border: 'unset'
+  },
+  deleteButton: {
+    height: 32,
+    width: 32,
+    backgroundColor: theme.palette.error.main,
+    marginLeft: '340px',
+    marginTop: '20px',
+    color: colors.white
   }
 }));
