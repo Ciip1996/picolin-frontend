@@ -6,13 +6,15 @@ import Box from '@material-ui/core/Box';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
+
 import SaleForm from 'UI/components/organisms/SaleForm';
 import { Endpoints } from 'UI/constants/endpoints';
 
-import CloseIcon from '@material-ui/icons/Close';
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
+import { CloseIcon } from 'UI/res';
 import { useStyles } from './styles';
+
 import Contents from './strings';
 
 type AddComboToSaleDrawerProps = {
@@ -78,32 +80,37 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
   return (
     <>
       <FormContext {...form}>
-        {/* <DrawerFormLayout
+        <DrawerFormLayout
           title={Contents[language]?.Title}
-          type="submit"
+          onSubmit={handleSubmit(onSubmit)}
           onClose={handleClose}
           onSecondaryButtonClick={handleClose}
           variant="borderless"
           uiState={uiState}
           initialText="Agregar"
-        > */}
-        <form className={classes.root} noValidate autoComplete="off" />
-        <Box>
-          <div style={globalStyles.feeDrawerslabel}>
+          isTopToolbarNeeded
+          additionalHeaderButtons={
             <CustomIconButton
+              tooltipText="Cerrar"
               wrapperStyle={classes.deleteButtonWrapper}
-              className={classes.deleteButton}
+              // className={classes.deleteButton}
               aria-label="delete"
               onClick={handleClose}
               // onClick={prepareRemoveItem}
             >
-              <CloseIcon />
+              <CloseIcon fill="red" />
             </CustomIconButton>
-            {/* <Text variant="body1" text={Contents[language]?.Subtitle} fontSize={14} /> */}
-            <SaleForm />
-          </div>
-        </Box>
-        <div />
+          }
+        >
+          <form className={classes.root} noValidate autoComplete="off" />
+          <Box>
+            <div style={globalStyles.feeDrawerslabel}>
+              <Text variant="body1" text={Contents[language]?.Subtitle} fontSize={14} />
+              <SaleForm />
+            </div>
+          </Box>
+          <div />
+        </DrawerFormLayout>
       </FormContext>
     </>
   );
