@@ -3,17 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Box from '@material-ui/core/Box';
-
-// import TextBox from 'UI/components/atoms/TextBox';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { Endpoints } from 'UI/constants/endpoints';
-
 // import { PRODUCT_DESCRIPTION_VALIDATION } from 'UI/utils';
 import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
 
 import Contents from './strings';
-// import { useStyles } from './styles';
 
 type SaleFormProps = {
   initialValues: MapType
@@ -22,10 +18,11 @@ type SaleFormProps = {
 const SaleForm = (props: SaleFormProps) => {
   const { initialValues } = props;
   const language = localStorage.getItem('language');
-  // const classes = useStyles();
   const [comboValues, setComboValues] = useState<MapType>(initialValues);
 
   const { register, errors, setValue, getValues } = useFormContext();
+
+  console.log(getValues());
 
   useEffect(() => {
     register({ name: 'diaperRacks' }, { required: `${Contents[language]?.RequiredMessage}` });
@@ -34,13 +31,6 @@ const SaleForm = (props: SaleFormProps) => {
     register({ name: 'ajuar' }, { required: `${Contents[language]?.RequiredMessage}` });
   }, [language, register]);
 
-  // const [form, setDiaperRacks] = useState({
-  //   DiaperRacks: '',
-  //   footwear: '',
-  //   blanket: '',
-  //   Ajuar: ''
-  // });
-
   const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
     ':idStore',
     '1'
@@ -48,7 +38,7 @@ const SaleForm = (props: SaleFormProps) => {
 
   const handleComboChange = (name: string, value: any) => {
     setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
-    setValue(name, value?.id ? value?.id : value?.title, true);
+    setValue(name, value?.productCode ? value?.productCode : value, true);
   };
 
   const defaultOptionSelectedFn = (option, value) => option.id === value.id;
@@ -58,9 +48,10 @@ const SaleForm = (props: SaleFormProps) => {
       <InputContainer>
         <AutocompleteSelect
           name="diaperRacks"
+          selectedValue={comboValues.diaperRacks}
           placeholder={Contents[language]?.diaperRacks}
           url={searchingProductsUrl}
-          displayKey="name"
+          displayKey="productCode"
           typeahead
           typeaheadLimit={15}
           onSelect={handleComboChange}
@@ -83,9 +74,10 @@ const SaleForm = (props: SaleFormProps) => {
       <InputContainer>
         <AutocompleteSelect
           name="footwear"
+          selectedValue={comboValues.footwear}
           placeholder={Contents[language]?.footwear}
           url={searchingProductsUrl}
-          displayKey="name"
+          displayKey="productCode"
           typeahead
           typeaheadLimit={15}
           onSelect={handleComboChange}
@@ -108,9 +100,10 @@ const SaleForm = (props: SaleFormProps) => {
       <InputContainer>
         <AutocompleteSelect
           name="blanket"
+          selectedValue={comboValues.blanket}
           placeholder={Contents[language]?.blanket}
           url={searchingProductsUrl}
-          displayKey="name"
+          displayKey="productCode"
           typeahead
           typeaheadLimit={15}
           onSelect={handleComboChange}
@@ -133,9 +126,10 @@ const SaleForm = (props: SaleFormProps) => {
       <InputContainer>
         <AutocompleteSelect
           name="ajuar"
+          selectedValue={comboValues.ajuar}
           placeholder={Contents[language]?.ajuar}
           url={searchingProductsUrl}
-          displayKey="name"
+          displayKey="productCode"
           typeahead
           typeaheadLimit={15}
           onSelect={handleComboChange}

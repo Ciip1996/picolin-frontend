@@ -280,9 +280,11 @@ const NewSaleList = (props: NewSaleListProps) => {
     calculateSaleCosts();
   }, [calculateSaleCosts, productsList, setValue]);
 
-  const onComboAdded = () => {
+  const onComboAdded = (comboData: Object) => {
     // TODO: add logic
-    // debugger;
+    console.log(comboData);
+    toggleDrawer('isAddComboToSaleDrawerOpen', !uiState.isAddComboToSaleDrawerOpen); // close the drawer
+    debugger;
   };
 
   return (

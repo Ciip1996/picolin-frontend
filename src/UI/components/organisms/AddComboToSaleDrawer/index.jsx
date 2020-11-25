@@ -6,11 +6,7 @@ import Box from '@material-ui/core/Box';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
-
 import SaleForm from 'UI/components/organisms/SaleForm';
-import { Endpoints } from 'UI/constants/endpoints';
-
-import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
 import { CloseIcon } from 'UI/res';
 import { useStyles } from './styles';
@@ -52,20 +48,11 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
 
   const onSubmit = async (formData: Object) => {
     try {
-      const response = await API.post(
-        `${Endpoints.Inventory}${Endpoints.InsertInventory}`,
-        formData
-      );
-      if (response) {
-        const { productCode } = response?.data;
-        onShowAlert({
-          severity: 'success',
-          title: 'Producto Agregado',
-          autoHideDuration: 3000,
-          body: 'Inserción Exitosa'
-        });
-        productCode && onComboAdded(productCode);
-      }
+      !!formData?.diaperRacks &&
+        !!formData?.footwear &&
+        !!formData?.blanket &&
+        !!formData?.ajuar &&
+        onComboAdded(formData);
     } catch (err) {
       onShowAlert({
         severity: 'error',

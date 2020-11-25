@@ -9,7 +9,7 @@ const Contents = {
     Add: 'ADD'
   },
   Spanish: {
-    RequiredMessage: 'Este es un campo obligatorio',
+    RequiredMessage: 'No puedes armar un paquete sin este item.',
     diaperRacks: 'Pañaleras *',
     footwear: 'Calzado *',
     blanket: 'Sabana *',
