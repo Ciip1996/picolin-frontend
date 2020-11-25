@@ -171,7 +171,6 @@ const SalesList = (props: SalesListProps) => {
 
   const handleFilterChange = (name: string, value: any) => {
     setSearching(true);
-    debugger;
     setFilters({ ...filters, [name]: value });
     setUiState(prevState => ({
       ...prevState,

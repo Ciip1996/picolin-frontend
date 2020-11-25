@@ -40,6 +40,7 @@ const NewSaleList = (props: NewSaleListProps) => {
   const { onShowAlert } = props;
 
   const [productsList, setProductsList] = useState<Array<Object>>([]);
+  const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -106,6 +107,8 @@ const NewSaleList = (props: NewSaleListProps) => {
       const saleDetail = Object.entries(rest).map(([key, value]) => {
         return { productCode: key, quantity: value };
       });
+
+      /// TODO: add all the products from the combo and set the value combo: 1
 
       const params = {
         idPaymentMethod,
@@ -281,10 +284,8 @@ const NewSaleList = (props: NewSaleListProps) => {
   }, [calculateSaleCosts, productsList, setValue]);
 
   const onComboAdded = (comboData: Object) => {
-    // TODO: add logic
-    console.log(comboData);
-    toggleDrawer('isAddComboToSaleDrawerOpen', !uiState.isAddComboToSaleDrawerOpen); // close the drawer
-    debugger;
+    setUiState(prevState => ({ ...prevState, isAddComboToSaleDrawerOpen: false }));
+    setComboPackagesList(prevList => [...prevList, comboData]);
   };
 
   return (
