@@ -3,8 +3,8 @@ const Contents = {
     RequiredMessage: 'This is a required field',
     diaperRacks: 'Diaper Racks *',
     footwear: 'Footwear *',
-    Sabana: 'Sabana *',
-    Ajuar: 'Ajuar *',
+    blanket: 'Sabana *',
+    ajuar: 'Ajuar *',
     AddPackages: 'ADD PACKAGES',
     Add: 'ADD'
   },
@@ -12,8 +12,8 @@ const Contents = {
     RequiredMessage: 'Este es un campo obligatorio',
     diaperRacks: 'Pañaleras *',
     footwear: 'Calzado *',
-    Sabana: 'Sabana *',
-    Ajuar: 'Ajuar *',
+    blanket: 'Sabana *',
+    ajuar: 'Ajuar *',
     AddPackages: 'AGREGAR PAQUETES',
     Add: 'AGREGAR'
   }

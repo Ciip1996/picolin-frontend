@@ -30,11 +30,16 @@ const SaleForm = (props: SaleFormProps) => {
   useEffect(() => {
     register({ name: 'diaperRacks' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'footwear' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'Sabana' }, { required: `${Contents[language]?.RequiredMessage}` });
-    // register({ name: 'Ajuar' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
+    register({ name: 'blanket' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'ajuar' }, { required: `${Contents[language]?.RequiredMessage}` });
   }, [language, register]);
 
-  const [form, setDiaperRacks] = useState({ DiaperRacks: '', footwear: '', Sabana: '', Ajuar: '' });
+  // const [form, setDiaperRacks] = useState({
+  //   DiaperRacks: '',
+  //   footwear: '',
+  //   blanket: '',
+  //   Ajuar: ''
+  // });
 
   const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
     ':idStore',
@@ -46,67 +51,108 @@ const SaleForm = (props: SaleFormProps) => {
     setValue(name, value?.id ? value?.id : value?.title, true);
   };
 
+  const defaultOptionSelectedFn = (option, value) => option.id === value.id;
+
   return (
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%">
       <InputContainer>
         <AutocompleteSelect
           name="diaperRacks"
-          selectedValue={comboValues.diaperRacks}
-          value={form.DiaperRacks}
-          // onSelect={e => setDiaperRacks({ ...form, DiaperRacks: e.target.value })}
           placeholder={Contents[language]?.diaperRacks}
-          error={!!errors?.diaperRacks}
-          errorText={errors?.diaperRacks && errors?.diaperRacks?.message}
+          url={searchingProductsUrl}
+          displayKey="name"
+          typeahead
+          typeaheadLimit={15}
           onSelect={handleComboChange}
-          url={Endpoints.Types}
+          getOptionSelected={defaultOptionSelectedFn}
+          dataFetchKeyName="inventory"
+          error={!!errors?.diaperRacks}
+          errorText={errors?.diaperRacks && errors?.diaperRacks.message}
+          renderOption={option => {
+            return (
+              <div>
+                <strong>{option.productCode}</strong>
+                <br />
+                <span>{option.type}</span> | <span>{option.gender}</span> |
+                <span>{option.characteristic}</span>| <span>{option.color}</span>
+              </div>
+            );
+          }}
         />
       </InputContainer>
       <InputContainer>
         <AutocompleteSelect
-          // name="footwear" // TODO: Check the real translation os this word
-          // selectedValue={comboValues.footwear}
-
-          type="text"
-          value={form.footwear}
-          onChange={e => setDiaperRacks({ ...form, footwear: e.target.value })}
+          name="footwear"
           placeholder={Contents[language]?.footwear}
+          url={searchingProductsUrl}
+          displayKey="name"
+          typeahead
+          typeaheadLimit={15}
+          onSelect={handleComboChange}
+          getOptionSelected={defaultOptionSelectedFn}
+          dataFetchKeyName="inventory"
           error={!!errors?.footwear}
           errorText={errors?.footwear && errors?.footwear.message}
-          // defaultOptions={footwear}
-          // onSelect={handleComboChange}
-          // url={Endpoints.Types}
+          renderOption={option => {
+            return (
+              <div>
+                <strong>{option.productCode}</strong>
+                <br />
+                <span>{option.type}</span> | <span>{option.gender}</span> |
+                <span>{option.characteristic}</span>| <span>{option.color}</span>
+              </div>
+            );
+          }}
         />
       </InputContainer>
       <InputContainer>
         <AutocompleteSelect
-          // name="Sabana" // TODO: Check the real translation os this word
-          // selectedValue={comboValues.Sabana}
-
-          type="text"
-          value={form.Sabana}
-          onChange={e => setDiaperRacks({ ...form, Sabana: e.target.value })}
-          placeholder={Contents[language]?.Sabana}
-          error={!!errors?.Sabana}
-          errorText={errors?.Sabana && errors?.Sabana.message}
-          // defaultOptions={Sabana}
-          // onSelect={handleComboChange}
-          // url={Endpoints.Types}
+          name="blanket"
+          placeholder={Contents[language]?.blanket}
+          url={searchingProductsUrl}
+          displayKey="name"
+          typeahead
+          typeaheadLimit={15}
+          onSelect={handleComboChange}
+          getOptionSelected={defaultOptionSelectedFn}
+          dataFetchKeyName="inventory"
+          error={!!errors?.blanket}
+          errorText={errors?.blanket && errors?.blanket.message}
+          renderOption={option => {
+            return (
+              <div>
+                <strong>{option.productCode}</strong>
+                <br />
+                <span>{option.type}</span> | <span>{option.gender}</span> |
+                <span>{option.characteristic}</span>| <span>{option.color}</span>
+              </div>
+            );
+          }}
         />
       </InputContainer>
       <InputContainer>
         <AutocompleteSelect
-          // name="Ajuar" // TODO: Check the real translation of this word too
-          // selectedValue={comboValues.Ajuar}
-
-          type="text"
-          value={form.Ajuar}
-          onChange={e => setDiaperRacks({ ...form, Ajuar: e.target.value })}
-          placeholder={Contents[language]?.Ajuar}
-          error={!!errors?.Ajuar}
-          errorText={errors?.Ajuar && errors?.Ajuar.message}
-          // defaultOptions={Ajuar}
-          // onSelect={handleComboChange}
-          // url={Endpoints.Types}
+          name="ajuar"
+          placeholder={Contents[language]?.ajuar}
+          url={searchingProductsUrl}
+          displayKey="name"
+          typeahead
+          typeaheadLimit={15}
+          onSelect={handleComboChange}
+          getOptionSelected={defaultOptionSelectedFn}
+          dataFetchKeyName="inventory"
+          error={!!errors?.ajuar}
+          errorText={errors?.ajuar && errors?.ajuar.message}
+          renderOption={option => {
+            return (
+              <div>
+                <strong>{option.productCode}</strong>
+                <br />
+                <span>{option.type}</span> | <span>{option.gender}</span> |
+                <span>{option.characteristic}</span>| <span>{option.color}</span>
+              </div>
+            );
+          }}
         />
       </InputContainer>
     </Box>
