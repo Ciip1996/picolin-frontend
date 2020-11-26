@@ -5,7 +5,6 @@ import { useFormContext } from 'react-hook-form';
 import Box from '@material-ui/core/Box';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { Endpoints } from 'UI/constants/endpoints';
-// import { PRODUCT_DESCRIPTION_VALIDATION } from 'UI/utils';
 import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
 

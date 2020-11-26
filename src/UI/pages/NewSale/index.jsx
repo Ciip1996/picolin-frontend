@@ -14,6 +14,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import SummaryCard from 'UI/components/organisms/SummaryCard';
 import SaleCard from 'UI/components/organisms/SaleCard';
+import ItemCard from 'UI/components/organisms/ItemCard';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
@@ -359,12 +360,26 @@ const NewSaleList = (props: NewSaleListProps) => {
                   }}
                 />
                 <div>
-                  {productsList.map((each: Object) => {
+                  {/* Render Combos */}
+                  {comboPackagesList.map((combo: Object) => {
+                    debugger;
+                    return (
+                      <ItemCard
+                        // key={uuidv4()}
+                        // product={combo?.product}
+                        // quantityOfProducts={combo?.quantity}
+                        onRemoveItem={onRemoveProduct}
+                        // onAmountOfProductsChanged={onModifyAmountOfItem}
+                      />
+                    );
+                  })}
+                  {/* Render Products */}
+                  {productsList.map((product: Object) => {
                     return (
                       <SaleCard
                         key={uuidv4()}
-                        product={each?.product}
-                        quantityOfProducts={each?.quantity}
+                        product={product?.product}
+                        quantityOfProducts={product?.quantity}
                         onRemoveItem={onRemoveProduct}
                         // onAmountOfProductsChanged={onModifyAmountOfItem}
                       />
