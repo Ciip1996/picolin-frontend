@@ -8,8 +8,7 @@ import { showAlert } from 'actions/app';
 import Drawer from '@material-ui/core/Drawer';
 
 /** Atoms, Components and Styles */
-
-/** Components */
+import ListProductRow from 'UI/components/molecules/ListProductRow';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import SummaryCard from 'UI/components/organisms/SummaryCard';
@@ -349,14 +348,7 @@ const NewSaleList = (props: NewSaleListProps) => {
                   error={!!errors?.products}
                   errorText={errors?.products && errors?.products.message}
                   renderOption={option => {
-                    return (
-                      <div>
-                        <strong>{option.productCode}</strong>
-                        <br />
-                        <span>{option.type}</span> | <span>{option.gender}</span> |
-                        <span>{option.characteristic}</span>| <span>{option.color}</span>
-                      </div>
-                    );
+                    return <ListProductRow product={option} />;
                   }}
                 />
                 <div>
