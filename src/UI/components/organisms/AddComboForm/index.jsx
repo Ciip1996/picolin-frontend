@@ -17,7 +17,7 @@ type SaleFormProps = {
   initialValues: MapType
 };
 
-const SaleForm = (props: SaleFormProps) => {
+const AddComboForm = (props: SaleFormProps) => {
   const { initialValues } = props;
   const language = localStorage.getItem('language');
   const [comboValues, setComboValues] = useState<MapType>(initialValues);
@@ -38,7 +38,7 @@ const SaleForm = (props: SaleFormProps) => {
 
   const handleComboChange = (name: string, value: any) => {
     setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
-    setValue(name, value?.productCode ? value?.productCode : value, true);
+    setValue(name, value || null, true);
   };
 
   const defaultOptionSelectedFn = (option, value) => option.id === value.id;
@@ -107,7 +107,7 @@ const SaleForm = (props: SaleFormProps) => {
           name="ajuar"
           selectedValue={comboValues.ajuar}
           placeholder={Contents[language]?.ajuar}
-          url={`${searchingProductsUrl}?idType=4`}
+          url={`${searchingProductsUrl}?idType=3`}
           displayKey="productCode"
           typeahead
           typeaheadLimit={15}
@@ -125,8 +125,8 @@ const SaleForm = (props: SaleFormProps) => {
   );
 };
 
-SaleForm.defaultProps = {
+AddComboForm.defaultProps = {
   initialValues: {}
 };
 
-export default SaleForm;
+export default AddComboForm;

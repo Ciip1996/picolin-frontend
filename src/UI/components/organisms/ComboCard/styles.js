@@ -69,5 +69,8 @@ export const useStyles = makeStyles(theme => ({
     width: 32,
     backgroundColor: theme.palette.error.main,
     color: colors.white
+  },
+  noMaxWidth: {
+    maxWidth: 'none'
   }
 }));

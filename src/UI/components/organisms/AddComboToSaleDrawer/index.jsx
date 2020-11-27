@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
-import SaleForm from 'UI/components/organisms/SaleForm';
+import AddComboForm from 'UI/components/organisms/AddComboForm';
 import { globalStyles } from 'GlobalStyles';
 import { CloseIcon } from 'UI/res';
 import { useStyles } from './styles';
@@ -93,7 +93,7 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
           <Box>
             <div style={globalStyles.feeDrawerslabel}>
               <Text variant="body1" text={Contents[language]?.Subtitle} fontSize={14} />
-              <SaleForm />
+              <AddComboForm />
             </div>
           </Box>
           <div />

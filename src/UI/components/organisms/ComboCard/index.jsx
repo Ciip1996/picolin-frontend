@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Card from '@material-ui/core/Card';
@@ -8,48 +8,51 @@ import Chip from '@material-ui/core/Chip';
 import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import { currencyFormatter } from 'UI/utils';
-import { Tooltip } from '@material-ui/core';
+import { Tooltip, Avatar } from '@material-ui/core';
 
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import Text from 'UI/components/atoms/Text';
+import ListProductRow from 'UI/components/molecules/ListProductRow';
 import { useStyles } from './styles';
 
 type ComboCardProps = {
-  product: Object,
+  combo: Object,
   onRemoveItem: string => any
 };
 
 const ComboCard = (props: ComboCardProps) => {
   // debugger;
-  const { product, onRemoveItem } = props;
-  const { productCode, gender, size, type, color, cost, description, characteristic } = product;
+  const { combo, onRemoveItem } = props;
+
+  const { ajuar, blanket, diaperRacks, footwear } = combo;
+
   const classes = useStyles();
 
   const prepareRemoveItem = () => {
-    onRemoveItem(productCode);
+    onRemoveItem(''); // TODO remove combo from list
   };
 
   const { register, setValue } = useFormContext();
 
-  useEffect(() => {
-    register({
-      name: productCode
-    });
-    setValue(productCode, 1, true);
-  }, [productCode, register, setValue]);
+  // useEffect(() => {
+  // register({
+  //   name: productCode
+  // });
+  // setValue(productCode, 1, true);
+  // }, [register, setValue]);
 
   return (
     <Card className={classes.card}>
-      <input name={productCode} ref={register} style={{ display: 'none' }} />
+      <input name="combo 1 productCode" ref={register} style={{ display: 'none' }} />
       <Box className={classes.header} spacing={2}>
-        <Tooltip title={`${currencyFormatter(cost)}`}>
+        <Tooltip title={`${currencyFormatter(800)}`}>
           <span>
-            <Text variant="h2" className={classes.price} text={`${currencyFormatter(cost)}`} />
+            <Text variant="h2" className={classes.price} text={`${currencyFormatter(800)}`} />
           </span>
         </Tooltip>
-        <Tooltip title={`${productCode}: ${description}`} placement="top">
+        <Tooltip title="Paquete Bautizo" placement="top">
           <span>
-            <Text variant="h2" className={classes.title} text={`${productCode}: ${description}`} />
+            <Text variant="h2" className={classes.title} text="Paquete Bautizo" />
           </span>
         </Tooltip>
         <Box width={24} />
@@ -64,30 +67,45 @@ const ComboCard = (props: ComboCardProps) => {
         </CustomIconButton>
       </Box>
       <Box height={10} />
-      <Grid container>
-        <Grid item xs={2}>
-          <Tooltip title={gender}>
-            <Chip label={gender} className={classes.chip} />
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          <Tooltip
+            // avatar={<Avatar>C</Avatar>}
+            arrow
+            title={<ListProductRow product={footwear} />}
+            classes={{ tooltip: classes.noMaxWidth }}
+          >
+            <Chip label={`Calzado: ${footwear.productCode}`} className={classes.chip} />
           </Tooltip>
         </Grid>
-        <Grid item xs={3}>
-          <Tooltip title={`Talla ${size}`}>
-            <Chip label={`Talla ${size}`} className={classes.chip} />
+        <Grid item xs={6}>
+          <Tooltip
+            // avatar={<Avatar>Ajuar</Avatar>}
+            arrow
+            title={<ListProductRow product={ajuar} />}
+            classes={{ tooltip: classes.noMaxWidth }}
+          >
+            <Chip label={`Ajuar: ${ajuar.productCode}`} className={classes.chip} />
           </Tooltip>
         </Grid>
-        <Grid item xs={2}>
-          <Tooltip title={type}>
-            <Chip label={type} className={classes.chip} />
+        <Grid item xs={6}>
+          <Tooltip
+            arrow
+            // avatar={<Avatar>S</Avatar>}
+            title={<ListProductRow product={blanket} />}
+            classes={{ tooltip: classes.noMaxWidth }}
+          >
+            <Chip label={`Sabana: ${blanket.productCode}`} className={classes.chip} />
           </Tooltip>
         </Grid>
-        <Grid item xs={2}>
-          <Tooltip title={color}>
-            <Chip label={color} className={classes.chip} />
-          </Tooltip>
-        </Grid>
-        <Grid item xs={3}>
-          <Tooltip title={characteristic}>
-            <Chip label={characteristic} className={classes.chip} />
+        <Grid item xs={6}>
+          <Tooltip
+            // avatar={<Avatar>P</Avatar>}
+            arrow
+            title={<ListProductRow product={diaperRacks} />}
+            classes={{ tooltip: classes.noMaxWidth }}
+          >
+            <Chip label={`Pañalero: ${diaperRacks.productCode}`} className={classes.chip} />
           </Tooltip>
         </Grid>
       </Grid>
@@ -96,16 +114,6 @@ const ComboCard = (props: ComboCardProps) => {
 };
 
 ComboCard.defaultProps = {
-  product: {
-    productCode: 'PASDF2141241',
-    gender: 'Niña',
-    size: 1,
-    type: 'Ropón',
-    color: 'Blanco',
-    cost: 999999.98,
-    description:
-      'Ropón Mini con cosAS QUE TENGO QUEE EXPLICAR AQUI GGGG adfa sdf adsf asdfdasf aGG',
-    characteristic: ' Shantung de seda '
-  }
+  combo: {} // TODO set empty object
 };
 export default ComboCard;
