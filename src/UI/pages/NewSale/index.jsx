@@ -13,7 +13,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import SummaryCard from 'UI/components/organisms/SummaryCard';
 import SaleCard from 'UI/components/organisms/SaleCard';
-import ItemCard from 'UI/components/organisms/ItemCard';
+import ComboCard from 'UI/components/organisms/ComboCard';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
@@ -40,7 +40,78 @@ const NewSaleList = (props: NewSaleListProps) => {
   const { onShowAlert } = props;
 
   const [productsList, setProductsList] = useState<Array<Object>>([]);
-  const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>([]);
+
+  const examples = [
+    {
+      idInventory: 43,
+      productCode: 'PVECARO2016',
+      description: 'descricion',
+      characteristic: 'Lino',
+      provider: 'Ropones de san juan',
+      color: 'Cafe',
+      size: 2,
+      pieces: 1,
+      salePrice: 300,
+      cost: 185,
+      gender: 'niña',
+      type: 'Vestido',
+      stock: 10,
+      reservedQuantity: null,
+      store: 'Tienda Centro'
+    },
+    {
+      idInventory: 50,
+      productCode: 'PFAAMRO1212027',
+      description: '12',
+      characteristic: 'Lino',
+      provider: 'Ropones de san juan',
+      color: 'Amarillo',
+      size: 1212,
+      pieces: 12,
+      salePrice: 12,
+      cost: 12,
+      gender: 'niño',
+      type: 'Faldón',
+      stock: 10,
+      reservedQuantity: null,
+      store: 'Tienda Centro'
+    },
+    {
+      idInventory: 45,
+      productCode: 'PFAAMRO12026',
+      description: '12',
+      characteristic: 'Lino',
+      provider: 'Ropones de san juan',
+      color: 'Amarillo',
+      size: 12,
+      pieces: 12,
+      salePrice: 12,
+      cost: 12,
+      gender: 'niño',
+      type: 'Faldón',
+      stock: 1,
+      reservedQuantity: null,
+      store: 'Tienda Centro'
+    },
+    {
+      idInventory: 20,
+      productCode: 'PDIDOJU2012',
+      description: ' tiene incrustacion de oro falso',
+      characteristic: 'Lino',
+      provider: 'Ropones de san juan',
+      color: 'Dorado',
+      size: 3,
+      pieces: 7,
+      salePrice: 399,
+      cost: 199,
+      gender: 'niño',
+      type: 'Vestido',
+      stock: 10,
+      reservedQuantity: 0,
+      store: 'Tienda Centro'
+    }
+  ];
+  const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>(examples);
 
   const [loading, setLoading] = useState(true);
 
@@ -347,6 +418,7 @@ const NewSaleList = (props: NewSaleListProps) => {
                   dataFetchKeyName="inventory"
                   error={!!errors?.products}
                   errorText={errors?.products && errors?.products.message}
+                  debug
                   renderOption={option => {
                     return <ListProductRow product={option} />;
                   }}
@@ -354,13 +426,12 @@ const NewSaleList = (props: NewSaleListProps) => {
                 <div>
                   {/* Render Combos */}
                   {comboPackagesList.map((combo: Object) => {
-                    debugger;
                     return (
-                      <ItemCard
+                      <ComboCard
                         // key={uuidv4()}
-                        // product={combo?.product}
+                        product={combo}
                         // quantityOfProducts={combo?.quantity}
-                        onRemoveItem={onRemoveProduct}
+                        // onRemoveItem={onRemoveProduct}
                         // onAmountOfProductsChanged={onModifyAmountOfItem}
                       />
                     );

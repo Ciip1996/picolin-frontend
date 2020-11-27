@@ -14,12 +14,12 @@ import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import Text from 'UI/components/atoms/Text';
 import { useStyles } from './styles';
 
-type ItemCardProps = {
+type ComboCardProps = {
   product: Object,
   onRemoveItem: string => any
 };
 
-const ItemCard = (props: ItemCardProps) => {
+const ComboCard = (props: ComboCardProps) => {
   // debugger;
   const { product, onRemoveItem } = props;
   const { productCode, gender, size, type, color, cost, description, characteristic } = product;
@@ -95,7 +95,7 @@ const ItemCard = (props: ItemCardProps) => {
   );
 };
 
-ItemCard.defaultProps = {
+ComboCard.defaultProps = {
   product: {
     productCode: 'PASDF2141241',
     gender: 'Niña',
@@ -108,4 +108,4 @@ ItemCard.defaultProps = {
     characteristic: ' Shantung de seda '
   }
 };
-export default ItemCard;
+export default ComboCard;
