@@ -44,14 +44,19 @@ const ComboCard = (props: ComboCardProps) => {
     <Card className={classes.card}>
       <input name="combo 1 productCode" ref={register} style={{ display: 'none' }} />
       <Box className={classes.header} spacing={2}>
-        <Tooltip title={`${currencyFormatter(800)}`}>
+        {/* <Tooltip title={`${1}`}>
           <span>
-            <Text variant="h2" className={classes.price} text={`${currencyFormatter(800)}`} />
+            <Text variant="h2" className={classes.amount} text={`${1}`} />
           </span>
-        </Tooltip>
+        </Tooltip> */}
         <Tooltip title="Paquete Bautizo" placement="top">
           <span style={{ width: '100%' }}>
             <Text variant="h2" className={classes.title} text="Paquete Bautizo" />
+          </span>
+        </Tooltip>
+        <Tooltip title={`${currencyFormatter(800)}`}>
+          <span>
+            <Text variant="h2" className={classes.price} text={`${currencyFormatter(800)}`} />
           </span>
         </Tooltip>
         <Box width={24} />
