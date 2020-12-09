@@ -8,7 +8,7 @@ import Chip from '@material-ui/core/Chip';
 import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import { currencyFormatter } from 'UI/utils';
-import { Tooltip, Avatar } from '@material-ui/core';
+import { Tooltip } from '@material-ui/core';
 
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import Text from 'UI/components/atoms/Text';
@@ -16,23 +16,22 @@ import ListProductRow from 'UI/components/molecules/ListProductRow';
 import { useStyles } from './styles';
 
 type ComboCardProps = {
-  combo: Object,
+  products: Object,
   onRemoveItem: string => any
 };
 
 const ComboCard = (props: ComboCardProps) => {
-  // debugger;
-  const { combo, onRemoveItem } = props;
+  const { products = {}, onRemoveItem } = props;
 
-  const { ajuar, blanket, diaperRacks, footwear } = combo;
+  const { id, ajuar, blanket, diaperRacks, footwear } = products;
 
   const classes = useStyles();
 
   const prepareRemoveItem = () => {
-    onRemoveItem(''); // TODO remove combo from list
+    onRemoveItem(id);
   };
 
-  const { register, setValue } = useFormContext();
+  const { register } = useFormContext();
 
   // useEffect(() => {
   // register({
@@ -51,7 +50,7 @@ const ComboCard = (props: ComboCardProps) => {
           </span>
         </Tooltip>
         <Tooltip title="Paquete Bautizo" placement="top">
-          <span>
+          <span style={{ width: '100%' }}>
             <Text variant="h2" className={classes.title} text="Paquete Bautizo" />
           </span>
         </Tooltip>
@@ -68,44 +67,44 @@ const ComboCard = (props: ComboCardProps) => {
       </Box>
       <Box height={10} />
       <Grid container spacing={1}>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} lg={3}>
           <Tooltip
             // avatar={<Avatar>C</Avatar>}
             arrow
             title={<ListProductRow product={footwear} />}
             classes={{ tooltip: classes.noMaxWidth }}
           >
-            <Chip label={`Calzado: ${footwear.productCode}`} className={classes.chip} />
+            <Chip label={`Calzado: ${footwear?.productCode}`} className={classes.chip} />
           </Tooltip>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} lg={3}>
           <Tooltip
             // avatar={<Avatar>Ajuar</Avatar>}
             arrow
             title={<ListProductRow product={ajuar} />}
             classes={{ tooltip: classes.noMaxWidth }}
           >
-            <Chip label={`Ajuar: ${ajuar.productCode}`} className={classes.chip} />
+            <Chip label={`Ajuar: ${ajuar?.productCode}`} className={classes.chip} />
           </Tooltip>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} lg={3}>
           <Tooltip
             arrow
             // avatar={<Avatar>S</Avatar>}
             title={<ListProductRow product={blanket} />}
             classes={{ tooltip: classes.noMaxWidth }}
           >
-            <Chip label={`Sabana: ${blanket.productCode}`} className={classes.chip} />
+            <Chip label={`Sabana: ${blanket?.productCode}`} className={classes.chip} />
           </Tooltip>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} lg={3}>
           <Tooltip
             // avatar={<Avatar>P</Avatar>}
             arrow
             title={<ListProductRow product={diaperRacks} />}
             classes={{ tooltip: classes.noMaxWidth }}
           >
-            <Chip label={`Pañalero: ${diaperRacks.productCode}`} className={classes.chip} />
+            <Chip label={`Pañalero: ${diaperRacks?.productCode}`} className={classes.chip} />
           </Tooltip>
         </Grid>
       </Grid>
@@ -113,7 +112,4 @@ const ComboCard = (props: ComboCardProps) => {
   );
 };
 
-ComboCard.defaultProps = {
-  combo: {} // TODO set empty object
-};
 export default ComboCard;

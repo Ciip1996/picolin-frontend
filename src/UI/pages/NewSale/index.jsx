@@ -41,8 +41,8 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const [productsList, setProductsList] = useState<Array<Object>>([]);
 
-  const examples = [
-    {
+  const comboExample = {
+    ajuar: {
       idInventory: 43,
       productCode: 'PVECARO2016',
       description: 'descricion',
@@ -59,7 +59,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       reservedQuantity: null,
       store: 'Tienda Centro'
     },
-    {
+    blanket: {
       idInventory: 50,
       productCode: 'PFAAMRO1212027',
       description: '12',
@@ -76,7 +76,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       reservedQuantity: null,
       store: 'Tienda Centro'
     },
-    {
+    diaperRacks: {
       idInventory: 45,
       productCode: 'PFAAMRO12026',
       description: '12',
@@ -93,7 +93,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       reservedQuantity: null,
       store: 'Tienda Centro'
     },
-    {
+    footwear: {
       idInventory: 20,
       productCode: 'PDIDOJU2012',
       description: ' tiene incrustacion de oro falso',
@@ -110,8 +110,8 @@ const NewSaleList = (props: NewSaleListProps) => {
       reservedQuantity: 0,
       store: 'Tienda Centro'
     }
-  ];
-  const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>(examples);
+  };
+  const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>([comboExample]);
 
   const [loading, setLoading] = useState(true);
 
@@ -249,12 +249,20 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const onRemoveProduct = (productCode: string) => {
     setProductsList(prevState => {
-      const filteredArray = prevState.filter(
+      const filteredProductList = prevState.filter(
         (each: Object) => each.product.productCode !== productCode
       );
-      return [...filteredArray];
+      return [...filteredProductList];
     });
     unregister(productCode);
+  };
+
+  const onRemoveCombo = (comboId: string) => {
+    setComboPackagesList(prevState => {
+      const filteredComboList = prevState.filter((each: Object) => each.id !== comboId);
+      return [...filteredComboList];
+    });
+    // TODO: register or unregister the react hook form: unregister(productCode);
   };
 
   // #region modify amount of item
@@ -321,6 +329,14 @@ const NewSaleList = (props: NewSaleListProps) => {
     const { received, discount, invoice } = getValues();
 
     let saleCostSumatory;
+    let combosCostSumatory;
+
+    if (comboPackagesList.length === 0) {
+      combosCostSumatory = 0.0;
+    } else if (comboPackagesList.length > 0) {
+      combosCostSumatory = parseInt(comboPackagesList.length, 10) * 800.0;
+    }
+
     if (productsList.length === 0) {
       saleCostSumatory = 0.0;
     } else if (productsList.length === 1) {
@@ -333,7 +349,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       });
     }
 
-    const subtotal = parseFloat(saleCostSumatory);
+    const subtotal = parseFloat(saleCostSumatory) + parseFloat(combosCostSumatory);
     const iva = invoice ? parseFloat(subtotal || 0.0) * 0.16 : 0.0;
     const total = parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0);
     const totalWithDiscount =
@@ -347,16 +363,20 @@ const NewSaleList = (props: NewSaleListProps) => {
     setValue('change', `${change}`, false);
     setValue('total', `${total}`, false);
     setValue('totalWithDiscount', `${totalWithDiscount}`, false);
-  }, [getValues, productsList, setValue]);
+  }, [comboPackagesList.length, getValues, productsList, setValue]);
 
   useEffect(() => {
     if (productsList.length === 0) setValue('products', undefined, false);
     calculateSaleCosts();
   }, [calculateSaleCosts, productsList, setValue]);
 
+  useEffect(() => {
+    calculateSaleCosts();
+  }, [calculateSaleCosts, comboPackagesList]);
+
   const onComboAdded = (comboData: Object) => {
     setUiState(prevState => ({ ...prevState, isAddComboToSaleDrawerOpen: false }));
-    setComboPackagesList(prevList => [...prevList, comboData]);
+    setComboPackagesList(prevList => [...prevList, { ...comboData, id: uuidv4() }]);
   };
 
   return (
@@ -426,12 +446,13 @@ const NewSaleList = (props: NewSaleListProps) => {
                 <div>
                   {/* Render Combos */}
                   {comboPackagesList.map((combo: Object) => {
+                    const { id } = combo;
                     return (
                       <ComboCard
-                        // key={uuidv4()}
-                        product={combo}
+                        key={id}
+                        products={combo}
                         // quantityOfProducts={combo?.quantity}
-                        // onRemoveItem={onRemoveProduct}
+                        onRemoveItem={onRemoveCombo}
                         // onAmountOfProductsChanged={onModifyAmountOfItem}
                       />
                     );
