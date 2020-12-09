@@ -68,14 +68,13 @@ const SummaryCard = (props: SummaryCardProps) => {
       );
     } else if (!comboValues?.idPaymentMethod || comboValues?.idPaymentMethod?.id !== 2) {
       unregister('received');
-      // debugger;
-      // triggerValidation();
     }
   }, [comboValues, register, triggerValidation, unregister, watchFields.total]);
 
   const hasAnImportantError = !!errors?.received || !!errors?.discount;
 
-  console.log(getValues(), errors);
+  const isSummaryEnabled = !getValues('products');
+
   return (
     <Card className={classes.card}>
       <h1 className={classes.title}>{Contents[language]?.HeaderTitle}</h1>
@@ -88,10 +87,11 @@ const SummaryCard = (props: SummaryCardProps) => {
         errorText={errors?.idPaymentMethod && errors?.idPaymentMethod.message}
         url={Endpoints.PaymentMethods}
         onSelect={onSelectionChange}
+        disabled={isSummaryEnabled}
       />
       <TextBox
         className={classes.formulary}
-        disabled={!!(comboValues?.idPaymentMethod?.id !== 2)}
+        disabled={!(comboValues?.idPaymentMethod?.id === 2)}
         inputType="currency"
         name="received"
         label={Contents[language]?.received}
@@ -109,6 +109,7 @@ const SummaryCard = (props: SummaryCardProps) => {
         errorText={errors?.discount && errors?.discount.message}
         onChange={onSelectionChange}
         value={getValues('discount') || ''}
+        disabled={isSummaryEnabled}
       />
       {/* <TextBox
         outPutValue
@@ -123,6 +124,7 @@ const SummaryCard = (props: SummaryCardProps) => {
       /> */}
       <FormControlLabel
         name="invoice"
+        disabled={isSummaryEnabled}
         control={<Switch color="primary" />}
         className={classes.invoice}
         checked={getValues('invoice') || false}

@@ -65,7 +65,16 @@ const NewSaleList = (props: NewSaleListProps) => {
   };
 
   const form = useForm();
-  const { register, errors, handleSubmit, setValue, unregister, watch, getValues } = form;
+  const {
+    register,
+    errors,
+    handleSubmit,
+    setValue,
+    unregister,
+    watch,
+    getValues,
+    clearError
+  } = form;
 
   const watchFields = watch([
     'discount',
@@ -150,30 +159,6 @@ const NewSaleList = (props: NewSaleListProps) => {
   const handleAddProduct = (name: string, value: any) => {
     setProductsList(prevList => {
       return [...prevList, { product: { ...value }, quantity: 1 }];
-      // #region
-      /*  
-      The following code validates if it has already been added and adds one to the quanitity
-
-      let addedProductIndex = 0;
-
-      const productAlreadyAdded = prevList.find((each, index) => {
-        if (each.product.productCode === value.productCode) {
-          addedProductIndex = index;
-          return true;
-        }
-        return false;
-      });
-
-      if (productAlreadyAdded) {
-        const newproduct = {
-          ...productAlreadyAdded,
-          quantity: productAlreadyAdded.quantity + 1
-        };
-        const updatedListOfProducts = prevList;
-        updatedListOfProducts[addedProductIndex] = newproduct;
-        return [...updatedListOfProducts];
-      } */
-      // #endregion
     });
     setValue(name, value ? true : undefined, true);
   };
@@ -195,25 +180,6 @@ const NewSaleList = (props: NewSaleListProps) => {
     });
     // TODO: register or unregister the react hook form: unregister(productCode);
   };
-
-  // #region modify amount of item
-  /*   const onModifyAmountOfItem = (productCode: Object, quantity: any, stock: number) => {
-    // TODO: check why is not taking the stock validation
-    const updatedProducts = productsList.map((each: Object) => {
-      if (each?.product?.productCode === productCode) {
-        const isStockUnavailable = quantity ? stock < quantity : stock < 0;
-        if (isStockUnavailable) {
-          setValue(productCode, quantity, true);
-        } else {
-          setValue(productCode, quantity || 0, true);
-        }
-        return { ...each, quantity: parseInt(quantity, 10) };
-      }
-      return each;
-    });
-    setProductsList(updatedProducts);
-  }; */
-  // #endregion
 
   const registerFormField = useCallback(() => {
     register(
@@ -257,6 +223,7 @@ const NewSaleList = (props: NewSaleListProps) => {
   }, [register, registerFormField]);
 
   const calculateSaleCosts = useCallback(() => {
+    clearError();
     const { received, discount, invoice } = getValues();
 
     let saleCostSumatory;
@@ -274,7 +241,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       saleCostSumatory = parseFloat(productsList[0]?.product?.salePrice);
     } else if (productsList.length > 1) {
       saleCostSumatory = productsList.reduce((accumulator: number, currentValue: Object) => {
-        console.log(`${accumulator} + ${currentValue?.product?.salePrice}`);
+        // console.log(`${accumulator} + ${currentValue?.product?.salePrice}`);
         return parseFloat(accumulator) + parseFloat(currentValue?.product?.salePrice);
       }, 0.0);
     }
@@ -293,7 +260,7 @@ const NewSaleList = (props: NewSaleListProps) => {
     setValue('change', `${change}`, false);
     setValue('total', `${total}`, false);
     setValue('totalWithDiscount', `${totalWithDiscount}`, false);
-  }, [comboPackagesList.length, getValues, productsList, setValue]);
+  }, [clearError, comboPackagesList.length, getValues, productsList, setValue]);
 
   useEffect(() => {
     if (productsList.length === 0) setValue('products', undefined, false);
@@ -307,6 +274,7 @@ const NewSaleList = (props: NewSaleListProps) => {
   const onComboAdded = (comboData: Object) => {
     setUiState(prevState => ({ ...prevState, isAddComboToSaleDrawerOpen: false }));
     setComboPackagesList(prevList => [...prevList, { ...comboData, id: uuidv4() }]);
+    setValue('products', true, true);
   };
 
   return (
