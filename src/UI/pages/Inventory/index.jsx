@@ -93,30 +93,30 @@ const InventoryList = (props: InventoryListProps) => {
     try {
       const {
         store_filter,
-        gender_filter = {},
-        type_filter = {},
-        color_filter = {},
-        stock_filter = {},
-        minSalePrice_filter = {},
-        maxSalePrice_filter = {},
-        minCost_filter = {},
-        maxCost_filter = {}
+        gender_filter = undefined,
+        type_filter = undefined,
+        color_filter = undefined,
+        stock_filter = undefined,
+        minSalePrice_filter = undefined,
+        maxSalePrice_filter = undefined,
+        minCost_filter = undefined,
+        maxCost_filter = undefined
       } = filters;
 
       const params = {
-        keyword: uiState.keyword || undefined,
-        orderBy: uiState.orderBy || undefined,
-        direction: uiState.direction || undefined,
+        keyword: uiState.keyword,
+        orderBy: uiState.orderBy,
+        direction: uiState.direction,
         page: uiState.page + 1,
         perPage: uiState.perPage,
-        gender: gender_filter?.title || undefined,
-        type: type_filter?.title || undefined,
-        color: color_filter?.title || undefined,
-        stock: stock_filter?.numberValue || undefined,
-        minSalePrice: minSalePrice_filter?.numberValue || undefined,
-        maxSalePrice: maxSalePrice_filter?.numberValue || undefined,
-        minCost: minCost_filter?.numberValue || undefined,
-        maxCost: maxCost_filter?.numberValue || undefined
+        gender: gender_filter?.title,
+        idType: type_filter?.id,
+        color: color_filter?.title,
+        stock: stock_filter?.numberValue,
+        minSalePrice: minSalePrice_filter?.numberValue,
+        maxSalePrice: maxSalePrice_filter?.numberValue,
+        minCost: minCost_filter?.numberValue,
+        maxCost: maxCost_filter?.numberValue
       };
 
       saveFilters('inventory', { filters, params });
@@ -448,7 +448,7 @@ const InventoryList = (props: InventoryListProps) => {
                 <AutocompleteSelect
                   name="type_filter"
                   placeholder={Contents[language]?.labType}
-                  url={Endpoints.Types}
+                  url={Endpoints.GetTypes}
                   selectedValue={filters.type_filter}
                   onSelect={handleFilterChange}
                 />

@@ -5,22 +5,22 @@ import Box from '@material-ui/core/Box';
 
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
-import CustomIconButton from 'UI/components/atoms/CustomIconButton';
-import AddComboForm from 'UI/components/organisms/AddComboForm';
-import { globalStyles } from 'GlobalStyles';
-import { CloseIcon } from 'UI/res';
-import { useStyles } from './styles';
+import ProductForm from 'UI/components/organisms/ProductForm';
+import { Endpoints } from 'UI/constants/endpoints';
 
+import API from 'services/API';
+import { globalStyles } from 'GlobalStyles';
+import { useStyles } from './styles';
 import Contents from './strings';
 
-type AddComboToSaleDrawerProps = {
+type AddSaleProps = {
   handleClose: any => any,
   onShowAlert: any => any,
-  onComboAdded: any => any
+  onProductInserted: any => any
 };
 
-const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
-  const { handleClose, onShowAlert, onComboAdded } = props;
+const AddSale = (props: AddSaleProps) => {
+  const { handleClose, onShowAlert, onProductInserted } = props;
   const language = localStorage.getItem('language');
 
   const form = useForm({
@@ -48,11 +48,20 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
 
   const onSubmit = async (formData: Object) => {
     try {
-      !!formData?.diaperRacks &&
-        !!formData?.footwear &&
-        !!formData?.blanket &&
-        !!formData?.ajuar &&
-        onComboAdded(formData);
+      const response = await API.post(
+        `${Endpoints.Inventory}${Endpoints.InsertInventory}`,
+        formData
+      );
+      if (response) {
+        const { productCode } = response?.data;
+        onShowAlert({
+          severity: 'success',
+          title: 'Producto Agregado',
+          autoHideDuration: 3000,
+          body: 'Inserción Exitosa'
+        });
+        productCode && onProductInserted(productCode);
+      }
     } catch (err) {
       onShowAlert({
         severity: 'error',
@@ -75,25 +84,12 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
           variant="borderless"
           uiState={uiState}
           initialText="Agregar"
-          isTopToolbarNeeded
-          additionalHeaderButtons={
-            <CustomIconButton
-              tooltipText="Cerrar"
-              wrapperStyle={classes.deleteButtonWrapper}
-              // className={classes.deleteButton}
-              aria-label="delete"
-              onClick={handleClose}
-              // onClick={prepareRemoveItem}
-            >
-              <CloseIcon fill="red" />
-            </CustomIconButton>
-          }
         >
           <form className={classes.root} noValidate autoComplete="off" />
           <Box>
             <div style={globalStyles.feeDrawerslabel}>
               <Text variant="body1" text={Contents[language]?.Subtitle} fontSize={14} />
-              <AddComboForm />
+              <ProductForm />
             </div>
           </Box>
           <div />
@@ -103,6 +99,6 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
   );
 };
 
-AddComboToSaleDrawer.defaultProps = {};
+AddSale.defaultProps = {};
 
-export default AddComboToSaleDrawer;
+export default AddSale;

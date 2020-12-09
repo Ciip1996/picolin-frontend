@@ -10,6 +10,7 @@ import InputContainer from 'UI/components/atoms/InputContainer';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { Endpoints } from 'UI/constants/endpoints';
 import TransferCard from 'UI/components/organisms/TransferCard';
+import ListProductRow from 'UI/components/molecules/ListProductRow';
 
 import type { MapType } from 'types';
 import API from 'services/API';
@@ -230,14 +231,7 @@ const TransferDrawer = (props: TransferDrawerProps) => {
                     error={!!errors?.products}
                     errorText={errors?.products && errors?.products.message}
                     renderOption={option => {
-                      return (
-                        <div>
-                          <strong>{option.productCode}</strong>
-                          <br />
-                          <span>{option.type}</span> | <span>{option.gender}</span> |
-                          <span>{option.characteristic}</span>| <span>{option.color}</span>
-                        </div>
-                      );
+                      return <ListProductRow product={option} />;
                     }}
                   />
                 </InputContainer>

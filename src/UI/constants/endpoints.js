@@ -13,7 +13,7 @@ export const Endpoints = {
   Dashboard: 'dashboard',
   Colors: 'lists/getColors',
   Stores: 'lists/getStore',
-  Types: 'lists/getTypes',
+  GetTypes: 'lists/getTypes',
   Characteristics: 'lists/getCharacteristics',
   Provider: 'lists/getProviders',
   Sizes: 'lists/getSizes',

@@ -296,7 +296,7 @@ const TransferList = (props: TransferListProps) => {
                 <AutocompleteSelect
                   name="type_filter"
                   placeholder={Contents[language]?.Type}
-                  url={Endpoints.Types}
+                  url={Endpoints.GetTypes}
                   selectedValue={filters.type_filter}
                   onSelect={handleFilterChange}
                 />

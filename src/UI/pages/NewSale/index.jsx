@@ -8,12 +8,12 @@ import { showAlert } from 'actions/app';
 import Drawer from '@material-ui/core/Drawer';
 
 /** Atoms, Components and Styles */
-
-/** Components */
+import ListProductRow from 'UI/components/molecules/ListProductRow';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import SummaryCard from 'UI/components/organisms/SummaryCard';
 import SaleCard from 'UI/components/organisms/SaleCard';
+import ComboCard from 'UI/components/organisms/ComboCard';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
@@ -40,6 +40,78 @@ const NewSaleList = (props: NewSaleListProps) => {
   const { onShowAlert } = props;
 
   const [productsList, setProductsList] = useState<Array<Object>>([]);
+
+  const comboExample = {
+    ajuar: {
+      idInventory: 43,
+      productCode: 'PVECARO2016',
+      description: 'descricion',
+      characteristic: 'Lino',
+      provider: 'Ropones de san juan',
+      color: 'Cafe',
+      size: 2,
+      pieces: 1,
+      salePrice: 300,
+      cost: 185,
+      gender: 'niña',
+      type: 'Vestido',
+      stock: 10,
+      reservedQuantity: null,
+      store: 'Tienda Centro'
+    },
+    blanket: {
+      idInventory: 50,
+      productCode: 'PFAAMRO1212027',
+      description: '12',
+      characteristic: 'Lino',
+      provider: 'Ropones de san juan',
+      color: 'Amarillo',
+      size: 1212,
+      pieces: 12,
+      salePrice: 12,
+      cost: 12,
+      gender: 'niño',
+      type: 'Faldón',
+      stock: 10,
+      reservedQuantity: null,
+      store: 'Tienda Centro'
+    },
+    diaperRacks: {
+      idInventory: 45,
+      productCode: 'PFAAMRO12026',
+      description: '12',
+      characteristic: 'Lino',
+      provider: 'Ropones de san juan',
+      color: 'Amarillo',
+      size: 12,
+      pieces: 12,
+      salePrice: 12,
+      cost: 12,
+      gender: 'niño',
+      type: 'Faldón',
+      stock: 1,
+      reservedQuantity: null,
+      store: 'Tienda Centro'
+    },
+    footwear: {
+      idInventory: 20,
+      productCode: 'PDIDOJU2012',
+      description: ' tiene incrustacion de oro falso',
+      characteristic: 'Lino',
+      provider: 'Ropones de san juan',
+      color: 'Dorado',
+      size: 3,
+      pieces: 7,
+      salePrice: 399,
+      cost: 199,
+      gender: 'niño',
+      type: 'Vestido',
+      stock: 10,
+      reservedQuantity: 0,
+      store: 'Tienda Centro'
+    }
+  };
+  const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>([comboExample]);
 
   const [loading, setLoading] = useState(true);
 
@@ -106,6 +178,8 @@ const NewSaleList = (props: NewSaleListProps) => {
       const saleDetail = Object.entries(rest).map(([key, value]) => {
         return { productCode: key, quantity: value };
       });
+
+      /// TODO: add all the products from the combo and set the value combo: 1
 
       const params = {
         idPaymentMethod,
@@ -175,12 +249,20 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const onRemoveProduct = (productCode: string) => {
     setProductsList(prevState => {
-      const filteredArray = prevState.filter(
+      const filteredProductList = prevState.filter(
         (each: Object) => each.product.productCode !== productCode
       );
-      return [...filteredArray];
+      return [...filteredProductList];
     });
     unregister(productCode);
+  };
+
+  const onRemoveCombo = (comboId: string) => {
+    setComboPackagesList(prevState => {
+      const filteredComboList = prevState.filter((each: Object) => each.id !== comboId);
+      return [...filteredComboList];
+    });
+    // TODO: register or unregister the react hook form: unregister(productCode);
   };
 
   // #region modify amount of item
@@ -247,6 +329,14 @@ const NewSaleList = (props: NewSaleListProps) => {
     const { received, discount, invoice } = getValues();
 
     let saleCostSumatory;
+    let combosCostSumatory;
+
+    if (comboPackagesList.length === 0) {
+      combosCostSumatory = 0.0;
+    } else if (comboPackagesList.length > 0) {
+      combosCostSumatory = parseInt(comboPackagesList.length, 10) * 800.0;
+    }
+
     if (productsList.length === 0) {
       saleCostSumatory = 0.0;
     } else if (productsList.length === 1) {
@@ -259,7 +349,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       });
     }
 
-    const subtotal = parseFloat(saleCostSumatory);
+    const subtotal = parseFloat(saleCostSumatory) + parseFloat(combosCostSumatory);
     const iva = invoice ? parseFloat(subtotal || 0.0) * 0.16 : 0.0;
     const total = parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0);
     const totalWithDiscount =
@@ -273,16 +363,20 @@ const NewSaleList = (props: NewSaleListProps) => {
     setValue('change', `${change}`, false);
     setValue('total', `${total}`, false);
     setValue('totalWithDiscount', `${totalWithDiscount}`, false);
-  }, [getValues, productsList, setValue]);
+  }, [comboPackagesList.length, getValues, productsList, setValue]);
 
   useEffect(() => {
     if (productsList.length === 0) setValue('products', undefined, false);
     calculateSaleCosts();
   }, [calculateSaleCosts, productsList, setValue]);
 
-  const onComboAdded = () => {
-    // TODO: add logic
-    // debugger;
+  useEffect(() => {
+    calculateSaleCosts();
+  }, [calculateSaleCosts, comboPackagesList]);
+
+  const onComboAdded = (comboData: Object) => {
+    setUiState(prevState => ({ ...prevState, isAddComboToSaleDrawerOpen: false }));
+    setComboPackagesList(prevList => [...prevList, { ...comboData, id: uuidv4() }]);
   };
 
   return (
@@ -344,24 +438,32 @@ const NewSaleList = (props: NewSaleListProps) => {
                   dataFetchKeyName="inventory"
                   error={!!errors?.products}
                   errorText={errors?.products && errors?.products.message}
+                  debug
                   renderOption={option => {
-                    return (
-                      <div>
-                        <strong>{option.productCode}</strong>
-                        <br />
-                        <span>{option.type}</span> | <span>{option.gender}</span> |
-                        <span>{option.characteristic}</span>| <span>{option.color}</span>
-                      </div>
-                    );
+                    return <ListProductRow product={option} />;
                   }}
                 />
                 <div>
-                  {productsList.map((each: Object) => {
+                  {/* Render Combos */}
+                  {comboPackagesList.map((combo: Object) => {
+                    const { id } = combo;
+                    return (
+                      <ComboCard
+                        key={id}
+                        products={combo}
+                        // quantityOfProducts={combo?.quantity}
+                        onRemoveItem={onRemoveCombo}
+                        // onAmountOfProductsChanged={onModifyAmountOfItem}
+                      />
+                    );
+                  })}
+                  {/* Render Products */}
+                  {productsList.map((product: Object) => {
                     return (
                       <SaleCard
                         key={uuidv4()}
-                        product={each?.product}
-                        quantityOfProducts={each?.quantity}
+                        product={product?.product}
+                        quantityOfProducts={product?.quantity}
                         onRemoveItem={onRemoveProduct}
                         // onAmountOfProductsChanged={onModifyAmountOfItem}
                       />

@@ -1,11 +1,11 @@
 const Contents = {
   English: {
-    Title: 'Register a new Product',
-    Subtitle: 'Insert the data of the product you may want to add to the inventory.'
+    Title: 'Register a new package',
+    Subtitle: 'Insert the data of the product you may want to add to the package.'
   },
   Spanish: {
-    Title: 'Alta de producto',
-    Subtitle: 'Inserte los datos del producto que desea agregar al inventario.'
+    Title: 'Agregar paquete',
+    Subtitle: 'Inserte los datos del paquete que desea agregar.'
   }
 };
 export default Contents;

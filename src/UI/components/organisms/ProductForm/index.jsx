@@ -63,7 +63,7 @@ const ProductForm = (props: ProductFormProps) => {
           error={!!errors?.idType}
           errorText={errors?.idType && errors?.idType?.message}
           onSelect={handleComboChange}
-          url={Endpoints.Types}
+          url={Endpoints.GetTypes}
         />
         <Separator />
         <AutocompleteSelect
