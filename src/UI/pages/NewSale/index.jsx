@@ -18,13 +18,14 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 import { currencyFormatter, sleep } from 'UI/utils';
+import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import { v4 as uuidv4 } from 'uuid';
 import { Endpoints } from 'UI/constants/endpoints';
 // import type { MapType } from 'types';
-import { AddIcon, colors } from 'UI/res';
+import { AddIcon, colors, EmptyActivityLogs } from 'UI/res';
 
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 
@@ -41,77 +42,7 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const [productsList, setProductsList] = useState<Array<Object>>([]);
 
-  const comboExample = {
-    ajuar: {
-      idInventory: 43,
-      productCode: 'PVECARO2016',
-      description: 'descricion',
-      characteristic: 'Lino',
-      provider: 'Ropones de san juan',
-      color: 'Cafe',
-      size: 2,
-      pieces: 1,
-      salePrice: 300,
-      cost: 185,
-      gender: 'niña',
-      type: 'Vestido',
-      stock: 10,
-      reservedQuantity: null,
-      store: 'Tienda Centro'
-    },
-    blanket: {
-      idInventory: 50,
-      productCode: 'PFAAMRO1212027',
-      description: '12',
-      characteristic: 'Lino',
-      provider: 'Ropones de san juan',
-      color: 'Amarillo',
-      size: 1212,
-      pieces: 12,
-      salePrice: 12,
-      cost: 12,
-      gender: 'niño',
-      type: 'Faldón',
-      stock: 10,
-      reservedQuantity: null,
-      store: 'Tienda Centro'
-    },
-    diaperRacks: {
-      idInventory: 45,
-      productCode: 'PFAAMRO12026',
-      description: '12',
-      characteristic: 'Lino',
-      provider: 'Ropones de san juan',
-      color: 'Amarillo',
-      size: 12,
-      pieces: 12,
-      salePrice: 12,
-      cost: 12,
-      gender: 'niño',
-      type: 'Faldón',
-      stock: 1,
-      reservedQuantity: null,
-      store: 'Tienda Centro'
-    },
-    footwear: {
-      idInventory: 20,
-      productCode: 'PDIDOJU2012',
-      description: ' tiene incrustacion de oro falso',
-      characteristic: 'Lino',
-      provider: 'Ropones de san juan',
-      color: 'Dorado',
-      size: 3,
-      pieces: 7,
-      salePrice: 399,
-      cost: 199,
-      gender: 'niño',
-      type: 'Vestido',
-      stock: 10,
-      reservedQuantity: 0,
-      store: 'Tienda Centro'
-    }
-  };
-  const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>([comboExample]);
+  const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -305,7 +236,7 @@ const NewSaleList = (props: NewSaleListProps) => {
           if (value) {
             const total = parseFloat(watch('total'));
             const constraint = parseFloat(value) <= total * 0.3;
-            return constraint || `El descuento debe ser menor al 30% del total`;
+            return constraint || `El descuento debe ser menor al 30% de la venta.`;
           }
           return true;
         }
@@ -342,11 +273,10 @@ const NewSaleList = (props: NewSaleListProps) => {
     } else if (productsList.length === 1) {
       saleCostSumatory = parseFloat(productsList[0]?.product?.salePrice);
     } else if (productsList.length > 1) {
-      saleCostSumatory = productsList.reduce((accumulator: Object, currentValue: Object) => {
-        return (
-          parseFloat(accumulator?.product?.salePrice) + parseFloat(currentValue?.product?.salePrice)
-        );
-      });
+      saleCostSumatory = productsList.reduce((accumulator: number, currentValue: Object) => {
+        console.log(`${accumulator} + ${currentValue?.product?.salePrice}`);
+        return parseFloat(accumulator) + parseFloat(currentValue?.product?.salePrice);
+      }, 0.0);
     }
 
     const subtotal = parseFloat(saleCostSumatory) + parseFloat(combosCostSumatory);
@@ -443,8 +373,24 @@ const NewSaleList = (props: NewSaleListProps) => {
                     return <ListProductRow product={option} />;
                   }}
                 />
-                <div>
+                <Box
+                  flex={1}
+                  display={
+                    comboPackagesList.length === 0 && productsList.length === 0 ? 'flex' : 'unset'
+                  }
+                  alignItems="center"
+                  justifyContent="center"
+                  flexDirection="column"
+                >
                   {/* Render Combos */}
+                  {comboPackagesList.length === 0 && productsList.length === 0 && (
+                    <EmptyPlaceholder
+                      title="Ningun producto en esta venta"
+                      subtitle="Para añadir un producto o un paquete escanee el código QR de la etiqueta o escriba el código de producto en la caja de texto ubicada en la parte superior."
+                    >
+                      <EmptyActivityLogs />
+                    </EmptyPlaceholder>
+                  )}
                   {comboPackagesList.map((combo: Object) => {
                     const { id } = combo;
                     return (
@@ -470,7 +416,7 @@ const NewSaleList = (props: NewSaleListProps) => {
                     );
                   })}
                   <div className="push" />
-                </div>
+                </Box>
               </Box>
               <Box style={{ display: 'flex' }}>
                 <SummaryCard onNewItemAdded={calculateSaleCosts} watchFields={watchFields} />

@@ -15,6 +15,7 @@ export const useStyles = makeStyles(theme => ({
     padding: 16
   },
   title: {
+    marginBottom: 10,
     [theme.breakpoints.up('lg')]: {
       fontSize: 32
     },
@@ -26,6 +27,7 @@ export const useStyles = makeStyles(theme => ({
     }
   },
   subtitle: {
+    marginBottom: 10,
     [theme.breakpoints.up('lg')]: {
       fontSize: 28
     },
