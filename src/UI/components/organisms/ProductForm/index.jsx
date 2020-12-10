@@ -78,7 +78,7 @@ const ProductForm = (props: ProductFormProps) => {
         />
       </InputContainer>
       <InputContainer>
-        <AutocompleteSelect
+        {/* <AutocompleteSelect
           name="color"
           selectedValue={comboValues.color}
           placeholder={Contents[language]?.Color}
@@ -86,6 +86,15 @@ const ProductForm = (props: ProductFormProps) => {
           errorText={errors?.color && errors?.color.message}
           onSelect={handleComboChange}
           url={Endpoints.Colors}
+        /> */}
+        <TextBox
+          name="color"
+          label={Contents[language]?.Color}
+          error={!!errors?.color}
+          errorText={errors?.color && errors?.color.message}
+          onChange={handleTextChange}
+          value={getValues('color') || ''}
+          inputType="text"
         />
         <Separator />
         <AutocompleteSelect
