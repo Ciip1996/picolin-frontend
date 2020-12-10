@@ -156,8 +156,9 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
         .catch(err => {
           showAlert({
             severity: 'error',
-            title: getErrorData(err).title,
-            body: getErrorData(err).message
+            title: getErrorData(err)?.title || 'Error en conexión',
+            autoHideDuration: 800000,
+            body: getErrorData(err)?.message || 'Contacte a soporte técnico'
           });
         });
       setLoading(false);
@@ -187,8 +188,9 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
         .catch(err => {
           showAlert({
             severity: 'error',
-            title: getErrorData(err).title,
-            body: getErrorData(err).message
+            title: getErrorData(err)?.title || 'Error en conexión',
+            autoHideDuration: 800000,
+            body: getErrorData(err)?.message || 'Contacte a soporte técnico'
           });
         });
       setLoading(false);

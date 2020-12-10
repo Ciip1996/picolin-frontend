@@ -70,7 +70,7 @@ const LogIn = (props: LogInProps) => {
           severity: 'warning',
           title: `Login`,
           autoHideDuration: 800000,
-          body: `${response?.data?.mensaje}`
+          body: getErrorData(error)?.message || Contents[language]?.errServer
         });
       } else {
         showAlert({

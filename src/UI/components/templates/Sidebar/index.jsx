@@ -132,9 +132,9 @@ const Sidebar = (props: SidebarProps) => {
     } catch (err) {
       showAlert({
         severity: 'error',
-        title: getErrorData(err)?.title,
-        autoHideDuration: 80000,
-        body: JSON.stringify(getErrorData(err)?.message)
+        title: getErrorData(err)?.title || 'Error en conexión',
+        autoHideDuration: 800000,
+        body: JSON.stringify(getErrorData(err)?.message) || 'Contacte a soporte técnico'
       });
       throw err;
     }

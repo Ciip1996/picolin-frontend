@@ -141,8 +141,8 @@ const InventoryList = (props: InventoryListProps) => {
       onShowAlert({
         severity: 'error',
         autoHideDuration: 3000,
-        title: getErrorData(err).title,
-        body: getErrorData(err).message
+        title: getErrorData(err)?.title || 'Error en conexión',
+        body: getErrorData(err)?.message || 'Contacte a soporte técnico'
       });
     }
   }, [
