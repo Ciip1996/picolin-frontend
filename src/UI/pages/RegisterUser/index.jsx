@@ -120,6 +120,7 @@ const RegisterUser = (props: RegisterProps) => {
               <h1 className={classes.header}>{Contents[language]?.pageTitle}</h1>
               <InputContainer>
                 <TextBox
+                  autoFocus
                   name="user"
                   label={Contents[language]?.user}
                   inputRef={register({

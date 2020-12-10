@@ -94,6 +94,7 @@ const LogIn = (props: LogInProps) => {
           <center>
             <h1 className={classes.header}>{Contents[language]?.pageTitle || 'INICIAR SESIÓN'}</h1>
             <TextBox
+              autoFocus
               className={classes.txtUser}
               name="user"
               label={Contents[language]?.labuser || 'Usuario'}
