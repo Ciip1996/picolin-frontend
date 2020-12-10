@@ -64,6 +64,7 @@ const ProductForm = (props: ProductFormProps) => {
           errorText={errors?.idType && errors?.idType?.message}
           onSelect={handleComboChange}
           url={Endpoints.GetTypes}
+          autoFocus
         />
         <Separator />
         <AutocompleteSelect

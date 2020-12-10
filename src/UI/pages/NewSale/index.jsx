@@ -323,6 +323,7 @@ const NewSaleList = (props: NewSaleListProps) => {
                 minWidth={472}
               >
                 <AutocompleteSelect
+                  autoFocus
                   name="products"
                   // selectedValue={comboValues.producto}
                   // disabled={!isProductFieldEnabled}
@@ -336,7 +337,6 @@ const NewSaleList = (props: NewSaleListProps) => {
                   dataFetchKeyName="inventory"
                   error={!!errors?.products}
                   errorText={errors?.products && errors?.products.message}
-                  debug
                   renderOption={option => {
                     return <ListProductRow product={option} />;
                   }}

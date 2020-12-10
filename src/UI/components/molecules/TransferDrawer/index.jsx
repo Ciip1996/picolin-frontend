@@ -194,6 +194,7 @@ const TransferDrawer = (props: TransferDrawerProps) => {
                 <Text variant="subtitle1" text={Contents[language]?.FirstStep} fontSize={12} />
                 <InputContainer>
                   <AutocompleteSelect
+                    autoFocus
                     name="idOrigin"
                     selectedValue={comboValues.idOrigin}
                     placeholder={Contents[language]?.origin}

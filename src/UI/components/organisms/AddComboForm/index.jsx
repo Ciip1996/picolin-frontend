@@ -47,6 +47,7 @@ const AddComboForm = (props: SaleFormProps) => {
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%">
       <InputContainer>
         <AutocompleteSelect
+          autoFocus
           name="diaperRacks"
           selectedValue={comboValues.diaperRacks}
           placeholder={Contents[language]?.diaperRacks}
