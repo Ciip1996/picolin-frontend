@@ -12,6 +12,7 @@ import Text from 'UI/components/atoms/Text';
 import TextBox from 'UI/components/atoms/TextBox';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 
+import { loadFonts } from 'UI/res/fonts/jsPDF_font_loader';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -46,6 +47,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
       // TODO remove this is only for eslint not to crash
       ...prevState
     }));
+    loadFonts();
   }, []);
 
   useEffect(() => {
