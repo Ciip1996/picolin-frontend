@@ -132,12 +132,27 @@ const generateTicket = sale => {
   doc.text(`Una vez salida la mercancía de la tienda, `, leftMargin, linePosition);
   linePosition += 5;
   doc.text(`no se aceptarán devoluciones.`, leftMargin, linePosition);
+  //   doc.autoPrint();
+  //   doc.output('dataurlnewwindow');
+
   return doc;
 };
 
 export const downloadTicketPDF = (sale, ticketTitle) => {
   const doc = generateTicket(sale);
   doc.save(ticketTitle);
+  return doc;
+};
+
+export const printTicket = sale => {
+  const doc = generateTicket(sale);
+  doc.autoPrint();
+  const arraybuffer = doc.output('arraybuffer');
+  const blob = doc.output('blob');
+  const bloburi = doc.output('bloburi');
+  const bloburl = doc.output('bloburl');
+  const pdfobjectnewwindow = doc.output('pdfobjectnewwindow');
+  debugger;
   return doc;
 };
 

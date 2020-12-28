@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
@@ -11,13 +11,46 @@ import { getCurrentUser } from 'services/Authentication';
 // import SalesSummary from 'UI/components/organisms/SalesSummary';
 
 import { type User } from 'types/app';
-
+import { getTicketBlob, downloadTicketPDF, printTicket } from 'UI/utils/ticketGenerator';
 import { useStyles, styles } from './styles';
+
+const getSaleDetailed = {
+  sale: {
+    total: 500,
+    subtotal: 600,
+    iva: 0,
+    discount: 100,
+    received: 1000,
+    paymentMethod: 'Tarjeta',
+    deposit: 6
+  },
+  detail: [
+    {
+      type: 'Ropón',
+      characteristic: 'Mini',
+      productCode: 'PROROMA202',
+      color: 'Rosa',
+      salePrice: 300,
+      quantity: 1,
+      combo: null
+    },
+    {
+      type: 'Ropón',
+      characteristic: 'Mini',
+      productCode: 'PROROMA202',
+      color: 'Rosa',
+      salePrice: 300,
+      quantity: 1,
+      combo: null
+    }
+  ]
+};
 
 const Home = () => {
   const classes = useStyles();
   const user: User = getCurrentUser();
   const wasReloaded = localStorage.getItem('reloaded');
+  const [fileURL, setFileURL] = useState(null);
 
   useEffect(() => {
     document.title = PageTitles.Home;
@@ -30,7 +63,11 @@ const Home = () => {
       }
     };
     forceRefreshingUIRestrictions();
+    const blob = getTicketBlob(getSaleDetailed);
+    setFileURL(blob);
   }, [wasReloaded]);
+
+  const printTest = () => {};
 
   return (
     <>
@@ -53,7 +90,30 @@ const Home = () => {
                   : 'Cargando permisos porfavor espere...'
               }
             />
+            <input
+              type="button"
+              value="Download Ticket"
+              onClick={() => downloadTicketPDF(getSaleDetailed, 'ticket.pdf')}
+            />
+            <input
+              type="button"
+              value="print"
+              onClick={() => printTicket(getSaleDetailed, 'ticket.pdf')}
+            />
             {/* <GlobalSearchbar /> */}
+            <div id="pdfContainer" className={classes.pdfBox}>
+              {fileURL && (
+                <iframe
+                  type="application/pdf"
+                  allowFullScreen
+                  id="inlineFrameExample"
+                  title="Inline Frame Example"
+                  width="100%"
+                  height="100%"
+                  src={`${fileURL}#toolbar=0&navpanes=0`}
+                />
+              )}
+            </div>
           </Grid>
           {/* <Grid
             className={classes.container}
