@@ -1,5 +1,5 @@
 import jsPDF from 'jspdf';
-import { MontserratRegular, MontserratBold } from 'UI/res/fonts';
+import { MontserratRegular, MontserratBold, RobotoMonoRegular, RobotoMonoBold } from 'UI/res/fonts';
 import { currencyFormatter, getFeatureFlags } from 'UI/utils';
 import { FeatureFlags } from 'UI/constants/featureFlags';
 
@@ -11,6 +11,7 @@ const generateTicket = sale => {
   const textColor = 50;
   const baseHeight = 160;
   const productsHeight = sale?.detail?.length * 12;
+  const separator = '---------------------------------';
   // eslint-disable-next-line new-cap
   const doc = new jsPDF({
     orientation: 'portrait',
@@ -26,6 +27,12 @@ const generateTicket = sale => {
   doc.addFileToVFS('Montserrat-Bold-bold.ttf', MontserratBold);
   doc.addFont('Montserrat-Bold-bold.ttf', 'Montserrat-Bold', 'bold');
 
+  doc.addFileToVFS('RobotoMono-VariableFont_wght-normal.ttf', RobotoMonoRegular);
+  doc.addFont('RobotoMono-VariableFont_wght-normal.ttf', 'RobotoMono-VariableFont_wght', 'normal');
+
+  doc.addFileToVFS('RobotoMono-Bold-bold.ttf', RobotoMonoBold);
+  doc.addFont('RobotoMono-Bold-bold.ttf', 'RobotoMono-Bold', 'bold');
+
   // For implementing an image does not work tho:
   // const myImage = new Image();
   // myImage.src = 'https://cdn.logo.com/hotlink-ok/logo-social.png';
@@ -34,12 +41,13 @@ const generateTicket = sale => {
 
   // doc.addImage('UI/res/images/picolin.png', 'PNG', 4, 4);
   // Set Header
+
   doc.setFont('Montserrat-Bold', 'bold');
   doc.setFontSize(20);
   doc.setTextColor(textColor);
   doc.text('PICOLIN STORE®', leftMargin, linePosition);
   doc.setFontSize(8);
-  doc.setFont('Montserrat-Regular', 'normal');
+  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
 
   // doc.setFont('times', 'italic');
   linePosition += 5;
@@ -51,19 +59,19 @@ const generateTicket = sale => {
   linePosition += 5;
   doc.text(`Fecha: 11/05/1996`, leftMargin, linePosition);
   linePosition += 5;
-  doc.setFont('Montserrat-Bold', 'bold');
+  doc.setFont('RobotoMono-Bold', 'bold');
   doc.text(`Folio de Venta: #12411`, leftMargin, linePosition);
-  doc.setFont('Montserrat-Regular', 'normal');
+  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
   linePosition += 7;
 
   // Set Body
-  doc.setFontSize(10);
-  doc.text('---------------------------------------------------', leftMargin, linePosition);
+  doc.setFontSize(9);
+  doc.text(separator, leftMargin, linePosition);
   linePosition += 5;
 
-  doc.setFont('Montserrat-Bold', 'bold');
+  doc.setFont('RobotoMono-Bold', 'bold');
   doc.text('PRODUCTOS:', leftMargin, linePosition);
-  doc.setFont('Montserrat-Regular', 'normal');
+  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
   linePosition += 7;
 
   sale?.detail &&
@@ -78,7 +86,7 @@ const generateTicket = sale => {
       linePosition += 12;
     });
 
-  doc.text('---------------------------------------------------', leftMargin, linePosition);
+  doc.text(separator, leftMargin, linePosition);
   linePosition += 5;
 
   doc.text(`Metodo de Pago: `, leftMargin, linePosition);
@@ -97,10 +105,10 @@ const generateTicket = sale => {
   doc.text(`${currencyFormatter(sale?.sale?.discount)}`, rightMargin, linePosition);
   linePosition += 5;
 
-  doc.setFont('Montserrat-Bold', 'bold');
+  doc.setFont('RobotoMono-Bold', 'bold');
   doc.text(`Total: `, leftMargin, linePosition);
   doc.text(`${currencyFormatter(sale?.sale?.total)}`, rightMargin, linePosition);
-  doc.setFont('Montserrat-Regular', 'normal');
+  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
   linePosition += 10;
 
   doc.text(`Recibido: `, leftMargin, linePosition);
@@ -116,19 +124,19 @@ const generateTicket = sale => {
 
   // Set Footer
   linePosition += 10;
-  doc.text('---------------------------------------------------', leftMargin, linePosition);
+  doc.text(separator, leftMargin, linePosition);
   linePosition += 5;
   doc.text(`Fecha de Impresión: 11/30/2020 12:44 `, leftMargin, linePosition);
   linePosition += 5;
-  doc.setFont('Montserrat-Bold', 'bold');
-  doc.text(`Número de Articulos Vendidos: ${sale.detail.length}`, leftMargin, linePosition);
+
+  doc.setFont('RobotoMono-Bold', 'bold');
+  doc.text(`Articulos Vendidos: ${sale.detail.length}`, leftMargin, linePosition);
   linePosition += 10;
-  doc.setFontSize(9);
+  doc.setFontSize(8);
   doc.text(`¡Picolin agradece su compra, vuelva pronto!`, leftMargin, linePosition);
-  doc.setFont('Montserrat-Regular', 'normal');
+  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
 
   linePosition += 5;
-  doc.setFontSize(7);
   doc.text(`Una vez salida la mercancía de la tienda, `, leftMargin, linePosition);
   linePosition += 5;
   doc.text(`no se aceptarán devoluciones.`, leftMargin, linePosition);
@@ -144,23 +152,19 @@ export const downloadTicketPDF = (sale, ticketTitle) => {
   return doc;
 };
 
-export const printTicket = sale => {
+export const sendToPrintTicket = sale => {
   const doc = generateTicket(sale);
   doc.autoPrint();
-  const arraybuffer = doc.output('arraybuffer');
-  const blob = doc.output('blob');
-  const bloburi = doc.output('bloburi');
-  const bloburl = doc.output('bloburl');
-  const pdfobjectnewwindow = doc.output('pdfobjectnewwindow');
-  debugger;
+  doc.output('dataurlnewwindow');
   return doc;
 };
 
 export const getTicketBlob = sale => {
   const doc = generateTicket(sale);
-  const blob = new Blob([doc.output()], { type: 'application/pdf' });
-  // create an object URL from the Blob
-  const URL = window.URL || window.webkitURL;
-  const downloadUrl = URL.createObjectURL(blob);
-  return downloadUrl;
+  const bloburl = doc.output('bloburl');
+  return bloburl;
+  //   const blob = new Blob([doc.output()], { type: 'application/pdf' });
+  //   // create an object URL from the Blob
+  //   const URL = window.URL || window.webkitURL;
+  //   const downloadUrl = URL.createObjectURL(blob);
 };

@@ -11,7 +11,7 @@ import { getCurrentUser } from 'services/Authentication';
 // import SalesSummary from 'UI/components/organisms/SalesSummary';
 
 import { type User } from 'types/app';
-import { getTicketBlob, downloadTicketPDF, printTicket } from 'UI/utils/ticketGenerator';
+import { getTicketBlob, downloadTicketPDF, sendToPrintTicket } from 'UI/utils/ticketGenerator';
 import { useStyles, styles } from './styles';
 
 const getSaleDetailed = {
@@ -67,8 +67,6 @@ const Home = () => {
     setFileURL(blob);
   }, [wasReloaded]);
 
-  const printTest = () => {};
-
   return (
     <>
       {/* <BackgroundGraphic fill={colors.backgroundGraphic} className={classes.backgroundImg} /> */}
@@ -98,7 +96,7 @@ const Home = () => {
             <input
               type="button"
               value="print"
-              onClick={() => printTicket(getSaleDetailed, 'ticket.pdf')}
+              onClick={() => sendToPrintTicket(getSaleDetailed, 'ticket.pdf')}
             />
             {/* <GlobalSearchbar /> */}
             <div id="pdfContainer" className={classes.pdfBox}>

@@ -19,6 +19,7 @@ import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 import { currencyFormatter, sleep, getFeatureFlags } from 'UI/utils';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
+import { sendToPrintTicket } from 'UI/utils/ticketGenerator';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -88,8 +89,12 @@ const NewSaleList = (props: NewSaleListProps) => {
     'totalWithDiscount'
   ]); // you can also target specific fields by their names
 
-  const onNewSaleFinished = () => {
-    // debugger;
+  const onNewSaleFinished = async saleTicket => {
+    const response = await API.get(
+      `${Endpoints.Sales}${Endpoints.GetSaleDetailsByTicket}`.replace(':ticket', saleTicket)
+    );
+    console.table(response.data);
+    response?.data && sendToPrintTicket(response.data);
   };
 
   useEffect(() => {
@@ -119,7 +124,8 @@ const NewSaleList = (props: NewSaleListProps) => {
       } = formData;
 
       const saleDetail = Object.entries(rest).map(([key, value]) => {
-        return { productCode: key, quantity: value };
+        // debugger;
+        return { productCode: key, quantity: value, combo: 0 };
       });
 
       /// TODO: add all the products from the combo and set the value combo: 1
@@ -127,7 +133,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       const params = {
         idPaymentMethod,
         invoice: invoice || false,
-        total,
+        total: totalWithDiscount,
         subtotal,
         iva,
         discount: discount || 0,
@@ -139,6 +145,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       };
 
       const response = await API.post(`${Endpoints.Sales}${Endpoints.NewSale}`, params);
+
       if (response) {
         onShowAlert({
           severity: 'success',
@@ -146,7 +153,9 @@ const NewSaleList = (props: NewSaleListProps) => {
           autoHideDuration: 3000,
           body: `Su venta de ${currencyFormatter(total)} fue realizada con exito!`
         });
-        onNewSaleFinished();
+        sleep(2000).then(() => {
+          response?.data?.ticket && onNewSaleFinished(response?.data?.ticket);
+        });
       }
     } catch (err) {
       onShowAlert({
