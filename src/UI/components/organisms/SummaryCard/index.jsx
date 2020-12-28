@@ -19,11 +19,14 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { AddIcon, colors } from 'UI/res';
 import { Endpoints } from 'UI/constants/endpoints';
-import { currencyFormatter } from 'UI/utils';
+import { currencyFormatter, getFeatureFlags } from 'UI/utils';
 import type { MapType } from 'types';
 import { isEmpty } from 'lodash';
+import { FeatureFlags } from 'UI/constants/featureFlags';
 import Contents from './strings';
 import { useStyles } from './styles';
+
+const featureFlags = getFeatureFlags();
 
 const language = localStorage.getItem('language');
 
@@ -127,7 +130,7 @@ const SummaryCard = (props: SummaryCardProps) => {
         disabled={isSummaryEnabled}
         control={<Switch color="primary" />}
         className={classes.invoice}
-        checked={getValues('invoice') || false}
+        checked={featureFlags.includes(FeatureFlags.Taxes) && getValues('invoice')}
         onChange={onSwitcherChange}
         label={Contents[language]?.invoice}
         labelPlacement="start"

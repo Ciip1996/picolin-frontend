@@ -17,7 +17,7 @@ import ComboCard from 'UI/components/organisms/ComboCard';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
-import { currencyFormatter, sleep } from 'UI/utils';
+import { currencyFormatter, sleep, getFeatureFlags } from 'UI/utils';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 
 /** API / EntityRoutes / Endpoints / EntityType */
@@ -29,7 +29,10 @@ import { AddIcon, colors, EmptyActivityLogs } from 'UI/res';
 
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 
+import { FeatureFlags } from 'UI/constants/featureFlags';
 import Contents from './strings';
+
+const featureFlags = getFeatureFlags();
 
 type NewSaleListProps = {
   onShowAlert: any => void
@@ -247,7 +250,11 @@ const NewSaleList = (props: NewSaleListProps) => {
     }
 
     const subtotal = parseFloat(saleCostSumatory) + parseFloat(combosCostSumatory);
-    const iva = invoice ? parseFloat(subtotal || 0.0) * 0.16 : 0.0;
+
+    const iva =
+      invoice && featureFlags.includes(FeatureFlags.Taxes)
+        ? parseFloat(subtotal || 0.0) * 0.16
+        : 0.0;
     const total = parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0);
     const totalWithDiscount =
       parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0) - parseFloat(discount || 0.0);
@@ -256,7 +263,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       totalWithDiscount && received ? parseFloat(totalWithDiscount) - parseFloat(received) : 0.0;
 
     setValue('subtotal', `${subtotal}`, false);
-    setValue('iva', `${iva}`, false);
+    setValue('iva', featureFlags.includes(FeatureFlags.Taxes) ? `${iva}` : 0, false);
     setValue('change', `${change}`, false);
     setValue('total', `${total}`, false);
     setValue('totalWithDiscount', `${totalWithDiscount}`, false);
