@@ -24,7 +24,7 @@ export const DateFormats = {
     DetailDate: 'DD MMMM, YYYY',
     DetailDateTime: 'DD/MMMM/YYYY HH:mm a',
     SimpleDate: 'DD/MM/YYYY',
-    SimpleDateTime: 'DD/MM/YYYY HH:mm a',
+    SimpleDateTime: 'DD/MM/YYYY HH:mm ',
     DayDate: 'dddd, DD/MM/YYYY',
     QueryFormat: 'YYYY-MM-DD HH:mm:ss',
     MonthDay: 'DD MMM',
@@ -62,8 +62,7 @@ export const PageTitles = {
   Dashboard: `${AppName} | Dashboard`,
   NotFound: `${AppName} | Not Found`,
   Inventory: `${AppName} | Inventario`,
-  Transfers: `${AppName} | Transferencias`,
-  TicketGenerator: `${AppName} | Generar Ticket`
+  Transfers: `${AppName} | Transferencias`
 };
 
 export const DrawerName = {

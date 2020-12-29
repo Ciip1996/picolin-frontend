@@ -9,8 +9,9 @@ export const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     textAlign: 'center',
     width: '100%',
+    height: '100%',
     flex: 1,
-    height: 'fit-content',
+    // height: 'fit-content',
     backgroundColor: colors.trasnparent,
     padding: 16
   },

@@ -144,7 +144,6 @@ const NewSaleList = (props: NewSaleListProps) => {
       } = formData;
 
       const saleDetail = Object.entries(rest).map(([key, value]) => {
-        // debugger;
         return { productCode: key, quantity: value, combo: 0 };
       });
 

@@ -120,7 +120,9 @@ import {
   GlobalIcon,
   CollaborationsIcon,
   SignaturesIcon,
-  TicketGeneratorIcon
+  TicketIcon,
+  PrintIcon,
+  DownloadFileIcon
 } from './icons';
 
 export {
@@ -243,5 +245,7 @@ export {
   GlobalIcon,
   CollaborationsIcon,
   SignaturesIcon,
-  TicketGeneratorIcon
+  TicketIcon,
+  PrintIcon,
+  DownloadFileIcon
 };

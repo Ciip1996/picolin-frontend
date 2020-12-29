@@ -135,7 +135,7 @@ const generateTicket = sale => {
   linePosition += 5;
 
   doc.text(
-    `Fecha de Impresión: ${moment(Date.now()).format(DateFormats.SQL)} `,
+    `Fecha de Impresión: ${moment(Date.now()).format(DateFormats.International.SimpleDateTime)} `,
     leftMargin,
     linePosition
   );

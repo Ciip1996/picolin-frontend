@@ -14,6 +14,7 @@ import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
 import { toLocalTime, getErrorData } from 'UI/utils';
+import Modal from '@material-ui/core/Modal';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -57,8 +58,17 @@ const SalesList = (props: SalesListProps) => {
 
   const [data, setData] = useState<any>([{}]);
   const [selectedSale, setSelectedSale] = useState({});
+  const [openModal, setOpenModal] = React.useState(false);
 
   const [count, setCount] = useState(0);
+
+  const handleOpenProject = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   const invoiceOptions = [
     { id: 0, title: Contents[language]?.no },
@@ -248,6 +258,7 @@ const SalesList = (props: SalesListProps) => {
   const handleRowClick = (rowData: Object) => {
     const { id } = data[rowData.rowIndex];
     getSaleDetail(id);
+    handleOpenProject();
   };
 
   const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
@@ -521,11 +532,21 @@ const SalesList = (props: SalesListProps) => {
               onColumnDisplayClick={handleColumnDisplayClick}
             />
           </Box>
-          <Box display="flex" flex={1} justifyContent="center">
-            <SalesDetailCard saleData={selectedSale} />
-          </Box>
         </Box>
       </ListPageLayout>
+      <Modal
+        style={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          display: 'flex'
+        }}
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        <SalesDetailCard saleData={selectedSale} onCloseModal={handleCloseModal} />
+      </Modal>
     </ContentPageLayout>
   );
 };

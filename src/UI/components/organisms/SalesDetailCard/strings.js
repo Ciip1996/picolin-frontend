@@ -11,7 +11,10 @@ const Contents = {
     Taxes: 'VAT',
     lblDiscount: 'DISCOUNT',
     Received: 'RECEIVED',
-    Total: 'TOTAL'
+    Total: 'TOTAL',
+    date: 'DATE',
+    idSale: 'ID',
+    ticket: 'TICKET'
   },
   Spanish: {
     HeaderTitle: 'DETALLE DE VENTA',
@@ -25,7 +28,10 @@ const Contents = {
     Taxes: 'IVA',
     discount: 'DESCUENTO',
     Received: 'RECIBÍ',
-    Total: 'TOTAL'
+    Total: 'TOTAL',
+    date: 'FECHA',
+    idSale: 'ID',
+    ticket: 'TICKET Nº'
   }
 };
 export default Contents;
