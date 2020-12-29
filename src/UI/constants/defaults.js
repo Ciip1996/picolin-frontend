@@ -59,7 +59,6 @@ export const PageTitles = {
   Login: `${AppName} | Inicio de Sesión`,
   RegisterUser: `${AppName} | Registar usuario`,
   Home: `${AppName} | Inicio`,
-  Dashboard: `${AppName} | Dashboard`,
   NotFound: `${AppName} | Not Found`,
   Inventory: `${AppName} | Inventario`,
   Transfers: `${AppName} | Transferencias`

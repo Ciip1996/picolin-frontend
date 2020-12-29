@@ -11,7 +11,6 @@ export const Endpoints = {
   GetTransfers: '/getTransfer/:idStore',
   InsertTransfer: '/insertTransfer',
   Roles: 'lists/roles',
-  Dashboard: 'dashboard',
   Colors: 'lists/getColors',
   Stores: 'lists/getStore',
   GetTypes: 'lists/getTypes',
