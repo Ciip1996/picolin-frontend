@@ -72,5 +72,6 @@ export const useStyles = makeStyles(theme => ({
   },
   noMaxWidth: {
     maxWidth: 'none'
-  }
+  },
+  amount: { flex: 0, display: 'flex' }
 }));

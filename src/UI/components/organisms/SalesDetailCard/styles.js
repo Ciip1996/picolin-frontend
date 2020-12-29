@@ -4,17 +4,15 @@ import { colors } from 'UI/res';
 export const useStyles = makeStyles({
   card: {
     width: '398px',
-    height: '568px',
+    minHeight: '568px',
     boxShadow: '0px 3px 6px #00000029',
     borderTopLeftRadius: 26,
     borderTopRightRadius: 26,
     borderBottomLeftRadius: 26,
     borderBottomRightRadius: 26,
-    background: colors.white,
-    marginLeft: 32
+    background: colors.white
   },
   title: {
-    marginTop: '23px',
     marginLeft: '24px',
     marginBottom: '0px',
     font: 'normal normal bold 24px/35px Poppins',
@@ -130,5 +128,13 @@ export const useStyles = makeStyles({
     width: '171px',
     height: '48px',
     marginLeft: '201px'
+  },
+  buttonContainer: {
+    width: '100%',
+    justifyContent: 'flex-end',
+    padding: 10
+  },
+  noMaxWidth: {
+    maxWidth: 'none'
   }
 });

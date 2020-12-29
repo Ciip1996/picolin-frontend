@@ -40,5 +40,6 @@ export const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(4),
     paddingRight: theme.spacing(4),
     width: '100%'
-  }
+  },
+  pdfBox: { width: '100%', height: 400 }
 }));

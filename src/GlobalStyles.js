@@ -1,6 +1,6 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 import { input, skeletonRadius } from 'UI/constants/dimensions';
-import { colors } from './UI/res';
+import { colors } from 'UI/res';
 
 export const globalStyles = {
   resetButton: {

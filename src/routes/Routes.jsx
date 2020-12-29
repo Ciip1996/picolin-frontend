@@ -18,15 +18,13 @@ import RegisterUser from 'UI/pages/RegisterUser';
 
 import ErrorPage from 'UI/pages/ErrorPage';
 
-import DashboardOverview from 'UI/pages/Dashboard/Overview';
-
 import Notifier from 'UI/components/molecules/Notifier';
-import { FeatureFlags } from 'UI/constants/featureFlags';
-import { getFeatureFlags } from 'UI/utils';
+// import { FeatureFlags } from 'UI/constants/featureFlags';
+// import { getFeatureFlags } from 'UI/utils';
 import { Roles } from 'UI/constants/roles';
 import { userHasRole } from 'services/Authorization';
 
-const featureFlags = getFeatureFlags();
+// const featureFlags = getFeatureFlags();
 
 const Routes = () => {
   const [isUserAdmin, setIsUserAdmin] = React.useState(false);
@@ -61,13 +59,6 @@ const Routes = () => {
           path={EntityRoutes.Transfers}
           component={Transfers}
           enabled={isUserAdmin}
-        />
-
-        <PrivateRoute
-          exact
-          path={EntityRoutes.DashboardOverview}
-          component={DashboardOverview}
-          enabled={featureFlags.includes(FeatureFlags.FeeAgreement)}
         />
 
         <PrivateRoute path="*" component={() => <ErrorPage error={404} />} />

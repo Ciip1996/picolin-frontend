@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
@@ -116,31 +116,34 @@ const Sidebar = (props: SidebarProps) => {
     const parent = getParent(location.pathname);
     parent && setOpenedItems(prevState => [...prevState, parent.route]);
   }, [location.pathname]);
-  useEffect(() => {
-    // GetDayIncome;
-    const getData = async () => {
-      try {
-        const queryParams = queryString.stringify({
-          idStore: 1
-        });
-        const response = await API.get(`${Endpoints.GetDayIncome}?${queryParams}`);
-        if (response) {
-          setIncome({
-            cash: response.data.find(each => each.paymentMethod === 'Tarjeta')?.value,
-            card: response.data.find(each => each.paymentMethod === 'Efectivo')?.value
-          });
-        }
-      } catch (err) {
-        showAlert({
-          severity: 'error',
-          title: getErrorData(err)?.title,
-          autoHideDuration: 800000,
-          body: getErrorData(err)?.message
+
+  const getData = useCallback(async () => {
+    try {
+      const queryParams = queryString.stringify({
+        idStore: 1
+      });
+      const response = await API.get(`${Endpoints.GetDayIncome}?${queryParams}`);
+      if (response) {
+        setIncome({
+          cash: response.data.find(each => each.paymentMethod === 'Tarjeta')?.value,
+          card: response.data.find(each => each.paymentMethod === 'Efectivo')?.value
         });
       }
-    };
-    getData();
+    } catch (err) {
+      showAlert({
+        severity: 'error',
+        title: getErrorData(err)?.title || 'Error en conexión',
+        autoHideDuration: 800000,
+        body: JSON.stringify(getErrorData(err)?.message) || 'Contacte a soporte técnico'
+      });
+      throw err;
+    }
   }, [showAlert]);
+
+  useEffect(() => {
+    // GetDayIncome;
+    getData();
+  }, [getData, showAlert]);
 
   const toggleParent = route => {
     setOpenedItems(prevState => {

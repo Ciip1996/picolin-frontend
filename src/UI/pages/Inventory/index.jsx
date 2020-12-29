@@ -79,14 +79,14 @@ const InventoryList = (props: InventoryListProps) => {
   };
 
   const [uiState, setUiState] = useState({
-    keyword: savedParams?.keyword || null,
-    orderBy: savedParams?.orderBy || null,
-    direction: savedParams?.direction || null,
+    keyword: savedParams?.keyword || undefined,
+    orderBy: savedParams?.orderBy || undefined,
+    direction: savedParams?.direction || undefined,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
     isAddProductDrawerOpen: false,
     isQRCodeDrawerOpen: false,
-    productCode: null
+    productCode: undefined
   });
 
   const getData = useCallback(async () => {
@@ -126,10 +126,12 @@ const InventoryList = (props: InventoryListProps) => {
         ':idStore',
         store_filter ? store_filter?.id : 'ALL'
       );
+
       const response = await API.get(`${url}${queryParams}`);
       if (response?.status === 200) {
         setData(response?.data?.inventory || []);
       }
+
       setCount(Number(response?.data?.totalResults) || 0);
       setLoading(false);
       setSearching(false);
@@ -139,8 +141,8 @@ const InventoryList = (props: InventoryListProps) => {
       onShowAlert({
         severity: 'error',
         autoHideDuration: 3000,
-        title: getErrorData(err).title,
-        body: getErrorData(err).message
+        title: getErrorData(err)?.title || 'Error en conexión',
+        body: getErrorData(err)?.message || 'Contacte a soporte técnico'
       });
     }
   }, [

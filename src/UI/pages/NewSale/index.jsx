@@ -6,6 +6,7 @@ import { FormContext, useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { showAlert } from 'actions/app';
 import Drawer from '@material-ui/core/Drawer';
+import { useHistory } from 'react-router-dom';
 
 /** Atoms, Components and Styles */
 import ListProductRow from 'UI/components/molecules/ListProductRow';
@@ -17,18 +18,23 @@ import ComboCard from 'UI/components/organisms/ComboCard';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
-import { currencyFormatter, sleep } from 'UI/utils';
+import { currencyFormatter, sleep, getFeatureFlags } from 'UI/utils';
+import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
+import { sendToPrintTicket } from 'UI/utils/ticketGenerator';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import { v4 as uuidv4 } from 'uuid';
 import { Endpoints } from 'UI/constants/endpoints';
 // import type { MapType } from 'types';
-import { AddIcon, colors } from 'UI/res';
+import { AddIcon, colors, EmptyActivityLogs } from 'UI/res';
 
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 
+import { FeatureFlags } from 'UI/constants/featureFlags';
 import Contents from './strings';
+
+const featureFlags = getFeatureFlags();
 
 type NewSaleListProps = {
   onShowAlert: any => void
@@ -38,80 +44,11 @@ const language = localStorage.getItem('language');
 
 const NewSaleList = (props: NewSaleListProps) => {
   const { onShowAlert } = props;
+  const history = useHistory();
 
   const [productsList, setProductsList] = useState<Array<Object>>([]);
 
-  const comboExample = {
-    ajuar: {
-      idInventory: 43,
-      productCode: 'PVECARO2016',
-      description: 'descricion',
-      characteristic: 'Lino',
-      provider: 'Ropones de san juan',
-      color: 'Cafe',
-      size: 2,
-      pieces: 1,
-      salePrice: 300,
-      cost: 185,
-      gender: 'niña',
-      type: 'Vestido',
-      stock: 10,
-      reservedQuantity: null,
-      store: 'Tienda Centro'
-    },
-    blanket: {
-      idInventory: 50,
-      productCode: 'PFAAMRO1212027',
-      description: '12',
-      characteristic: 'Lino',
-      provider: 'Ropones de san juan',
-      color: 'Amarillo',
-      size: 1212,
-      pieces: 12,
-      salePrice: 12,
-      cost: 12,
-      gender: 'niño',
-      type: 'Faldón',
-      stock: 10,
-      reservedQuantity: null,
-      store: 'Tienda Centro'
-    },
-    diaperRacks: {
-      idInventory: 45,
-      productCode: 'PFAAMRO12026',
-      description: '12',
-      characteristic: 'Lino',
-      provider: 'Ropones de san juan',
-      color: 'Amarillo',
-      size: 12,
-      pieces: 12,
-      salePrice: 12,
-      cost: 12,
-      gender: 'niño',
-      type: 'Faldón',
-      stock: 1,
-      reservedQuantity: null,
-      store: 'Tienda Centro'
-    },
-    footwear: {
-      idInventory: 20,
-      productCode: 'PDIDOJU2012',
-      description: ' tiene incrustacion de oro falso',
-      characteristic: 'Lino',
-      provider: 'Ropones de san juan',
-      color: 'Dorado',
-      size: 3,
-      pieces: 7,
-      salePrice: 399,
-      cost: 199,
-      gender: 'niño',
-      type: 'Vestido',
-      stock: 10,
-      reservedQuantity: 0,
-      store: 'Tienda Centro'
-    }
-  };
-  const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>([comboExample]);
+  const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -134,7 +71,16 @@ const NewSaleList = (props: NewSaleListProps) => {
   };
 
   const form = useForm();
-  const { register, errors, handleSubmit, setValue, unregister, watch, getValues } = form;
+  const {
+    register,
+    errors,
+    handleSubmit,
+    setValue,
+    unregister,
+    watch,
+    getValues,
+    clearError
+  } = form;
 
   const watchFields = watch([
     'discount',
@@ -145,8 +91,30 @@ const NewSaleList = (props: NewSaleListProps) => {
     'totalWithDiscount'
   ]); // you can also target specific fields by their names
 
-  const onNewSaleFinished = () => {
-    // debugger;
+  const onNewSaleFinished = async idSale => {
+    try {
+      const response = await API.get(
+        `${Endpoints.Sales}${Endpoints.GetSaleDetailsByIdSale}`.replace(':id', idSale)
+      );
+      if (response?.data && response?.data?.detail?.length > 0) {
+        history.push('/newsale');
+        sendToPrintTicket(response?.data);
+      } else
+        onShowAlert({
+          severity: 'error',
+          title: 'Error al generar Ticket',
+          autoHideDuration: 8000,
+          body: 'Ocurrio un problema, contacte a soporte técnico.'
+        });
+    } catch (err) {
+      onShowAlert({
+        severity: 'error',
+        title: 'Error al generar Ticket',
+        autoHideDuration: 8000,
+        body: 'Ocurrio un problema, contacte a soporte técnico.'
+      });
+      throw err;
+    }
   };
 
   useEffect(() => {
@@ -176,7 +144,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       } = formData;
 
       const saleDetail = Object.entries(rest).map(([key, value]) => {
-        return { productCode: key, quantity: value };
+        return { productCode: key, quantity: value, combo: 0 };
       });
 
       /// TODO: add all the products from the combo and set the value combo: 1
@@ -184,18 +152,19 @@ const NewSaleList = (props: NewSaleListProps) => {
       const params = {
         idPaymentMethod,
         invoice: invoice || false,
-        total,
+        total: totalWithDiscount,
         subtotal,
         iva,
         discount: discount || 0,
         deposit: null,
-        saleType: '{PAQUETE COMPLETO}', // todo change with combos
+        saleType: null, // todo maybe remove it in the future
         idStore,
         saleDetail,
         received: received || null
       };
 
       const response = await API.post(`${Endpoints.Sales}${Endpoints.NewSale}`, params);
+
       if (response) {
         onShowAlert({
           severity: 'success',
@@ -203,7 +172,9 @@ const NewSaleList = (props: NewSaleListProps) => {
           autoHideDuration: 3000,
           body: `Su venta de ${currencyFormatter(total)} fue realizada con exito!`
         });
-        onNewSaleFinished();
+        sleep(1000).then(() => {
+          response?.data?.idSale && onNewSaleFinished(response?.data?.idSale);
+        });
       }
     } catch (err) {
       onShowAlert({
@@ -219,30 +190,6 @@ const NewSaleList = (props: NewSaleListProps) => {
   const handleAddProduct = (name: string, value: any) => {
     setProductsList(prevList => {
       return [...prevList, { product: { ...value }, quantity: 1 }];
-      // #region
-      /*  
-      The following code validates if it has already been added and adds one to the quanitity
-
-      let addedProductIndex = 0;
-
-      const productAlreadyAdded = prevList.find((each, index) => {
-        if (each.product.productCode === value.productCode) {
-          addedProductIndex = index;
-          return true;
-        }
-        return false;
-      });
-
-      if (productAlreadyAdded) {
-        const newproduct = {
-          ...productAlreadyAdded,
-          quantity: productAlreadyAdded.quantity + 1
-        };
-        const updatedListOfProducts = prevList;
-        updatedListOfProducts[addedProductIndex] = newproduct;
-        return [...updatedListOfProducts];
-      } */
-      // #endregion
     });
     setValue(name, value ? true : undefined, true);
   };
@@ -265,25 +212,6 @@ const NewSaleList = (props: NewSaleListProps) => {
     // TODO: register or unregister the react hook form: unregister(productCode);
   };
 
-  // #region modify amount of item
-  /*   const onModifyAmountOfItem = (productCode: Object, quantity: any, stock: number) => {
-    // TODO: check why is not taking the stock validation
-    const updatedProducts = productsList.map((each: Object) => {
-      if (each?.product?.productCode === productCode) {
-        const isStockUnavailable = quantity ? stock < quantity : stock < 0;
-        if (isStockUnavailable) {
-          setValue(productCode, quantity, true);
-        } else {
-          setValue(productCode, quantity || 0, true);
-        }
-        return { ...each, quantity: parseInt(quantity, 10) };
-      }
-      return each;
-    });
-    setProductsList(updatedProducts);
-  }; */
-  // #endregion
-
   const registerFormField = useCallback(() => {
     register(
       { name: 'idPaymentMethod' },
@@ -305,7 +233,7 @@ const NewSaleList = (props: NewSaleListProps) => {
           if (value) {
             const total = parseFloat(watch('total'));
             const constraint = parseFloat(value) <= total * 0.3;
-            return constraint || `El descuento debe ser menor al 30% del total`;
+            return constraint || `El descuento debe ser menor al 30% de la venta.`;
           }
           return true;
         }
@@ -326,7 +254,8 @@ const NewSaleList = (props: NewSaleListProps) => {
   }, [register, registerFormField]);
 
   const calculateSaleCosts = useCallback(() => {
-    const { received, discount, invoice } = getValues();
+    clearError();
+    const { received, discount, invoice, idPaymentMethod } = getValues();
 
     let saleCostSumatory;
     let combosCostSumatory;
@@ -342,28 +271,33 @@ const NewSaleList = (props: NewSaleListProps) => {
     } else if (productsList.length === 1) {
       saleCostSumatory = parseFloat(productsList[0]?.product?.salePrice);
     } else if (productsList.length > 1) {
-      saleCostSumatory = productsList.reduce((accumulator: Object, currentValue: Object) => {
-        return (
-          parseFloat(accumulator?.product?.salePrice) + parseFloat(currentValue?.product?.salePrice)
-        );
-      });
+      saleCostSumatory = productsList.reduce((accumulator: number, currentValue: Object) => {
+        // console.log(`${accumulator} + ${currentValue?.product?.salePrice}`);
+        return parseFloat(accumulator) + parseFloat(currentValue?.product?.salePrice);
+      }, 0.0);
     }
 
     const subtotal = parseFloat(saleCostSumatory) + parseFloat(combosCostSumatory);
-    const iva = invoice ? parseFloat(subtotal || 0.0) * 0.16 : 0.0;
+
+    const iva =
+      invoice && featureFlags.includes(FeatureFlags.Taxes)
+        ? parseFloat(subtotal || 0.0) * 0.16
+        : 0.0;
     const total = parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0);
     const totalWithDiscount =
       parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0) - parseFloat(discount || 0.0);
 
     const change =
-      totalWithDiscount && received ? parseFloat(totalWithDiscount) - parseFloat(received) : 0.0;
+      totalWithDiscount && received && idPaymentMethod !== 1
+        ? parseFloat(totalWithDiscount) - parseFloat(received)
+        : 0.0;
 
     setValue('subtotal', `${subtotal}`, false);
-    setValue('iva', `${iva}`, false);
+    setValue('iva', featureFlags.includes(FeatureFlags.Taxes) ? `${iva}` : 0, false);
     setValue('change', `${change}`, false);
     setValue('total', `${total}`, false);
     setValue('totalWithDiscount', `${totalWithDiscount}`, false);
-  }, [comboPackagesList.length, getValues, productsList, setValue]);
+  }, [clearError, comboPackagesList.length, getValues, productsList, setValue]);
 
   useEffect(() => {
     if (productsList.length === 0) setValue('products', undefined, false);
@@ -377,6 +311,7 @@ const NewSaleList = (props: NewSaleListProps) => {
   const onComboAdded = (comboData: Object) => {
     setUiState(prevState => ({ ...prevState, isAddComboToSaleDrawerOpen: false }));
     setComboPackagesList(prevList => [...prevList, { ...comboData, id: uuidv4() }]);
+    setValue('products', true, true);
   };
 
   return (
@@ -425,6 +360,7 @@ const NewSaleList = (props: NewSaleListProps) => {
                 minWidth={472}
               >
                 <AutocompleteSelect
+                  autoFocus
                   name="products"
                   // selectedValue={comboValues.producto}
                   // disabled={!isProductFieldEnabled}
@@ -438,13 +374,28 @@ const NewSaleList = (props: NewSaleListProps) => {
                   dataFetchKeyName="inventory"
                   error={!!errors?.products}
                   errorText={errors?.products && errors?.products.message}
-                  debug
                   renderOption={option => {
                     return <ListProductRow product={option} />;
                   }}
                 />
-                <div>
+                <Box
+                  flex={1}
+                  display={
+                    comboPackagesList.length === 0 && productsList.length === 0 ? 'flex' : 'unset'
+                  }
+                  alignItems="center"
+                  justifyContent="center"
+                  flexDirection="column"
+                >
                   {/* Render Combos */}
+                  {comboPackagesList.length === 0 && productsList.length === 0 && (
+                    <EmptyPlaceholder
+                      title="Ningun producto en esta venta"
+                      subtitle="Para añadir un producto o un paquete escanee el código QR de la etiqueta o escriba el código de producto en la caja de texto ubicada en la parte superior."
+                    >
+                      <EmptyActivityLogs />
+                    </EmptyPlaceholder>
+                  )}
                   {comboPackagesList.map((combo: Object) => {
                     const { id } = combo;
                     return (
@@ -470,7 +421,7 @@ const NewSaleList = (props: NewSaleListProps) => {
                     );
                   })}
                   <div className="push" />
-                </div>
+                </Box>
               </Box>
               <Box style={{ display: 'flex' }}>
                 <SummaryCard onNewItemAdded={calculateSaleCosts} watchFields={watchFields} />

@@ -6,9 +6,4 @@ export const EntityRoutes = {
   Sales: '/sales',
   Transfers: '/transfers',
   RegisterUser: '/register'
-  // Candidates: '/candidates',
-  // CandidateProfile: '/candidates/profile/:id',
-  // CandidateCreate: '/candidates/create',
-  // Dashboard: '/dashboard',
-  // DashboardOverview: '/dashboard/overview',
 };

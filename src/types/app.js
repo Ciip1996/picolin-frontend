@@ -57,11 +57,6 @@ export type TabCardDefinition = {
   infoLabelsResolver: any => InfoLabel[]
 };
 
-export type DashboardPeriod = {
-  startDate: Date,
-  endDate: Date
-};
-
 export type DataResponseFilter = {
   key: string,
   value: Array<any>
