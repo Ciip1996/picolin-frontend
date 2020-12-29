@@ -1,6 +1,7 @@
-{
+{  
+  "name": "Picolin: La Cabaña del Ropón",
   "short_name": "Picolin Store",
-  "name": "Picolin Store platform",
+  "lang": "es-419",
   "description": "Picolin Store Platform",
   "icons": [
     {
@@ -9,24 +10,15 @@
       "type": "image/png"
     },
     {
-      "src": "icon48.png",
-      "sizes": "48x48",
-      "type": "image/png"
-    },
-    {
-      "src": "icon128.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "src": "\/android-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image\/png",
+      "density": "4.0"
     }
   ],
   "start_url": "./index.html",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff",
+  "theme_color": "#FFD700",
+  "background_color": "#FDF7F4",
   "gcm_sender_id": "103953800507"
 }
