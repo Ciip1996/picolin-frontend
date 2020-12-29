@@ -115,7 +115,7 @@ const SaleCard = (props: SaleCardProps) => {
           />
           <Box width={24} />
           <CustomIconButton
-            tooltipText="Quitar de la lista"
+            tooltipText="Quitar de la venta"
             className={classes.deleteButton}
             aria-label="delete"
             onClick={prepareRemoveItem}

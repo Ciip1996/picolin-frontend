@@ -2,7 +2,6 @@
 import React from 'react';
 import NumberFormat from 'react-number-format';
 import moment from 'moment';
-import type { DashboardPeriod } from 'types/app';
 import { DateFormats } from 'UI/constants/defaults';
 import GenericContents from 'UI/constants/strings';
 
@@ -260,17 +259,6 @@ export const compensationFormatter = (min: number, mid: number, max: number): st
 export const phoneNumberFormatter = (phoneNumber: ?string): string => {
   if (!phoneNumber) return '';
   return phoneNumber.replace(/^(\d{3})(\d{3})(\d{1})/, '($1)-$2-$3');
-};
-
-export const getDefaultDashboardPeriod = (): DashboardPeriod => {
-  return {
-    startDate: moment()
-      .startOf('year')
-      .toDate(),
-    endDate: moment()
-      .endOf('day')
-      .toDate()
-  };
 };
 
 export const industrySpecialtyOptionLabel = (item: any) =>

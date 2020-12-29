@@ -9,9 +9,7 @@ import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
 // import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
 // import SalesSummary from 'UI/components/organisms/SalesSummary';
-
 import { type User } from 'types/app';
-
 import { useStyles, styles } from './styles';
 
 const Home = () => {
@@ -53,7 +51,6 @@ const Home = () => {
                   : 'Cargando permisos porfavor espere...'
               }
             />
-            {/* <GlobalSearchbar /> */}
           </Grid>
           {/* <Grid
             className={classes.container}

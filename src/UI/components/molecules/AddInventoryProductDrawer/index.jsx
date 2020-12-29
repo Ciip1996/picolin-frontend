@@ -66,9 +66,9 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
     } catch (err) {
       onShowAlert({
         severity: 'error',
-        title: getErrorData(err)?.title,
+        title: getErrorData(err)?.title || 'Error en conexión',
         autoHideDuration: 800000,
-        body: getErrorData(err)?.message
+        body: getErrorData(err)?.message || 'Contacte a soporte técnico'
       });
       throw err;
     }

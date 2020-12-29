@@ -19,11 +19,14 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { AddIcon, colors } from 'UI/res';
 import { Endpoints } from 'UI/constants/endpoints';
-import { currencyFormatter } from 'UI/utils';
+import { currencyFormatter, getFeatureFlags } from 'UI/utils';
 import type { MapType } from 'types';
 import { isEmpty } from 'lodash';
+import { FeatureFlags } from 'UI/constants/featureFlags';
 import Contents from './strings';
 import { useStyles } from './styles';
+
+const featureFlags = getFeatureFlags();
 
 const language = localStorage.getItem('language');
 
@@ -68,14 +71,13 @@ const SummaryCard = (props: SummaryCardProps) => {
       );
     } else if (!comboValues?.idPaymentMethod || comboValues?.idPaymentMethod?.id !== 2) {
       unregister('received');
-      // debugger;
-      // triggerValidation();
     }
   }, [comboValues, register, triggerValidation, unregister, watchFields.total]);
 
   const hasAnImportantError = !!errors?.received || !!errors?.discount;
 
-  console.log(getValues(), errors);
+  const isSummaryEnabled = !getValues('products');
+
   return (
     <Card className={classes.card}>
       <h1 className={classes.title}>{Contents[language]?.HeaderTitle}</h1>
@@ -88,10 +90,11 @@ const SummaryCard = (props: SummaryCardProps) => {
         errorText={errors?.idPaymentMethod && errors?.idPaymentMethod.message}
         url={Endpoints.PaymentMethods}
         onSelect={onSelectionChange}
+        disabled={isSummaryEnabled}
       />
       <TextBox
         className={classes.formulary}
-        disabled={!!(comboValues?.idPaymentMethod?.id !== 2)}
+        disabled={!(comboValues?.idPaymentMethod?.id === 2)}
         inputType="currency"
         name="received"
         label={Contents[language]?.received}
@@ -109,6 +112,7 @@ const SummaryCard = (props: SummaryCardProps) => {
         errorText={errors?.discount && errors?.discount.message}
         onChange={onSelectionChange}
         value={getValues('discount') || ''}
+        disabled={isSummaryEnabled}
       />
       {/* <TextBox
         outPutValue
@@ -123,9 +127,10 @@ const SummaryCard = (props: SummaryCardProps) => {
       /> */}
       <FormControlLabel
         name="invoice"
+        disabled={isSummaryEnabled}
         control={<Switch color="primary" />}
         className={classes.invoice}
-        checked={getValues('invoice') || false}
+        checked={featureFlags.includes(FeatureFlags.Taxes) && getValues('invoice')}
         onChange={onSwitcherChange}
         label={Contents[language]?.invoice}
         labelPlacement="start"

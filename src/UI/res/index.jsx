@@ -82,8 +82,6 @@ import {
   PersonsIcon,
   TemplateIcon,
   ResendIcon,
-  DashboardIcon,
-  DashboardActivityIcon,
   OpenFolderIcon,
   FolderIcon,
   CalendarIcon,
@@ -119,7 +117,10 @@ import {
   NewFolderIcon,
   GlobalIcon,
   CollaborationsIcon,
-  SignaturesIcon
+  SignaturesIcon,
+  TicketIcon,
+  PrintIcon,
+  DownloadFileIcon
 } from './icons';
 
 export {
@@ -193,8 +194,6 @@ export {
   TemplateIcon,
   ResendIcon,
   EmptyBulkTemplate,
-  DashboardIcon,
-  DashboardActivityIcon,
   OpenFolderIcon,
   FolderIcon,
   CalendarIcon,
@@ -241,5 +240,8 @@ export {
   NewFolderIcon,
   GlobalIcon,
   CollaborationsIcon,
-  SignaturesIcon
+  SignaturesIcon,
+  TicketIcon,
+  PrintIcon,
+  DownloadFileIcon
 };

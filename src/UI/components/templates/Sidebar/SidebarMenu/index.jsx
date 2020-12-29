@@ -1,13 +1,7 @@
 // @flow
 import React from 'react';
 import { EntityRoutes } from 'routes/constants';
-import {
-  InventoryIcon,
-  // DashboardIcon,
-  TransfersIcon,
-  // DashboardActivityIcon,
-  SalesIcon
-} from 'UI/res/icons';
+import { InventoryIcon, TransfersIcon, SalesIcon } from 'UI/res/icons';
 
 import { colors } from 'UI/res';
 import { Roles } from 'UI/constants/roles';
@@ -59,24 +53,24 @@ isUserAdmin &&
       }
     }
     // {
-    //   title: 'Dashboard',
-    //   route: 'dashboard',
+    //   title: 'Generador de Tickets',
+    //   route: EntityRoutes.TicketGenerator,
     //   icon: {
-    //     inactive: <DashboardIcon />,
-    //     opened: <DashboardIcon fill={colors.black} />,
-    //     active: <DashboardIcon fill={colors.black} />
-    //   },
-    //   subItems: [
-    //     {
-    //       title: 'Activity',
-    //       route: EntityRoutes.DashboardOverview,
-    //       icon: {
-    //         inactive: <DashboardActivityIcon />,
-    //         opened: null,
-    //         active: <DashboardActivityIcon fill={colors.completeBlack} />
-    //       }
+    //     inactive: <TicketIcon fill={colors.oxford} />,
+    //     opened: null,
+    //     active: <TicketIcon fill={colors.white} />
+    //   }
+    // subItems: [
+    //   {
+    //     title: 'Activity',
+    //     route: EntityRoutes.DashboardOverview,
+    //     icon: {
+    //       inactive: <TransfersIcon />,
+    //       opened: null,
+    //       active: <TransfersIcon fill={colors.completeBlack} />
     //     }
-    //   ]
+    //   }
+    // ]
     // }
   );
 

@@ -13,7 +13,7 @@ export const useStyles = makeStyles(theme => ({
     borderBottomRightRadius: 26,
     marginTop: '26px',
     background: colors.white,
-    padding: 28,
+    padding: 16,
     border: props => props.error && `1px solid ${theme.palette.error.main}`
   },
   header: {

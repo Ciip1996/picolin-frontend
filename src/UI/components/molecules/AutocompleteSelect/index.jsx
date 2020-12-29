@@ -44,7 +44,8 @@ type AutocompleteSelectProps = {
   getOptionLabel?: (option: any) => string,
   showAlert: any => void,
   dataFetchKeyName: string,
-  disabled: boolean
+  disabled: boolean,
+  autoFocus: boolean
 };
 
 const AutocompleteSelect = (props: AutocompleteSelectProps) => {
@@ -72,6 +73,7 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
     showAlert,
     dataFetchKeyName,
     disabled,
+    autoFocus,
     ...rest
   } = props;
 
@@ -154,8 +156,9 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
         .catch(err => {
           showAlert({
             severity: 'error',
-            title: getErrorData(err).title,
-            body: getErrorData(err).message
+            title: getErrorData(err)?.title || 'Error en conexión',
+            autoHideDuration: 800000,
+            body: getErrorData(err)?.message || 'Contacte a soporte técnico'
           });
         });
       setLoading(false);
@@ -185,8 +188,9 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
         .catch(err => {
           showAlert({
             severity: 'error',
-            title: getErrorData(err).title,
-            body: getErrorData(err).message
+            title: getErrorData(err)?.title || 'Error en conexión',
+            autoHideDuration: 800000,
+            body: getErrorData(err)?.message || 'Contacte a soporte técnico'
           });
         });
       setLoading(false);
@@ -218,6 +222,7 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
         <>
           <TextField
             {...params}
+            autoFocus={autoFocus}
             label={placeholder}
             variant="outlined"
             fullWidth
@@ -275,7 +280,8 @@ AutocompleteSelect.defaultProps = {
   getOptionSelected: undefined,
   getOptionLabel: undefined,
   startAdornment: undefined,
-  dataFetchKeyName: 'data'
+  dataFetchKeyName: 'data',
+  autoFocus: false
 };
 
 const mapDispatchToProps = dispatch => {

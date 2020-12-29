@@ -70,7 +70,7 @@ const LogIn = (props: LogInProps) => {
           severity: 'warning',
           title: `Login`,
           autoHideDuration: 800000,
-          body: `${response?.data?.mensaje}`
+          body: getErrorData(error)?.message || Contents[language]?.errServer
         });
       } else {
         showAlert({
@@ -94,6 +94,7 @@ const LogIn = (props: LogInProps) => {
           <center>
             <h1 className={classes.header}>{Contents[language]?.pageTitle || 'INICIAR SESIÓN'}</h1>
             <TextBox
+              autoFocus
               className={classes.txtUser}
               name="user"
               label={Contents[language]?.labuser || 'Usuario'}
