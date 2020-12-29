@@ -1,6 +1,7 @@
 export const EntityRoutes = {
   Login: '/login',
   Home: '/home',
+  TicketGenerator: '/ticket-generator',
   Inventory: '/inventory',
   NewSale: '/newsale',
   Sales: '/sales',

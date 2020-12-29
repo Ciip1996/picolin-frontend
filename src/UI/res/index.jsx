@@ -119,7 +119,8 @@ import {
   NewFolderIcon,
   GlobalIcon,
   CollaborationsIcon,
-  SignaturesIcon
+  SignaturesIcon,
+  TicketGeneratorIcon
 } from './icons';
 
 export {
@@ -241,5 +242,6 @@ export {
   NewFolderIcon,
   GlobalIcon,
   CollaborationsIcon,
-  SignaturesIcon
+  SignaturesIcon,
+  TicketGeneratorIcon
 };

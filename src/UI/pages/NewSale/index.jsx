@@ -6,6 +6,7 @@ import { FormContext, useForm } from 'react-hook-form';
 import { connect } from 'react-redux';
 import { showAlert } from 'actions/app';
 import Drawer from '@material-ui/core/Drawer';
+import { useHistory } from 'react-router-dom';
 
 /** Atoms, Components and Styles */
 import ListProductRow from 'UI/components/molecules/ListProductRow';
@@ -43,6 +44,7 @@ const language = localStorage.getItem('language');
 
 const NewSaleList = (props: NewSaleListProps) => {
   const { onShowAlert } = props;
+  const history = useHistory();
 
   const [productsList, setProductsList] = useState<Array<Object>>([]);
 
@@ -89,12 +91,30 @@ const NewSaleList = (props: NewSaleListProps) => {
     'totalWithDiscount'
   ]); // you can also target specific fields by their names
 
-  const onNewSaleFinished = async saleTicket => {
-    const response = await API.get(
-      `${Endpoints.Sales}${Endpoints.GetSaleDetailsByTicket}`.replace(':ticket', saleTicket)
-    );
-    console.table(response.data);
-    response?.data && sendToPrintTicket(response.data);
+  const onNewSaleFinished = async idSale => {
+    try {
+      const response = await API.get(
+        `${Endpoints.Sales}${Endpoints.GetSaleDetailsByIdSale}`.replace(':id', idSale)
+      );
+      if (response?.data && response?.data?.detail?.length > 0) {
+        history.push('/newsale');
+        sendToPrintTicket(response?.data);
+      } else
+        onShowAlert({
+          severity: 'error',
+          title: 'Error al generar Ticket',
+          autoHideDuration: 8000,
+          body: 'Ocurrio un problema, contacte a soporte técnico.'
+        });
+    } catch (err) {
+      onShowAlert({
+        severity: 'error',
+        title: 'Error al generar Ticket',
+        autoHideDuration: 8000,
+        body: 'Ocurrio un problema, contacte a soporte técnico.'
+      });
+      throw err;
+    }
   };
 
   useEffect(() => {
@@ -138,7 +158,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         iva,
         discount: discount || 0,
         deposit: null,
-        saleType: '{PAQUETE COMPLETO}', // todo change with combos
+        saleType: null, // todo maybe remove it in the future
         idStore,
         saleDetail,
         received: received || null
@@ -153,8 +173,8 @@ const NewSaleList = (props: NewSaleListProps) => {
           autoHideDuration: 3000,
           body: `Su venta de ${currencyFormatter(total)} fue realizada con exito!`
         });
-        sleep(2000).then(() => {
-          response?.data?.ticket && onNewSaleFinished(response?.data?.ticket);
+        sleep(1000).then(() => {
+          response?.data?.idSale && onNewSaleFinished(response?.data?.idSale);
         });
       }
     } catch (err) {
@@ -236,7 +256,7 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const calculateSaleCosts = useCallback(() => {
     clearError();
-    const { received, discount, invoice } = getValues();
+    const { received, discount, invoice, idPaymentMethod } = getValues();
 
     let saleCostSumatory;
     let combosCostSumatory;
@@ -269,7 +289,9 @@ const NewSaleList = (props: NewSaleListProps) => {
       parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0) - parseFloat(discount || 0.0);
 
     const change =
-      totalWithDiscount && received ? parseFloat(totalWithDiscount) - parseFloat(received) : 0.0;
+      totalWithDiscount && received && idPaymentMethod !== 1
+        ? parseFloat(totalWithDiscount) - parseFloat(received)
+        : 0.0;
 
     setValue('subtotal', `${subtotal}`, false);
     setValue('iva', featureFlags.includes(FeatureFlags.Taxes) ? `${iva}` : 0, false);

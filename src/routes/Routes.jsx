@@ -12,6 +12,7 @@ import Sales from 'UI/pages/Sales';
 import NewSale from 'UI/pages/NewSale';
 import Inventory from 'UI/pages/Inventory';
 import Transfers from 'UI/pages/Transfers';
+import TicketGenerator from 'UI/pages/TicketGenerator';
 
 import Login from 'UI/pages/Login';
 import RegisterUser from 'UI/pages/RegisterUser';
@@ -62,6 +63,7 @@ const Routes = () => {
           component={Transfers}
           enabled={isUserAdmin}
         />
+        <PrivateRoute exact path={EntityRoutes.TicketGenerator} component={TicketGenerator} />
 
         <PrivateRoute
           exact

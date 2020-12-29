@@ -28,6 +28,27 @@ type IconProps = {
   7. Fix any eslint issue.
   8. Double check its functionalities. Observe the other icons to guide yourself.
 */
+export const TicketGeneratorIcon = (props: Object) => {
+  const { size = defaultIconSize, fill = defaultIconColor, ...rest } = props;
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 48 48"
+      xmlns="http://www.w3.org/2000/svg"
+      {...rest}
+    >
+      <g fill={fill}>
+        <path
+          fill={fill}
+          d="M41.472 13.252a4.985 4.985 0 01-7.13-6.972l-2.107-2.063-.004.007-4.28-4.182L.139 28.502l4.266 4.168 2.156 2.105a4.946 4.946 0 016.986-.082 4.94 4.94 0 01.079 6.987l2.156 2.109 4.267 4.168 27.812-28.462-6.389-6.243zm-7.596 14.86L19.981 42.335l-2.212-2.16c.67-2.658-.019-5.581-2.122-7.632-2.099-2.052-5.035-2.673-7.678-1.944l-2.212-2.162 13.896-14.219 2.843 2.779 2.084-2.133-2.844-2.779 6.254-6.4 2.232 2.184c-.656 2.644.038 5.547 2.122 7.591 2.093 2.046 5.018 2.676 7.652 1.959l2.214 2.161-6.253 6.398-2.728-2.665-2.086 2.136 2.733 2.663z"
+        />
+        <path fill={fill} d="M28.91 23.267l-4.296-4.197 2.085-2.135 4.296 4.197z" />
+      </g>
+    </svg>
+  );
+};
+
 export const InventoryIcon = (props: Object) => {
   const { size = defaultIconSize, fill = defaultIconColor, ...rest } = props;
   return (

@@ -227,7 +227,7 @@ const SalesList = (props: SalesListProps) => {
   const getSaleDetail = async (id: any) => {
     try {
       const response = await API.get(
-        `${Endpoints.Sales}${Endpoints.GetSaleDetails}`.replace(':id', id)
+        `${Endpoints.Sales}${Endpoints.GetSaleDetailsByIdSale}`.replace(':id', id)
       );
       if (response.status === 200) {
         const detailedData = { ...response.data };

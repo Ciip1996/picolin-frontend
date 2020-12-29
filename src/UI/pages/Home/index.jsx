@@ -9,48 +9,33 @@ import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
 // import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
 // import SalesSummary from 'UI/components/organisms/SalesSummary';
+import { Endpoints } from 'UI/constants/endpoints';
+import API from 'services/API';
 
 import { type User } from 'types/app';
 import { getTicketBlob, downloadTicketPDF, sendToPrintTicket } from 'UI/utils/ticketGenerator';
 import { useStyles, styles } from './styles';
-
-const getSaleDetailed = {
-  sale: {
-    total: 500,
-    subtotal: 600,
-    iva: 0,
-    discount: 100,
-    received: 1000,
-    paymentMethod: 'Tarjeta',
-    deposit: 6
-  },
-  detail: [
-    {
-      type: 'Ropón',
-      characteristic: 'Mini',
-      productCode: 'PROROMA202',
-      color: 'Rosa',
-      salePrice: 300,
-      quantity: 1,
-      combo: null
-    },
-    {
-      type: 'Ropón',
-      characteristic: 'Mini',
-      productCode: 'PROROMA202',
-      color: 'Rosa',
-      salePrice: 300,
-      quantity: 1,
-      combo: null
-    }
-  ]
-};
 
 const Home = () => {
   const classes = useStyles();
   const user: User = getCurrentUser();
   const wasReloaded = localStorage.getItem('reloaded');
   const [fileURL, setFileURL] = useState(null);
+
+  const [data, setData] = useState();
+  const saleId = '99';
+  const getData = async idSale => {
+    const response = await API.get(
+      `${Endpoints.Sales}${Endpoints.GetSaleDetailsByIdSale}`.replace(':id', idSale)
+    );
+    if (response?.data && response?.data?.detail?.length > 0) {
+      setData(response?.data);
+    }
+  };
+
+  useEffect(() => {
+    getData(saleId);
+  }, []);
 
   useEffect(() => {
     document.title = PageTitles.Home;
@@ -63,9 +48,9 @@ const Home = () => {
       }
     };
     forceRefreshingUIRestrictions();
-    const blob = getTicketBlob(getSaleDetailed);
+    const blob = !!data && getTicketBlob(data);
     setFileURL(blob);
-  }, [wasReloaded]);
+  }, [data, wasReloaded]);
 
   return (
     <>
@@ -91,12 +76,12 @@ const Home = () => {
             <input
               type="button"
               value="Download Ticket"
-              onClick={() => downloadTicketPDF(getSaleDetailed, 'ticket.pdf')}
+              onClick={() => !!data && downloadTicketPDF(data, 'ticket.pdf')}
             />
             <input
               type="button"
               value="print"
-              onClick={() => sendToPrintTicket(getSaleDetailed, 'ticket.pdf')}
+              onClick={() => !!data && sendToPrintTicket(data, 'ticket.pdf')}
             />
             {/* <GlobalSearchbar /> */}
             <div id="pdfContainer" className={classes.pdfBox}>

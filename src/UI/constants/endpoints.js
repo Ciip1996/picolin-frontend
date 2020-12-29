@@ -5,7 +5,7 @@ export const Endpoints = {
   Sales: '/sales',
   GetSales: '/getSales/:idStore',
   GetSaleDetails: '/getSaleDetail/:id',
-  GetSaleDetailsByTicket: '/getSaleDetailByTicket/:ticket',
+  GetSaleDetailsByIdSale: '/getSaleDetailsByIdSale/:id',
   NewSale: '/insertSale',
   Transfers: '/transfers',
   GetTransfers: '/getTransfer/:idStore',

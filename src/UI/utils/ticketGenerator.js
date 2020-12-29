@@ -2,6 +2,8 @@ import jsPDF from 'jspdf';
 import { MontserratRegular, MontserratBold, RobotoMonoRegular, RobotoMonoBold } from 'UI/res/fonts';
 import { currencyFormatter, getFeatureFlags } from 'UI/utils';
 import { FeatureFlags } from 'UI/constants/featureFlags';
+import moment from 'moment';
+import { DateFormats } from 'UI/constants/defaults';
 
 const featureFlags = getFeatureFlags();
 
@@ -11,6 +13,9 @@ const generateTicket = sale => {
   const textColor = 50;
   const baseHeight = 160;
   const productsHeight = sale?.detail?.length * 12;
+  const smallTextSize = 8;
+  const textSize = 9;
+  const headerTextSize = 20;
   const separator = '---------------------------------';
   // eslint-disable-next-line new-cap
   const doc = new jsPDF({
@@ -19,7 +24,7 @@ const generateTicket = sale => {
     format: [80, productsHeight + baseHeight]
   });
 
-  let linePosition = 25;
+  let linePosition = 20;
   // add custom font
   doc.addFileToVFS('Montserrat-Regular-normal.ttf', MontserratRegular);
   doc.addFont('Montserrat-Regular-normal.ttf', 'Montserrat-Regular', 'normal');
@@ -33,20 +38,13 @@ const generateTicket = sale => {
   doc.addFileToVFS('RobotoMono-Bold-bold.ttf', RobotoMonoBold);
   doc.addFont('RobotoMono-Bold-bold.ttf', 'RobotoMono-Bold', 'bold');
 
-  // For implementing an image does not work tho:
-  // const myImage = new Image();
-  // myImage.src = 'https://cdn.logo.com/hotlink-ok/logo-social.png';
-  // myImage.onload = () => {
-  //   doc.addImage(myImage, 'png', 2, 2, 4, 4);
-
-  // doc.addImage('UI/res/images/picolin.png', 'PNG', 4, 4);
   // Set Header
 
   doc.setFont('Montserrat-Bold', 'bold');
-  doc.setFontSize(20);
+  doc.setFontSize(headerTextSize);
   doc.setTextColor(textColor);
   doc.text('PICOLIN STORE®', leftMargin, linePosition);
-  doc.setFontSize(8);
+  doc.setFontSize(smallTextSize);
   doc.setFont('RobotoMono-VariableFont_wght', 'normal');
 
   // doc.setFont('times', 'italic');
@@ -57,15 +55,22 @@ const generateTicket = sale => {
   linePosition += 5;
   doc.text('Pasaje Colón 115, Centro, 37000 León, Gto.', leftMargin, linePosition);
   linePosition += 5;
-  doc.text(`Fecha: 11/05/1996`, leftMargin, linePosition);
-  linePosition += 5;
   doc.setFont('RobotoMono-Bold', 'bold');
-  doc.text(`Folio de Venta: #12411`, leftMargin, linePosition);
+  doc.text(`Ticket Nº: ${sale?.sale?.ticket}`, leftMargin, linePosition);
   doc.setFont('RobotoMono-VariableFont_wght', 'normal');
+
+  linePosition += 5;
+  doc.text(
+    `Fecha: ${moment(sale?.sale?.date).format(DateFormats.International.DetailDateTime)}`,
+    leftMargin,
+    linePosition
+  );
+  linePosition += 5;
+  doc.text(`ID: ${sale?.sale?.idSale}`, leftMargin, linePosition);
   linePosition += 7;
 
   // Set Body
-  doc.setFontSize(9);
+  doc.setFontSize(textSize);
   doc.text(separator, leftMargin, linePosition);
   linePosition += 5;
 
@@ -117,7 +122,9 @@ const generateTicket = sale => {
 
   doc.text(`Cambio: `, leftMargin, linePosition);
   doc.text(
-    `${currencyFormatter(sale?.sale?.received - sale?.sale?.total)}`,
+    `${currencyFormatter(
+      sale?.sale?.paymentMethod === 'Tarjeta' ? 0.0 : sale?.sale?.received - sale?.sale?.total
+    )}`,
     rightMargin,
     linePosition
   );
@@ -126,13 +133,18 @@ const generateTicket = sale => {
   linePosition += 10;
   doc.text(separator, leftMargin, linePosition);
   linePosition += 5;
-  doc.text(`Fecha de Impresión: 11/30/2020 12:44 `, leftMargin, linePosition);
+
+  doc.text(
+    `Fecha de Impresión: ${moment(Date.now()).format(DateFormats.SQL)} `,
+    leftMargin,
+    linePosition
+  );
   linePosition += 5;
 
   doc.setFont('RobotoMono-Bold', 'bold');
   doc.text(`Articulos Vendidos: ${sale.detail.length}`, leftMargin, linePosition);
   linePosition += 10;
-  doc.setFontSize(8);
+  doc.setFontSize(smallTextSize);
   doc.text(`¡Picolin agradece su compra, vuelva pronto!`, leftMargin, linePosition);
   doc.setFont('RobotoMono-VariableFont_wght', 'normal');
 
@@ -155,7 +167,7 @@ export const downloadTicketPDF = (sale, ticketTitle) => {
 export const sendToPrintTicket = sale => {
   const doc = generateTicket(sale);
   doc.autoPrint();
-  doc.output('dataurlnewwindow');
+  doc.output('dataurlnewwindow'); // Try to save PDF as a file (not works on ie before 10, and some mobile devices)
   return doc;
 };
 

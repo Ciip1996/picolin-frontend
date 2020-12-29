@@ -62,7 +62,8 @@ export const PageTitles = {
   Dashboard: `${AppName} | Dashboard`,
   NotFound: `${AppName} | Not Found`,
   Inventory: `${AppName} | Inventario`,
-  Transfers: `${AppName} | Transferencias`
+  Transfers: `${AppName} | Transferencias`,
+  TicketGenerator: `${AppName} | Generar Ticket`
 };
 
 export const DrawerName = {
