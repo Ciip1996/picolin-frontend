@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
@@ -9,33 +9,13 @@ import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
 // import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
 // import SalesSummary from 'UI/components/organisms/SalesSummary';
-import { Endpoints } from 'UI/constants/endpoints';
-import API from 'services/API';
-
 import { type User } from 'types/app';
-import { getTicketBlob, downloadTicketPDF, sendToPrintTicket } from 'UI/utils/ticketGenerator';
 import { useStyles, styles } from './styles';
 
 const Home = () => {
   const classes = useStyles();
   const user: User = getCurrentUser();
   const wasReloaded = localStorage.getItem('reloaded');
-  const [fileURL, setFileURL] = useState(null);
-
-  const [data, setData] = useState();
-  const saleId = '99';
-  const getData = async idSale => {
-    const response = await API.get(
-      `${Endpoints.Sales}${Endpoints.GetSaleDetailsByIdSale}`.replace(':id', idSale)
-    );
-    if (response?.data && response?.data?.detail?.length > 0) {
-      setData(response?.data);
-    }
-  };
-
-  useEffect(() => {
-    getData(saleId);
-  }, []);
 
   useEffect(() => {
     document.title = PageTitles.Home;
@@ -48,9 +28,7 @@ const Home = () => {
       }
     };
     forceRefreshingUIRestrictions();
-    const blob = !!data && getTicketBlob(data);
-    setFileURL(blob);
-  }, [data, wasReloaded]);
+  }, [wasReloaded]);
 
   return (
     <>
@@ -73,30 +51,6 @@ const Home = () => {
                   : 'Cargando permisos porfavor espere...'
               }
             />
-            <input
-              type="button"
-              value="Download Ticket"
-              onClick={() => !!data && downloadTicketPDF(data, 'ticket.pdf')}
-            />
-            <input
-              type="button"
-              value="print"
-              onClick={() => !!data && sendToPrintTicket(data, 'ticket.pdf')}
-            />
-            {/* <GlobalSearchbar /> */}
-            <div id="pdfContainer" className={classes.pdfBox}>
-              {fileURL && (
-                <iframe
-                  type="application/pdf"
-                  allowFullScreen
-                  id="inlineFrameExample"
-                  title="Inline Frame Example"
-                  width="100%"
-                  height="100%"
-                  src={`${fileURL}#toolbar=0&navpanes=0`}
-                />
-              )}
-            </div>
           </Grid>
           {/* <Grid
             className={classes.container}
