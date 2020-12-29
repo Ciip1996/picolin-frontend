@@ -1,0 +1,39 @@
+# PR 
+
+Type:
+
+- [ ] Bug fix
+- [x] New feature
+
+Scope:
+
+- [ ] Partial Implementation
+- [x] Complete Implementation
+
+Description:
+
+# Testing
+
+Manual Test:
+
+- [x] Chrome
+- [ ] Mozilla
+- [ ] Safari
+- [ ] Edge
+- [ ] Opera
+
+Unit Test:
+
+- [ ] Sanity passes
+- [ ] Coverage report shows no missing coverage related to changes
+
+# Checklist:
+
+- [ ] Code follows the code guidelines
+- [ ] I have performed a review of my code on AzureDevOps
+- [ ] I have commented on my code (as needed), particularly in hard-to-understand areas
+- [ ] My branch has been rebased on development
+- [ ] I have confirmed all styling matches provided mockups (colors, fonts, dimensions, etc)
+- [ ] There is no code repetition in my Implementation
+- [ ] My components or classes are small enough to accomplish a single responsibility
+- [ ] I provided enough context on the pull request description to make the review easier for the reviewers

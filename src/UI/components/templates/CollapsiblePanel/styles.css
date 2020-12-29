@@ -1,0 +1,61 @@
+.collapser {
+  display: inline-block;
+  padding: 12px;
+  cursor: pointer;
+  transition-timing-function: linear;
+  transition-duration: .15s;
+  transition-property: opacity,filter;
+  border: 0;
+  background-color: transparent;
+}
+.collapser-box {
+  position: relative;
+  display: inline-block;
+  width: 24px;
+  height: 12px;
+}
+.collapser-inner {
+  top: 2px;
+  display: block;
+  margin-top: -2px;
+}
+.collapser-inner, .collapser-inner:after, .collapser-inner:before {
+  position: absolute;
+  width: 24px;
+  height: 2px;
+  transition-timing-function: ease;
+  transition-duration: .15s;
+  transition-property: transform;
+  border-radius: 2px;
+  background-color: #fff;
+}
+.collapser-inner:before {
+  top: 6px;
+  width: 16px;
+  left: 4px;
+  transition-property: transform,opacity;
+}
+.collapser-inner:after {
+  top: 12px;
+  width: 8px;
+  left: 8px;
+  transition-property: transform,opacity;
+}
+.collapser-inner:after, .collapser-inner:before {
+  display: block;
+  content: "";
+}
+.collapser.is-active:hover, .collapser:hover {
+  opacity: .7;
+}
+.collapser.is-active .collapser-inner {
+  transform: translate3d(0,5px,0) rotate(45deg);
+}
+.collapser.is-active .collapser-inner:before {
+  transform: rotate(-45deg) translate3d(-5.71429px,-6px,0);
+  opacity: 0;
+}
+.collapser.is-active .collapser-inner:after {
+  width: 24px;
+  transform: translate3d(-8px,-12px,0) rotate(-90deg);
+}
