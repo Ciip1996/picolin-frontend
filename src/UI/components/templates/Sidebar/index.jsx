@@ -16,6 +16,7 @@ import { getErrorData, nestTernary } from 'UI/utils';
 import { CollapsibleArrowOpen, CollapsibleArrowClosed } from 'UI/res';
 import SalesSummary from 'UI/components/organisms/SalesSummary';
 import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
+import { DEFAULT_ID_STORE } from 'UI/constants/defaults';
 
 import { styles, useStyles, useSidebarStyles } from './styles';
 import sideBarMenu from './SidebarMenu';
@@ -120,7 +121,7 @@ const Sidebar = (props: SidebarProps) => {
   const getData = useCallback(async () => {
     try {
       const queryParams = queryString.stringify({
-        idStore: 1
+        idStore: DEFAULT_ID_STORE
       });
       const response = await API.get(`${Endpoints.GetDayIncome}?${queryParams}`);
       if (response) {
