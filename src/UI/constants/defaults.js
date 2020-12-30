@@ -1,7 +1,7 @@
 // @flow
 const AppName = 'Picolin Store';
 
-export const DEFAULT_ID_STORE = 5;
+export const DEFAULT_ID_STORE = 2;
 
 export const drawerAnchor = 'right';
 
