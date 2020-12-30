@@ -2,6 +2,7 @@
 // import type { UserRole } from 'types/app';
 
 import { AdditionalRecruiterStatus, AdditionalRecruiterType } from 'UI/constants/status';
+import { Roles } from 'UI/constants/roles';
 import { getCurrentUser } from './Authentication';
 
 export const Permissions = {
@@ -57,4 +58,12 @@ export const userHasRole = (roleId: number) => {
     return false;
   }
   return user.roleId === roleId;
+};
+
+export const userHasAdminPermissions = () => {
+  const user = getCurrentUser();
+  if (!user || Number(user.roleId)) {
+    return false;
+  }
+  return user.roleId === Roles.Admin || user.roleId === Roles.SuperAdmin;
 };

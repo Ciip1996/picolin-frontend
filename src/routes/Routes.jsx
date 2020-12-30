@@ -21,8 +21,7 @@ import ErrorPage from 'UI/pages/ErrorPage';
 import Notifier from 'UI/components/molecules/Notifier';
 // import { FeatureFlags } from 'UI/constants/featureFlags';
 // import { getFeatureFlags } from 'UI/utils';
-import { Roles } from 'UI/constants/roles';
-import { userHasRole } from 'services/Authorization';
+import { userHasAdminPermissions } from 'services/Authorization';
 
 // const featureFlags = getFeatureFlags();
 
@@ -30,7 +29,7 @@ const Routes = () => {
   const [isUserAdmin, setIsUserAdmin] = React.useState(false);
 
   React.useEffect(() => {
-    setIsUserAdmin(userHasRole(Roles.Admin));
+    setIsUserAdmin(userHasAdminPermissions());
   }, []);
 
   return (
