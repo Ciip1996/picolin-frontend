@@ -17,7 +17,7 @@ import SaleCard from 'UI/components/organisms/SaleCard';
 import ComboCard from 'UI/components/organisms/ComboCard';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
-import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
+import { drawerAnchor, PageTitles, DEFAULT_ID_STORE } from 'UI/constants/defaults';
 import { currencyFormatter, sleep, getFeatureFlags } from 'UI/utils';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 import { sendToPrintTicket } from 'UI/utils/ticketGenerator';
@@ -60,7 +60,7 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
     ':idStore',
-    '1'
+    DEFAULT_ID_STORE.toString()
   );
 
   const toggleDrawer = (drawer: string, open: boolean) => event => {
@@ -99,13 +99,14 @@ const NewSaleList = (props: NewSaleListProps) => {
       if (response?.data && response?.data?.detail?.length > 0) {
         history.push('/newsale');
         sendToPrintTicket(response?.data);
-      } else
+      } else {
         onShowAlert({
           severity: 'error',
           title: 'Error al generar Ticket',
           autoHideDuration: 8000,
           body: 'Ocurrio un problema, contacte a soporte técnico.'
         });
+      }
     } catch (err) {
       onShowAlert({
         severity: 'error',
@@ -136,7 +137,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         deposit,
         saleType,
         received,
-        idStore = 1,
+        idStore = DEFAULT_ID_STORE,
         totalWithDiscount,
         change,
         products: isProductsAvailable,
@@ -162,9 +163,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         saleDetail,
         received: received || null
       };
-
       const response = await API.post(`${Endpoints.Sales}${Endpoints.NewSale}`, params);
-
       if (response) {
         onShowAlert({
           severity: 'success',
@@ -172,9 +171,7 @@ const NewSaleList = (props: NewSaleListProps) => {
           autoHideDuration: 3000,
           body: `Su venta de ${currencyFormatter(total)} fue realizada con exito!`
         });
-        sleep(1000).then(() => {
-          response?.data?.idSale && onNewSaleFinished(response?.data?.idSale);
-        });
+        response?.data?.idSale && onNewSaleFinished(response?.data?.idSale);
       }
     } catch (err) {
       onShowAlert({

@@ -4,10 +4,10 @@ import { EntityRoutes } from 'routes/constants';
 import { InventoryIcon, TransfersIcon, SalesIcon } from 'UI/res/icons';
 
 import { colors } from 'UI/res';
-import { Roles } from 'UI/constants/roles';
-import { userHasRole } from 'services/Authorization';
+import { userHasAdminPermissions } from 'services/Authorization';
 
-const isUserAdmin = userHasRole(Roles.Admin);
+const isUserAdmin = userHasAdminPermissions();
+
 const sideBarMenu = [
   {
     title: 'Inventario',
