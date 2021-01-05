@@ -126,8 +126,8 @@ const Sidebar = (props: SidebarProps) => {
       const response = await API.get(`${Endpoints.GetDayIncome}?${queryParams}`);
       if (response) {
         setIncome({
-          cash: response.data.find(each => each.paymentMethod === 'Tarjeta')?.value,
-          card: response.data.find(each => each.paymentMethod === 'Efectivo')?.value
+          card: response.data.find(each => each.paymentMethod === 'Tarjeta')?.value,
+          cash: response.data.find(each => each.paymentMethod === 'Efectivo')?.value
         });
       }
     } catch (err) {
