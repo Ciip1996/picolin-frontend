@@ -358,6 +358,7 @@ const NewSaleList = (props: NewSaleListProps) => {
               >
                 <AutocompleteSelect
                   autoFocus
+                  autoSelect
                   name="products"
                   // selectedValue={comboValues.producto}
                   // disabled={!isProductFieldEnabled}
