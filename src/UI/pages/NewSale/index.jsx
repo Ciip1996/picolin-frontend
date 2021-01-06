@@ -51,10 +51,11 @@ const NewSaleList = (props: NewSaleListProps) => {
   const [comboProductsList, setComboProductsList] = useState<Array<Object>>([]);
 
   const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>([]);
+  const [combos, setCombos] = useState(0);
 
   const [loading, setLoading] = useState(true);
 
-  const [comboValues, setComboValues] = useState<MapType>({});
+  const [summaryCardSelectedValues, setSummaryCardSelectedValues] = useState<MapType>({});
 
   const [uiState, setUiState] = useState({
     isAddComboToSaleDrawerOpen: false
@@ -101,7 +102,7 @@ const NewSaleList = (props: NewSaleListProps) => {
     setProductsList([]);
     setComboProductsList([]);
     setComboPackagesList([]);
-    setComboValues({});
+    setSummaryCardSelectedValues({});
     setLoading(true);
     history.push('/sales');
   };
@@ -177,6 +178,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         saleType: null, // todo maybe remove it in the future
         idStore,
         saleDetail,
+        combos,
         received: received || null
       };
       const response = await API.post(`${Endpoints.Sales}${Endpoints.NewSale}`, params);
@@ -337,6 +339,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       setComboProductsList(prevList => {
         return [...prevList, ...listOfProductsFromCombo];
       });
+      setCombos(prev => prev + 1);
     }
   };
 
@@ -389,8 +392,6 @@ const NewSaleList = (props: NewSaleListProps) => {
                   autoFocus
                   autoSelect
                   name="products"
-                  // selectedValue={comboValues.producto}
-                  // disabled={!isProductFieldEnabled}
                   placeholder="Escriba un Producto"
                   url={searchingProductsUrl}
                   displayKey="name"
@@ -452,8 +453,8 @@ const NewSaleList = (props: NewSaleListProps) => {
               </Box>
               <Box style={{ display: 'flex' }}>
                 <SummaryCard
-                  comboValues={comboValues}
-                  setComboValues={setComboValues}
+                  comboValues={summaryCardSelectedValues}
+                  setComboValues={setSummaryCardSelectedValues}
                   onNewItemAdded={calculateSaleCosts}
                   watchFields={watchFields}
                 />
