@@ -11,7 +11,7 @@ const generateTicket = sale => {
   const leftMargin = 5;
   const rightMargin = 60;
   const textColor = 50;
-  const baseHeight = 160;
+  const baseHeight = 180;
   const productsHeight = sale?.detail?.length * 12;
   const smallTextSize = 8;
   const textSize = 9;
@@ -87,9 +87,19 @@ const generateTicket = sale => {
         leftMargin,
         linePosition + 5
       );
-      doc.text(`${currencyFormatter(each?.salePrice)}`, 60, linePosition);
+      doc.text(
+        !each.combo ? `${currencyFormatter(each?.salePrice)}` : 'paquete',
+        rightMargin,
+        linePosition
+      );
       linePosition += 12;
     });
+  // print the combos n times with the default price
+  for (let i = 0; i < sale?.sale?.combos; i += 1) {
+    doc.text(`Paquete Bauticen: `, leftMargin, linePosition);
+    doc.text(`${currencyFormatter(800)}`, rightMargin, linePosition);
+    linePosition += 7;
+  }
 
   doc.text(separator, leftMargin, linePosition);
   linePosition += 5;
