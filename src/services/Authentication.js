@@ -35,7 +35,6 @@ const isAuthenticated = () => {
 };
 
 const logout = async () => {
-  // const response = await API.get('users/logout'); // TODO: replace with logout
   cleanLocalStorage();
 };
 

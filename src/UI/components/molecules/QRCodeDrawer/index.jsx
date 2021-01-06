@@ -44,10 +44,8 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
 
   useEffect(() => {
     setUiState(prevState => ({
-      // TODO remove this is only for eslint not to crash
       ...prevState
     }));
-    // loadFonts();
   }, []);
 
   useEffect(() => {

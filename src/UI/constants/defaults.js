@@ -3,6 +3,13 @@ const AppName = 'Picolin Store';
 
 export const DEFAULT_ID_STORE = 2;
 
+export const ID_TYPES = {
+  diaperRacks: 1,
+  footwear: 5,
+  blanket: 2,
+  ajuar: 3
+};
+
 export const drawerAnchor = 'right';
 
 export const usCenterCoordinates = {
