@@ -11,7 +11,7 @@ import InputContainer from 'UI/components/atoms/InputContainer';
 // import API from 'services/API';
 
 import ListProductRow from 'UI/components/molecules/ListProductRow';
-import { DEFAULT_ID_STORE } from 'UI/constants/defaults';
+import { DEFAULT_ID_STORE, ID_TYPES } from 'UI/constants/defaults';
 import Contents from './strings';
 
 type SaleFormProps = {
@@ -52,7 +52,7 @@ const AddComboForm = (props: SaleFormProps) => {
           name="diaperRacks"
           selectedValue={comboValues.diaperRacks}
           placeholder={Contents[language]?.diaperRacks}
-          url={`${searchingProductsUrl}?idType=1`}
+          url={`${searchingProductsUrl}?idType=${ID_TYPES.diaperRacks}`}
           displayKey="productCode"
           typeahead
           typeaheadLimit={15}
@@ -71,7 +71,7 @@ const AddComboForm = (props: SaleFormProps) => {
           name="footwear"
           selectedValue={comboValues.footwear}
           placeholder={Contents[language]?.footwear}
-          url={`${searchingProductsUrl}?idType=2`}
+          url={`${searchingProductsUrl}?idType=${ID_TYPES.footwear}`}
           displayKey="productCode"
           typeahead
           typeaheadLimit={15}
@@ -90,7 +90,7 @@ const AddComboForm = (props: SaleFormProps) => {
           name="blanket"
           selectedValue={comboValues.blanket}
           placeholder={Contents[language]?.blanket}
-          url={`${searchingProductsUrl}?idType=3`}
+          url={`${searchingProductsUrl}?idType=${ID_TYPES.blanket}`}
           displayKey="productCode"
           typeahead
           typeaheadLimit={15}
@@ -109,7 +109,7 @@ const AddComboForm = (props: SaleFormProps) => {
           name="ajuar"
           selectedValue={comboValues.ajuar}
           placeholder={Contents[language]?.ajuar}
-          url={`${searchingProductsUrl}?idType=3`}
+          url={`${searchingProductsUrl}?idType=${ID_TYPES.ajuar}`}
           displayKey="productCode"
           typeahead
           typeaheadLimit={15}

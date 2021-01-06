@@ -3,14 +3,6 @@ import { input, skeletonRadius } from 'UI/constants/dimensions';
 import { colors } from 'UI/res';
 
 export const globalStyles = {
-  resetButton: {
-    // TODO: update this to tables
-    margin: 0,
-    padding: 0,
-    color: colors.middlegrey,
-    textTransform: 'capitalize',
-    textDecoration: 'underline'
-  },
   profileSkeletonItem: {
     width: '70%',
     height: 8,

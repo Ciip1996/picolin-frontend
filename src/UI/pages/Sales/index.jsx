@@ -149,12 +149,9 @@ const SalesList = (props: SalesListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
-      const { response } = err;
-      console.log(err, response);
       setError(true);
       onShowAlert({
         severity: 'error',
-        // title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
         title: getErrorData(err)?.title || 'Error en conexión',
         body: getErrorData(err).message || JSON.stringify(err)

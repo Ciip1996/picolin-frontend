@@ -32,6 +32,7 @@ import { AddIcon, colors, EmptyActivityLogs } from 'UI/res';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 
 import { FeatureFlags } from 'UI/constants/featureFlags';
+import type { MapType } from 'types';
 import Contents from './strings';
 
 const featureFlags = getFeatureFlags();
@@ -47,10 +48,13 @@ const NewSaleList = (props: NewSaleListProps) => {
   const history = useHistory();
 
   const [productsList, setProductsList] = useState<Array<Object>>([]);
+  const [comboProductsList, setComboProductsList] = useState<Array<Object>>([]);
 
   const [comboPackagesList, setComboPackagesList] = useState<Array<Object>>([]);
 
   const [loading, setLoading] = useState(true);
+
+  const [comboValues, setComboValues] = useState<MapType>({});
 
   const [uiState, setUiState] = useState({
     isAddComboToSaleDrawerOpen: false
@@ -79,7 +83,8 @@ const NewSaleList = (props: NewSaleListProps) => {
     unregister,
     watch,
     getValues,
-    clearError
+    clearError,
+    reset
   } = form;
 
   const watchFields = watch([
@@ -91,19 +96,30 @@ const NewSaleList = (props: NewSaleListProps) => {
     'totalWithDiscount'
   ]); // you can also target specific fields by their names
 
+  const resetForm = () => {
+    reset({});
+    setProductsList([]);
+    setComboProductsList([]);
+    setComboPackagesList([]);
+    setComboValues({});
+    setLoading(true);
+    history.push('/sales');
+  };
+
   const onNewSaleFinished = async idSale => {
     try {
       const response = await API.get(
         `${Endpoints.Sales}${Endpoints.GetSaleDetailsByIdSale}`.replace(':id', idSale)
       );
       if (response?.data && response?.data?.detail?.length > 0) {
-        history.push('/newsale');
+        // clear all data
+        resetForm();
         sendToPrintTicket(response?.data);
       } else {
         onShowAlert({
           severity: 'error',
           title: 'Error al generar Ticket',
-          autoHideDuration: 8000,
+          autoHideDuration: 16000,
           body: 'Ocurrio un problema, contacte a soporte técnico.'
         });
       }
@@ -111,7 +127,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       onShowAlert({
         severity: 'error',
         title: 'Error al generar Ticket',
-        autoHideDuration: 8000,
+        autoHideDuration: 16000,
         body: 'Ocurrio un problema, contacte a soporte técnico.'
       });
       throw err;
@@ -123,7 +139,7 @@ const NewSaleList = (props: NewSaleListProps) => {
     sleep(1000).then(() => {
       setLoading(false);
     });
-  }, []);
+  }, [loading]);
 
   const onSubmit = async (formData: Object) => {
     try {
@@ -144,11 +160,11 @@ const NewSaleList = (props: NewSaleListProps) => {
         ...rest
       } = formData;
 
-      const saleDetail = Object.entries(rest).map(([key, value]) => {
+      let saleDetail = Object.entries(rest).map(([key, value]) => {
         return { productCode: key, quantity: value, combo: 0 };
       });
-
-      /// TODO: add all the products from the combo and set the value combo: 1
+      /// add all the products from the combo
+      saleDetail = [...saleDetail, ...comboProductsList];
 
       const params = {
         idPaymentMethod,
@@ -168,7 +184,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         onShowAlert({
           severity: 'success',
           title: 'Venta Exitosa',
-          autoHideDuration: 3000,
+          autoHideDuration: 16000,
           body: `Su venta de ${currencyFormatter(total)} fue realizada con exito!`
         });
         response?.data?.idSale && onNewSaleFinished(response?.data?.idSale);
@@ -206,7 +222,6 @@ const NewSaleList = (props: NewSaleListProps) => {
       const filteredComboList = prevState.filter((each: Object) => each.id !== comboId);
       return [...filteredComboList];
     });
-    // TODO: register or unregister the react hook form: unregister(productCode);
   };
 
   const registerFormField = useCallback(() => {
@@ -309,6 +324,20 @@ const NewSaleList = (props: NewSaleListProps) => {
     setUiState(prevState => ({ ...prevState, isAddComboToSaleDrawerOpen: false }));
     setComboPackagesList(prevList => [...prevList, { ...comboData, id: uuidv4() }]);
     setValue('products', true, true);
+
+    if (comboData) {
+      const listOfProductsFromCombo = Object.entries(comboData).map(([product, value]) => {
+        return {
+          productCode: value.productCode,
+          quantity: 1,
+          combo: 1,
+          product
+        };
+      });
+      setComboProductsList(prevList => {
+        return [...prevList, ...listOfProductsFromCombo];
+      });
+    }
   };
 
   return (
@@ -422,7 +451,12 @@ const NewSaleList = (props: NewSaleListProps) => {
                 </Box>
               </Box>
               <Box style={{ display: 'flex' }}>
-                <SummaryCard onNewItemAdded={calculateSaleCosts} watchFields={watchFields} />
+                <SummaryCard
+                  comboValues={comboValues}
+                  setComboValues={setComboValues}
+                  onNewItemAdded={calculateSaleCosts}
+                  watchFields={watchFields}
+                />
               </Box>
             </Box>
           </form>

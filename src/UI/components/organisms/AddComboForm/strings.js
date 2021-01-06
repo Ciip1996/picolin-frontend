@@ -4,18 +4,14 @@ const Contents = {
     diaperRacks: 'Diaper Racks *',
     footwear: 'Footwear *',
     blanket: 'Sabana *',
-    ajuar: 'Ajuar *',
-    AddPackages: 'ADD PACKAGES',
-    Add: 'ADD'
+    ajuar: 'Ajuar *'
   },
   Spanish: {
     RequiredMessage: 'No puedes armar un paquete sin este item.',
     diaperRacks: 'Pañaleras *',
     footwear: 'Calzado *',
     blanket: 'Sabana *',
-    ajuar: 'Ajuar *',
-    AddPackages: 'AGREGAR PAQUETES',
-    Add: 'AGREGAR'
+    ajuar: 'Ajuar *'
   }
 };
 export default Contents;

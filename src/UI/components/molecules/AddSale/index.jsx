@@ -39,7 +39,6 @@ const AddSale = (props: AddSaleProps) => {
 
   useEffect(() => {
     setUiState(prevState => ({
-      // TODO remove this is only for eslint not to crash
       ...prevState
     }));
   }, []);

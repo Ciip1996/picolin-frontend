@@ -5,7 +5,6 @@ import Box from '@material-ui/core/Box';
 import Fab from '@material-ui/core/Fab';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-// TODO: check the functionality of this section
 import API from 'services/API';
 import FileSelectorButton from 'UI/components/molecules/FileSelectorButton';
 import { getErrorData } from 'UI/utils';

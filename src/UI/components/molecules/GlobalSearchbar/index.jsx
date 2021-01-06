@@ -152,7 +152,7 @@ const GlobalSearchbar = (props: GlobalSearchbarProps) => {
         getOptionSelected={(option, value) => option.title === value.title}
         options={results}
         groupBy={option => option.firstLetter}
-        onChange={handleChange} // TODO: implement the action after selecting the item.
+        onChange={handleChange}
         value={selectedValue}
         inputValue={inputValue}
         onInputChange={(event, newInputValue) => {

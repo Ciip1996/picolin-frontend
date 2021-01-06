@@ -5,6 +5,7 @@ import ListItem from '@material-ui/core/ListItem';
 import Chip from '@material-ui/core/Chip';
 import ListItemText from '@material-ui/core/ListItemText';
 import { currencyFormatter } from 'UI/utils';
+import { Tooltip } from '@material-ui/core';
 import Contents from './string';
 import { useStyles } from './styles';
 
@@ -26,7 +27,9 @@ const SalesSummary = (props: SalesSummaryProps) => {
         />
         <ListItemText
           secondary={
-            <Chip label={cash ? currencyFormatter(cash) : '...'} className={classes.cash} />
+            <Tooltip title={cash ? currencyFormatter(cash) : '...'} placement="right">
+              <Chip label={cash ? currencyFormatter(cash) : '...'} className={classes.cash} />
+            </Tooltip>
           }
         />
       </ListItem>
@@ -36,7 +39,9 @@ const SalesSummary = (props: SalesSummaryProps) => {
         />
         <ListItemText
           secondary={
-            <Chip label={card ? currencyFormatter(card) : '...'} className={classes.card} />
+            <Tooltip title={card ? currencyFormatter(card) : '...'} placement="right">
+              <Chip label={card ? currencyFormatter(card) : '...'} className={classes.card} />
+            </Tooltip>
           }
         />
       </ListItem>
