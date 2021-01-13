@@ -13,7 +13,7 @@ import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
-import { toLocalTime, getErrorData } from 'UI/utils';
+import { toLocalTime, getErrorData, currencyFormatter } from 'UI/utils';
 import Modal from '@material-ui/core/Modal';
 
 /** API / EntityRoutes / Endpoints / EntityType */
@@ -149,12 +149,9 @@ const SalesList = (props: SalesListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
-      const { response } = err;
-      console.log(err, response);
       setError(true);
       onShowAlert({
         severity: 'error',
-        // title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
         title: getErrorData(err)?.title || 'Error en conexión',
         body: getErrorData(err).message || JSON.stringify(err)
@@ -342,7 +339,7 @@ const SalesList = (props: SalesListProps) => {
         sortDirection: sortDirection[2],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return <CellSkeleton searching={searching}>{currencyFormatter(value)}</CellSkeleton>;
         },
         filterOptions: {
           display: () => {

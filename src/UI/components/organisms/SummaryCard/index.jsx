@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Card from '@material-ui/core/Card';
@@ -32,12 +32,13 @@ const language = localStorage.getItem('language');
 
 type SummaryCardProps = {
   watchFields: Object,
-  onNewItemAdded: any => any
+  onNewItemAdded: any => any,
+  comboValues: Object,
+  setComboValues: any => any
 };
 
 const SummaryCard = (props: SummaryCardProps) => {
-  const { watchFields, onNewItemAdded } = props;
-  const [comboValues, setComboValues] = useState<MapType>({});
+  const { watchFields, onNewItemAdded, comboValues, setComboValues } = props;
 
   const { register, unregister, setValue, errors, getValues, triggerValidation } = useFormContext();
   const classes = useStyles();

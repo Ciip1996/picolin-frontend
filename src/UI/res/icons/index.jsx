@@ -1564,7 +1564,6 @@ export const SearchProjectIcon = (props: Object) => {
   );
 };
 
-
 export const SendBulkIcon = (props: IconProps) => {
   const { size = defaultIconSize, ...rest } = props;
 

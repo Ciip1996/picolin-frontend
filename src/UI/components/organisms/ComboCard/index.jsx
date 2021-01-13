@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
 
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
@@ -31,7 +30,7 @@ const ComboCard = (props: ComboCardProps) => {
     onRemoveItem(id);
   };
 
-  const { register } = useFormContext();
+  // const { register } = useFormContext();
 
   // useEffect(() => {
   // register({
@@ -42,7 +41,7 @@ const ComboCard = (props: ComboCardProps) => {
 
   return (
     <Card className={classes.card}>
-      <input name="combo 1 productCode" ref={register} style={{ display: 'none' }} />
+      {/* <input name="combo 1 productCode" ref={register} style={{ display: 'none' }} /> */}
       <Box className={classes.header} spacing={2}>
         {/* <Tooltip title={`${1}`}>
           <span>
