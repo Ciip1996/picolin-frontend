@@ -1,7 +1,10 @@
 // @flow
 const AppName = 'Picolin Store';
 
-export const DEFAULT_ID_STORE = 2;
+export const DEFAULT_STORE = {
+  id: 2,
+  title: 'Centro'
+};
 
 export const ID_TYPES = {
   diaperRacks: 1,

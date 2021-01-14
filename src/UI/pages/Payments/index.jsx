@@ -120,7 +120,7 @@ const PaymentList = (props: PaymentListProps) => {
       saveFilters('payments', { filters, params });
 
       const queryParams = queryString.stringify(params);
-      debugger;
+
       const url = `${Endpoints.Cashier}${Endpoints.StorePayments}?`.replace(
         ':idStore',
         store_filter ? store_filter?.id : 'ALL'
@@ -315,7 +315,7 @@ const PaymentList = (props: PaymentListProps) => {
                 <AutocompleteSelect
                   name="category_filter"
                   placeholder={Contents[language]?.Category}
-                  url={Endpoints.GetTypes}
+                  url={Endpoints.StorePaymentCategories}
                   selectedValue={filters.category_filter}
                   onSelect={handleFilterChange}
                 />

@@ -119,9 +119,6 @@ const NavBar = () => {
                       Registrar Usuario
                     </MenuItem>
                   ) : null}
-                  <MenuItem onClick={handleLogout} className={classes.menuLink}>
-                    Agregar Compra
-                  </MenuItem>
                   <MenuItem onClick={handleLogout} className={classes.loginLink}>
                     Cerrar Sesión
                   </MenuItem>

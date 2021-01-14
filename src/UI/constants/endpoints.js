@@ -21,6 +21,7 @@ export const Endpoints = {
   Genders: 'lists/getGenders',
   Users: 'lists/getUsers',
   StorePayments: '/getStorePayments/:idStore',
+  StorePaymentCategories: '/lists/getStorePaymentCategories',
   PaymentMethods: 'lists/getPaymentMethods',
   Login: '/login',
   RegisterUser: '/registerUser',

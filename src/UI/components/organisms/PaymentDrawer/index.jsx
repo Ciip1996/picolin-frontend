@@ -7,10 +7,13 @@ import Text from 'UI/components/atoms/Text';
 import InputContainer from 'UI/components/atoms/InputContainer';
 import TextBox from 'UI/components/atoms/TextBox';
 import { Endpoints } from 'UI/constants/endpoints';
+import { DEFAULT_STORE } from 'UI/constants/defaults';
+import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 
 import type { MapType } from 'types';
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
+import { getCurrentUser } from 'services/Authentication';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -81,6 +84,16 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
       }
     );
     register(
+      { name: 'idCategory' },
+      {
+        required: `${Contents[language]?.requiredField}`,
+        validate: value => {
+          return value !== watch('idCategory') || `${Contents[language]?.sameStore}`;
+        }
+      }
+    );
+
+    register(
       { name: 'idCost' },
       {
         required: `${Contents[language]?.requiredField}`,
@@ -94,10 +107,6 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
     registerFormField();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [register]);
-
-  // useEffect(() => {
-  //   if (comboValues.idConcept && comboValues.idCost) setValue('products', undefined, true);
-  // }, [comboValues.idCost, comboValues.idConcept, setValue]);
 
   return (
     <>
@@ -117,7 +126,41 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
                 <br />
                 <InputContainer>
                   <TextBox
+                    outPutValue
+                    name="idUser"
+                    value={getCurrentUser().userName}
+                    label={Contents[language]?.User}
+                    error={!!errors?.idUser}
+                    errorText={errors?.idUser && errors?.idUser.message}
+                    onChange={handleComboChange}
+                  />
+                </InputContainer>
+                <InputContainer>
+                  <TextBox
+                    outPutValue
+                    name="idStore"
+                    value={DEFAULT_STORE.title}
+                    label={Contents[language]?.Store}
+                    error={!!errors?.idUser}
+                    errorText={errors?.idUser && errors?.idUser.message}
+                    onChange={handleComboChange}
+                  />
+                </InputContainer>
+                <InputContainer>
+                  <AutocompleteSelect
                     autoFocus
+                    name="idCategory"
+                    selectedValue={comboValues.idCategory}
+                    placeholder={Contents[language]?.Category}
+                    url={`${Endpoints.StorePaymentCategories}`}
+                    onSelect={handleComboChange}
+                    getOptionSelected={(option, value) => option.id === value.id}
+                    error={!!errors?.idCategory}
+                    errorText={errors?.idCategory && errors?.idCategory.message}
+                  />
+                </InputContainer>
+                <InputContainer>
+                  <TextBox
                     name="idConcept"
                     selectedValue={comboValues.idConcept}
                     label={Contents[language]?.Concept}
