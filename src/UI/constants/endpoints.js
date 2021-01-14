@@ -1,4 +1,5 @@
 export const Endpoints = {
+  Cashier: '/cashier',
   Inventory: '/inventory',
   GetInventory: '/getInventory/:idStore',
   InsertInventory: '/insertInventory',
@@ -19,6 +20,7 @@ export const Endpoints = {
   Sizes: 'lists/getSizes',
   Genders: 'lists/getGenders',
   Users: 'lists/getUsers',
+  StorePayments: '/getStorePayments/:idStore',
   PaymentMethods: 'lists/getPaymentMethods',
   Login: '/login',
   RegisterUser: '/registerUser',

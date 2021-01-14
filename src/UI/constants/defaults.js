@@ -70,7 +70,8 @@ export const PageTitles = {
   Home: `${AppName} | Inicio`,
   NotFound: `${AppName} | Not Found`,
   Inventory: `${AppName} | Inventario`,
-  Transfers: `${AppName} | Transferencias`
+  Transfers: `${AppName} | Transferencias`,
+  Payments: `${AppName} | Pagos`
 };
 
 export const DrawerName = {
