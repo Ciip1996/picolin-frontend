@@ -1,5 +1,6 @@
 export const Endpoints = {
   Cashier: '/cashier',
+  CloseCashier: '/closeCashier',
   Inventory: '/inventory',
   GetInventory: '/getInventory/:idStore',
   InsertInventory: '/insertInventory',

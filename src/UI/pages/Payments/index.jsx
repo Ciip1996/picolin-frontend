@@ -127,10 +127,9 @@ const PaymentList = (props: PaymentListProps) => {
         store_filter ? store_filter?.id : 'ALL'
       );
 
-      // const url = `${Endpoints.Cashier}${Endpoints.StorePayments}?:${store_filter}`;
       const response = await API.get(`${url}${queryParams}`);
       if (response?.status === 200) {
-        setData(response?.data || []);
+        setData(response?.data?.payments || []);
       }
       setCount(Number(response?.data?.totalResults) || 0);
       setLoading(false);

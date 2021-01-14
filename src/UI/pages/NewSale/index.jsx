@@ -328,9 +328,9 @@ const NewSaleList = (props: NewSaleListProps) => {
     setValue('products', true, true);
 
     if (comboData) {
-      const listOfProductsFromCombo = Object.entries(comboData).map(([product, value]) => {
+      const listOfProductsFromCombo = Object.entries(comboData).map(([product, value]: any) => {
         return {
-          productCode: value.productCode,
+          productCode: value?.productCode,
           quantity: 1,
           combo: 1,
           product
