@@ -84,7 +84,7 @@ const PaymentList = (props: PaymentListProps) => {
     direction: savedParams?.direction || undefined,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isPaymentDrawerOpen: false
+    isPaymentDrawerOpen: true
   });
 
   const getDateStringFromFilter = (filterDate: any) => {
