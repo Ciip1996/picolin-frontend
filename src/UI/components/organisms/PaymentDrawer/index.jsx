@@ -14,6 +14,7 @@ import type { MapType } from 'types';
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
 import { getCurrentUser } from 'services/Authentication';
+import { currencyFormatter } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -31,29 +32,32 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
   const classes = useStyles();
 
   const form = useForm();
-  const { register, errors, handleSubmit, setValue, watch } = form;
+  const { register, errors, handleSubmit, setValue } = form;
 
   // const vals = getValues();
   // console.log(vals);
 
   const onSubmit = async (formData: Object) => {
     try {
-      const { idCost, idConcept, products: isProductsAvailable, ...rest } = formData;
-      const products = Object.entries(rest).map(([key, value]) => {
-        return { productCode: key, quantity: value };
-      });
+      const { cost, concept, idStorePaymentCategory } = formData;
       const params = {
-        idCost,
-        idConcept,
-        products
+        cost,
+        concept,
+        idStore: DEFAULT_STORE.id,
+        idStorePaymentCategory
       };
-      const response = await API.post(`${Endpoints.Transfers}${Endpoints.InsertTransfer}`, params);
+      const response = await API.post(
+        `${Endpoints.Cashier}${Endpoints.RegisterStorePayment}`,
+        params
+      );
       if (response) {
         onShowAlert({
           severity: 'success',
           title: 'Transferencia Exitosa',
-          autoHideDuration: 3000,
-          body: `Se ha registrado un pago con concepto de ${comboValues.idConcept.title} por ${comboValues.idCost.title} pesos`
+          autoHideDuration: 8000,
+          body: `Se ha registrado su pago con concepto de "${concept}" por ${currencyFormatter(
+            cost
+          )} pesos`
         });
         onRegisterPayment();
       }
@@ -68,6 +72,11 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
     }
   };
 
+  const handleTextChange = (name?: string, value: any) => {
+    setValue(name, value, true);
+    setComboValues({ ...comboValues });
+  };
+
   const handleComboChange = (name?: string, value: any) => {
     setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
     setValue(name, value ? value.id : value, true);
@@ -75,31 +84,22 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
 
   const registerFormField = () => {
     register(
-      { name: 'idConcept' },
+      { name: 'concept' },
       {
-        required: `${Contents[language]?.requiredField}`,
-        validate: value => {
-          return value !== watch('idCost') || `${Contents[language]?.sameStore}`;
-        }
+        required: `${Contents[language]?.requiredField}`
       }
     );
     register(
-      { name: 'idCategory' },
+      { name: 'idStorePaymentCategory' },
       {
-        required: `${Contents[language]?.requiredField}`,
-        validate: value => {
-          return value !== watch('idCategory') || `${Contents[language]?.sameStore}`;
-        }
+        required: `${Contents[language]?.requiredField}`
       }
     );
 
     register(
-      { name: 'idCost' },
+      { name: 'cost' },
       {
-        required: `${Contents[language]?.requiredField}`,
-        validate: value => {
-          return value !== watch('idConcept') || `${Contents[language]?.sameStore}`;
-        }
+        required: `${Contents[language]?.requiredField}`
       }
     );
   };
@@ -132,7 +132,6 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
                     label={Contents[language]?.User}
                     error={!!errors?.idUser}
                     errorText={errors?.idUser && errors?.idUser.message}
-                    onChange={handleComboChange}
                   />
                 </InputContainer>
                 <InputContainer>
@@ -143,41 +142,41 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
                     label={Contents[language]?.Store}
                     error={!!errors?.idUser}
                     errorText={errors?.idUser && errors?.idUser.message}
-                    onChange={handleComboChange}
                   />
                 </InputContainer>
                 <InputContainer>
                   <AutocompleteSelect
-                    autoFocus
-                    name="idCategory"
-                    selectedValue={comboValues.idCategory}
+                    name="idStorePaymentCategory"
+                    selectedValue={comboValues.idStorePaymentCategory}
                     placeholder={Contents[language]?.Category}
                     url={`${Endpoints.StorePaymentCategories}`}
                     onSelect={handleComboChange}
                     getOptionSelected={(option, value) => option.id === value.id}
-                    error={!!errors?.idCategory}
-                    errorText={errors?.idCategory && errors?.idCategory.message}
+                    error={!!errors?.idStorePaymentCategory}
+                    errorText={
+                      errors?.idStorePaymentCategory && errors?.idStorePaymentCategory.message
+                    }
                   />
                 </InputContainer>
                 <InputContainer>
                   <TextBox
-                    name="idConcept"
-                    selectedValue={comboValues.idConcept}
+                    name="concept"
+                    selectedValue={comboValues.concept}
                     label={Contents[language]?.Concept}
-                    error={!!errors?.idConcept}
-                    errorText={errors?.idConcept && errors?.idConcept.message}
-                    onChange={handleComboChange}
+                    error={!!errors?.concept}
+                    errorText={errors?.concept && errors?.concept.message}
+                    onChange={handleTextChange}
                   />
                 </InputContainer>
                 <InputContainer>
                   <TextBox
                     inputType="currency"
-                    name="idCost"
-                    selectedValue={comboValues.idCost}
+                    name="cost"
+                    selectedValue={comboValues.cost}
                     label={Contents[language]?.Cost}
-                    error={!!errors?.idCost}
-                    errorText={errors?.idCost && errors?.idCost.message}
-                    onChange={handleComboChange}
+                    error={!!errors?.cost}
+                    errorText={errors?.cost && errors?.cost.message}
+                    onChange={handleTextChange}
                   />
                 </InputContainer>
               </div>

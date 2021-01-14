@@ -9,6 +9,7 @@ import { FormControl } from '@material-ui/core';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import CustomDatePicker from 'UI/components/atoms/CustomDatePicker';
+import { currencyFormatter, getErrorData, toLocalTime } from 'UI/utils';
 
 import { showAlert } from 'actions/app';
 import { drawerAnchor, PageTitles, DateFormats } from 'UI/constants/defaults';
@@ -26,7 +27,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorData, toLocalTime } from 'UI/utils';
+
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters, saveFilters } from 'services/FiltersStorage';
@@ -84,7 +85,7 @@ const PaymentList = (props: PaymentListProps) => {
     direction: savedParams?.direction || undefined,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isPaymentDrawerOpen: true
+    isPaymentDrawerOpen: false
   });
 
   const getDateStringFromFilter = (filterDate: any) => {
@@ -335,7 +336,7 @@ const PaymentList = (props: PaymentListProps) => {
         sortDirection: sortDirection[4],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return <CellSkeleton searching={searching}>{currencyFormatter(value)}</CellSkeleton>;
         }
       }
     },

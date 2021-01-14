@@ -22,6 +22,7 @@ export const Endpoints = {
   Users: 'lists/getUsers',
   StorePayments: '/getStorePayments/:idStore',
   StorePaymentCategories: '/lists/getStorePaymentCategories',
+  RegisterStorePayment: '/registerStorePayment',
   PaymentMethods: 'lists/getPaymentMethods',
   Login: '/login',
   RegisterUser: '/registerUser',
