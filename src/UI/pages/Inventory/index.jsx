@@ -19,8 +19,8 @@ import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import TextBox from 'UI/components/atoms/TextBox';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import AddInventoryProductDrawer from 'UI/components/molecules/AddInventoryProductDrawer';
-import QRCodeDrawer from 'UI/components/molecules/QRCodeDrawer';
+import AddInventoryProductDrawer from 'UI/components/organisms/AddInventoryProductDrawer';
+import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';

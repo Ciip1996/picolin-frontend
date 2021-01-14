@@ -17,7 +17,7 @@ import { drawerAnchor, PageTitles, DateFormats } from 'UI/constants/defaults';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import DataTable from 'UI/components/organisms/DataTable';
-import TransferProductsDrawer from 'UI/components/molecules/TransferDrawer';
+import TransferProductsDrawer from 'UI/components/organisms/TransferDrawer';
 import Drawer from '@material-ui/core/Drawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
