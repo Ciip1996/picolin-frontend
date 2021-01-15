@@ -120,7 +120,8 @@ import {
   SignaturesIcon,
   TicketIcon,
   PrintIcon,
-  DownloadFileIcon
+  DownloadFileIcon,
+  PaymentIcon
 } from './icons';
 
 export {
@@ -243,5 +244,6 @@ export {
   SignaturesIcon,
   TicketIcon,
   PrintIcon,
-  DownloadFileIcon
+  DownloadFileIcon,
+  PaymentIcon
 };

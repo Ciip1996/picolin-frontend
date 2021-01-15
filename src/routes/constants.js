@@ -5,5 +5,6 @@ export const EntityRoutes = {
   NewSale: '/newsale',
   Sales: '/sales',
   Transfers: '/transfers',
-  RegisterUser: '/register'
+  RegisterUser: '/register',
+  Payments: '/payments'
 };

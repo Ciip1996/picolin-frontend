@@ -64,7 +64,7 @@ const TransferDrawer = (props: TransferDrawerProps) => {
         severity: 'error',
         title: 'Error al transferir',
         autoHideDuration: 3000,
-        body: 'Ocurrio un problema'
+        body: 'Ocurrió un problema'
       });
       throw err;
     }

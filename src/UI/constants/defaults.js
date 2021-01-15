@@ -1,7 +1,10 @@
 // @flow
 const AppName = 'Picolin Store';
 
-export const DEFAULT_ID_STORE = 2;
+export const DEFAULT_STORE = {
+  id: 2,
+  title: 'Centro'
+};
 
 export const ID_TYPES = {
   diaperRacks: 1,
@@ -70,7 +73,8 @@ export const PageTitles = {
   Home: `${AppName} | Inicio`,
   NotFound: `${AppName} | Not Found`,
   Inventory: `${AppName} | Inventario`,
-  Transfers: `${AppName} | Transferencias`
+  Transfers: `${AppName} | Transferencias`,
+  Payments: `${AppName} | Pagos`
 };
 
 export const DrawerName = {

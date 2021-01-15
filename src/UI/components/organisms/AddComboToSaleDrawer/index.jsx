@@ -57,7 +57,7 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
         severity: 'error',
         title: 'Error',
         autoHideDuration: 3000,
-        body: 'Ocurrio un problema'
+        body: 'Ocurrió un problema'
       });
       throw err;
     }
