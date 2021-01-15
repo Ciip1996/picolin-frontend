@@ -20,7 +20,7 @@ import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
 import { drawerAnchor, PageTitles, DEFAULT_STORE } from 'UI/constants/defaults';
 import { currencyFormatter, sleep, getFeatureFlags } from 'UI/utils';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
-import { sendToPrintTicket } from 'UI/utils/ticketGenerator';
+import { sendToPrintSaleTicket } from 'UI/utils/ticketGenerator';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -115,7 +115,7 @@ const NewSaleList = (props: NewSaleListProps) => {
       if (response?.data && response?.data?.detail?.length > 0) {
         // clear all data
         resetForm();
-        sendToPrintTicket(response?.data);
+        sendToPrintSaleTicket(response?.data);
       } else {
         onShowAlert({
           severity: 'error',

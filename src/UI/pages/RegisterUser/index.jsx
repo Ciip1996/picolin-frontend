@@ -84,17 +84,18 @@ const RegisterUser = (props: RegisterProps) => {
         setError('user', 'notMatch', Contents[language]?.userAlreadyExists);
         showAlert({
           severity: 'warning',
-          title: `Login`,
+          title: response?.data?.title ? response?.data?.title : `Error ${response.status}`,
+          code: response?.status || '500',
           autoHideDuration: 800000,
-          body: `${response?.data?.mensaje}`
+          body: `${response?.data?.message}`
         });
       } else {
         showAlert({
           severity: 'error',
-          title: response?.status ? `Error ${response.status}` : `Error`,
+          title: response?.data?.title ? response?.data?.title : `Error ${response.status}`,
           code: response?.status || '500',
           autoHideDuration: 800000,
-          body: Contents[language]?.errServer
+          body: response?.data?.message || Contents[language]?.errServer
         });
       }
     } finally {
