@@ -121,7 +121,7 @@ const NewSaleList = (props: NewSaleListProps) => {
           severity: 'error',
           title: 'Error al generar Ticket',
           autoHideDuration: 16000,
-          body: 'Ocurrio un problema, contacte a soporte técnico.'
+          body: 'Ocurrió un problema, contacte a soporte técnico.'
         });
       }
     } catch (err) {
@@ -129,7 +129,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         severity: 'error',
         title: 'Error al generar Ticket',
         autoHideDuration: 16000,
-        body: 'Ocurrio un problema, contacte a soporte técnico.'
+        body: 'Ocurrió un problema, contacte a soporte técnico.'
       });
       throw err;
     }
@@ -196,7 +196,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         severity: 'error',
         title: 'Error en venta',
         autoHideDuration: 3000,
-        body: 'Ocurrio un problema'
+        body: 'Ocurrió un problema'
       });
       throw err;
     }

@@ -81,7 +81,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
         severity: 'error',
         title: 'Error de Impresión',
         autoHideDuration: 8000,
-        body: 'Ocurrio un problema al mandar a Imprimir'
+        body: 'Ocurrió un problema al mandar a Imprimir'
       });
       throw err;
     }

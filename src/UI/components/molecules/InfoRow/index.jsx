@@ -27,7 +27,17 @@ const InfoRow = (props: InfoRowProps) => {
             name="display_subtotal"
             className={classes.value}
             variant="body1"
-            text={value && isValueCurrency ? currencyFormatter(value) : '--'}
+            text={
+              value !== null &&
+              value !== Number.NaN &&
+              value !== '' &&
+              value !== false &&
+              value !== undefined &&
+              !Number.isNaN(value) &&
+              isValueCurrency
+                ? currencyFormatter(value)
+                : '--'
+            }
             fontSize={16}
           />
         </Grid>

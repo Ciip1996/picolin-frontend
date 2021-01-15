@@ -3,10 +3,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { FormContext, useFormContext } from 'react-hook-form';
 import moment from 'moment';
 import queryString from 'query-string';
-
 import Grid from '@material-ui/core/Grid';
-
 import Box from '@material-ui/core/Box';
+
+import { getErrorData } from 'UI/utils';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
 import InfoRow from 'UI/components/molecules/InfoRow';
@@ -23,18 +23,18 @@ import Contents from './strings';
 type CloseCashierDrawerProps = {
   cashierData: Object,
   handleClose: any => any,
-  onShowAlert: any => any,
+  onShowAlert: any => void,
   onConfirmedCloseCashier: () => any
 };
 
 const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
-  const { cashierData, handleClose, onShowAlert, onConfirmedCloseCashier } = props;
+  const { handleClose, onShowAlert, onConfirmedCloseCashier } = props;
   const language = localStorage.getItem('language');
 
   const classes = useStyles();
 
   const form = useFormContext();
-  const { register, handleSubmit, getValues } = form;
+  const { handleSubmit, getValues } = form;
   const [todaysPayments, setTodaysPayments] = useState([]);
   const [income, setIncome] = useState({
     cash: null,
@@ -42,12 +42,12 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
   });
 
   const [cashier, setCashier] = useState({});
-  const [diff, setDiff] = useState(0);
+  const [diff, setDiff] = useState(Number(0.0));
 
   const [cashierInformation, setCashierInformation] = useState([]);
 
-  const vals = getValues();
-  console.log(vals);
+  // const vals = getValues();
+  // console.log(vals);
 
   const onSubmit = async (formData: Object) => {
     try {
@@ -55,9 +55,9 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
       const params = {
         cash,
         card,
-        idStore: DEFAULT_STORE.id
+        idStore: DEFAULT_STORE.id,
+        payments: todaysPayments.map(each => each.idpayment)
       };
-      debugger;
       const response = await API.post(`${Endpoints.Cashier}${Endpoints.CloseCashier}`, params);
       if (response) {
         onShowAlert({
@@ -73,13 +73,13 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
         severity: 'error',
         title: 'Error al registrar el pago',
         autoHideDuration: 3000,
-        body: 'Ocurrio un problema'
+        body: 'Ocurrió un problema'
       });
       throw err;
     }
   };
 
-  const getLstOfTodaysPayments = useCallback(async () => {
+  const getListOfTodaysPayments = useCallback(async () => {
     try {
       const queryParams = queryString.stringify({
         date: moment(Date.now()).format(DateFormats.SQL)
@@ -91,14 +91,13 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
       const response = await API.get(`${url}${queryParams}`);
       if (response) {
         setTodaysPayments(response?.data?.payments);
-        // onConfirmedCloseCashier();
       }
     } catch (err) {
       onShowAlert({
         severity: 'error',
         title: 'Error al Obtener lista de pagos del día',
         autoHideDuration: 3000,
-        body: 'Ocurrio un problema'
+        body: 'Ocurrió un problema'
       });
       throw err;
     }
@@ -117,40 +116,37 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
         });
       }
     } catch (err) {
-      console.log(err);
-      debugger;
-      // showAlert({
-      //   severity: 'error',
-      //   title: getErrorData(err)?.title || 'Error en conexión',
-      //   autoHideDuration: 800000,
-      //   body: JSON.stringify(getErrorData(err)?.message) || 'Contacte a soporte técnico'
-      // });
+      onShowAlert({
+        severity: 'error',
+        title: getErrorData(err)?.title || 'Error en conexión',
+        autoHideDuration: 800000,
+        body: JSON.stringify(getErrorData(err)?.message) || 'Contacte a soporte técnico'
+      });
       throw err;
     }
-  }, []);
+  }, [onShowAlert]);
 
   useEffect(() => {
-    getLstOfTodaysPayments();
+    getListOfTodaysPayments();
     getIncomeData();
+  }, [getIncomeData, getListOfTodaysPayments]);
 
+  useEffect(() => {
+    const { card, cash } = income;
     const totalOfCashPayments =
-      Number(todaysPayments.reduce((total, obj) => obj.cost && Number(obj.cost) + total, 0)) * -1;
+      todaysPayments?.length > 0
+        ? Number(todaysPayments.reduce((total, obj) => obj.cost && Number(obj.cost) + total, 0)) *
+          -1
+        : Number(0.0);
     setCashier({
-      initial: 1000.0,
-      cashSales: income?.cash ? Number(income?.cash) : 0.0,
-      cardSales: income?.card ? Number(income?.card) : 0.0,
-      cashInCashier: getValues('cash'),
-      terminalAmountRegistered: getValues('card'),
+      initial: Number(1000.0),
+      cashSales: cash ? Number(cash) : 0.0,
+      cardSales: card ? Number(card) : 0.0,
+      cashInCashier: Number(getValues('cash')),
+      terminalAmountRegistered: Number(getValues('card')),
       totalOfCashPayments
     });
-  }, [
-    getIncomeData,
-    getLstOfTodaysPayments,
-    getValues,
-    income?.card,
-    income?.cash,
-    todaysPayments
-  ]);
+  }, [getIncomeData, getListOfTodaysPayments, getValues, income, todaysPayments]);
 
   useEffect(() => {
     setCashierInformation([
@@ -182,13 +178,12 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
   }, [cashier]);
 
   useEffect(() => {
-    const newDiff = cashierInformation.reduce(
-      (total, obj) => obj.cost && Number(obj.cost) + total,
-      0
-    );
-    debugger;
+    // calculate the difference if existing
+    const totalInCashier = cashier.initial + cashier.cashSales;
+    const totalAmountValid = cashier.cashInCashier - cashier.totalOfCashPayments;
+    const newDiff = -totalInCashier + totalAmountValid;
     setDiff(newDiff);
-  }, [cashierInformation]);
+  }, [cashier.cashInCashier, cashier.cashSales, cashier.initial, cashier.totalOfCashPayments]);
 
   return (
     <>
@@ -207,9 +202,13 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
                 <Grid component="nav">
                   <Text variant="body2" text={Contents[language]?.PaymentsSubtitle} fontSize={13} />
                   <br />
-                  {todaysPayments.map((each: Object) => {
-                    return <InfoRow title={each.concept} value={each.cost} isValueCurrency />;
-                  })}
+                  {todaysPayments ? (
+                    todaysPayments.map((each: Object) => {
+                      return <InfoRow title={each.concept} value={each.cost} isValueCurrency />;
+                    })
+                  ) : (
+                    <InfoRow title="No se registró ningún pago hoy" value={null} />
+                  )}
                 </Grid>
                 <br />
                 <Text variant="body2" text={Contents[language]?.SummarySubtitle} fontSize={13} />

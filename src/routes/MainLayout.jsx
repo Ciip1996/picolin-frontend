@@ -4,12 +4,14 @@ import ScrollToTop from 'react-router-scroll-top';
 import { useHistory } from 'react-router-dom';
 import Drawer from '@material-ui/core/Drawer';
 import { FormContext, useForm } from 'react-hook-form';
+import { connect } from 'react-redux';
 
 import Sidebar from 'UI/components/templates/Sidebar';
 import NavBar from 'UI/components/organisms/NavBar';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import CloseCashierDrawer from 'UI/components/organisms/CloseCashierDrawer';
 import ConfirmCloseCashierDrawer from 'UI/components/organisms/ConfirmCloseCashierDrawer';
+import { showAlert } from 'actions/app';
 
 import { drawerAnchor } from 'UI/constants/defaults';
 
@@ -18,19 +20,19 @@ import { sideBarWidth, navBarHeight } from 'UI/constants/dimensions';
 import { EntityRoutes } from 'routes/constants';
 
 // eslint-disable-next-line no-unused-vars
-const MainLayout = ({ children, ...rest }: Object) => {
+const MainLayout = ({ children, onShowAlert, ...rest }: Object) => {
   const history = useHistory();
 
   const [uiState, setUiState] = useState({
-    isConfirmCloseCashierDrawerOpen: true,
+    isConfirmCloseCashierDrawerOpen: false,
     isCloseCashierDrawerOpen: false,
     closeCashierForm: undefined
   });
 
   const form = useForm({
     defaultValues: {
-      card: 200,
-      cash: 200
+      card: 0,
+      cash: 0
     }
   });
 
@@ -67,7 +69,11 @@ const MainLayout = ({ children, ...rest }: Object) => {
     setUiState(prevState => ({ ...prevState, isCloseCashierDrawerOpen: true }));
   };
   const onConfirmedCloseCashier = () => {
-    setUiState(prevState => ({ ...prevState, isCloseCashierDrawerOpen: false }));
+    setUiState(prevState => ({
+      ...prevState,
+      isCloseCashierDrawerOpen: false,
+      isConfirmCloseCashierDrawerOpen: false
+    }));
   };
 
   const onContinueWithCloseCashier = formData => {
@@ -116,7 +122,7 @@ const MainLayout = ({ children, ...rest }: Object) => {
           <div role="presentation">
             <CloseCashierDrawer
               onContinue={onContinueWithCloseCashier}
-              onShowAlert={() => {}}
+              onShowAlert={onShowAlert}
               handleClose={toggleDrawer('isCloseCashierDrawerOpen', false)}
             />
           </div>
@@ -130,7 +136,7 @@ const MainLayout = ({ children, ...rest }: Object) => {
             <ConfirmCloseCashierDrawer
               cashierData={uiState?.closeCashierForm ? uiState?.closeCashierForm : undefined}
               onConfirmedCloseCashier={onConfirmedCloseCashier}
-              onShowAlert={() => {}}
+              onShowAlert={onShowAlert}
               handleClose={toggleDrawer('isConfirmCloseCashierDrawerOpen', false)}
             />
           </div>
@@ -140,4 +146,10 @@ const MainLayout = ({ children, ...rest }: Object) => {
   );
 };
 
-export default MainLayout;
+const mapDispatchToProps = dispatch => {
+  return {
+    onShowAlert: alert => dispatch(showAlert(alert))
+  };
+};
+
+export default connect(null, mapDispatchToProps)(MainLayout);

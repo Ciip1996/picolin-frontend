@@ -66,7 +66,7 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
         severity: 'error',
         title: 'Error al registrar el pago',
         autoHideDuration: 3000,
-        body: 'Ocurrio un problema'
+        body: 'Ocurrió un problema'
       });
       throw err;
     }

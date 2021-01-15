@@ -22,7 +22,10 @@ const language = localStorage.getItem('language');
 
 const CloseCashierDrawer = (props: CloseCashierDrawerProps) => {
   const { handleClose, onShowAlert, onContinue } = props;
-  const [comboValues, setComboValues] = useState<MapType>({});
+  const [comboValues, setComboValues] = useState<MapType>({
+    card: 45,
+    cash: 1000
+  });
 
   const classes = useStyles();
 
@@ -43,7 +46,7 @@ const CloseCashierDrawer = (props: CloseCashierDrawerProps) => {
         severity: 'error',
         title: 'Error al registrar el pago',
         autoHideDuration: 3000,
-        body: 'Ocurrio un problema'
+        body: 'Ocurrió un problema'
       });
       throw err;
     }
@@ -68,8 +71,6 @@ const CloseCashierDrawer = (props: CloseCashierDrawerProps) => {
         required: `${Contents[language]?.requiredField}`
       }
     );
-    setValue('cash', 100, true);
-    setValue('card', 10, true);
   };
   useEffect(() => {
     registerFormField();
