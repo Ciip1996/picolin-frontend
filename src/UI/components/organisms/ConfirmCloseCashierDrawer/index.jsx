@@ -17,6 +17,7 @@ import { DEFAULT_STORE, DateFormats } from 'UI/constants/defaults';
 
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
+import { sendToPrintAndDownloadCashierTicket } from 'UI/utils/ticketGenerator';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -67,6 +68,16 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
           body: `Se ha confirmado su corte de caja de forma exitosa.`
         });
         onConfirmedCloseCashier();
+        sendToPrintAndDownloadCashierTicket(
+          {
+            cashierInformation,
+            ticket: response?.data?.closeCashierId,
+            date: undefined,
+            idSale: response?.data?.closeCashierId,
+            difference
+          },
+          `corte_de_caja_#${response?.data?.closeCashierId}.pdf`
+        );
       }
     } catch (err) {
       onShowAlert({
@@ -151,27 +162,27 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
   useEffect(() => {
     setCashierInformation([
       {
-        title: 'Fondo Inicial',
+        title: 'Fondo Inicial de Caja:',
         cost: cashier.initial
       },
       {
-        title: 'Total de Ventas Registradas en Efectivo',
+        title: 'Ventas Regist. Efectivo:',
         cost: cashier.cashSales
       },
       {
-        title: 'Total de Ventas Registradas con Tarjeta',
+        title: 'Ventas Regist. Tarjeta:',
         cost: cashier.cardSales
       },
       {
-        title: 'Efectivo en Caja',
+        title: 'Efectivo en Caja:',
         cost: cashier.cashInCashier
       },
       {
-        title: 'Corte en Terminal',
+        title: 'Corte en Terminal:',
         cost: cashier.terminalAmountRegistered
       },
       {
-        title: 'Total de Pagos con efectivo',
+        title: 'Total de Pagos con efectivo:',
         cost: cashier.totalOfCashPayments
       }
     ]);

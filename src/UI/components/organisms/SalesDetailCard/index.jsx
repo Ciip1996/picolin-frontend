@@ -15,7 +15,7 @@ import { currencyFormatter } from 'UI/utils';
 import { EmptyFeeAgreement, CloseIcon, PrintIcon, DownloadFileIcon, colors } from 'UI/res';
 import { DateFormats } from 'UI/constants/defaults';
 import ListProductRow from 'UI/components/molecules/ListProductRow';
-import { downloadTicketPDF, sendToPrintTicket } from 'UI/utils/ticketGenerator';
+import { downloadSaleTicketPDF, sendToPrintSaleTicket } from 'UI/utils/ticketGenerator';
 import Contents from './strings';
 import { useStyles } from './styles';
 
@@ -52,7 +52,7 @@ const SummaryCard = (props: SummaryCardProps) => {
         <Tooltip title="Imprimir Ticket" placement="bottom">
           <IconButton
             size="medium"
-            onClick={() => !!data && sendToPrintTicket(saleData, `${ticket}.pdf`)}
+            onClick={() => !!data && sendToPrintSaleTicket(saleData, `${ticket}.pdf`)}
           >
             <PrintIcon fill={colors.black} />
           </IconButton>
@@ -60,7 +60,7 @@ const SummaryCard = (props: SummaryCardProps) => {
         <Tooltip title="Descargar Ticket" placement="bottom">
           <IconButton
             size="medium"
-            onClick={() => !!data && downloadTicketPDF(saleData, `${ticket}.pdf`)}
+            onClick={() => !!data && downloadSaleTicketPDF(saleData, `${ticket}.pdf`)}
           >
             <DownloadFileIcon fill={colors.black} />
           </IconButton>
