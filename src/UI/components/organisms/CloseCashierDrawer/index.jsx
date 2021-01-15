@@ -22,10 +22,7 @@ const language = localStorage.getItem('language');
 
 const CloseCashierDrawer = (props: CloseCashierDrawerProps) => {
   const { handleClose, onShowAlert, onContinue } = props;
-  const [comboValues, setComboValues] = useState<MapType>({
-    card: 45,
-    cash: 1000
-  });
+  const [comboValues, setComboValues] = useState<MapType>({});
 
   const classes = useStyles();
 

@@ -42,21 +42,21 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
   });
 
   const [cashier, setCashier] = useState({});
-  const [diff, setDiff] = useState(Number(0.0));
+  const [difference, setDifference] = useState(Number(0.0));
 
   const [cashierInformation, setCashierInformation] = useState([]);
 
   // const vals = getValues();
   // console.log(vals);
 
-  const onSubmit = async (formData: Object) => {
+  const onSubmit = async () => {
     try {
-      const { cash, card } = formData;
       const params = {
-        cash,
-        card,
         idStore: DEFAULT_STORE.id,
-        payments: todaysPayments.map(each => each.idpayment)
+        payments: todaysPayments.map(each => each.idpayment),
+        difference,
+        cashInCashier: cashier?.cashInCashier,
+        terminalAmountRegistered: cashier?.terminalAmountRegistered
       };
       const response = await API.post(`${Endpoints.Cashier}${Endpoints.CloseCashier}`, params);
       if (response) {
@@ -182,7 +182,7 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
     const totalInCashier = cashier.initial + cashier.cashSales;
     const totalAmountValid = cashier.cashInCashier - cashier.totalOfCashPayments;
     const newDiff = -totalInCashier + totalAmountValid;
-    setDiff(newDiff);
+    setDifference(newDiff);
   }, [cashier.cashInCashier, cashier.cashSales, cashier.initial, cashier.totalOfCashPayments]);
 
   return (
@@ -218,7 +218,7 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
                     return <InfoRow title={each?.title} value={each.cost} isValueCurrency />;
                   })}
                   <Box>
-                    <InfoRowTotal title="Diferencia: " value={diff} isValueCurrency />
+                    <InfoRowTotal title="Diferencia: " value={difference} isValueCurrency />
                   </Box>
                 </Grid>
               </div>

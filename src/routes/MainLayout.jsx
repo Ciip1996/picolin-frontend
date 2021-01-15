@@ -29,12 +29,7 @@ const MainLayout = ({ children, onShowAlert, ...rest }: Object) => {
     closeCashierForm: undefined
   });
 
-  const form = useForm({
-    defaultValues: {
-      card: 0,
-      cash: 0
-    }
-  });
+  const form = useForm();
 
   const styles = {
     App: {
