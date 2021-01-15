@@ -1,6 +1,6 @@
 // @flow
 import React, { useState, useEffect } from 'react';
-import { FormContext, useForm } from 'react-hook-form';
+import { FormContext, useFormContext } from 'react-hook-form';
 import Box from '@material-ui/core/Box';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
@@ -26,7 +26,8 @@ const CloseCashierDrawer = (props: CloseCashierDrawerProps) => {
 
   const classes = useStyles();
 
-  const form = useForm();
+  const form = useFormContext();
+
   const { register, errors, handleSubmit, setValue } = form;
 
   const onSubmit = async (formData: Object) => {
@@ -67,6 +68,8 @@ const CloseCashierDrawer = (props: CloseCashierDrawerProps) => {
         required: `${Contents[language]?.requiredField}`
       }
     );
+    setValue('cash', 100, true);
+    setValue('card', 10, true);
   };
   useEffect(() => {
     registerFormField();

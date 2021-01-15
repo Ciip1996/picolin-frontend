@@ -1,6 +1,6 @@
 // @flow
 import React, { useState, useEffect, useCallback } from 'react';
-import { FormContext, useForm } from 'react-hook-form';
+import { FormContext, useFormContext } from 'react-hook-form';
 import moment from 'moment';
 import queryString from 'query-string';
 
@@ -9,12 +9,14 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
+import InfoRow from 'UI/components/molecules/InfoRow';
+import InfoRowTotal from 'UI/components/molecules/InfoRowTotal';
+
 import { Endpoints } from 'UI/constants/endpoints';
 import { DEFAULT_STORE, DateFormats } from 'UI/constants/defaults';
 
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
-import { currencyFormatter } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -31,13 +33,21 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
 
   const classes = useStyles();
 
-  const form = useForm();
-  const { register, handleSubmit } = form;
+  const form = useFormContext();
+  const { register, handleSubmit, getValues } = form;
   const [todaysPayments, setTodaysPayments] = useState([]);
   const [income, setIncome] = useState({
     cash: null,
     card: null
   });
+
+  const [cashier, setCashier] = useState({});
+  const [diff, setDiff] = useState(0);
+
+  const [cashierInformation, setCashierInformation] = useState([]);
+
+  const vals = getValues();
+  console.log(vals);
 
   const onSubmit = async (formData: Object) => {
     try {
@@ -47,6 +57,7 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
         card,
         idStore: DEFAULT_STORE.id
       };
+      debugger;
       const response = await API.post(`${Endpoints.Cashier}${Endpoints.CloseCashier}`, params);
       if (response) {
         onShowAlert({
@@ -107,6 +118,7 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
       }
     } catch (err) {
       console.log(err);
+      debugger;
       // showAlert({
       //   severity: 'error',
       //   title: getErrorData(err)?.title || 'Error en conexión',
@@ -117,54 +129,66 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
     }
   }, []);
 
-  const registerFormField = useCallback(async () => {
-    register(
-      { name: 'card' },
-      {
-        required: `${Contents[language]?.requiredField}`
-      }
-    );
-
-    register(
-      { name: 'cash' },
-      {
-        required: `${Contents[language]?.requiredField}`
-      }
-    );
-  }, [language, register]);
-
   useEffect(() => {
     getLstOfTodaysPayments();
-    registerFormField();
     getIncomeData();
-  }, [getIncomeData, getLstOfTodaysPayments, registerFormField]);
 
-  const data2 = [
-    {
-      title: 'Fondo Inicial',
-      cost: 1000.0
-    },
-    {
-      title: 'Total de Ventas en Efectivo',
-      cost: income?.cash
-    },
-    {
-      title: 'Total de Ventas con Tarjeta',
-      cost: income?.card
-    },
-    {
-      title: 'Efectivo en Caja',
-      cost: cashierData?.cash
-    },
-    {
-      title: 'Corte en Terminal',
-      cost: cashierData?.card
-    },
-    {
-      title: 'Total de Pagos con efectivo',
-      cost: todaysPayments.reduce((total, obj) => obj.cost + total, 0)
-    }
-  ];
+    const totalOfCashPayments =
+      Number(todaysPayments.reduce((total, obj) => obj.cost && Number(obj.cost) + total, 0)) * -1;
+    setCashier({
+      initial: 1000.0,
+      cashSales: income?.cash ? Number(income?.cash) : 0.0,
+      cardSales: income?.card ? Number(income?.card) : 0.0,
+      cashInCashier: getValues('cash'),
+      terminalAmountRegistered: getValues('card'),
+      totalOfCashPayments
+    });
+  }, [
+    getIncomeData,
+    getLstOfTodaysPayments,
+    getValues,
+    income?.card,
+    income?.cash,
+    todaysPayments
+  ]);
+
+  useEffect(() => {
+    setCashierInformation([
+      {
+        title: 'Fondo Inicial',
+        cost: cashier.initial
+      },
+      {
+        title: 'Total de Ventas Registradas en Efectivo',
+        cost: cashier.cashSales
+      },
+      {
+        title: 'Total de Ventas Registradas con Tarjeta',
+        cost: cashier.cardSales
+      },
+      {
+        title: 'Efectivo en Caja',
+        cost: cashier.cashInCashier
+      },
+      {
+        title: 'Corte en Terminal',
+        cost: cashier.terminalAmountRegistered
+      },
+      {
+        title: 'Total de Pagos con efectivo',
+        cost: cashier.totalOfCashPayments
+      }
+    ]);
+  }, [cashier]);
+
+  useEffect(() => {
+    const newDiff = cashierInformation.reduce(
+      (total, obj) => obj.cost && Number(obj.cost) + total,
+      0
+    );
+    debugger;
+    setDiff(newDiff);
+  }, [cashierInformation]);
 
   return (
     <>
@@ -180,57 +204,23 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
           <div className={classes.root}>
             <Box>
               <div style={globalStyles.feeDrawerslabel}>
-                <Text
-                  variant="subtitle1"
-                  text={Contents[language]?.PaymentsSubtitle}
-                  fontSize={13}
-                />
-                <Grid component="nav" className={classes.List}>
+                <Grid component="nav">
+                  <Text variant="body2" text={Contents[language]?.PaymentsSubtitle} fontSize={13} />
+                  <br />
                   {todaysPayments.map((each: Object) => {
-                    return (
-                      <Grid container spacing={3} className={classes.Item}>
-                        <Grid item xs={9}>
-                          <span className={classes.Description}>{each.concept}</span>
-                        </Grid>
-                        <Grid item xs={3}>
-                          <Text
-                            name="display_subtotal"
-                            className={classes.currencyValue}
-                            variant="body1"
-                            text={each.cost ? currencyFormatter(each.cost) : '--'}
-                            fontSize={16}
-                          />
-                        </Grid>
-                      </Grid>
-                    );
+                    return <InfoRow title={each.concept} value={each.cost} isValueCurrency />;
                   })}
                 </Grid>
                 <br />
-                <Grid component="nav" className={classes.List}>
-                  {data2.map((each: Object) => {
-                    return (
-                      <Grid container spacing={3} className={classes.Item}>
-                        <Grid item xs={9}>
-                          <Text
-                            // name="display_subtotal"
-                            className={classes.Description}
-                            variant="body1"
-                            text={each.title}
-                            fontSize={16}
-                          />
-                        </Grid>
-                        <Grid flex={1}>
-                          <Text
-                            // name="display_subtotal"
-                            className={classes.currencyValue}
-                            variant="body1"
-                            text={each?.cost ? currencyFormatter(each.cost) : '--'}
-                            fontSize={16}
-                          />
-                        </Grid>
-                      </Grid>
-                    );
+                <Text variant="body2" text={Contents[language]?.SummarySubtitle} fontSize={13} />
+                <br />
+                <Grid component="nav">
+                  {cashierInformation.map((each: Object) => {
+                    return <InfoRow title={each?.title} value={each.cost} isValueCurrency />;
                   })}
+                  <Box>
+                    <InfoRowTotal title="Diferencia: " value={diff} isValueCurrency />
+                  </Box>
                 </Grid>
               </div>
             </Box>

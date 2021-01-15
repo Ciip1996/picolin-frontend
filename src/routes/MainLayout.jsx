@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import ScrollToTop from 'react-router-scroll-top';
 import { useHistory } from 'react-router-dom';
 import Drawer from '@material-ui/core/Drawer';
+import { FormContext, useForm } from 'react-hook-form';
 
 import Sidebar from 'UI/components/templates/Sidebar';
 import NavBar from 'UI/components/organisms/NavBar';
@@ -21,11 +22,15 @@ const MainLayout = ({ children, ...rest }: Object) => {
   const history = useHistory();
 
   const [uiState, setUiState] = useState({
-    isConfirmCloseCashierDrawerOpen: false,
+    isConfirmCloseCashierDrawerOpen: true,
     isCloseCashierDrawerOpen: false,
-    closeCashierForm: {
-      card: 21,
-      cash: 10
+    closeCashierForm: undefined
+  });
+
+  const form = useForm({
+    defaultValues: {
+      card: 200,
+      cash: 200
     }
   });
 
@@ -82,53 +87,55 @@ const MainLayout = ({ children, ...rest }: Object) => {
 
   return (
     <>
-      <ScrollToTop>
-        <div className="App" style={styles.App}>
-          <NavBar handleCloseCashier={onCloseCashier} />
-          <div style={styles.flexContentWrapper}>
-            <div style={styles.sidebar}>
-              <Sidebar>
-                <ActionButton
-                  style={{ width: 200, minHeight: 48 }}
-                  text="Nueva Venta"
-                  onClick={GoToNewPage}
-                  variant="important"
-                >
-                  <AddIcon fill={colors.white} size={18} />
-                </ActionButton>
-              </Sidebar>
+      <FormContext {...form}>
+        <ScrollToTop>
+          <div className="App" style={styles.App}>
+            <NavBar handleCloseCashier={onCloseCashier} />
+            <div style={styles.flexContentWrapper}>
+              <div style={styles.sidebar}>
+                <Sidebar>
+                  <ActionButton
+                    style={{ width: 200, minHeight: 48 }}
+                    text="Nueva Venta"
+                    onClick={GoToNewPage}
+                    variant="important"
+                  >
+                    <AddIcon fill={colors.white} size={18} />
+                  </ActionButton>
+                </Sidebar>
+              </div>
+              {children}
             </div>
-            {children}
           </div>
-        </div>
-      </ScrollToTop>
-      <Drawer
-        anchor={drawerAnchor}
-        open={uiState.isCloseCashierDrawerOpen}
-        onClose={toggleDrawer('isCloseCashierDrawerOpen', false)}
-      >
-        <div role="presentation">
-          <CloseCashierDrawer
-            onContinue={onContinueWithCloseCashier}
-            onShowAlert={() => {}}
-            handleClose={toggleDrawer('isCloseCashierDrawerOpen', false)}
-          />
-        </div>
-      </Drawer>
-      <Drawer
-        anchor={drawerAnchor}
-        open={uiState.isConfirmCloseCashierDrawerOpen}
-        onClose={toggleDrawer('isConfirmCloseCashierDrawerOpen', false)}
-      >
-        <div role="presentation">
-          <ConfirmCloseCashierDrawer
-            cashierData={uiState?.closeCashierForm ? uiState?.closeCashierForm : undefined}
-            onConfirmedCloseCashier={onConfirmedCloseCashier}
-            onShowAlert={() => {}}
-            handleClose={toggleDrawer('isConfirmCloseCashierDrawerOpen', false)}
-          />
-        </div>
-      </Drawer>
+        </ScrollToTop>
+        <Drawer
+          anchor={drawerAnchor}
+          open={uiState.isCloseCashierDrawerOpen}
+          onClose={toggleDrawer('isCloseCashierDrawerOpen', false)}
+        >
+          <div role="presentation">
+            <CloseCashierDrawer
+              onContinue={onContinueWithCloseCashier}
+              onShowAlert={() => {}}
+              handleClose={toggleDrawer('isCloseCashierDrawerOpen', false)}
+            />
+          </div>
+        </Drawer>
+        <Drawer
+          anchor={drawerAnchor}
+          open={uiState.isConfirmCloseCashierDrawerOpen}
+          onClose={toggleDrawer('isConfirmCloseCashierDrawerOpen', false)}
+        >
+          <div role="presentation">
+            <ConfirmCloseCashierDrawer
+              cashierData={uiState?.closeCashierForm ? uiState?.closeCashierForm : undefined}
+              onConfirmedCloseCashier={onConfirmedCloseCashier}
+              onShowAlert={() => {}}
+              handleClose={toggleDrawer('isConfirmCloseCashierDrawerOpen', false)}
+            />
+          </div>
+        </Drawer>
+      </FormContext>
     </>
   );
 };
