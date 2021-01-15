@@ -3,10 +3,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { FormControl } from '@material-ui/core';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import ActionButton from 'UI/components/atoms/ActionButton';
+import CustomDatePicker from 'UI/components/atoms/CustomDatePicker';
+import { currencyFormatter, getErrorData, toLocalTime } from 'UI/utils';
 
 import { showAlert } from 'actions/app';
 import { drawerAnchor, PageTitles, DateFormats } from 'UI/constants/defaults';
@@ -17,14 +20,14 @@ import { drawerAnchor, PageTitles, DateFormats } from 'UI/constants/defaults';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import DataTable from 'UI/components/organisms/DataTable';
-import TransferProductsDrawer from 'UI/components/organisms/TransferDrawer';
+import PaymentDrawer from 'UI/components/organisms/PaymentDrawer';
 import Drawer from '@material-ui/core/Drawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import Box from '@material-ui/core/Box';
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorData, toLocalTime } from 'UI/utils';
+
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters, saveFilters } from 'services/FiltersStorage';
@@ -36,26 +39,24 @@ const CellSkeleton = ({ children, searching }) => {
   return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
 };
 
-type TransferListProps = {
+type PaymentListProps = {
   onShowAlert: any => void
 };
 
 const columnItems = [
-  { id: 0, name: 'idTransferProduct', display: true },
+  { id: 0, name: 'idpayment', display: true },
   { id: 1, name: 'user', display: true },
-  { id: 2, name: 'productCode', display: true },
-  { id: 3, name: 'type', display: false },
-  { id: 4, name: 'color', display: false },
-  { id: 5, name: 'origin', display: true },
-  { id: 6, name: 'destination', display: true },
-  { id: 7, name: 'quantity', display: true },
-  { id: 8, name: 'registrationDate', display: true }
+  { id: 2, name: 'concept', display: true },
+  { id: 3, name: 'category', display: true },
+  { id: 4, name: 'cost', display: true },
+  { id: 5, name: 'date', display: true },
+  { id: 6, name: 'store', display: true }
 ];
 
 const getSortDirections = (orderBy: string, direction: string) =>
   columnItems.map(item => (item.name === orderBy ? direction : 'none'));
 
-const TransferList = (props: TransferListProps) => {
+const PaymentList = (props: PaymentListProps) => {
   const { onShowAlert } = props;
   const language = localStorage.getItem('language');
 
@@ -66,7 +67,7 @@ const TransferList = (props: TransferListProps) => {
   const [data, setData] = useState<any>(null);
   const [count, setCount] = useState(0);
 
-  const savedSearch = getFilters('transfers');
+  const savedSearch = getFilters('payments');
   const savedFilters = savedSearch?.filters;
   const savedParams = savedSearch?.params;
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
@@ -84,18 +85,25 @@ const TransferList = (props: TransferListProps) => {
     direction: savedParams?.direction || undefined,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isTransferDrawerOpen: false
+    isPaymentDrawerOpen: false
   });
+
+  const getDateStringFromFilter = (filterDate: any) => {
+    if (filterDate) {
+      return typeof filterDate.date === 'object'
+        ? filterDate.date.format(DateFormats.SQL)
+        : moment(filterDate.date).format(DateFormats.SQL);
+    }
+    return undefined;
+  };
 
   const getData = useCallback(async () => {
     try {
       const {
         // store_filter,
-        gender_filter = undefined,
-        type_filter = undefined,
-        color_filter = undefined,
-        destination_filter = undefined,
-        origin_filter = undefined,
+        store_filter = undefined,
+        category_filter = undefined,
+        date_filter = undefined,
         users_filter = undefined
       } = filters;
 
@@ -105,26 +113,23 @@ const TransferList = (props: TransferListProps) => {
         direction: uiState.direction,
         page: uiState.page + 1,
         perPage: uiState.perPage,
-        gender: gender_filter?.title,
-        idType: type_filter?.id,
-        color: color_filter?.title,
-        idDestination: destination_filter?.id,
-        idOrigin: origin_filter?.id,
-        user: users_filter?.id
+        idCategory: category_filter?.id,
+        date: getDateStringFromFilter(date_filter),
+        idUser: users_filter?.id
       };
 
-      saveFilters('transfers', { filters, params });
+      saveFilters('payments', { filters, params });
 
       const queryParams = queryString.stringify(params);
 
-      // const url = `${Endpoints.Transfers}${Endpoints.GetTransfers?}`.replace(
-      //  ':idStore',
-      //  store_filter ? store_filter?.idStore : 'ALL'
-      // );
-      const url = `${Endpoints.Transfers}/getTransfer?`;
+      const url = `${Endpoints.Cashier}${Endpoints.StorePayments}?`.replace(
+        ':idStore',
+        store_filter ? store_filter?.id : 'ALL'
+      );
+
       const response = await API.get(`${url}${queryParams}`);
       if (response?.status === 200) {
-        setData(response?.data?.transfer || []);
+        setData(response?.data?.payments || []);
       }
       setCount(Number(response?.data?.totalResults) || 0);
       setLoading(false);
@@ -231,8 +236,8 @@ const TransferList = (props: TransferListProps) => {
       }
     },
     {
-      name: 'idTransferProduct',
-      label: Contents[language]?.IdTransfer,
+      name: 'idpayment',
+      label: Contents[language]?.IdPayment,
       options: {
         filter: true,
         sort: true,
@@ -278,37 +283,22 @@ const TransferList = (props: TransferListProps) => {
       }
     },
     {
-      name: 'productCode',
-      label: Contents[language]?.Code,
+      name: 'concept',
+      label: Contents[language]?.Concept,
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         display: columnItems[2].display,
         sortDirection: sortDirection[2],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        },
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="type_filter"
-                  placeholder={Contents[language]?.Type}
-                  url={Endpoints.GetTypes}
-                  selectedValue={filters.type_filter}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
         }
       }
     },
     {
-      name: 'type',
-      label: Contents[language]?.Type,
+      name: 'category',
+      label: Contents[language]?.Category,
       options: {
         filter: true,
         sort: true,
@@ -317,44 +307,16 @@ const TransferList = (props: TransferListProps) => {
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        }
-      }
-    },
-    {
-      name: 'color',
-      label: Contents[language]?.Color,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[4].display,
-        sortDirection: sortDirection[4],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        }
-      }
-    },
-    {
-      name: 'origin',
-      label: Contents[language]?.origin,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[5].display,
-        sortDirection: sortDirection[5],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         },
         filterOptions: {
           display: () => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="origin_filter"
-                  placeholder={Contents[language]?.origin}
-                  url={Endpoints.Stores}
-                  selectedValue={filters.origin_filter}
+                  name="category_filter"
+                  placeholder={Contents[language]?.Category}
+                  url={Endpoints.StorePaymentCategories}
+                  selectedValue={filters.category_filter}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -364,8 +326,67 @@ const TransferList = (props: TransferListProps) => {
       }
     },
     {
-      name: 'destination',
-      label: Contents[language]?.Destination,
+      name: 'cost',
+      label: Contents[language]?.Cost,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[4].display,
+        sortDirection: sortDirection[4],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{currencyFormatter(value)}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'date',
+      label: Contents[language]?.date,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[5].display,
+        sortDirection: sortDirection[5],
+        filterType: 'custom',
+        customBodyRender: value => {
+          const localTime = toLocalTime(value);
+          const formattedDate =
+            localTime && localTime.format(DateFormats.International.SimpleDateTime);
+          return (
+            <CellSkeleton searching={searching}>
+              <strong>{formattedDate || '--'}</strong>
+            </CellSkeleton>
+          );
+        },
+        filterOptions: {
+          display: () => {
+            return (
+              <FormControl>
+                <CustomDatePicker
+                  label="Fecha"
+                  name="date_filter"
+                  value={filters?.date_filter?.date || null}
+                  onDateChange={(name, date) =>
+                    handleFilterChange(
+                      name && name,
+                      date && {
+                        title: `En fecha ${
+                          date ? date.format(DateFormats.International.DetailDate) : ''
+                        }`,
+                        date
+                      }
+                    )
+                  }
+                />
+              </FormControl>
+            );
+          }
+        }
+      }
+    },
+    {
+      name: 'store',
+      label: Contents[language]?.Location,
       options: {
         filter: true,
         sort: true,
@@ -380,51 +401,16 @@ const TransferList = (props: TransferListProps) => {
             return (
               <FormControl>
                 <AutocompleteSelect
-                  name="destination_filter"
-                  placeholder={Contents[language]?.Destination}
+                  name="store_filter"
+                  placeholder={Contents[language]?.Location}
                   url={Endpoints.Stores}
-                  selectedValue={filters.destination_filter}
+                  selectedValue={filters.store_filter}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
             );
           }
         }
-      }
-    },
-    {
-      name: 'quantity',
-      label: Contents[language]?.Quantity,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[7].display,
-        sortDirection: sortDirection[7],
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
-        },
-        filterType: 'custom'
-      }
-    },
-    {
-      name: 'registrationDate',
-      label: Contents[language]?.RegistrationDate,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[8].display,
-        sortDirection: sortDirection[8],
-        customBodyRender: value => {
-          const localTime = toLocalTime(value);
-          const formattedDate =
-            localTime && localTime.format(DateFormats.International.SimpleDateTime);
-          return (
-            <CellSkeleton searching={searching}>
-              <strong>{formattedDate || '--'}</strong>
-            </CellSkeleton>
-          );
-        },
-        filterType: 'custom'
       }
     }
   ];
@@ -438,12 +424,12 @@ const TransferList = (props: TransferListProps) => {
   }, [error]);
 
   useEffect(() => {
-    document.title = PageTitles.Transfers;
+    document.title = PageTitles.Payments;
     getData();
   }, [error, getData]);
 
-  const onTransferCompleted = () => {
-    setUiState(prevState => ({ ...prevState, isTransferDrawerOpen: false }));
+  const onPaymentCompleted = () => {
+    setUiState(prevState => ({ ...prevState, isPaymentDrawerOpen: false }));
     setSearching(true);
     setLoading(true);
     getData();
@@ -468,8 +454,8 @@ const TransferList = (props: TransferListProps) => {
             minWidth={238}
           >
             <ActionButton
-              text={Contents[language]?.makeTransfer}
-              onClick={toggleDrawer('isTransferDrawerOpen', !uiState.isTransferDrawerOpen)}
+              text={Contents[language]?.makePayment}
+              onClick={toggleDrawer('isPaymentDrawerOpen', !uiState.isPaymentDrawerOpen)}
             >
               <AddIcon fill={colors.white} size={18} />
             </ActionButton>
@@ -502,14 +488,14 @@ const TransferList = (props: TransferListProps) => {
       </ListPageLayout>
       <Drawer
         anchor={drawerAnchor}
-        open={uiState.isTransferDrawerOpen}
-        onClose={toggleDrawer('isTransferDrawerOpen', false)}
+        open={uiState.isPaymentDrawerOpen}
+        onClose={toggleDrawer('isPaymentDrawerOpen', false)}
       >
         <div role="presentation">
-          <TransferProductsDrawer
-            onTransfered={onTransferCompleted}
+          <PaymentDrawer
+            onRegisterPayment={onPaymentCompleted}
             onShowAlert={onShowAlert}
-            handleClose={toggleDrawer('isTransferDrawerOpen', false)}
+            handleClose={toggleDrawer('isPaymentDrawerOpen', false)}
           />
         </div>
       </Drawer>
@@ -522,4 +508,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(TransferList);
+export default connect(null, mapDispatchToProps)(PaymentList);

@@ -19,8 +19,8 @@ import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import TextBox from 'UI/components/atoms/TextBox';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import AddInventoryProductDrawer from 'UI/components/molecules/AddInventoryProductDrawer';
-import QRCodeDrawer from 'UI/components/molecules/QRCodeDrawer';
+import AddInventoryProductDrawer from 'UI/components/organisms/AddInventoryProductDrawer';
+import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -87,7 +87,7 @@ const InventoryList = (props: InventoryListProps) => {
     perPage: savedParams?.perPage || 10,
     isAddProductDrawerOpen: false,
     isQRCodeDrawerOpen: false,
-    productCode: undefined
+    productCode: null
   });
 
   const getData = useCallback(async () => {
@@ -111,7 +111,7 @@ const InventoryList = (props: InventoryListProps) => {
         direction: uiState.direction,
         page: uiState.page + 1,
         perPage: uiState.perPage,
-        gender: gender_filter?.title,
+        gender: gender_filter?.id,
         characteristic: characteristic_filter?.title,
         idType: type_filter?.id,
         color: color_filter?.title,

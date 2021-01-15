@@ -12,6 +12,7 @@ import Sales from 'UI/pages/Sales';
 import NewSale from 'UI/pages/NewSale';
 import Inventory from 'UI/pages/Inventory';
 import Transfers from 'UI/pages/Transfers';
+import Payments from 'UI/pages/Payments';
 
 import Login from 'UI/pages/Login';
 import RegisterUser from 'UI/pages/RegisterUser';
@@ -53,6 +54,8 @@ const Routes = () => {
         <PrivateRoute exact path={EntityRoutes.Sales} component={Sales} />
         <PrivateRoute exact path={EntityRoutes.NewSale} component={NewSale} />
         <PrivateRoute exact path={EntityRoutes.Inventory} component={Inventory} />
+        <PrivateRoute exact path={EntityRoutes.Payments} component={Payments} />
+
         <PrivateRoute
           exact
           path={EntityRoutes.Transfers}

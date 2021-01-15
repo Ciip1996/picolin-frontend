@@ -17,7 +17,7 @@ import SaleCard from 'UI/components/organisms/SaleCard';
 import ComboCard from 'UI/components/organisms/ComboCard';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
-import { drawerAnchor, PageTitles, DEFAULT_ID_STORE } from 'UI/constants/defaults';
+import { drawerAnchor, PageTitles, DEFAULT_STORE } from 'UI/constants/defaults';
 import { currencyFormatter, sleep, getFeatureFlags } from 'UI/utils';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 import { sendToPrintTicket } from 'UI/utils/ticketGenerator';
@@ -65,7 +65,7 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
     ':idStore',
-    DEFAULT_ID_STORE.toString()
+    DEFAULT_STORE.id.toString()
   );
 
   const toggleDrawer = (drawer: string, open: boolean) => event => {
@@ -121,7 +121,7 @@ const NewSaleList = (props: NewSaleListProps) => {
           severity: 'error',
           title: 'Error al generar Ticket',
           autoHideDuration: 16000,
-          body: 'Ocurrio un problema, contacte a soporte técnico.'
+          body: 'Ocurrió un problema, contacte a soporte técnico.'
         });
       }
     } catch (err) {
@@ -129,7 +129,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         severity: 'error',
         title: 'Error al generar Ticket',
         autoHideDuration: 16000,
-        body: 'Ocurrio un problema, contacte a soporte técnico.'
+        body: 'Ocurrió un problema, contacte a soporte técnico.'
       });
       throw err;
     }
@@ -154,7 +154,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         deposit,
         saleType,
         received,
-        idStore = DEFAULT_ID_STORE,
+        idStore = DEFAULT_STORE.id,
         totalWithDiscount,
         change,
         products: isProductsAvailable,
@@ -196,7 +196,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         severity: 'error',
         title: 'Error en venta',
         autoHideDuration: 3000,
-        body: 'Ocurrio un problema'
+        body: 'Ocurrió un problema'
       });
       throw err;
     }
@@ -328,9 +328,9 @@ const NewSaleList = (props: NewSaleListProps) => {
     setValue('products', true, true);
 
     if (comboData) {
-      const listOfProductsFromCombo = Object.entries(comboData).map(([product, value]) => {
+      const listOfProductsFromCombo = Object.entries(comboData).map(([product, value]: any) => {
         return {
-          productCode: value.productCode,
+          productCode: value?.productCode,
           quantity: 1,
           combo: 1,
           product

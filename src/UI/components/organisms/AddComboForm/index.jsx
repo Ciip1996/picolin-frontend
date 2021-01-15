@@ -11,7 +11,7 @@ import InputContainer from 'UI/components/atoms/InputContainer';
 // import API from 'services/API';
 
 import ListProductRow from 'UI/components/molecules/ListProductRow';
-import { DEFAULT_ID_STORE, ID_TYPES } from 'UI/constants/defaults';
+import { DEFAULT_STORE, ID_TYPES } from 'UI/constants/defaults';
 import Contents from './strings';
 
 type SaleFormProps = {
@@ -34,7 +34,7 @@ const AddComboForm = (props: SaleFormProps) => {
 
   const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
     ':idStore',
-    DEFAULT_ID_STORE.toString()
+    DEFAULT_STORE.id.toString()
   );
 
   const handleComboChange = (name: string, value: any) => {

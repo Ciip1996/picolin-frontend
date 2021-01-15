@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { EntityRoutes } from 'routes/constants';
-import { InventoryIcon, TransfersIcon, SalesIcon } from 'UI/res/icons';
+import { InventoryIcon, TransfersIcon, SalesIcon, PaymentIcon } from 'UI/res/icons';
 
 import { colors } from 'UI/res';
 import { userHasAdminPermissions } from 'services/Authorization';
@@ -25,6 +25,15 @@ const sideBarMenu = [
       inactive: <SalesIcon fill={colors.oxford} />,
       opened: null,
       active: <SalesIcon fill={colors.white} />
+    }
+  },
+  {
+    title: 'Pagos',
+    route: EntityRoutes.Payments,
+    icon: {
+      inactive: <PaymentIcon fill={colors.oxford} />,
+      opened: null,
+      active: <PaymentIcon fill={colors.white} />
     }
   }
 

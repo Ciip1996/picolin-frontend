@@ -28,7 +28,11 @@ import { useStyles, styles } from './styles';
 
 const featureFlags = getFeatureFlags();
 
-const NavBar = () => {
+type NavBarProps = {
+  handleCloseCashier: () => any
+};
+
+const NavBar = ({ handleCloseCashier }: NavBarProps) => {
   const user: User = isAuthenticated() ? getCurrentUser() : {};
   const isUserAdmin = userHasAdminPermissions();
   const classes = useStyles();
@@ -119,6 +123,9 @@ const NavBar = () => {
                       Registrar Usuario
                     </MenuItem>
                   ) : null}
+                  <MenuItem onClick={handleCloseCashier} className={classes.menuLink}>
+                    Corte de Caja
+                  </MenuItem>
                   <MenuItem onClick={handleLogout} className={classes.loginLink}>
                     Cerrar Sesión
                   </MenuItem>
