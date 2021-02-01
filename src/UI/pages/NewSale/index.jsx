@@ -151,18 +151,21 @@ const NewSaleList = (props: NewSaleListProps) => {
         subtotal,
         iva,
         discount,
-        deposit,
-        saleType,
+        // deposit,
+        // saleType,
         received,
         idStore = DEFAULT_STORE.id,
-        totalWithDiscount,
-        change,
-        products: isProductsAvailable,
-        ...rest
+        totalWithDiscount
+        // change,
+        // products: isProductsAvailable
       } = formData;
-
-      let saleDetail = Object.entries(rest).map(([key, value]) => {
-        return { productCode: key, quantity: value, combo: 0 };
+      let saleDetail = productsList.map(each => {
+        return {
+          productCode: each.product.productCode,
+          idProduct: each.product.idProduct,
+          quantity: each.quantity,
+          combo: 0
+        };
       });
       /// add all the products from the combo
       saleDetail = [...saleDetail, ...comboProductsList];
@@ -182,7 +185,7 @@ const NewSaleList = (props: NewSaleListProps) => {
         received: received || null
       };
       const response = await API.post(`${Endpoints.Sales}${Endpoints.NewSale}`, params);
-      if (response) {
+      if (response.status === 200) {
         onShowAlert({
           severity: 'success',
           title: 'Venta Exitosa',
@@ -330,6 +333,7 @@ const NewSaleList = (props: NewSaleListProps) => {
     if (comboData) {
       const listOfProductsFromCombo = Object.entries(comboData).map(([product, value]: any) => {
         return {
+          idProduct: value?.idProduct,
           productCode: value?.productCode,
           quantity: 1,
           combo: 1,
@@ -396,7 +400,7 @@ const NewSaleList = (props: NewSaleListProps) => {
                   url={searchingProductsUrl}
                   displayKey="name"
                   typeahead
-                  typeaheadLimit={15}
+                  typeaheadLimit={25}
                   onSelect={handleAddProduct}
                   getOptionSelected={defaultOptionSelectedFn}
                   dataFetchKeyName="inventory"
