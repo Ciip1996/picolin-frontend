@@ -41,16 +41,17 @@ type InventoryListProps = {
 };
 
 const columnItems = [
-  { id: 0, name: 'productCode', display: true },
-  { id: 1, name: 'color', display: true },
-  { id: 2, name: 'size', display: true },
-  { id: 3, name: 'pieces', display: true },
-  { id: 4, name: 'salePrice', display: true },
-  { id: 5, name: 'gender', display: true },
-  { id: 6, name: 'type', display: true },
-  { id: 7, name: 'reservedQuantity', display: false },
-  { id: 8, name: 'characteristic', display: true },
-  { id: 9, name: 'stock', display: true }
+  { id: 0, name: 'idInventory', display: true },
+  { id: 1, name: 'productCode', display: true },
+  { id: 2, name: 'color', display: true },
+  { id: 3, name: 'size', display: true },
+  { id: 4, name: 'pieces', display: true },
+  { id: 5, name: 'salePrice', display: true },
+  { id: 6, name: 'gender', display: true },
+  { id: 7, name: 'type', display: true },
+  { id: 8, name: 'reservedQuantity', display: false },
+  { id: 9, name: 'characteristic', display: true },
+  { id: 10, name: 'stock', display: true }
 ];
 
 const getSortDirections = (orderBy: string, direction: string) =>
@@ -140,6 +141,7 @@ const InventoryList = (props: InventoryListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
+      debugger;
       setError(true);
       onShowAlert({
         severity: 'error',
@@ -226,6 +228,7 @@ const InventoryList = (props: InventoryListProps) => {
   };
 
   const handleColumnDisplayClick = newColumnDisplay => {
+    debugger;
     const { column, display } = newColumnDisplay;
     const index = columnItems.findIndex(item => item.name === column);
     columnItems[index].display = display;
@@ -244,7 +247,7 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: false,
-        display: 'excluded',
+        display: columnItems[0].display, // 'excluded'
         filterType: 'custom'
       }
     },
@@ -254,16 +257,16 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[0].display,
-        sortDirection: sortDirection[0],
+        display: columnItems[1].display,
+        sortDirection: sortDirection[1],
+        filterType: 'custom',
         customBodyRender: value => {
           return (
             <CellSkeleton searching={searching}>
               <strong>{value}</strong>
             </CellSkeleton>
           );
-        },
-        filterType: 'custom'
+        }
       }
     },
     {
@@ -272,8 +275,8 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[1].display,
-        sortDirection: sortDirection[1],
+        display: columnItems[2].display,
+        sortDirection: sortDirection[2],
         filterType: 'custom',
         filterOptions: {
           display: () => {
@@ -335,8 +338,8 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[2].display,
-        sortDirection: sortDirection[2],
+        display: columnItems[3].display,
+        sortDirection: sortDirection[3],
         filterType: 'custom',
         customBodyRender: value => {
           return (
@@ -351,8 +354,8 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[3].display,
-        sortDirection: sortDirection[3],
+        display: columnItems[4].display,
+        sortDirection: sortDirection[4],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
@@ -365,8 +368,8 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[4].display,
-        sortDirection: sortDirection[4],
+        display: columnItems[5].display,
+        sortDirection: sortDirection[5],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{currencyFormatter(value)}</CellSkeleton>;
@@ -379,8 +382,8 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[5].display,
-        sortDirection: sortDirection[5],
+        display: columnItems[6].display,
+        sortDirection: sortDirection[6],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
@@ -442,8 +445,8 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[6].display,
-        sortDirection: sortDirection[6],
+        display: columnItems[7].display,
+        sortDirection: sortDirection[7],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
@@ -471,8 +474,8 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[7].display,
-        sortDirection: sortDirection[7],
+        display: columnItems[8].display,
+        sortDirection: sortDirection[8],
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
         },
@@ -485,8 +488,8 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[8].display,
-        sortDirection: sortDirection[8],
+        display: columnItems[9].display,
+        sortDirection: sortDirection[9],
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
         },
@@ -516,8 +519,8 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[9].display,
-        sortDirection: sortDirection[9],
+        display: columnItems[10].display,
+        sortDirection: sortDirection[10],
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
         },
