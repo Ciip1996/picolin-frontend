@@ -141,7 +141,6 @@ const InventoryList = (props: InventoryListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
-      debugger;
       setError(true);
       onShowAlert({
         severity: 'error',
@@ -228,7 +227,6 @@ const InventoryList = (props: InventoryListProps) => {
   };
 
   const handleColumnDisplayClick = newColumnDisplay => {
-    debugger;
     const { column, display } = newColumnDisplay;
     const index = columnItems.findIndex(item => item.name === column);
     columnItems[index].display = display;

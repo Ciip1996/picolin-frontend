@@ -9,7 +9,7 @@ import jsPDF from 'jspdf';
 
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
-import TextBox from 'UI/components/atoms/TextBox';
+// import TextBox from 'UI/components/atoms/TextBox';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 
 // import { MontserratRegular } from 'UI/res/fonts';
@@ -32,7 +32,12 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
     defaultValues: {}
   });
 
-  const { handleSubmit, register, errors, setValue } = form;
+  const {
+    handleSubmit
+    // register
+    //  errors,
+    //  setValue
+  } = form;
 
   const [uiState, setUiState] = useState({
     isSaving: false,
@@ -48,33 +53,38 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
     }));
   }, []);
 
-  useEffect(() => {
-    register({ name: 'copies' }, { required: `${Contents[language]?.CopiesRequired}` });
-  }, [language, register]);
+  // useEffect(() => {
+  //   register({ name: 'copies' }, { required: `${Contents[language]?.CopiesRequired}` });
+  // }, [language, register]);
 
   const classes = useStyles();
 
-  const handleTextChange = (name?: string, value: any) => {
-    setValue(name, value, true);
-  };
+  // const handleTextChange = (name?: string, value: any) => {
+  //   setValue(name, value, true);
+  // };
 
-  const onSubmit = async (formData: Object) => {
+  const onSubmit = async () => {
     try {
       // TODO: SEND TO PRINT THE QR CODE
-      const { copies } = formData;
+      // const { copies } = formData;
       const qrCodeDiv: any = document.getElementById('QRCodeContainer');
       await html2canvas(qrCodeDiv).then(canvas => {
         const imgData = canvas.toDataURL('image/png');
         // eslint-disable-next-line new-cap
-        const pdf = new jsPDF();
-        pdf.addImage(imgData, 'PNG', 0, 0);
+        const pdf = new jsPDF({
+          orientation: 'landscape',
+          unit: 'mm',
+          format: [180, 120]
+        });
+        pdf.text(productCode, 120, 100);
+        pdf.addImage(imgData, 'PNG', 15, 15);
         pdf.save('download.pdf');
       });
       onShowAlert({
         severity: 'success',
-        title: `Imprimir ${copies} etiqueta(s) QR`,
+        title: `Descargando etiqueta QR`,
         autoHideDuration: 8000,
-        body: 'Se mandó a Imprimir correctamente'
+        body: 'Se descargo correctamente'
       });
     } catch (err) {
       onShowAlert({
@@ -98,7 +108,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
           variant="borderless"
           uiState={uiState}
           cancelText={Contents[language]?.Skip}
-          initialText={productCode ? Contents[language]?.Print : Contents[language]?.Close}
+          initialText={productCode ? Contents[language]?.Download : Contents[language]?.Close}
           isCancelButtonNeeded={!!productCode}
         >
           {productCode ? (
@@ -115,14 +125,14 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
                   <QRCode size={300} renderAs="svg" value={productCode} level="H" />
                 </div>
               </Box>
-              <TextBox
+              {/* <TextBox
                 name="copies"
                 inputType="number"
                 label={Contents[language]?.Copies}
                 error={!!errors.copies}
                 errorText={errors.copies && errors.copies.message}
                 onChange={handleTextChange}
-              />
+              /> */}
             </>
           ) : (
             <Box
