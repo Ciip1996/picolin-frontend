@@ -31,7 +31,7 @@ const ProductForm = (props: ProductFormProps) => {
   useEffect(() => {
     register({ name: 'idType' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'idCharacteristic' }, { required: ` ${Contents[language]?.RequiredMessage}` });
-    register({ name: 'color' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register({ name: 'idColor' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'idProvider' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'size' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'pieces' }, { required: `${Contents[language]?.RequiredMessage}` });
@@ -78,23 +78,14 @@ const ProductForm = (props: ProductFormProps) => {
         />
       </InputContainer>
       <InputContainer>
-        {/* <AutocompleteSelect
-          name="color"
-          selectedValue={comboValues.color}
+        <AutocompleteSelect
+          name="idColor"
+          selectedValue={comboValues.idColor}
           placeholder={Contents[language]?.Color}
-          error={!!errors?.color}
-          errorText={errors?.color && errors?.color.message}
+          error={!!errors?.idColor}
+          errorText={errors?.idColor && errors?.idColor.message}
           onSelect={handleComboChange}
           url={Endpoints.Colors}
-        /> */}
-        <TextBox
-          name="color"
-          label={Contents[language]?.Color}
-          error={!!errors?.color}
-          errorText={errors?.color && errors?.color.message}
-          onChange={handleTextChange}
-          value={getValues('color') || ''}
-          inputType="text"
         />
         <Separator />
         <AutocompleteSelect
