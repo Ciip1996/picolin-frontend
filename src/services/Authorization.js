@@ -62,7 +62,8 @@ export const userHasRole = (roleId: number) => {
 
 export const userHasAdminPermissions = () => {
   const user = getCurrentUser();
-  if (!user || Number(!user.roleId)) {
+
+  if (!user) {
     return false;
   }
   return user.roleId === Roles.Admin || user.roleId === Roles.SuperAdmin;
