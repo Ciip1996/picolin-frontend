@@ -40,10 +40,16 @@ const TransferDrawer = (props: TransferDrawerProps) => {
 
   const onSubmit = async (formData: Object) => {
     try {
-      const { idDestination, idOrigin, products: isProductsAvailable, ...rest } = formData;
-      const products = Object.entries(rest).map(([key, value]) => {
-        return { productCode: key, quantity: value };
+      const { idDestination, idOrigin } = formData;
+      const products = productsList.map(each => {
+        return {
+          productCode: each.product.productCode,
+          idProduct: each.product.idProduct,
+          quantity: each.quantity,
+          combo: 0
+        };
       });
+
       const params = {
         idDestination,
         idOrigin,
