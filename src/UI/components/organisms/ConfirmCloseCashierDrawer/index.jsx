@@ -54,7 +54,10 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
     try {
       const params = {
         idStore: DEFAULT_STORE.id,
-        payments: todaysPayments.map(each => each.idpayment),
+        payments:
+          todaysPayments && todaysPayments?.length > 0
+            ? todaysPayments.map(each => each.idpayment)
+            : [],
         difference,
         cashInCashier: cashier?.cashInCashier,
         terminalAmountRegistered: cashier?.terminalAmountRegistered
