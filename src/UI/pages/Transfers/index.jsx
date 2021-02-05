@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import queryString from 'query-string';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { FormControl } from '@material-ui/core';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
@@ -24,7 +25,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorData, toLocalTime } from 'UI/utils';
+import { getErrorData } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters, saveFilters } from 'services/FiltersStorage';
@@ -415,9 +416,8 @@ const TransferList = (props: TransferListProps) => {
         display: columnItems[8].display,
         sortDirection: sortDirection[8],
         customBodyRender: value => {
-          const localTime = toLocalTime(value);
-          const formattedDate =
-            localTime && localTime.format(DateFormats.International.SimpleDateTime);
+          const formattedDate = moment(value).format(DateFormats.International.SimpleDateTime);
+
           return (
             <CellSkeleton searching={searching}>
               <strong>{formattedDate || '--'}</strong>

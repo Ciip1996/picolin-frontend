@@ -9,7 +9,7 @@ import { FormControl } from '@material-ui/core';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import CustomDatePicker from 'UI/components/atoms/CustomDatePicker';
-import { currencyFormatter, getErrorData, toLocalTime } from 'UI/utils';
+import { currencyFormatter, getErrorData } from 'UI/utils';
 
 import { showAlert } from 'actions/app';
 import { drawerAnchor, PageTitles, DateFormats } from 'UI/constants/defaults';
@@ -349,9 +349,7 @@ const PaymentList = (props: PaymentListProps) => {
         sortDirection: sortDirection[5],
         filterType: 'custom',
         customBodyRender: value => {
-          const localTime = toLocalTime(value);
-          const formattedDate =
-            localTime && localTime.format(DateFormats.International.SimpleDateTime);
+          const formattedDate = moment(value).format(DateFormats.International.SimpleDateTime);
           return (
             <CellSkeleton searching={searching}>
               <strong>{formattedDate || '--'}</strong>
