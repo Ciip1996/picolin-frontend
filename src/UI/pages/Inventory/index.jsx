@@ -13,6 +13,7 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 
 import { showAlert } from 'actions/app';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
+import { userHasAdminPermissions } from 'services/Authorization';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -61,6 +62,7 @@ const InventoryList = (props: InventoryListProps) => {
   const { onShowAlert } = props;
   const language = localStorage.getItem('language');
 
+  const isUserAdmin = userHasAdminPermissions();
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState(false);
@@ -86,7 +88,7 @@ const InventoryList = (props: InventoryListProps) => {
     direction: savedParams?.direction || undefined,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isAddProductDrawerOpen: false,
+    isAddProductDrawerOpen: false && isUserAdmin,
     isQRCodeDrawerOpen: false,
     productCode: null
   });
@@ -589,12 +591,14 @@ const InventoryList = (props: InventoryListProps) => {
               selectedValue={filters.store_filter}
               onSelect={handleFilterChange}
             />
-            <ActionButton
-              text={Contents[language]?.addNewProduct}
-              onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
-            >
-              <AddIcon fill={colors.white} size={18} />
-            </ActionButton>
+            {isUserAdmin && (
+              <ActionButton
+                text={Contents[language]?.addNewProduct}
+                onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
+              >
+                <AddIcon fill={colors.white} size={18} />
+              </ActionButton>
+            )}
           </Box>
         }
         filters={filters}
