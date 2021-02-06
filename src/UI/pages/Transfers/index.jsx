@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import { FormControl } from '@material-ui/core';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';

@@ -24,7 +24,7 @@
     "jspdf": "^2.1.1",
     "lodash": "^4.17.19",
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.28",
+    "moment-timezone": "^0.5.32",
     "mui-datatables": "^2.15.0",
     "notistack": "^0.9.11",
     "prop-types": "^15.7.2",

@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'App.css';
 import { THEME } from 'GlobalStyles';
 import Routes from 'routes/Routes';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { getCurrentSessionExpirationDate, logout } from 'services/Authentication';
 import 'moment/locale/es';
 import { now } from 'lodash';
@@ -19,6 +19,7 @@ const DEFAULT_LANGUAGE = 'Spanish';
 //   localStorage.setItem('language', language);
 // }
 moment.locale(DEFAULT_LOCALE); // set default locale manually to Spanish
+moment.tz.setDefault('America/Mexico_City'); // set default timezones for dates from database
 
 const App = () => {
   const [locale, setLocale] = useState('');

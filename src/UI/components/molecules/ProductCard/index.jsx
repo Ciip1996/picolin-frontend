@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 import Box from '@material-ui/core/Box';
 import Text from 'UI/components/atoms/Text';
