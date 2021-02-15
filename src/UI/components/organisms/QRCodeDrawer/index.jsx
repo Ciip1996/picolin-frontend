@@ -19,11 +19,12 @@ import Contents from './strings';
 type QRCodeDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
-  productCode: string | null
+  productCode: string,
+  productDescription: string
 };
 
 const QRCodeDrawer = (props: QRCodeDrawerProps) => {
-  const { handleClose, onShowAlert, productCode } = props;
+  const { handleClose, onShowAlert, productCode, productDescription } = props;
   const language = localStorage.getItem('language');
 
   // const [copies, setCopies] = useState(null);
@@ -63,6 +64,35 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
   //   setValue(name, value, true);
   // };
 
+  function resizeImage(base64Str, maxWidth = 500, maxHeight = 500) {
+    return new Promise(resolve => {
+      const img = new Image();
+      img.src = base64Str;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = maxWidth;
+        const MAX_HEIGHT = maxHeight;
+        let { width } = img;
+        let { height } = img;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else if (height > MAX_HEIGHT) {
+          width *= MAX_HEIGHT / height;
+          height = MAX_HEIGHT;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL());
+      };
+    });
+  }
+
   const onSubmit = async () => {
     try {
       // TODO: SEND TO PRINT THE QR CODE
@@ -76,9 +106,14 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
           unit: 'mm',
           format: [180, 120]
         });
-        pdf.text(productCode, 120, 100);
-        pdf.addImage(imgData, 'PNG', 15, 15);
-        pdf.save('download.pdf');
+        const QRCodeImageSize = 300;
+        resizeImage(imgData, QRCodeImageSize, QRCodeImageSize).then(resizedImage => {
+          pdf.setFontSize(22);
+          pdf.text(productDescription, 15, 15);
+          pdf.addImage(resizedImage, 'PNG', 15, 25);
+          pdf.text(productCode, 15, 115);
+          pdf.save(`${productCode}.pdf`);
+        });
       });
       onShowAlert({
         severity: 'success',
@@ -124,6 +159,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
                 <div id="QRCodeContainer">
                   <QRCode size={300} renderAs="svg" value={productCode} level="H" />
                 </div>
+                <strong>{`Código de Producto: ${productCode}`}</strong>
               </Box>
               {/* <TextBox
                 name="copies"

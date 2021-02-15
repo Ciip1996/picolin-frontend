@@ -2,7 +2,7 @@ import jsPDF from 'jspdf';
 import { MontserratRegular, MontserratBold, RobotoMonoRegular, RobotoMonoBold } from 'UI/res/fonts';
 import { currencyFormatter, getFeatureFlags } from 'UI/utils';
 import { FeatureFlags } from 'UI/constants/featureFlags';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { DateFormats } from 'UI/constants/defaults';
 
 const initialLinePositionAfterHeader = 57;
@@ -79,7 +79,7 @@ const generateFooter = (doc, line, amountOfProducts) => {
   linePosition += 5;
 
   doc.text(
-    `Fecha de Impresión: ${moment(Date.now()).format(DateFormats.International.SimpleDateTime)} `,
+    `Fecha de Impresión: ${moment().format(DateFormats.International.SimpleDateTime)} `,
     leftMargin,
     linePosition
   );

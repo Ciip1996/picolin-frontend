@@ -1,7 +1,7 @@
 // @flow
 import React, { useState, useEffect, useCallback } from 'react';
 import { FormContext, useFormContext } from 'react-hook-form';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import queryString from 'query-string';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
@@ -96,7 +96,7 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
   const getListOfTodaysPayments = useCallback(async () => {
     try {
       const queryParams = queryString.stringify({
-        date: moment(Date.now()).format(DateFormats.SQL)
+        date: moment().format(DateFormats.SQL)
       });
       const url = `${Endpoints.Cashier}${Endpoints.StorePayments}?`.replace(
         ':idStore',

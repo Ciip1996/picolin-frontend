@@ -1,12 +1,13 @@
 // @flow
 import React from 'react';
+import moment from 'moment-timezone';
 
 import Box from '@material-ui/core/Box';
 import Text from 'UI/components/atoms/Text';
 import { colors, CalendarIcon } from 'UI/res';
 import { DateFormats } from 'UI/constants/defaults';
 import { AdditionalRecruiterType } from 'UI/constants/status';
-import { toLocalTime, nestTernary } from 'UI/utils';
+import { nestTernary } from 'UI/utils';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import { styles } from './styles';
 
@@ -23,8 +24,7 @@ type ProductCardProps = {
 const ProductCard = (props: ProductCardProps) => {
   const { date, creator, recruiter, otherRecruiter, isLoading, action, type } = props;
 
-  const localTime = toLocalTime(date);
-  const formattedDate = localTime && localTime.format(DateFormats.International.SimpleDateTime);
+  const formattedDate = moment(date).format(DateFormats.International.SimpleDateTime);
 
   return (
     <Box my={2}>
