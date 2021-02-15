@@ -15,7 +15,7 @@ const Contents = {
     Subtitle:
       'El código QR mostrado a continuación, le pertenece al producto que acaba de agregar al inventario. Puede proceder a descargar u omitir este paso si así lo desea.',
     Download: 'Descargar',
-    Skip: 'Omitir',
+    Skip: 'Cerrar',
     Copies: 'Copias',
     Close: 'Cerrar',
     QRCodeErrorTitle: 'Error al generar Código QR',
