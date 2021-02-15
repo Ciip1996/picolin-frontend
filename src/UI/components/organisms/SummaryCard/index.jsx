@@ -64,7 +64,7 @@ const SummaryCard = (props: SummaryCardProps) => {
           required: Contents[language]?.receivedRequired,
           validate: value => {
             return (
-              parseFloat(value) >= parseFloat(watchFields.total) ||
+              parseFloat(value) >= parseFloat(watchFields.totalWithDiscount) ||
               `Debe ser mayor o igual que el total`
             );
           }
@@ -73,7 +73,7 @@ const SummaryCard = (props: SummaryCardProps) => {
     } else if (!comboValues?.idPaymentMethod || comboValues?.idPaymentMethod?.id !== 2) {
       unregister('received');
     }
-  }, [comboValues, register, triggerValidation, unregister, watchFields.total]);
+  }, [comboValues, register, triggerValidation, unregister, watchFields.totalWithDiscount]);
 
   const hasAnImportantError = !!errors?.received || !!errors?.discount;
 
