@@ -20,11 +20,12 @@ type QRCodeDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
   productCode: string,
-  productDescription: string
+  productDescription: string,
+  idProduct: string
 };
 
 const QRCodeDrawer = (props: QRCodeDrawerProps) => {
-  const { handleClose, onShowAlert, productCode, productDescription } = props;
+  const { handleClose, onShowAlert, productCode, productDescription, idProduct } = props;
   const language = localStorage.getItem('language');
 
   // const [copies, setCopies] = useState(null);
@@ -64,7 +65,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
   //   setValue(name, value, true);
   // };
 
-  function resizeImage(base64Str, maxWidth = 500, maxHeight = 500) {
+  function resizeImage(base64Str, maxWidth = 300, maxHeight = 300) {
     return new Promise(resolve => {
       const img = new Image();
       img.src = base64Str;
@@ -104,14 +105,22 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
         const pdf = new jsPDF({
           orientation: 'landscape',
           unit: 'mm',
-          format: [180, 120]
+          format: [128, 76]
         });
-        const QRCodeImageSize = 300;
+        const QRCodeImageSize = 256;
+        const textleftMargin = 75;
+        const qrCodeLeftMargin = 5;
+        const topMargin = 5;
+        const textWrappingWidth = 50;
         resizeImage(imgData, QRCodeImageSize, QRCodeImageSize).then(resizedImage => {
-          pdf.setFontSize(22);
-          pdf.text(productDescription, 15, 15);
-          pdf.addImage(resizedImage, 'PNG', 15, 25);
-          pdf.text(productCode, 15, 115);
+          pdf.setFontSize(16);
+          pdf.setFont(undefined, 'bold');
+          pdf.text(`ID: ${idProduct}`, textleftMargin, topMargin + 5);
+          pdf.text(`${productCode}`, textleftMargin, topMargin + 15);
+          pdf.setFont(undefined, 'normal');
+          const splitTitle = pdf.splitTextToSize(productDescription, textWrappingWidth);
+          pdf.text(textleftMargin, topMargin + 25, splitTitle);
+          pdf.addImage(resizedImage, 'PNG', qrCodeLeftMargin, topMargin);
           pdf.save(`${productCode}.pdf`);
         });
       });
