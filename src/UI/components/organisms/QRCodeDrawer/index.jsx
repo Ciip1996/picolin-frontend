@@ -105,21 +105,22 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
         const pdf = new jsPDF({
           orientation: 'landscape',
           unit: 'mm',
-          format: [128, 76]
+          format: [65, 45]
         });
-        const QRCodeImageSize = 256;
-        const textleftMargin = 75;
-        const qrCodeLeftMargin = 5;
+        const QRCodeImageSize = 110;
+        const textleftMargin = 35;
+        const qrCodeLeftMargin = 3;
         const topMargin = 5;
-        const textWrappingWidth = 50;
+        const textWrappingWidth = 25;
+
         resizeImage(imgData, QRCodeImageSize, QRCodeImageSize).then(resizedImage => {
-          pdf.setFontSize(16);
+          pdf.setFontSize(7);
           pdf.setFont(undefined, 'bold');
-          pdf.text(`ID: ${idProduct}`, textleftMargin, topMargin + 5);
-          pdf.text(`${productCode}`, textleftMargin, topMargin + 15);
+          pdf.text(`ID: ${idProduct}`, textleftMargin, topMargin + 3);
+          pdf.text(`${productCode}`, textleftMargin, topMargin + 7);
           pdf.setFont(undefined, 'normal');
           const splitTitle = pdf.splitTextToSize(productDescription, textWrappingWidth);
-          pdf.text(textleftMargin, topMargin + 25, splitTitle);
+          pdf.text(textleftMargin, topMargin + 12, splitTitle);
           pdf.addImage(resizedImage, 'PNG', qrCodeLeftMargin, topMargin);
           pdf.save(`${productCode}.pdf`);
         });
