@@ -68,7 +68,7 @@ export const useStyles = makeStyles(theme => ({
     color: '#AD4DFF',
     textAlign: 'right'
   },
-  description: {
+  name: {
     display: '-webkit-box',
     '-webkit-line-clamp': 1,
     '-webkit-box-orient': 'vertical',

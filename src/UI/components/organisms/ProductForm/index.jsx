@@ -44,7 +44,7 @@ const ProductForm = (props: ProductFormProps) => {
     register({ name: 'idStore' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'idGender' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'quantity' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'description' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
+    register({ name: 'name' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
   }, [language, register]);
 
   const handleComboChange = (name: string, value: any) => {
@@ -53,7 +53,12 @@ const ProductForm = (props: ProductFormProps) => {
   };
 
   const handleTextChange = (name?: string, value: any) => {
-    setValue(name, value, true);
+    if (name === 'name') {
+      const upperCaseValue = value.toUpperCase().replace(/( )?:( )?/g, '');
+      setValue(name, upperCaseValue, true);
+    } else {
+      setValue(name, value, true);
+    }
     setComboValues({ ...comboValues });
   };
 
@@ -71,12 +76,22 @@ const ProductForm = (props: ProductFormProps) => {
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%">
       <InputContainer>
         <TextBox
-          name="description"
+          name="name"
           label={Contents[language]?.Name}
-          error={!!errors?.description}
-          errorText={errors?.description && errors?.description.message}
+          error={!!errors?.name}
+          errorText={errors?.name && errors?.name.message}
           onChange={handleTextChange}
-          value={getValues('description') || ''}
+          value={getValues('name') || ''}
+        />
+        <AutocompleteSelect
+          name="name"
+          selectedValue={comboValues.name}
+          placeholder={Contents[language]?.Name}
+          error={!!errors?.name}
+          errorText={errors?.name && errors?.name?.message}
+          onSelect={handleComboChange}
+          url={Endpoints.GetNames}
+          autoFocus
         />
       </InputContainer>
       <InputContainer>

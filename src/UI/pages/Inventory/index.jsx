@@ -243,12 +243,12 @@ const InventoryList = (props: InventoryListProps) => {
   };
 
   const handleRowClick = newItem => {
-    const { productCode, description, idProduct } = data[newItem.rowIndex];
+    const { productCode, name, idProduct } = data[newItem.rowIndex];
     setUiState(prevState => ({
       ...prevState,
       isQRCodeDrawerOpen: true,
       productCode,
-      productDescription: description,
+      productDescription: name,
       idProduct
     }));
   };

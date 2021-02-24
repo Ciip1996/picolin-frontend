@@ -56,15 +56,6 @@ featureFlags.includes(FeatureFlags.Names) &&
 //     isActive: false
 //   });
 
-export const EntityType = {
-  Candidate: 'candidate',
-  Joborder: 'joborder',
-  Company: 'company',
-  HiringAuthority: 'hiringAuthority',
-  Name: 'name',
-  FeeAgreement: 'feeagreement'
-};
-
 export const entyTypesFilters = (type: string): EntityFilter[] => {
   return [
     { id: 0, title: `My ${type}`, order: 0 },

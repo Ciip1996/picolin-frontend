@@ -12,13 +12,13 @@ type ListProductRowProps = {
 
 const ListProductRow = (props: ListProductRowProps) => {
   const { product = {} } = props;
-  const { productCode, type, gender, color, material, description } = product;
+  const { productCode, type, gender, color, material, name } = product;
 
   const classes = useStyles();
 
   return (
     <Grid container>
-      <strong>{`${productCode}: ${description}` || ''}</strong>
+      <strong>{`${productCode}: ${name}` || ''}</strong>
       <br />
       <Grid container spacing={1}>
         <Grid item xs={3}>

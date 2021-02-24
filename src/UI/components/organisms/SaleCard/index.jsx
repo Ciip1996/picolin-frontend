@@ -33,17 +33,7 @@ const SaleCard = (props: SaleCardProps) => {
     // errors
   } = props;
 
-  const {
-    productCode,
-    gender,
-    size,
-    type,
-    color,
-    salePrice,
-    material,
-    stock,
-    description
-  } = product;
+  const { productCode, gender, size, type, color, salePrice, material, stock, name } = product;
 
   const prepareRemoveItem = () => {
     onRemoveItem(productCode);
@@ -123,7 +113,7 @@ const SaleCard = (props: SaleCardProps) => {
             <CloseIcon />
           </CustomIconButton>
         </Box>
-        <Text variant="subtitle1" className={classes.description} text={`${description}`} />
+        <Text variant="subtitle1" className={classes.name} text={`${name}`} />
         <Grid container marginTop={6} spacing={2}>
           <Grid item xs={4} lg={2}>
             <Chip label={`${stock} en stock`} className={classes.Chip} />

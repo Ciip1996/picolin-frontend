@@ -28,5 +28,6 @@ export const Endpoints = {
   Login: '/login',
   RegisterUser: '/registerUser',
   GetRoles: 'lists/getRoles',
-  GetDayIncome: 'lists/getDayIncome'
+  GetDayIncome: 'lists/getDayIncome',
+  GetNames: 'lists/getNames'
 };
