@@ -52,7 +52,8 @@ const columnItems = [
   { id: 7, name: 'type', display: true },
   { id: 8, name: 'reservedQuantity', display: false },
   { id: 9, name: 'material', display: true },
-  { id: 10, name: 'stock', display: true }
+  { id: 10, name: 'stock', display: true },
+  { id: 10, name: 'name', display: true }
 ];
 
 const getSortDirections = (orderBy: string, direction: string) =>
@@ -261,7 +262,7 @@ const InventoryList = (props: InventoryListProps) => {
       options: {
         filter: true,
         sort: false,
-        display: columnItems[0].display, // 'excluded'
+        display: 'excluded',
         filterType: 'custom'
       }
     },
@@ -281,6 +282,20 @@ const InventoryList = (props: InventoryListProps) => {
             </CellSkeleton>
           );
         }
+      }
+    },
+    {
+      name: 'name',
+      label: Contents[language]?.labName,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[11].display,
+        sortDirection: sortDirection[11],
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
+        },
+        filterType: 'custom'
       }
     },
     {

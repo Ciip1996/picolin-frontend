@@ -53,12 +53,7 @@ const ProductForm = (props: ProductFormProps) => {
   };
 
   const handleTextChange = (name?: string, value: any) => {
-    if (name === 'name') {
-      const upperCaseValue = value.toUpperCase().replace(/( )?:( )?/g, '');
-      setValue(name, upperCaseValue, true);
-    } else {
-      setValue(name, value, true);
-    }
+    setValue(name, value, true);
     setComboValues({ ...comboValues });
   };
 
@@ -75,15 +70,8 @@ const ProductForm = (props: ProductFormProps) => {
   return (
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%">
       <InputContainer>
-        <TextBox
-          name="name"
-          label={Contents[language]?.Name}
-          error={!!errors?.name}
-          errorText={errors?.name && errors?.name.message}
-          onChange={handleTextChange}
-          value={getValues('name') || ''}
-        />
         <AutocompleteSelect
+          noOptionsText="No se existe este nombre, solicite al administrador que lo agregue."
           name="name"
           selectedValue={comboValues.name}
           placeholder={Contents[language]?.Name}

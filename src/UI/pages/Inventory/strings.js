@@ -19,7 +19,8 @@ const Contents = {
     minSalePrice: 'Min Sale Price',
     minCost: 'Minimun cost',
     maxSalePrice: 'Max Sale Price',
-    maxCost: 'Maximum Cost'
+    maxCost: 'Maximum Cost',
+    labName: 'Name / Model'
   },
   Spanish: {
     pageTitle: 'INVENTARIO',
@@ -41,7 +42,8 @@ const Contents = {
     minSalePrice: 'Precio de venta minimo',
     minCost: 'Costo mínimo',
     maxSalePrice: 'Precio de venta máximo',
-    maxCost: 'Costo máximo'
+    maxCost: 'Costo máximo',
+    labName: 'Nombre / Modelo'
   }
 };
 export default Contents;
