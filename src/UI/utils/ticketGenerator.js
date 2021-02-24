@@ -157,11 +157,7 @@ const generateTicket = data => {
   data?.detail &&
     data.detail.forEach((each, index) => {
       doc.text(`Art.#${index + 1}: ${each?.productCode}`, leftMargin, linePosition);
-      doc.text(
-        `${each?.type} ${each?.characteristic} ${each?.color}`,
-        leftMargin,
-        linePosition + 5
-      );
+      doc.text(`${each?.type} ${each?.material} ${each?.color}`, leftMargin, linePosition + 5);
       doc.text(
         !each.combo ? `${currencyFormatter(each?.salePrice)}` : 'paquete',
         rightMargin,

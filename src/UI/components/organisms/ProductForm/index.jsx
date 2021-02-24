@@ -33,7 +33,7 @@ const ProductForm = (props: ProductFormProps) => {
 
   useEffect(() => {
     register({ name: 'idType' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'idCharacteristic' }, { required: ` ${Contents[language]?.RequiredMessage}` });
+    register({ name: 'idMaterial' }, { required: ` ${Contents[language]?.RequiredMessage}` });
     register({ name: 'idColor' }, { required: `${Contents[language]?.RequiredMessage}` });
     // register({ name: 'idProvider' }, { required: `${Contents[language]?.RequiredMessage}` }); // TODO: restore this once the client ask for it
     register({ name: 'idProvider' });
@@ -92,11 +92,11 @@ const ProductForm = (props: ProductFormProps) => {
         />
         <Separator />
         <AutocompleteSelect
-          name="idCharacteristic"
-          selectedValue={comboValues.idCharacteristic}
+          name="idMaterial"
+          selectedValue={comboValues.idMaterial}
           placeholder={Contents[language]?.Material}
-          error={!!errors?.idCharacteristic}
-          errorText={errors?.idCharacteristic && errors?.idCharacteristic.message}
+          error={!!errors?.idMaterial}
+          errorText={errors?.idMaterial && errors?.idMaterial.message}
           onSelect={handleComboChange}
           url={Endpoints.Materials}
         />

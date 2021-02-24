@@ -51,7 +51,7 @@ const columnItems = [
   { id: 6, name: 'gender', display: true },
   { id: 7, name: 'type', display: true },
   { id: 8, name: 'reservedQuantity', display: false },
-  { id: 9, name: 'characteristic', display: true },
+  { id: 9, name: 'material', display: true },
   { id: 10, name: 'stock', display: true }
 ];
 
@@ -100,7 +100,7 @@ const InventoryList = (props: InventoryListProps) => {
       const {
         store_filter,
         gender_filter = undefined,
-        characteristic_filter = undefined,
+        material_filter = undefined,
         type_filter = undefined,
         color_filter = undefined,
         stock_filter = undefined,
@@ -117,7 +117,7 @@ const InventoryList = (props: InventoryListProps) => {
         page: uiState.page + 1,
         perPage: uiState.perPage,
         gender: gender_filter?.id,
-        characteristic: characteristic_filter?.title,
+        material: material_filter?.title,
         idType: type_filter?.id,
         color: color_filter?.title,
         stock: stock_filter?.numberValue,
@@ -497,7 +497,7 @@ const InventoryList = (props: InventoryListProps) => {
       }
     },
     {
-      name: 'characteristic',
+      name: 'material',
       label: Contents[language]?.labMaterials,
       options: {
         filter: true,
@@ -514,10 +514,10 @@ const InventoryList = (props: InventoryListProps) => {
               <FormControl>
                 <div display="flex">
                   <AutocompleteSelect
-                    name="characteristic_filter"
+                    name="material_filter"
                     placeholder={Contents[language]?.labMaterials}
-                    url={Endpoints.Characteristics}
-                    selectedValue={filters.characteristic_filter}
+                    url={Endpoints.Materials}
+                    selectedValue={filters.material_filter}
                     onSelect={handleFilterChange}
                   />
                 </div>

@@ -33,7 +33,7 @@ const TransferCard = (props: TransferCardProps) => {
     // errors
   } = props;
 
-  const { productCode, gender, size, type, color, cost, characteristic, stock } = product;
+  const { productCode, gender, size, type, color, cost, material, stock } = product;
 
   const prepareRemoveItem = () => {
     onRemoveItem(productCode);
@@ -131,7 +131,7 @@ const TransferCard = (props: TransferCardProps) => {
             <Chip label={color} className={classes.Chip} />
           </Grid>
           <Grid item xs={4}>
-            <Chip label={characteristic} className={classes.Chip} />
+            <Chip label={material} className={classes.Chip} />
           </Grid>
           <Grid item xs={4}>
             <Chip label={gender} className={classes.Chip} />

@@ -40,7 +40,7 @@ const SaleCard = (props: SaleCardProps) => {
     type,
     color,
     salePrice,
-    characteristic,
+    material,
     stock,
     description
   } = product;
@@ -138,7 +138,7 @@ const SaleCard = (props: SaleCardProps) => {
             <Chip label={color} className={classes.Chip} />
           </Grid>
           <Grid item xs={4} lg={2}>
-            <Chip label={characteristic} className={classes.Chip} />
+            <Chip label={material} className={classes.Chip} />
           </Grid>
           <Grid item xs={4} lg={2}>
             <Chip label={gender} className={classes.Chip} />

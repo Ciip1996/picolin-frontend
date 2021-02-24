@@ -12,7 +12,7 @@ type ListProductRowProps = {
 
 const ListProductRow = (props: ListProductRowProps) => {
   const { product = {} } = props;
-  const { productCode, type, gender, color, characteristic, description } = product;
+  const { productCode, type, gender, color, material, description } = product;
 
   const classes = useStyles();
 
@@ -37,8 +37,8 @@ const ListProductRow = (props: ListProductRowProps) => {
           </Tooltip>
         </Grid>
         <Grid item xs={3}>
-          <Tooltip title={`${characteristic}`}>
-            <Chip label={`${characteristic}`} className={classes.chip} />
+          <Tooltip title={`${material}`}>
+            <Chip label={`${material}`} className={classes.chip} />
           </Tooltip>
         </Grid>
       </Grid>
