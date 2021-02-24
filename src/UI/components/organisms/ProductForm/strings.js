@@ -2,7 +2,7 @@ const Contents = {
   English: {
     RequiredMessage: 'This is a required field',
     ProductType: 'Type of product *',
-    Characteristics: 'Characteristics *',
+    Material: 'Material *',
     Color: 'Color *',
     Provider: 'Provider *',
     Size: 'Size *',
@@ -12,22 +12,24 @@ const Contents = {
     ReceptionPlace: 'Reception Place *',
     Gender: 'Gender *',
     Quantity: 'Quantity *',
-    Description: 'Description *'
+    Name: 'Name *',
+    UniqueSize: 'One Size'
   },
   Spanish: {
     RequiredMessage: 'Este es un campo obligatorio',
     ProductType: 'Tipo de Producto *',
-    Characteristics: 'Caracteristicas *',
+    Material: 'Material *',
     Color: 'Color *',
-    Provider: 'Proveedor *',
+    Provider: 'Código de Linea',
     Size: 'Talla *',
-    Pieces: 'Piezas *',
+    Pieces: '# Piezas en producto *',
     Cost: 'Costo *',
     SalePrice: 'Precio de Venta *',
     ReceptionPlace: 'Lugar de recepción *',
     Gender: 'Género *',
-    Quantity: 'Cantidad *',
-    Description: 'Descripción *'
+    Quantity: 'Cantidad de unidades *',
+    Name: 'Nombre *',
+    UniqueSize: 'Unitalla'
   }
 };
 export default Contents;

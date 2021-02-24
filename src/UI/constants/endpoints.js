@@ -16,7 +16,7 @@ export const Endpoints = {
   Colors: 'lists/getColors',
   Stores: 'lists/getStore',
   GetTypes: 'lists/getTypes',
-  Characteristics: 'lists/getCharacteristics',
+  Materials: 'lists/getMaterials',
   Provider: 'lists/getProviders',
   Sizes: 'lists/getSizes',
   Genders: 'lists/getGenders',

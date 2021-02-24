@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import Box from '@material-ui/core/Box';
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import TextBox from 'UI/components/atoms/TextBox';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -25,6 +27,7 @@ const ProductForm = (props: ProductFormProps) => {
   const language = localStorage.getItem('language');
 
   const [comboValues, setComboValues] = useState<MapType>(initialValues);
+  const [uniqueSize, setUniqueSize] = useState(false);
 
   const { register, errors, setValue, getValues } = useFormContext();
 
@@ -32,7 +35,8 @@ const ProductForm = (props: ProductFormProps) => {
     register({ name: 'idType' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'idCharacteristic' }, { required: ` ${Contents[language]?.RequiredMessage}` });
     register({ name: 'idColor' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'idProvider' }, { required: `${Contents[language]?.RequiredMessage}` });
+    // register({ name: 'idProvider' }, { required: `${Contents[language]?.RequiredMessage}` }); // TODO: restore this once the client ask for it
+    register({ name: 'idProvider' });
     register({ name: 'size' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'pieces' }, { required: `${Contents[language]?.RequiredMessage}` });
     register({ name: 'cost' }, { required: `${Contents[language]?.RequiredMessage}` });
@@ -53,8 +57,28 @@ const ProductForm = (props: ProductFormProps) => {
     setComboValues({ ...comboValues });
   };
 
+  const onSwitcherChange = (event: Object) => {
+    const isUniqueSize = event.target.checked;
+    if (isUniqueSize) {
+      setValue('size', 'Unitalla', true);
+    } else {
+      setValue('size', null, true);
+    }
+    setUniqueSize(isUniqueSize);
+  };
+
   return (
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%">
+      <InputContainer>
+        <TextBox
+          name="description"
+          label={Contents[language]?.Name}
+          error={!!errors?.description}
+          errorText={errors?.description && errors?.description.message}
+          onChange={handleTextChange}
+          value={getValues('description') || ''}
+        />
+      </InputContainer>
       <InputContainer>
         <AutocompleteSelect
           name="idType"
@@ -70,14 +94,25 @@ const ProductForm = (props: ProductFormProps) => {
         <AutocompleteSelect
           name="idCharacteristic"
           selectedValue={comboValues.idCharacteristic}
-          placeholder={Contents[language]?.Characteristics}
+          placeholder={Contents[language]?.Material}
           error={!!errors?.idCharacteristic}
           errorText={errors?.idCharacteristic && errors?.idCharacteristic.message}
           onSelect={handleComboChange}
-          url={Endpoints.Characteristics}
+          url={Endpoints.Materials}
         />
       </InputContainer>
       <InputContainer>
+        <AutocompleteSelect
+          name="idGender"
+          placeholder={Contents[language]?.Gender}
+          selectedValue={comboValues.idGender}
+          error={!!errors?.idGender}
+          errorText={errors?.idGender && errors?.idGender.message}
+          onSelect={handleComboChange}
+          url={Endpoints.Genders}
+        />
+
+        <Separator />
         <AutocompleteSelect
           name="idColor"
           selectedValue={comboValues.idColor}
@@ -87,20 +122,22 @@ const ProductForm = (props: ProductFormProps) => {
           onSelect={handleComboChange}
           url={Endpoints.Colors}
         />
-        <Separator />
-        <AutocompleteSelect
-          name="idProvider"
-          selectedValue={comboValues.idProvider}
-          placeholder={Contents[language]?.Provider}
-          error={!!errors?.idProvider}
-          errorText={errors?.idProvider && errors?.idProvider.message}
-          onSelect={handleComboChange}
-          url={Endpoints.Provider}
-        />
       </InputContainer>
       <InputContainer>
+        <FormControlLabel
+          name="uniquesize"
+          style={{ height: '100%' }}
+          control={<Switch color="primary" />}
+          onChange={onSwitcherChange}
+          label={Contents[language]?.UniqueSize}
+          labelPlacement="start"
+          error={!!errors.uniquesize}
+          helperText={errors.uniquesize && errors.uniquesize.message}
+        />
+        <Separator />
         <TextBox
-          inputType="number"
+          disabled={uniqueSize}
+          inputType={uniqueSize ? 'text' : 'number'}
           name="size"
           label={Contents[language]?.Size}
           error={!!errors?.size}
@@ -109,15 +146,6 @@ const ProductForm = (props: ProductFormProps) => {
           value={getValues('size') || ''}
         />
         <Separator />
-        <TextBox
-          inputType="number"
-          name="pieces"
-          label={Contents[language]?.Pieces}
-          error={!!errors?.pieces}
-          errorText={errors?.pieces && errors?.pieces.message}
-          onChange={handleTextChange}
-          value={getValues('pieces') || ''}
-        />
       </InputContainer>
       <InputContainer>
         <TextBox
@@ -152,13 +180,13 @@ const ProductForm = (props: ProductFormProps) => {
         />
         <Separator />
         <AutocompleteSelect
-          name="idGender"
-          placeholder={Contents[language]?.Gender}
-          selectedValue={comboValues.idGender}
-          error={!!errors?.idGender}
-          errorText={errors?.idGender && errors?.idGender.message}
+          name="idProvider"
+          selectedValue={comboValues.idProvider}
+          placeholder={Contents[language]?.Provider}
+          error={!!errors?.idProvider}
+          errorText={errors?.idProvider && errors?.idProvider.message}
           onSelect={handleComboChange}
-          url={Endpoints.Genders}
+          url={Endpoints.Provider}
         />
       </InputContainer>
       <InputContainer>
@@ -171,15 +199,15 @@ const ProductForm = (props: ProductFormProps) => {
           onChange={handleTextChange}
           value={getValues('quantity') || ''}
         />
-      </InputContainer>
-      <InputContainer>
+        <Separator />
         <TextBox
-          name="description"
-          label={Contents[language]?.Description}
-          error={!!errors?.description}
-          errorText={errors?.description && errors?.description.message}
+          inputType="number"
+          name="pieces"
+          label={Contents[language]?.Pieces}
+          error={!!errors?.pieces}
+          errorText={errors?.pieces && errors?.pieces.message}
           onChange={handleTextChange}
-          value={getValues('description') || ''}
+          value={getValues('pieces') || ''}
         />
       </InputContainer>
     </Box>
