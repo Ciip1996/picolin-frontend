@@ -498,7 +498,7 @@ const InventoryList = (props: InventoryListProps) => {
     },
     {
       name: 'characteristic',
-      label: Contents[language]?.labCharacteristic,
+      label: Contents[language]?.labMaterials,
       options: {
         filter: true,
         sort: true,
@@ -515,7 +515,7 @@ const InventoryList = (props: InventoryListProps) => {
                 <div display="flex">
                   <AutocompleteSelect
                     name="characteristic_filter"
-                    placeholder={Contents[language]?.labCharacteristic}
+                    placeholder={Contents[language]?.labMaterials}
                     url={Endpoints.Characteristics}
                     selectedValue={filters.characteristic_filter}
                     onSelect={handleFilterChange}
