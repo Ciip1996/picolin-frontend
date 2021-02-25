@@ -387,7 +387,9 @@ const InventoryList = (props: InventoryListProps) => {
         sortDirection: sortDirection[4],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>{value || (value === 0 ? 0 : '--')}</CellSkeleton>
+          );
         }
       }
     },
@@ -401,7 +403,11 @@ const InventoryList = (props: InventoryListProps) => {
         sortDirection: sortDirection[5],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{currencyFormatter(value)}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>
+              {value ? currencyFormatter(value) : currencyFormatter(0)}
+            </CellSkeleton>
+          );
         }
       }
     },
@@ -551,7 +557,9 @@ const InventoryList = (props: InventoryListProps) => {
         display: columnItems[10].display,
         sortDirection: sortDirection[10],
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>{value || (value === 0 ? 0 : '--')}</CellSkeleton>
+          );
         },
         filterType: 'custom',
         filterOptions: {

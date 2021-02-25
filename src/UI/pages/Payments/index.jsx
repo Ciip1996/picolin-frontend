@@ -335,7 +335,11 @@ const PaymentList = (props: PaymentListProps) => {
         sortDirection: sortDirection[4],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{currencyFormatter(value)}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>
+              {value ? currencyFormatter(value) : currencyFormatter(0)}
+            </CellSkeleton>
+          );
         }
       }
     },

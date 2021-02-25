@@ -339,7 +339,11 @@ const SalesList = (props: SalesListProps) => {
         sortDirection: sortDirection[2],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{currencyFormatter(value)}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>
+              {value ? currencyFormatter(value) : currencyFormatter(0)}
+            </CellSkeleton>
+          );
         },
         filterOptions: {
           display: () => {
@@ -465,7 +469,9 @@ const SalesList = (props: SalesListProps) => {
         sortDirection: sortDirection[6],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>{value || (value === 0 ? 0 : '--')}</CellSkeleton>
+          );
         }
       }
     }
