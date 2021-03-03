@@ -245,12 +245,13 @@ const InventoryList = (props: InventoryListProps) => {
 
   const handleRowClick = newItem => {
     const { productCode, name, idProduct } = data[newItem.rowIndex];
+
     setUiState(prevState => ({
       ...prevState,
       isQRCodeDrawerOpen: true,
       productCode,
       productDescription: name,
-      idProduct
+      productId: idProduct
     }));
   };
 
@@ -686,7 +687,7 @@ const InventoryList = (props: InventoryListProps) => {
       >
         <div role="presentation">
           <QRCodeDrawer
-            idProduct={uiState.productId || ''}
+            productId={uiState.productId || ''}
             productCode={uiState.productCode || ''}
             productDescription={uiState.productDescription || ''}
             onShowAlert={onShowAlert}

@@ -21,11 +21,11 @@ type QRCodeDrawerProps = {
   onShowAlert: any => any,
   productCode: string,
   productDescription: string,
-  idProduct: string
+  productId: string
 };
 
 const QRCodeDrawer = (props: QRCodeDrawerProps) => {
-  const { handleClose, onShowAlert, productCode, productDescription, idProduct } = props;
+  const { handleClose, onShowAlert, productCode, productDescription, productId } = props;
   const language = localStorage.getItem('language');
 
   // const [copies, setCopies] = useState(null);
@@ -116,7 +116,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
         resizeImage(imgData, QRCodeImageSize, QRCodeImageSize).then(resizedImage => {
           pdf.setFontSize(7);
           pdf.setFont(undefined, 'bold');
-          pdf.text(`ID: ${idProduct}`, textleftMargin, topMargin + 3);
+          pdf.text(`ID: ${productId}`, textleftMargin, topMargin + 3);
           pdf.text(`${productCode}`, textleftMargin, topMargin + 7);
           pdf.setFont(undefined, 'normal');
           const splitTitle = pdf.splitTextToSize(productDescription, textWrappingWidth);
