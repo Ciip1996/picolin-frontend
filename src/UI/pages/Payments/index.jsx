@@ -136,14 +136,18 @@ const PaymentList = (props: PaymentListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
+      const { message } = err;
       setError(true);
+      setData([]);
+      setLoading(false);
+      setSearching(false);
       onShowAlert({
         severity: 'error',
-        // title: Contents[language]?.pageTitle,
         autoHideDuration: 3000,
         title: getErrorData(err)?.title || 'Error en conexión',
-        body: getErrorData(err)?.message || 'Contacte a soporte técnico'
+        body: message || getErrorData(err)?.message || 'Contacte a soporte técnico'
       });
+      throw err;
     }
   }, [
     filters,

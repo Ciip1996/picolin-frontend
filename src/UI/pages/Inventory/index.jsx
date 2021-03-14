@@ -139,6 +139,8 @@ const InventoryList = (props: InventoryListProps) => {
       const response = await API.get(`${url}${queryParams}`);
       if (response?.status === 200) {
         setData(response?.data?.inventory || []);
+      } else if (response?.status === 500) {
+        setError(true);
       }
 
       setCount(Number(response?.data?.totalResults) || 0);
@@ -146,13 +148,18 @@ const InventoryList = (props: InventoryListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
+      const { message } = err;
       setError(true);
+      setData([]);
+      setLoading(false);
+      setSearching(false);
       onShowAlert({
         severity: 'error',
         autoHideDuration: 3000,
         title: getErrorData(err)?.title || 'Error en conexión',
-        body: getErrorData(err)?.message || 'Contacte a soporte técnico'
+        body: message || getErrorData(err)?.message || 'Contacte a soporte técnico'
       });
+      throw err;
     }
   }, [
     filters,
