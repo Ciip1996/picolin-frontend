@@ -53,14 +53,14 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
         formData
       );
       if (response) {
-        const { productCode, name, productId, message, title } = response?.data;
+        const { productCode, name, idProduct, message, title } = response?.data;
         onShowAlert({
           severity: 'success',
           title,
           autoHideDuration: 3000,
           body: message
         });
-        productCode && name && productId && onProductInserted(productCode, name, productId);
+        productCode && name && idProduct && onProductInserted(productCode, name, idProduct);
       }
     } catch (err) {
       onShowAlert({
