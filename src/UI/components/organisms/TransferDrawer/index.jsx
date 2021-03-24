@@ -8,9 +8,10 @@ import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
 import InputContainer from 'UI/components/atoms/InputContainer';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
+import AutocompleteDebounce from 'UI/components/molecules/AutocompleteDebounce';
+
 import { Endpoints } from 'UI/constants/endpoints';
 import TransferCard from 'UI/components/organisms/TransferCard';
-import ListProductRow from 'UI/components/molecules/ListProductRow';
 
 import type { MapType } from 'types';
 import API from 'services/API';
@@ -35,9 +36,6 @@ const TransferDrawer = (props: TransferDrawerProps) => {
   const form = useForm();
   const { register, errors, handleSubmit, setValue, watch, unregister, reset } = form;
 
-  // const vals = getValues();
-  // console.log(vals);
-
   const onSubmit = async (formData: Object) => {
     try {
       const { idDestination, idOrigin } = formData;
@@ -55,6 +53,7 @@ const TransferDrawer = (props: TransferDrawerProps) => {
         idOrigin,
         products
       };
+
       const response = await API.post(`${Endpoints.Transfers}${Endpoints.InsertTransfer}`, params);
       if (response) {
         onShowAlert({
@@ -103,11 +102,7 @@ const TransferDrawer = (props: TransferDrawerProps) => {
     setValue(name, value ? true : undefined, true);
   };
 
-  const defaultOptionSelectedFn = (option, value) => option.id === value.id;
-  const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
-    ':idStore',
-    comboValues?.idOrigin?.id ? comboValues?.idOrigin?.id : ''
-  );
+  // const defaultOptionSelectedFn = (option, value) => option.id === value.id;
 
   const onRemoveProduct = (productCode: string) => {
     setProductsList(prevState => {
@@ -181,6 +176,12 @@ const TransferDrawer = (props: TransferDrawerProps) => {
 
   const Separator = () => <span style={{ width: 20 }} />;
 
+  const baseUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`;
+  const isIdSelected =
+    comboValues?.idOrigin?.id !== undefined && comboValues?.idOrigin?.id !== null;
+  const fullUrl = isIdSelected && baseUrl.replace(':idStore', comboValues.idOrigin.id);
+  const urlString = isIdSelected ? fullUrl : null;
+
   return (
     <>
       <DrawerFormLayout
@@ -223,23 +224,26 @@ const TransferDrawer = (props: TransferDrawerProps) => {
                 <Divider />
                 <Text variant="subtitle1" text={Contents[language]?.SecondStep} fontSize={12} />
                 <InputContainer>
-                  <AutocompleteSelect
+                  <AutocompleteDebounce
+                    // ADD typeahead and maxresults value
+                    maxOptions={15}
                     name="products"
-                    // selectedValue={comboValues.producto}
-                    disabled={!isProductFieldEnabled}
+                    onSelectItem={product => handleAddProduct('products', product)}
                     placeholder="Escriba un Producto"
-                    url={searchingProductsUrl}
-                    displayKey="name"
-                    typeahead
-                    typeaheadLimit={15}
-                    onSelect={handleAddProduct}
-                    getOptionSelected={defaultOptionSelectedFn}
+                    disabled={!isProductFieldEnabled}
+                    url={urlString || null}
                     dataFetchKeyName="inventory"
+                    displayKey="name"
+                    handleError={errorMessage =>
+                      onShowAlert({
+                        severity: 'error',
+                        title: 'Error de busqueda',
+                        autoHideDuration: 3000,
+                        body: `Ocurrió un problema: ${errorMessage}`
+                      })
+                    }
                     error={!!errors?.products}
                     errorText={errors?.products && errors?.products.message}
-                    renderOption={option => {
-                      return <ListProductRow product={option} />;
-                    }}
                   />
                 </InputContainer>
                 <div>

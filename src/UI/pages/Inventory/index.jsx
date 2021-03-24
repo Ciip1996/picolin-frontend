@@ -91,7 +91,7 @@ const InventoryList = (props: InventoryListProps) => {
     perPage: savedParams?.perPage || 10,
     isAddProductDrawerOpen: false && isUserAdmin,
     isQRCodeDrawerOpen: false,
-    productId: null,
+    idProduct: null,
     productCode: null,
     productDescription: null
   });
@@ -258,7 +258,7 @@ const InventoryList = (props: InventoryListProps) => {
       isQRCodeDrawerOpen: true,
       productCode,
       productDescription: name,
-      productId: idProduct
+      idProduct
     }));
   };
 
@@ -694,7 +694,7 @@ const InventoryList = (props: InventoryListProps) => {
       >
         <div role="presentation">
           <QRCodeDrawer
-            productId={uiState.productId || ''}
+            idProduct={uiState.idProduct || ''}
             productCode={uiState.productCode || ''}
             productDescription={uiState.productDescription || ''}
             onShowAlert={onShowAlert}
