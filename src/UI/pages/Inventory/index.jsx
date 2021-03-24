@@ -172,10 +172,11 @@ const InventoryList = (props: InventoryListProps) => {
   ]);
 
   const handleSearchChange = newKeyword => {
+    const purgedKeyword = newKeyword && newKeyword.replace(/'/g, '');
     setSearching(true);
     setUiState(prevState => ({
       ...prevState,
-      keyword: newKeyword,
+      keyword: purgedKeyword === '' ? undefined : purgedKeyword,
       page: 0
     }));
   };
