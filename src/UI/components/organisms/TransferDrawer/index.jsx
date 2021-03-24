@@ -225,8 +225,7 @@ const TransferDrawer = (props: TransferDrawerProps) => {
                 <Text variant="subtitle1" text={Contents[language]?.SecondStep} fontSize={12} />
                 <InputContainer>
                   <AutocompleteDebounce
-                    // ADD typeahead and maxresults value
-                    maxOptions={15}
+                    maxOptions={10}
                     name="products"
                     onSelectItem={product => handleAddProduct('products', product)}
                     placeholder="Escriba un Producto"

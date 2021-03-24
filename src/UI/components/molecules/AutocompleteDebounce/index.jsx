@@ -41,13 +41,13 @@ const AutocompleteDebounce = (props: AutocompleteDebounceProps) => {
       if (keyword && url) {
         setLoading(true);
         const queryParams = queryString.stringify({
-          keyword
+          keyword,
+          limit: maxOptions
         });
         const response = await API.get(`${url}?${queryParams}`);
         if (response.status === 200 && response?.data[dataFetchKeyName]) {
           const options = dataFetchKeyName ? response?.data[dataFetchKeyName] : response?.data;
-          const limitedOptions = maxOptions && options.slice(0, options);
-          setData(options || limitedOptions);
+          setData(options);
         } else {
           setData([]);
         }
@@ -78,6 +78,7 @@ const AutocompleteDebounce = (props: AutocompleteDebounceProps) => {
         onBlur={() => {
           setData(null);
           setLoading(false);
+          setInputValue('');
         }}
         value={inputValue}
         onChange={input => updateValue(input.target.value)}

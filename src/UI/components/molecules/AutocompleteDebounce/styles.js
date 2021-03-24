@@ -9,9 +9,13 @@ export const Input = styled.input`
   height: 40px;
   padding: 1rem;
   background: #f3f3f3;
-  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
   border-radius: 2rem;
   border: none;
+  outline: 0;
+  background: white;
+  font-family: 'Roboto';
+  font-size: 14px;
 `;
 
 export const Ul = styled.ul`
@@ -20,10 +24,9 @@ export const Ul = styled.ul`
 
 export const Li = styled.ul`
   width: 100%;
-  font-weight: bold;
   min-height: 40px;
   padding: 1rem;
-  background: #f5f0f0;
+  background: white;
   display: block;
   border-bottom: 1px solid white;
   display: flex;

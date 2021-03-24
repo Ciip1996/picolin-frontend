@@ -34,9 +34,6 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
   const form = useForm();
   const { register, errors, handleSubmit, setValue } = form;
 
-  // const vals = getValues();
-  // console.log(vals);
-
   const onSubmit = async (formData: Object) => {
     try {
       const { cost, concept, idStorePaymentCategory } = formData;

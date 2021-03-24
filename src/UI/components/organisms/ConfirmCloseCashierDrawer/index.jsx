@@ -47,9 +47,6 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
 
   const [cashierInformation, setCashierInformation] = useState([]);
 
-  // const vals = getValues();
-  // console.log(vals);
-
   const onSubmit = async () => {
     try {
       const params = {

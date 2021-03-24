@@ -9,7 +9,6 @@ import Drawer from '@material-ui/core/Drawer';
 import { useHistory } from 'react-router-dom';
 
 /** Atoms, Components and Styles */
-import ListProductRow from 'UI/components/molecules/ListProductRow';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import SummaryCard from 'UI/components/organisms/SummaryCard';
@@ -29,7 +28,7 @@ import { Endpoints } from 'UI/constants/endpoints';
 // import type { MapType } from 'types';
 import { AddIcon, colors, EmptyActivityLogs } from 'UI/res';
 
-import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
+import AutocompleteDebounce from 'UI/components/molecules/AutocompleteDebounce';
 
 import { FeatureFlags } from 'UI/constants/featureFlags';
 import type { MapType } from 'types';
@@ -60,8 +59,6 @@ const NewSaleList = (props: NewSaleListProps) => {
   const [uiState, setUiState] = useState({
     isAddComboToSaleDrawerOpen: false
   });
-
-  const defaultOptionSelectedFn = (option, value) => option.id === value.id;
 
   const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
     ':idStore',
@@ -289,7 +286,6 @@ const NewSaleList = (props: NewSaleListProps) => {
       saleCostSumatory = parseFloat(productsList[0]?.product?.salePrice);
     } else if (productsList.length > 1) {
       saleCostSumatory = productsList.reduce((accumulator: number, currentValue: Object) => {
-        // console.log(`${accumulator} + ${currentValue?.product?.salePrice}`);
         return parseFloat(accumulator) + parseFloat(currentValue?.product?.salePrice);
       }, 0.0);
     }
@@ -392,7 +388,26 @@ const NewSaleList = (props: NewSaleListProps) => {
                 display="flex"
                 minWidth={472}
               >
-                <AutocompleteSelect
+                <AutocompleteDebounce
+                  maxOptions={15}
+                  name="products"
+                  onSelectItem={product => handleAddProduct('products', product)}
+                  placeholder="Escriba un Producto"
+                  url={searchingProductsUrl || null}
+                  dataFetchKeyName="inventory"
+                  displayKey="name"
+                  handleError={errorMessage =>
+                    onShowAlert({
+                      severity: 'error',
+                      title: 'Error de busqueda',
+                      autoHideDuration: 3000,
+                      body: `Ocurrió un problema: ${errorMessage}`
+                    })
+                  }
+                  error={!!errors?.products}
+                  errorText={errors?.products && errors?.products.message}
+                />
+                {/* <AutocompleteSelect
                   autoFocus
                   autoSelect
                   name="products"
@@ -409,7 +424,7 @@ const NewSaleList = (props: NewSaleListProps) => {
                   renderOption={option => {
                     return <ListProductRow product={option} />;
                   }}
-                />
+                /> */}
                 <Box
                   flex={1}
                   display={
