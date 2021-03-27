@@ -7,10 +7,10 @@ export const DEFAULT_STORE = {
 };
 
 export const ID_TYPES = {
-  diaperRacks: 1,
-  footwear: 5,
-  blanket: 2,
-  ajuar: 3
+  diaperRacks: 4, // Panalero
+  footwear: 2, // Calzado
+  blanket: 3, // Sabana
+  ajuar: 5 // Ajuar
 };
 
 export const drawerAnchor = 'right';
