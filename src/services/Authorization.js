@@ -71,3 +71,30 @@ export const userHasAdminPermissions = () => {
   }
   return user.roleId === Roles.Admin || user.roleId === Roles.SuperAdmin;
 };
+
+export const userHasAdminOrManagerPermissions = () => {
+  const user = getCurrentUser();
+
+  if (!user) {
+    return false;
+  }
+  return (
+    user.roleId === Roles.Admin ||
+    user.roleId === Roles.SuperAdmin ||
+    user.roleId === Roles.Manager
+  );
+};
+
+export const userHasEmployeePermissions = () => {
+  const user = getCurrentUser();
+
+  if (!user) {
+    return false;
+  }
+  return (
+    user.roleId === Roles.Admin ||
+    user.roleId === Roles.SuperAdmin ||
+    user.roleId === Roles.Manager ||
+    user.roleId === Roles.Employee
+  );
+};

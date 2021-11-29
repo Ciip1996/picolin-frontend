@@ -64,6 +64,7 @@ const AutocompleteDebounce = (props: AutocompleteDebounceProps) => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSave = useCallback(
     debounce(newValue => getSuggestions(newValue), 1000),
     [url]

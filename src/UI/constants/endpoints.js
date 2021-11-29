@@ -5,6 +5,7 @@ export const Endpoints = {
   GetInventory: '/getInventory/:idStore',
   InsertInventory: '/insertInventory',
   Sales: '/sales',
+  Names: '/names',
   GetSales: '/getSales/:idStore',
   GetSaleDetails: '/getSaleDetail/:id',
   GetSaleDetailsByIdSale: '/getSaleDetailsByIdSale/:id',
@@ -29,5 +30,6 @@ export const Endpoints = {
   RegisterUser: '/registerUser',
   GetRoles: 'lists/getRoles',
   GetDayIncome: 'lists/getDayIncome',
-  GetNames: 'lists/getNames'
+  GetNames: 'lists/getNames',
+  GetProductNames: '/getNames'
 };

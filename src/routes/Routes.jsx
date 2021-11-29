@@ -18,6 +18,7 @@ import NewSale from 'UI/pages/NewSale';
 import Inventory from 'UI/pages/Inventory';
 import Transfers from 'UI/pages/Transfers';
 import Payments from 'UI/pages/Payments';
+import ProductNames from 'UI/pages/ProductNames';
 
 import Login from 'UI/pages/Login';
 import RegisterUser from 'UI/pages/RegisterUser';
@@ -27,15 +28,20 @@ import ErrorPage from 'UI/pages/ErrorPage';
 import Notifier from 'UI/components/molecules/Notifier';
 // import { FeatureFlags } from 'UI/constants/featureFlags';
 // import { getFeatureFlags } from 'UI/utils';
-import { userHasAdminPermissions } from 'services/Authorization';
+import {
+  userHasAdminPermissions,
+  userHasAdminOrManagerPermissions
+} from 'services/Authorization';
 
 // const featureFlags = getFeatureFlags();
 
 const Routes = () => {
   const [isUserAdmin, setIsUserAdmin] = React.useState(false);
+  const [isUserManagerOrAdmin, setIsUserManagerOrAdmin] = React.useState(false);
 
   React.useEffect(() => {
     setIsUserAdmin(userHasAdminPermissions());
+    setIsUserManagerOrAdmin(userHasAdminOrManagerPermissions());
   }, []);
 
   return (
@@ -61,6 +67,13 @@ const Routes = () => {
           component={RegisterUser}
           enabled={isUserAdmin}
         />
+        <PrivateRoute
+          exact
+          path={EntityRoutes.ProductNames}
+          component={ProductNames}
+          enabled={isUserManagerOrAdmin}
+        />
+
         <PrivateRoute exact path={EntityRoutes.Home} component={Home} />
         <PrivateRoute exact path={EntityRoutes.Sales} component={Sales} />
         <PrivateRoute exact path={EntityRoutes.NewSale} component={NewSale} />
@@ -75,7 +88,7 @@ const Routes = () => {
           exact
           path={EntityRoutes.Transfers}
           component={Transfers}
-          enabled={isUserAdmin}
+          enabled={isUserManagerOrAdmin}
         />
 
         <PrivateRoute path="*" component={() => <ErrorPage error={404} />} />

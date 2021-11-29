@@ -10,8 +10,8 @@ const Contents = {
     ItemsPerPage: 'Items por página',
     TotalResults: 'Resultados Totales: ',
     Results: 'Resultados: ',
-    From: 'de',
-    To: 'a'
+    From: 'del',
+    To: 'al'
   }
 };
 export default Contents;
