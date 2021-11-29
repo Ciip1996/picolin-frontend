@@ -28,15 +28,20 @@ import ErrorPage from 'UI/pages/ErrorPage';
 import Notifier from 'UI/components/molecules/Notifier';
 // import { FeatureFlags } from 'UI/constants/featureFlags';
 // import { getFeatureFlags } from 'UI/utils';
-import { userHasAdminPermissions } from 'services/Authorization';
+import {
+  userHasAdminPermissions,
+  userHasAdminOrManagerPermissions
+} from 'services/Authorization';
 
 // const featureFlags = getFeatureFlags();
 
 const Routes = () => {
   const [isUserAdmin, setIsUserAdmin] = React.useState(false);
+  const [isUserManagerOrAdmin, setIsUserManagerOrAdmin] = React.useState(false);
 
   React.useEffect(() => {
     setIsUserAdmin(userHasAdminPermissions());
+    setIsUserManagerOrAdmin(userHasAdminOrManagerPermissions());
   }, []);
 
   return (
@@ -66,7 +71,7 @@ const Routes = () => {
           exact
           path={EntityRoutes.ProductNames}
           component={ProductNames}
-          enabled={isUserAdmin}
+          enabled={isUserManagerOrAdmin}
         />
 
         <PrivateRoute exact path={EntityRoutes.Home} component={Home} />
@@ -83,7 +88,7 @@ const Routes = () => {
           exact
           path={EntityRoutes.Transfers}
           component={Transfers}
-          enabled={isUserAdmin}
+          enabled={isUserManagerOrAdmin}
         />
 
         <PrivateRoute path="*" component={() => <ErrorPage error={404} />} />

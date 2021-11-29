@@ -5,32 +5,52 @@ import {
   InventoryIcon,
   TransfersIcon,
   SalesIcon,
-  PaymentIcon
+  PaymentIcon,
+  ProductNamesIcon
+  // TicketIcon
 } from 'UI/res/icons';
 
 import { colors } from 'UI/res';
-import { userHasAdminPermissions } from 'services/Authorization';
+import {
+  userHasAdminOrManagerPermissions,
+  userHasEmployeePermissions
+} from 'services/Authorization';
 
-const isUserAdmin = userHasAdminPermissions();
+const isUserEmployee = userHasEmployeePermissions();
+const isUserManagerOrAdmin = userHasAdminOrManagerPermissions();
 
 const sideBarMenu = [
   {
-    title: 'Inventario',
-    route: EntityRoutes.Inventory,
+    title: 'Productos',
+    route: 'products',
     icon: {
       inactive: <InventoryIcon fill={colors.oxford} />,
-      opened: null,
-      active: <InventoryIcon fill={colors.white} />
-    }
-  },
-  {
-    title: 'Productos (Nombres)',
-    route: EntityRoutes.ProductNames,
-    icon: {
-      inactive: <InventoryIcon fill={colors.oxford} />,
-      opened: null,
-      active: <InventoryIcon fill={colors.white} />
-    }
+      opened: <InventoryIcon fill={colors.oxford} />,
+      active: <InventoryIcon fill={colors.oxford} />
+    },
+    subItems: [
+      {
+        title: 'Inventario',
+        route: EntityRoutes.Inventory,
+        icon: {
+          inactive: <InventoryIcon fill={colors.oxford} />,
+          opened: null,
+          active: <InventoryIcon fill={colors.white} />
+        },
+        display: isUserEmployee
+      },
+      {
+        title: 'Nombres',
+        route: EntityRoutes.ProductNames,
+        icon: {
+          inactive: <ProductNamesIcon fill={colors.oxford} />,
+          opened: null,
+          active: <ProductNamesIcon fill={colors.white} />
+        },
+        display: isUserManagerOrAdmin
+      }
+    ],
+    display: isUserEmployee
   },
   {
     title: 'Ventas',
@@ -39,7 +59,8 @@ const sideBarMenu = [
       inactive: <SalesIcon fill={colors.oxford} />,
       opened: null,
       active: <SalesIcon fill={colors.white} />
-    }
+    },
+    display: isUserEmployee
   },
 
   {
@@ -49,53 +70,29 @@ const sideBarMenu = [
       inactive: <PaymentIcon fill={colors.oxford} />,
       opened: null,
       active: <PaymentIcon fill={colors.white} />
-    }
+    },
+    display: isUserEmployee
+  },
+  {
+    title: 'Transferencias',
+    route: EntityRoutes.Transfers,
+    icon: {
+      inactive: <TransfersIcon fill={colors.oxford} />,
+      opened: null,
+      active: <TransfersIcon fill={colors.white} />
+    },
+    display: isUserManagerOrAdmin
   }
-
-  // The following code is used for the collapsible menu:
-  //   {
-  //   title: 'Inventario',
-  //   route: 'inventory',
+  // {
+  //   title: 'Generador de Tickets',
+  //   route: EntityRoutes.TicketGenerator,
   //   icon: {
-  //     inactive: <InventoryIcon />,
-  //     opened: <InventoryIcon  fill={colors.black} />,
-  //     active: <InventoryIcon  fill={colors.black} />
+  //     inactive: <TicketIcon fill={colors.oxford} />,
+  //     opened: null,
+  //     active: <TicketIcon fill={colors.white} />
   //   },
-  //   subItems: inventorySubItems
+  //   display: isUserManagerOrAdmin
   // }
 ];
-
-isUserAdmin &&
-  sideBarMenu.push(
-    {
-      title: 'Transferencias',
-      route: EntityRoutes.Transfers,
-      icon: {
-        inactive: <TransfersIcon fill={colors.oxford} />,
-        opened: null,
-        active: <TransfersIcon fill={colors.white} />
-      }
-    }
-    // {
-    //   title: 'Generador de Tickets',
-    //   route: EntityRoutes.TicketGenerator,
-    //   icon: {
-    //     inactive: <TicketIcon fill={colors.oxford} />,
-    //     opened: null,
-    //     active: <TicketIcon fill={colors.white} />
-    //   }
-    // subItems: [
-    //   {
-    //     title: 'Activity',
-    //     route: EntityRoutes.DashboardOverview,
-    //     icon: {
-    //       inactive: <TransfersIcon />,
-    //       opened: null,
-    //       active: <TransfersIcon fill={colors.completeBlack} />
-    //     }
-    //   }
-    // ]
-    // }
-  );
 
 export default sideBarMenu;

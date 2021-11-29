@@ -76,6 +76,7 @@ const Sidebar = (props: SidebarProps) => {
     const isActive = isActiveItem(item, selectedRoute);
     return (
       <ListItem
+        style={!item.display ? { display: 'none' } : undefined}
         className={isActive ? sidebarClasses.itemSelected : sidebarClasses.item}
         button
         onClick={() => handleListItemClick(item)}
@@ -98,9 +99,9 @@ const Sidebar = (props: SidebarProps) => {
 
   const SidebarSubitem = (SidebarSubitemProps: Object) => {
     const { item } = SidebarSubitemProps;
-
     return item.subItems.map(subitem => {
       const isActive = isActiveItem(subitem, selectedRoute);
+
       return (
         <Link
           key={subitem.route}
@@ -108,6 +109,7 @@ const Sidebar = (props: SidebarProps) => {
           className="nav-link router-link"
         >
           <ListItem
+            style={!subitem.display ? { display: 'none' } : undefined}
             className={
               isActive
                 ? sidebarClasses.subitemSelected
