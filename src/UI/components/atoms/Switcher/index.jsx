@@ -30,7 +30,12 @@ const Switcher = (props: SwitcherProps) => {
           My {category}
         </Box>
       </Typography>
-      <Switch checked={checked} onChange={handleChange} name="checked" color="primary" />
+      <Switch
+        checked={checked}
+        onChange={handleChange}
+        name="checked"
+        color="primary"
+      />
       <Typography component="div">
         <Box
           style={classes.textContainer}

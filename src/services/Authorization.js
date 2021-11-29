@@ -1,7 +1,10 @@
 // @flow
 // import type { UserRole } from 'types/app';
 
-import { AdditionalRecruiterStatus, AdditionalRecruiterType } from 'UI/constants/status';
+import {
+  AdditionalRecruiterStatus,
+  AdditionalRecruiterType
+} from 'UI/constants/status';
 import { Roles } from 'UI/constants/roles';
 import { getCurrentUser } from './Authentication';
 

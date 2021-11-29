@@ -6,7 +6,8 @@ const Contents = {
   },
   Spanish: {
     pageTitle: 'Inventario',
-    defaultSubtitle: '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
+    defaultSubtitle:
+      '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
     labCode: 'Código'
   }
 };

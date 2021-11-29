@@ -3,14 +3,29 @@ import React, { forwardRef } from 'react';
 import MuiAlert from '@material-ui/lab/Alert';
 import { useSnackbar } from 'notistack';
 import IconButton from '@material-ui/core/IconButton';
-import { SuccessIcon, AnnouncementIcon, ErrorIcon, WarningIcon, CloseIcon, colors } from 'UI/res';
+import {
+  SuccessIcon,
+  AnnouncementIcon,
+  ErrorIcon,
+  WarningIcon,
+  CloseIcon,
+  colors
+} from 'UI/res';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import Card from '@material-ui/core/Card';
 import { icon as iconDimensions } from 'UI/constants/dimensions';
-import { type notificationsType, notificationIcons } from 'UI/constants/notifications';
+import {
+  type notificationsType,
+  notificationIcons
+} from 'UI/constants/notifications';
 import { THEME } from 'GlobalStyles';
-import { useStyles, useNotificationStyles, useAlertStyles, styles } from './styles';
+import {
+  useStyles,
+  useNotificationStyles,
+  useAlertStyles,
+  styles
+} from './styles';
 import Contents from './strings';
 
 type CustomSnackbarProps = {
@@ -90,10 +105,15 @@ const CustomSnackbar = forwardRef<CustomSnackbarProps, any>(
       <Card className={classes.root} ref={ref}>
         <ConditionalActionWrapper
           condition={isNotification}
-          wrapper={children => <CardActionArea onClick={onClick}>{children}</CardActionArea>}
+          wrapper={children => (
+            <CardActionArea onClick={onClick}>{children}</CardActionArea>
+          )}
         >
           {isNotification && (
-            <div className={classes.indicator} style={{ backgroundColor: color }} />
+            <div
+              className={classes.indicator}
+              style={{ backgroundColor: color }}
+            />
           )}
           <MuiAlert
             icon={<Icon />}
@@ -113,7 +133,11 @@ const CustomSnackbar = forwardRef<CustomSnackbarProps, any>(
           </MuiAlert>
         </ConditionalActionWrapper>
         <CardActions style={styles.buttonContainer}>
-          <IconButton style={styles.closeButton} size="small" onClick={handleDismiss}>
+          <IconButton
+            style={styles.closeButton}
+            size="small"
+            onClick={handleDismiss}
+          >
             <CloseIcon fill={isNotification ? colors.black : colors.white} />
           </IconButton>
         </CardActions>

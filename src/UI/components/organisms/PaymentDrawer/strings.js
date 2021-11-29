@@ -3,7 +3,8 @@ const Contents = {
     Concept: 'Concept',
     Cost: 'Cost',
     Title: 'Payment Products',
-    Subtitle: 'Register the data of the payment, keep the receipt inside the cashier.',
+    Subtitle:
+      'Register the data of the payment, keep the receipt inside the cashier.',
     requiredField: 'This field is required.',
     User: 'User that made the payment',
     Store: 'Store',

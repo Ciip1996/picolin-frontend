@@ -33,7 +33,17 @@ const SaleCard = (props: SaleCardProps) => {
     // errors
   } = props;
 
-  const { productCode, gender, size, type, color, salePrice, material, stock, name } = product;
+  const {
+    productCode,
+    gender,
+    size,
+    type,
+    color,
+    salePrice,
+    material,
+    stock,
+    name
+  } = product;
 
   const prepareRemoveItem = () => {
     onRemoveItem(productCode);
@@ -58,7 +68,8 @@ const SaleCard = (props: SaleCardProps) => {
         name: productCode
       },
       {
-        required: 'Cantidad requerida, elija un número menor al de stock en existencia',
+        required:
+          'Cantidad requerida, elija un número menor al de stock en existencia',
         min: {
           value: 1,
           message: 'La cantidad debe ser mayor a 0'
@@ -83,7 +94,9 @@ const SaleCard = (props: SaleCardProps) => {
           className={classes.errorMessage}
           error={!!errors[productCode]}
         >
-          <FormHelperText>{errors[productCode] && errors[productCode].message}</FormHelperText>
+          <FormHelperText>
+            {errors[productCode] && errors[productCode].message}
+          </FormHelperText>
         </FormControl>
         <Box className={classes.header} spacing={2}>
           <Box className={classes.amountOfProducts}>
@@ -97,7 +110,11 @@ const SaleCard = (props: SaleCardProps) => {
             />
           </Box>
           <Box width={24} />
-          <Text variant="h2" className={classes.title} text={`${productCode}`} />
+          <Text
+            variant="h2"
+            className={classes.title}
+            text={`${productCode}`}
+          />
           <Text
             variant="h2"
             className={classes.salePrice}

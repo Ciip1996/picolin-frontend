@@ -5,7 +5,14 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Fade from '@material-ui/core/Fade';
 
 import Text from 'UI/components/atoms/Text';
-import { SuccessIcon, DeleteIcon, DownloadIcon, FileIcon, CloseIcon, colors } from 'UI/res';
+import {
+  SuccessIcon,
+  DeleteIcon,
+  DownloadIcon,
+  FileIcon,
+  CloseIcon,
+  colors
+} from 'UI/res';
 
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import { useStyles, useProgressStyles, styles } from './styles';
@@ -23,7 +30,16 @@ type FileItemProps = {
 };
 
 const FileItem = (props: FileItemProps) => {
-  const { loading, error, message, file, fileName, style, onFileDelete, ...rest } = props;
+  const {
+    loading,
+    error,
+    message,
+    file,
+    fileName,
+    style,
+    onFileDelete,
+    ...rest
+  } = props;
   const classes = useStyles();
   const circularProgressClasses = useProgressStyles();
   const [status, setStatus] = useState('loading');
@@ -39,7 +55,11 @@ const FileItem = (props: FileItemProps) => {
       fileIcon: colors.darkGrey,
       adornment: (
         <CustomIconButton disabled tooltipText={Contents[language]?.txtLoading}>
-          <CircularProgress classes={circularProgressClasses} size={24} thickness={4} />
+          <CircularProgress
+            classes={circularProgressClasses}
+            size={24}
+            thickness={4}
+          />
         </CustomIconButton>
       )
     },
@@ -57,10 +77,16 @@ const FileItem = (props: FileItemProps) => {
       fileIcon: colors.black,
       adornment: (
         <div>
-          <CustomIconButton tooltipText={Contents[language]?.txtDownload} href={file?.url}>
+          <CustomIconButton
+            tooltipText={Contents[language]?.txtDownload}
+            href={file?.url}
+          >
             <DownloadIcon fill={colors.black} />
           </CustomIconButton>
-          <CustomIconButton tooltipText={Contents[language]?.txtDelete} onClick={handleDeleteClick}>
+          <CustomIconButton
+            tooltipText={Contents[language]?.txtDelete}
+            onClick={handleDeleteClick}
+          >
             <DeleteIcon fill={colors.black} />
           </CustomIconButton>
         </div>
@@ -70,7 +96,10 @@ const FileItem = (props: FileItemProps) => {
       style: styles.error,
       fileIcon: colors.error,
       adornment: (
-        <CustomIconButton tooltipText={Contents[language]?.txtDelete} onClick={handleDeleteClick}>
+        <CustomIconButton
+          tooltipText={Contents[language]?.txtDelete}
+          onClick={handleDeleteClick}
+        >
           <CloseIcon fill={colors.error} />
         </CustomIconButton>
       )
@@ -97,7 +126,12 @@ const FileItem = (props: FileItemProps) => {
 
   return (
     <Fade in timeout={1000}>
-      <Paper elevation={0} classes={classes} style={design[status].style} {...rest}>
+      <Paper
+        elevation={0}
+        classes={classes}
+        style={design[status].style}
+        {...rest}
+      >
         <CustomIconButton disabled>
           <FileIcon fill={design[status].fileIcon} />
         </CustomIconButton>
@@ -110,7 +144,12 @@ const FileItem = (props: FileItemProps) => {
             cropped
           />
         ) : (
-          <Text variant="body1" text={fileName} customStyle={styles.fileLabel} cropped />
+          <Text
+            variant="body1"
+            text={fileName}
+            customStyle={styles.fileLabel}
+            cropped
+          />
         )}
         {design[status].adornment}
       </Paper>

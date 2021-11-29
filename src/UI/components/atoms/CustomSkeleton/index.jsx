@@ -28,7 +28,11 @@ const CustomSkeleton = (props: CustomSkeletonProps) => {
       variant={variant}
       width={width}
       height={height}
-      style={variant === 'rect' ? customStyle : { ...customStyle, borderRadius: undefined }}
+      style={
+        variant === 'rect'
+          ? customStyle
+          : { ...customStyle, borderRadius: undefined }
+      }
     />
   );
 };

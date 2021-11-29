@@ -12,7 +12,11 @@ import Link from '@material-ui/core/Link';
 import { type User } from 'types/app';
 import { userHasAdminPermissions } from 'services/Authorization';
 
-import { isAuthenticated, getCurrentUser, logout } from 'services/Authentication';
+import {
+  isAuthenticated,
+  getCurrentUser,
+  logout
+} from 'services/Authentication';
 import { FeatureFlags } from 'UI/constants/featureFlags';
 import { getFeatureFlags } from 'UI/utils';
 
@@ -66,7 +70,11 @@ const NavBar = ({ handleCloseCashier }: NavBarProps) => {
   return (
     <Fragment key={drawerAnchor}>
       <div className={classes.wrapper}>
-        <div item="true" className={classes.divItem} style={styles.leftContainer}>
+        <div
+          item="true"
+          className={classes.divItem}
+          style={styles.leftContainer}
+        >
           <Link href="/" onClick={goHome}>
             <div style={{ marginLeft: 30 }}>
               <PicolinLogo />
@@ -80,14 +88,23 @@ const NavBar = ({ handleCloseCashier }: NavBarProps) => {
             </div>
           )}
         </div> */}
-        <div item="true" className={classes.divItem} style={styles.rightContainer}>
+        <div
+          item="true"
+          className={classes.divItem}
+          style={styles.rightContainer}
+        >
           <div className={classes.userCardWrapper}>
             <Box display="flex" position="relative">
-              <CardActionArea onClick={handleOpenMenuClick} className={classes.userCard}>
+              <CardActionArea
+                onClick={handleOpenMenuClick}
+                className={classes.userCard}
+              >
                 <div className={classes.name}>{user?.userName}</div>
                 <CustomAvatar
                   acron={isUserAdmin ? 'ADM' : 'EMP'}
-                  backgroundColor={isUserAdmin ? colors?.primary : colors?.secondary}
+                  backgroundColor={
+                    isUserAdmin ? colors?.primary : colors?.secondary
+                  }
                 />
                 <MoreVertIcon />
               </CardActionArea>
@@ -119,14 +136,23 @@ const NavBar = ({ handleCloseCashier }: NavBarProps) => {
                 )}
                 <>
                   {isUserAdmin ? (
-                    <MenuItem onClick={navigateToRegisterUserPage} className={classes.menuLink}>
+                    <MenuItem
+                      onClick={navigateToRegisterUserPage}
+                      className={classes.menuLink}
+                    >
                       Registrar Usuario
                     </MenuItem>
                   ) : null}
-                  <MenuItem onClick={handleCloseCashier} className={classes.menuLink}>
+                  <MenuItem
+                    onClick={handleCloseCashier}
+                    className={classes.menuLink}
+                  >
                     Corte de Caja
                   </MenuItem>
-                  <MenuItem onClick={handleLogout} className={classes.loginLink}>
+                  <MenuItem
+                    onClick={handleLogout}
+                    className={classes.loginLink}
+                  >
                     Cerrar Sesión
                   </MenuItem>
                 </>

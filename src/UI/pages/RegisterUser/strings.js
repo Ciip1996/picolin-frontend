@@ -27,10 +27,12 @@ const Contents = {
   },
   Spanish: {
     pageTitle: 'REGISTRAR USUARIO',
-    defaultSubtitle: '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
+    defaultSubtitle:
+      '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
     errUser: 'Tu usuario es incorrecto.',
     errPwd: 'Tu contraseña es incorrecta',
-    errServer: 'Ocurrió un error en servidor. Porfavor intente mas tarde o contacte a soporte.',
+    errServer:
+      'Ocurrió un error en servidor. Porfavor intente mas tarde o contacte a soporte.',
     requireUser: 'El nombre de usuario es requerido',
     requirePassword: 'La contraseña es requerida',
     confirmPwd: 'Confirmar contraseña',

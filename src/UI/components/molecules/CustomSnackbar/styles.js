@@ -51,7 +51,8 @@ export const useStyles = makeStyles(theme => ({
       width: '1em',
       height: '1em',
       marginTop: '0.2em',
-      background: props => (props.severity ? theme.palette[props.severity].main : colors.white)
+      background: props =>
+        props.severity ? theme.palette[props.severity].main : colors.white
     }
   },
   body: {
@@ -65,7 +66,8 @@ export const useStyles = makeStyles(theme => ({
       width: '1em',
       height: '1em',
       marginTop: '0.2em',
-      background: props => (props.severity ? theme.palette[props.severity].main : colors.white)
+      background: props =>
+        props.severity ? theme.palette[props.severity].main : colors.white
     }
   },
   indicator: {

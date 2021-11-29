@@ -60,7 +60,10 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
           autoHideDuration: 3000,
           body: message
         });
-        productCode && name && idProduct && onProductInserted(productCode, name, idProduct);
+        productCode &&
+          name &&
+          idProduct &&
+          onProductInserted(productCode, name, idProduct);
       }
     } catch (err) {
       onShowAlert({
@@ -88,7 +91,11 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
           <form className={classes.root} noValidate autoComplete="off" />
           <Box>
             <div style={globalStyles.feeDrawerslabel}>
-              <Text variant="body1" text={Contents[language]?.Subtitle} fontSize={14} />
+              <Text
+                variant="body1"
+                text={Contents[language]?.Subtitle}
+                fontSize={14}
+              />
               <ProductForm />
             </div>
           </Box>

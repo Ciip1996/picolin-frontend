@@ -91,7 +91,11 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
           <form className={classes.root} noValidate autoComplete="off" />
           <Box>
             <div style={globalStyles.feeDrawerslabel}>
-              <Text variant="body1" text={Contents[language]?.Subtitle} fontSize={14} />
+              <Text
+                variant="body1"
+                text={Contents[language]?.Subtitle}
+                fontSize={14}
+              />
               <AddComboForm />
             </div>
           </Box>

@@ -14,7 +14,11 @@ const defaultImageSize = 200;
 */
 
 export const NotificationNotFoundImg = props => {
-  const { width = defaultImageSize, height = defaultImageSize, ...rest } = props;
+  const {
+    width = defaultImageSize,
+    height = defaultImageSize,
+    ...rest
+  } = props;
   return (
     <svg width={width} height={height} viewBox="0 0 231.915 264.112" {...rest}>
       <defs>
@@ -45,7 +49,10 @@ export const NotificationNotFoundImg = props => {
         className="prefix__b"
         d="M146.083 168.936H77.495a2.86 2.86 0 01-2.412-4.393c.043-.066 5.27-8.811 5.27-29.9a31.265 31.265 0 0144.942-28.292 2.857 2.857 0 11-2.506 5.136 25.553 25.553 0 00-36.716 23.152c0 14.523-2.356 23.692-4.157 28.577h59.544a40.767 40.767 0 01-2.968-10.716 2.858 2.858 0 115.664-.766 35.1 35.1 0 004.406 12.912 2.858 2.858 0 01-2.476 4.286z"
       />
-      <path className="prefix__d" d="M133.623 115.806l23.694 23.694M133.623 139.5l23.694-23.694" />
+      <path
+        className="prefix__d"
+        d="M133.623 115.806l23.694 23.694M133.623 139.5l23.694-23.694"
+      />
       <path
         className="prefix__b"
         d="M161.298 62.707a4.029 4.029 0 104.029 4.029 4.032 4.032 0 00-4.029-4.029zm-.039 4.052a.4.4 0 00.013-.062c.023 0 .041.013.062.013 0 .023-.01.041-.013.062-.017-.003-.039-.01-.062-.013zM107.143 0a4.029 4.029 0 104.029 4.029A4.032 4.032 0 00107.143 0zm-.039 4.052a.4.4 0 00.013-.062c.023 0 .041.013.062.013 0 .023-.01.041-.013.062-.017-.003-.039-.01-.062-.013zM69.989 49.977a4.029 4.029 0 103.02-4.832 4.032 4.032 0 00-3.02 4.832zm3.957-.873a.4.4 0 00-.063.004c-.005-.022.003-.043-.001-.063.022-.006.042 0 .063-.002.001.019-.002.038 0 .06zM161.298 12.352a4.029 4.029 0 104.029 4.029 4.032 4.032 0 00-4.029-4.029zm-.039 4.052a.4.4 0 00.013-.062c.023 0 .041.013.062.013 0 .023-.01.041-.013.062-.017-.003-.039-.01-.062-.013zM20.925 61.304a4.029 4.029 0 103.02-4.832 4.032 4.032 0 00-3.02 4.832zm3.957-.873a.4.4 0 00-.063.004c-.005-.022.003-.043-.001-.063.022-.006.042 0 .063-.002.001.019-.002.038 0 .06zM195.797 60.213a2.425 2.425 0 102.425 2.425 2.427 2.427 0 00-2.425-2.425zm-.023 2.439a.258.258 0 00.008-.037.363.363 0 00.037.008c0 .014-.006.025-.008.037s-.023-.005-.037-.005zM125.491 35.511a2.425 2.425 0 102.425 2.425 2.427 2.427 0 00-2.425-2.425zm-.023 2.439a.258.258 0 00.008-.037.363.363 0 00.037.008c0 .014-.006.025-.008.037s-.023-.005-.037-.005zM59.8 16.922a2.425 2.425 0 101.817-2.91 2.427 2.427 0 00-1.818 2.91zm2.382-.524a.253.253 0 00-.04-.001.354.354 0 00-.001-.038c.013-.003.026 0 .038 0s.001.023.003.039z"
@@ -55,11 +62,17 @@ export const NotificationNotFoundImg = props => {
 };
 
 export const NotificationEmptyImg = props => {
-  const { width = defaultImageSize, height = defaultImageSize, ...rest } = props;
+  const {
+    width = defaultImageSize,
+    height = defaultImageSize,
+    ...rest
+  } = props;
   return (
     <svg width={width} height={height} viewBox="0 0 231.915 259.324" {...rest}>
       <defs>
-        <style>{'.prefix__a,.prefix__b{fill:#9da5b3}.prefix__a{opacity:.15}'}</style>
+        <style>
+          {'.prefix__a,.prefix__b{fill:#9da5b3}.prefix__a{opacity:.15}'}
+        </style>
       </defs>
       <path
         className="prefix__a"
@@ -87,7 +100,11 @@ export const NotificationEmptyImg = props => {
 };
 
 export const EmptyJobOrders = props => {
-  const { width = defaultImageSize, height = defaultImageSize, ...rest } = props;
+  const {
+    width = defaultImageSize,
+    height = defaultImageSize,
+    ...rest
+  } = props;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +115,9 @@ export const EmptyJobOrders = props => {
     >
       <defs>
         <style>
-          {'.prefix__a,.prefix__b{fill:#9da5b3;}.prefix__a{opacity:0.15;isolation:isolate;}'}
+          {
+            '.prefix__a,.prefix__b{fill:#9da5b3;}.prefix__a{opacity:0.15;isolation:isolate;}'
+          }
         </style>
       </defs>
       <g transform="translate(-1725 -2810)">
@@ -172,7 +191,11 @@ export const EmptyJobOrders = props => {
 };
 
 export const EmptyCandidates = props => {
-  const { width = defaultImageSize, height = defaultImageSize, ...rest } = props;
+  const {
+    width = defaultImageSize,
+    height = defaultImageSize,
+    ...rest
+  } = props;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +206,9 @@ export const EmptyCandidates = props => {
     >
       <defs>
         <style>
-          {'.prefix__a,.prefix__b{fill:#9da5b3;}.prefix__a{opacity:0.15;isolation:isolate;}'}
+          {
+            '.prefix__a,.prefix__b{fill:#9da5b3;}.prefix__a{opacity:0.15;isolation:isolate;}'
+          }
         </style>
       </defs>
       <g transform="translate(-1015 -3897.999)">
@@ -258,7 +283,11 @@ export const EmptyCandidates = props => {
 };
 
 export const EmptyNotes = props => {
-  const { width = defaultImageSize, height = defaultImageSize, ...rest } = props;
+  const {
+    width = defaultImageSize,
+    height = defaultImageSize,
+    ...rest
+  } = props;
   return (
     <svg width={width} height={height} viewBox="0 0 184.543 206.353" {...rest}>
       <defs>
@@ -311,9 +340,21 @@ export const EmptyNotes = props => {
             transform="translate(-346.787 -699.167)"
           />
           <g transform="translate(-11159 1090.932)">
-            <line className="nc" x2="22.123" transform="translate(11583.377 -743.432)" />
-            <line className="nc" x2="22.123" transform="translate(11583.377 -731.432)" />
-            <line className="nc" x2="22.123" transform="translate(11583.377 -718.432)" />
+            <line
+              className="nc"
+              x2="22.123"
+              transform="translate(11583.377 -743.432)"
+            />
+            <line
+              className="nc"
+              x2="22.123"
+              transform="translate(11583.377 -731.432)"
+            />
+            <line
+              className="nc"
+              x2="22.123"
+              transform="translate(11583.377 -718.432)"
+            />
           </g>
         </g>
       </g>
@@ -322,7 +363,11 @@ export const EmptyNotes = props => {
 };
 
 export const EmptyFiles = props => {
-  const { width = defaultImageSize, height = defaultImageSize, ...rest } = props;
+  const {
+    width = defaultImageSize,
+    height = defaultImageSize,
+    ...rest
+  } = props;
   return (
     <svg width={width} height={height} viewBox="0 0 184.543 206.353" {...rest}>
       <defs>
@@ -390,7 +435,9 @@ export const EmptyActivityLogs = props => {
   return (
     <svg width={width} height={height} viewBox="0 0 184.543 206.353" {...props}>
       <defs>
-        <style>{'.prefix__a,.prefix__b{fill:#9da5b3}.prefix__a{opacity:.15}'}</style>
+        <style>
+          {'.prefix__a,.prefix__b{fill:#9da5b3}.prefix__a{opacity:.15}'}
+        </style>
       </defs>
       <path
         className="prefix__a"
@@ -423,7 +470,14 @@ export const EmptyActivityLogs = props => {
 export const PicolinLogo = () => (
   <svg width={177} height={62} viewBox="0 0 177 62">
     <defs>
-      <filter id="prefix__a" x={0} y={0} width={177} height={62} filterUnits="userSpaceOnUse">
+      <filter
+        id="prefix__a"
+        x={0}
+        y={0}
+        width={177}
+        height={62}
+        filterUnits="userSpaceOnUse"
+      >
         <feOffset dy={3} />
         <feGaussianBlur stdDeviation={3} result="b" />
         <feFlood floodOpacity={0.161} />
@@ -514,7 +568,9 @@ export const Error401 = props => {
     <svg width={426} height={359} viewBox="0 0 426 359" {...props}>
       <defs>
         <style>
-          {'.prefix__c,.prefix__d{fill:#242a33}.prefix__c{stroke:transparent;stroke-miterlimit:10}'}
+          {
+            '.prefix__c,.prefix__d{fill:#242a33}.prefix__c{stroke:transparent;stroke-miterlimit:10}'
+          }
         </style>
       </defs>
       <g fontFamily="Poppins-Bold,Poppins" fontWeight={700} fill="#242a33">
@@ -534,7 +590,13 @@ export const Error401 = props => {
           className="prefix__c"
           d="M1164 336.511c-.865-7.013-.072-14-.447-29.363q-.033-1.351.031-2.552a50.5 50.5 0 00-4.106-16.42 5.678 5.678 0 012.94-7.48 5.692 5.692 0 017.48 2.932 61.714 61.714 0 015.072 20.815c1.369 11.193.641 30.658-.187 32.068a2.614 2.614 0 01-.837.759c.361 0-.435.547-1.714 1.09a12.685 12.685 0 01-4.622 1.09c-1.795.001-3.336-.709-3.61-2.939z"
         />
-        <circle className="prefix__c" cx={5.5} cy={5.5} r={5.5} transform="translate(1164 330)" />
+        <circle
+          className="prefix__c"
+          cx={5.5}
+          cy={5.5}
+          r={5.5}
+          transform="translate(1164 330)"
+        />
         <path
           className="prefix__c"
           d="M1119.664 429.985a45.718 45.718 0 01-14.05-2.237c-2.625-.844-4.189-4.1-3.486-7.267.575-2.591 2.53-4.4 4.755-4.4a4.152 4.152 0 011.288.207 37.407 37.407 0 0011.473 1.822 37.541 37.541 0 0014.722-3.037 43.176 43.176 0 0012.921-8.579c.126 0 .254.007.383.007h13.7a60.543 60.543 0 01-8.549 9.867 54.151 54.151 0 01-10.061 7.384 48.693 48.693 0 01-11.181 4.63 45.361 45.361 0 01-11.915 1.603z"
@@ -597,7 +659,12 @@ export const Error500 = props => {
 
 export const Error404 = props => {
   return (
-    <svg width={503.901} height={189.888} viewBox="0 0 503.901 189.888" {...props}>
+    <svg
+      width={503.901}
+      height={189.888}
+      viewBox="0 0 503.901 189.888"
+      {...props}
+    >
       <defs>
         <style>{'.prefix__b{fill:#1a1c21}'}</style>
       </defs>
@@ -623,7 +690,10 @@ export const Error404 = props => {
   );
 };
 
-export const SearchResultsNotFound = ({ width = defaultImageSize, height = defaultImageSize }) => {
+export const SearchResultsNotFound = ({
+  width = defaultImageSize,
+  height = defaultImageSize
+}) => {
   return (
     <svg width={width} height={height} viewBox="0 0 237.524 293.764">
       <defs>
@@ -670,7 +740,9 @@ export const EmptyBulkTemplate = props => {
     <svg width={width} height={height} viewBox="0 0 226.971 280.712">
       <defs>
         <style>
-          {'.EmptyBulkTemplate,.EmptyBulkTemplateb{fill:#9da5b3}.EmptyBulkTemplate{opacity:.15}'}
+          {
+            '.EmptyBulkTemplate,.EmptyBulkTemplateb{fill:#9da5b3}.EmptyBulkTemplate{opacity:.15}'
+          }
         </style>
       </defs>
       <path
@@ -891,7 +963,9 @@ export const EmptyMetrics = props => {
   return (
     <svg width={width} height={height} viewBox="0 0 128 161" {...props}>
       <defs>
-        <style>{'.metrics_a,.metrics_b{fill:#9da5b3;}.metrics_a{opacity:0.15;}'}</style>
+        <style>
+          {'.metrics_a,.metrics_b{fill:#9da5b3;}.metrics_a{opacity:0.15;}'}
+        </style>
       </defs>
       <g transform="translate(-970.95 -504.559)">
         <g transform="translate(82.424 178.627)">
@@ -1044,7 +1118,9 @@ export const EmptySchedule = props => {
   return (
     <svg width={width} height={height} viewBox="0 0 200 247.355" {...props}>
       <defs>
-        <style>{'.prefix__a,.prefix__b{fill:#9da5b3}.prefix__a{opacity:.15}'}</style>
+        <style>
+          {'.prefix__a,.prefix__b{fill:#9da5b3}.prefix__a{opacity:.15}'}
+        </style>
       </defs>
       <path
         className="prefix__a"
@@ -1098,7 +1174,11 @@ export const SMSEmptyState = props => {
   return (
     <svg width={width} height={height} viewBox="0 0 200 247.355" {...props}>
       <defs>
-        <style>{'.prefix__aSms,.prefix__bSms{fill:#9da5b3}.prefix__aSms{opacity:.15}'}</style>
+        <style>
+          {
+            '.prefix__aSms,.prefix__bSms{fill:#9da5b3}.prefix__aSms{opacity:.15}'
+          }
+        </style>
       </defs>
       <path
         className="prefix__aSms"

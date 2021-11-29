@@ -28,7 +28,11 @@ const SaveButton = (props: SaveButtonProps) => {
 
   return (
     <ActionButton
-      text={isSaving ? onProgressText : nestTernary(isSuccess, onSuccessText, initialText)}
+      text={
+        isSaving
+          ? onProgressText
+          : nestTernary(isSuccess, onSuccessText, initialText)
+      }
       disabled={isSaving || (!isSaving && isSuccess)}
       type="submit"
       style={{ width: CancelSaveButton }}

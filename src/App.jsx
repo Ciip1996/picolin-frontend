@@ -8,7 +8,10 @@ import 'App.css';
 import { THEME } from 'GlobalStyles';
 import Routes from 'routes/Routes';
 import moment from 'moment-timezone';
-import { getCurrentSessionExpirationDate, logout } from 'services/Authentication';
+import {
+  getCurrentSessionExpirationDate,
+  logout
+} from 'services/Authentication';
 import 'moment/locale/es';
 import { now } from 'lodash';
 
@@ -48,7 +51,11 @@ const App = () => {
 
   return (
     <MuiThemeProvider theme={THEME}>
-      <MuiPickersUtilsProvider utils={MomentUtils} libInstance={moment} locale={locale}>
+      <MuiPickersUtilsProvider
+        utils={MomentUtils}
+        libInstance={moment}
+        locale={locale}
+      >
         <Routes />
       </MuiPickersUtilsProvider>
     </MuiThemeProvider>

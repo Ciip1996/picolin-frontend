@@ -13,9 +13,17 @@ import Contents from './strings';
 const language = localStorage.getItem('language');
 
 const DataTableEmptyState = props => {
-  const { error, defaultEmptyState, title, subtitle, customEmptyStateIcon } = props;
+  const {
+    error,
+    defaultEmptyState,
+    title,
+    subtitle,
+    customEmptyStateIcon
+  } = props;
 
-  const defaultTitle = error ? Contents[language]?.errorTitle : Contents[language]?.defaultTitle;
+  const defaultTitle = error
+    ? Contents[language]?.errorTitle
+    : Contents[language]?.defaultTitle;
 
   const defaultSubtitle = error
     ? Contents[language]?.errorSubtitle
@@ -114,12 +122,15 @@ const DataTable = (props: DataTableProps) => {
         },
         onSearchChange: newSearchText => {
           onSearchTextChange && onSearchTextChange(newSearchText);
-          onSearchTextChange && newSearchText && onSearchTextChange(newSearchText);
+          onSearchTextChange &&
+            newSearchText &&
+            onSearchTextChange(newSearchText);
         },
         onColumnSortChange: (changedColumn, direction) => {
           let order = 'desc';
           if (direction === 'ascending') order = 'asc';
-          onColumnSortClick && onColumnSortClick({ orderBy: changedColumn, direction: order });
+          onColumnSortClick &&
+            onColumnSortClick({ orderBy: changedColumn, direction: order });
         },
         onChangeRowsPerPage: newPerPage => {
           onPerPageClick && onPerPageClick(newPerPage);
@@ -134,7 +145,10 @@ const DataTable = (props: DataTableProps) => {
           let showColumn = false;
           if (action === 'add') showColumn = true;
           onColumnDisplayClick &&
-            onColumnDisplayClick({ column: changedColumn, display: showColumn });
+            onColumnDisplayClick({
+              column: changedColumn,
+              display: showColumn
+            });
         },
         customFooter: (
           newCount,

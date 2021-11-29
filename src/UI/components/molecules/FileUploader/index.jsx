@@ -12,7 +12,10 @@ import FileChip from 'UI/components/molecules/FileChip';
 import FileItem from 'UI/components/molecules/FileItem';
 
 import InputContainer from 'UI/components/atoms/InputContainer';
-import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
+import {
+  showAlert as showAlertAction,
+  confirm as confirmAction
+} from 'actions/app';
 import { colors, EmptyFiles, UploadFile } from 'UI/res';
 
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
@@ -56,10 +59,14 @@ const FileUploader = (props: FileUploaderProps) => {
     loading
   } = props;
 
-  const [attachments, setAttachments] = useState<Attachment[]>(previousFiles || []);
+  const [attachments, setAttachments] = useState<Attachment[]>(
+    previousFiles || []
+  );
 
   const handleFileUpload = e => {
-    const filesWithoutError = attachments.filter((att: Attachment) => !att.hasError).length;
+    const filesWithoutError = attachments.filter(
+      (att: Attachment) => !att.hasError
+    ).length;
     if (filesWithoutError >= maxNumberOfFiles && !alwaysReplace) {
       e.target.value = '';
       showAlert({
@@ -73,7 +80,9 @@ const FileUploader = (props: FileUploaderProps) => {
     const { files } = e.target;
     if (files.length > 0) {
       const file = files[0];
-      const filesWithSameName = attachments.filter(att => att[fileNameField] === file.name).length;
+      const filesWithSameName = attachments.filter(
+        att => att[fileNameField] === file.name
+      ).length;
       if (filesWithSameName > 0) {
         e.target.value = '';
         showAlert({
@@ -93,14 +102,18 @@ const FileUploader = (props: FileUploaderProps) => {
     data.append('file', file);
 
     const fileInfo = { [fileNameField]: file.name, isLoading: true };
-    const newAttachments = alwaysReplace ? [fileInfo] : [...attachments, fileInfo];
+    const newAttachments = alwaysReplace
+      ? [fileInfo]
+      : [...attachments, fileInfo];
     setAttachments(newAttachments);
 
     try {
       const uploadResponse = await API.post(endpoint, data);
       processUploadResponse(
         newAttachments,
-        uploadResponse.data ? uploadResponse.data : { ...fileInfo, hasError: true }
+        uploadResponse.data
+          ? uploadResponse.data
+          : { ...fileInfo, hasError: true }
       );
     } catch (err) {
       processUploadResponse(newAttachments, {
@@ -113,7 +126,10 @@ const FileUploader = (props: FileUploaderProps) => {
     }
   };
 
-  const processUploadResponse = (attachmnts: Attachment[], newFile: Attachment) => {
+  const processUploadResponse = (
+    attachmnts: Attachment[],
+    newFile: Attachment
+  ) => {
     const updatedAttachments = updateAttachmentLoadingStatus(
       attachmnts,
       fileNameField,
@@ -122,7 +138,8 @@ const FileUploader = (props: FileUploaderProps) => {
     );
 
     if (!newFile.hasError) {
-      onAttachmentsChanged && onAttachmentsChanged(getAttachmentsWithoutErrors(updatedAttachments));
+      onAttachmentsChanged &&
+        onAttachmentsChanged(getAttachmentsWithoutErrors(updatedAttachments));
     }
   };
 
@@ -156,7 +173,9 @@ const FileUploader = (props: FileUploaderProps) => {
   };
 
   const deleteFileWithError = fileName => {
-    const newAttachments = attachments.filter(item => item[fileNameField] !== fileName);
+    const newAttachments = attachments.filter(
+      item => item[fileNameField] !== fileName
+    );
     setAttachments(newAttachments);
   };
 
@@ -173,7 +192,8 @@ const FileUploader = (props: FileUploaderProps) => {
 
       const newAttachments = attachments.filter(item => item.id !== file.id);
       setAttachments(newAttachments);
-      onAttachmentsChanged && onAttachmentsChanged(getAttachmentsWithoutErrors(newAttachments));
+      onAttachmentsChanged &&
+        onAttachmentsChanged(getAttachmentsWithoutErrors(newAttachments));
     }
   };
 
@@ -228,7 +248,10 @@ const FileUploader = (props: FileUploaderProps) => {
     <>
       {loading ? (
         <div style={styles.emptyStateContainer}>
-          <EmptyPlaceholder title="Loading content." subtitle="Please hang on." />
+          <EmptyPlaceholder
+            title="Loading content."
+            subtitle="Please hang on."
+          />
           <CircularProgress />
         </div>
       ) : (
@@ -240,7 +263,11 @@ const FileUploader = (props: FileUploaderProps) => {
             >
               <EmptyFiles width="20vh" style={styles.spacing} />
               <FileSelectorButton onFileChange={handleFileUpload}>
-                <ActionButton component="span" text="Upload File" iconPosition="left">
+                <ActionButton
+                  component="span"
+                  text="Upload File"
+                  iconPosition="left"
+                >
                   <UploadFile fill={colors.white} />
                 </ActionButton>
               </FileSelectorButton>

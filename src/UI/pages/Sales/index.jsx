@@ -29,7 +29,11 @@ import { showAlert } from 'actions/app';
 import Contents from './strings';
 
 const CellSkeleton = ({ children, searching }) => {
-  return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
+  return searching ? (
+    <CustomSkeleton width="90%" height={18} />
+  ) : (
+    <>{children}</>
+  );
 };
 
 type SalesListProps = {
@@ -235,7 +239,10 @@ const SalesList = (props: SalesListProps) => {
   const getSaleDetail = async (id: any) => {
     try {
       const response = await API.get(
-        `${Endpoints.Sales}${Endpoints.GetSaleDetailsByIdSale}`.replace(':id', id)
+        `${Endpoints.Sales}${Endpoints.GetSaleDetailsByIdSale}`.replace(
+          ':id',
+          id
+        )
       );
       if (response.status === 200) {
         const detailedData = { ...response.data };
@@ -297,7 +304,10 @@ const SalesList = (props: SalesListProps) => {
           return (
             <CellSkeleton searching={searching}>
               <strong>
-                {value && moment(value).format(DateFormats.International.DetailDateTime)}
+                {value &&
+                  moment(value).format(
+                    DateFormats.International.DetailDateTime
+                  )}
               </strong>
             </CellSkeleton>
           );
@@ -315,7 +325,9 @@ const SalesList = (props: SalesListProps) => {
                       name && name,
                       date && {
                         title: `Desde fecha ${
-                          date ? date.format(DateFormats.International.DetailDate) : ''
+                          date
+                            ? date.format(DateFormats.International.DetailDate)
+                            : ''
                         }`,
                         date
                       }
@@ -358,7 +370,9 @@ const SalesList = (props: SalesListProps) => {
                       name && name,
                       date && {
                         title: `Hasta fecha ${
-                          date ? date.format(DateFormats.International.DetailDate) : ''
+                          date
+                            ? date.format(DateFormats.International.DetailDate)
+                            : ''
                         }`,
                         date
                       }
@@ -426,7 +440,9 @@ const SalesList = (props: SalesListProps) => {
           }
         },
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value?.title}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>{value?.title}</CellSkeleton>
+          );
         }
       }
     },
@@ -455,7 +471,11 @@ const SalesList = (props: SalesListProps) => {
           }
         },
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value ? 'SI' : 'NO'}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>
+              {value ? 'SI' : 'NO'}
+            </CellSkeleton>
+          );
         }
       }
     },
@@ -470,7 +490,9 @@ const SalesList = (props: SalesListProps) => {
         filterType: 'custom',
         customBodyRender: value => {
           return (
-            <CellSkeleton searching={searching}>{value || (value === 0 ? 0 : '--')}</CellSkeleton>
+            <CellSkeleton searching={searching}>
+              {value || (value === 0 ? 0 : '--')}
+            </CellSkeleton>
           );
         }
       }
@@ -548,7 +570,10 @@ const SalesList = (props: SalesListProps) => {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <SalesDetailCard saleData={selectedSale} onCloseModal={handleCloseModal} />
+        <SalesDetailCard
+          saleData={selectedSale}
+          onCloseModal={handleCloseModal}
+        />
       </Modal>
     </ContentPageLayout>
   );

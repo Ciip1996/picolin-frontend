@@ -54,7 +54,10 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const [loading, setLoading] = useState(true);
 
-  const [summaryCardSelectedValues, setSummaryCardSelectedValues] = useState<MapType>({});
+  const [
+    summaryCardSelectedValues,
+    setSummaryCardSelectedValues
+  ] = useState<MapType>({});
 
   const [uiState, setUiState] = useState({
     isAddComboToSaleDrawerOpen: false
@@ -66,7 +69,11 @@ const NewSaleList = (props: NewSaleListProps) => {
   );
 
   const toggleDrawer = (drawer: string, open: boolean) => event => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
     setUiState(prevState => ({ ...prevState, [drawer]: open }));
@@ -107,7 +114,10 @@ const NewSaleList = (props: NewSaleListProps) => {
   const onNewSaleFinished = async idSale => {
     try {
       const response = await API.get(
-        `${Endpoints.Sales}${Endpoints.GetSaleDetailsByIdSale}`.replace(':id', idSale)
+        `${Endpoints.Sales}${Endpoints.GetSaleDetailsByIdSale}`.replace(
+          ':id',
+          idSale
+        )
       );
       if (response?.data && response?.data?.detail?.length > 0) {
         // clear all data
@@ -181,13 +191,18 @@ const NewSaleList = (props: NewSaleListProps) => {
         combos,
         received: received || null
       };
-      const response = await API.post(`${Endpoints.Sales}${Endpoints.NewSale}`, params);
+      const response = await API.post(
+        `${Endpoints.Sales}${Endpoints.NewSale}`,
+        params
+      );
       if (response.status === 200) {
         onShowAlert({
           severity: 'success',
           title: 'Venta Exitosa',
           autoHideDuration: 16000,
-          body: `Su venta de ${currencyFormatter(total)} fue realizada con exito!`
+          body: `Su venta de ${currencyFormatter(
+            total
+          )} fue realizada con exito!`
         });
         response?.data?.idSale && onNewSaleFinished(response?.data?.idSale);
       }
@@ -221,7 +236,9 @@ const NewSaleList = (props: NewSaleListProps) => {
 
   const onRemoveCombo = (comboId: string) => {
     setComboPackagesList(prevState => {
-      const filteredComboList = prevState.filter((each: Object) => each.id !== comboId);
+      const filteredComboList = prevState.filter(
+        (each: Object) => each.id !== comboId
+      );
       return [...filteredComboList];
     });
   };
@@ -247,7 +264,9 @@ const NewSaleList = (props: NewSaleListProps) => {
           if (value) {
             const total = parseFloat(watch('total'));
             const constraint = parseFloat(value) <= total * 0.3;
-            return constraint || `El descuento debe ser menor al 30% de la venta.`;
+            return (
+              constraint || `El descuento debe ser menor al 30% de la venta.`
+            );
           }
           return true;
         }
@@ -285,12 +304,19 @@ const NewSaleList = (props: NewSaleListProps) => {
     } else if (productsList.length === 1) {
       saleCostSumatory = parseFloat(productsList[0]?.product?.salePrice);
     } else if (productsList.length > 1) {
-      saleCostSumatory = productsList.reduce((accumulator: number, currentValue: Object) => {
-        return parseFloat(accumulator) + parseFloat(currentValue?.product?.salePrice);
-      }, 0.0);
+      saleCostSumatory = productsList.reduce(
+        (accumulator: number, currentValue: Object) => {
+          return (
+            parseFloat(accumulator) +
+            parseFloat(currentValue?.product?.salePrice)
+          );
+        },
+        0.0
+      );
     }
 
-    const subtotal = parseFloat(saleCostSumatory) + parseFloat(combosCostSumatory);
+    const subtotal =
+      parseFloat(saleCostSumatory) + parseFloat(combosCostSumatory);
 
     const iva =
       invoice && featureFlags.includes(FeatureFlags.Taxes)
@@ -298,7 +324,9 @@ const NewSaleList = (props: NewSaleListProps) => {
         : 0.0;
     const total = parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0);
     const totalWithDiscount =
-      parseFloat(subtotal || 0.0) + parseFloat(iva || 0.0) - parseFloat(discount || 0.0);
+      parseFloat(subtotal || 0.0) +
+      parseFloat(iva || 0.0) -
+      parseFloat(discount || 0.0);
 
     const change =
       totalWithDiscount && received && idPaymentMethod !== 1
@@ -306,7 +334,11 @@ const NewSaleList = (props: NewSaleListProps) => {
         : 0.0;
 
     setValue('subtotal', `${subtotal}`, false);
-    setValue('iva', featureFlags.includes(FeatureFlags.Taxes) ? `${iva}` : 0, false);
+    setValue(
+      'iva',
+      featureFlags.includes(FeatureFlags.Taxes) ? `${iva}` : 0,
+      false
+    );
     setValue('change', `${change}`, false);
     setValue('total', `${total}`, false);
     setValue('totalWithDiscount', `${totalWithDiscount}`, false);
@@ -322,20 +354,28 @@ const NewSaleList = (props: NewSaleListProps) => {
   }, [calculateSaleCosts, comboPackagesList]);
 
   const onComboAdded = (comboData: Object) => {
-    setUiState(prevState => ({ ...prevState, isAddComboToSaleDrawerOpen: false }));
-    setComboPackagesList(prevList => [...prevList, { ...comboData, id: uuidv4() }]);
+    setUiState(prevState => ({
+      ...prevState,
+      isAddComboToSaleDrawerOpen: false
+    }));
+    setComboPackagesList(prevList => [
+      ...prevList,
+      { ...comboData, id: uuidv4() }
+    ]);
     setValue('products', true, true);
 
     if (comboData) {
-      const listOfProductsFromCombo = Object.entries(comboData).map(([product, value]: any) => {
-        return {
-          idProduct: value?.idProduct,
-          productCode: value?.productCode,
-          quantity: 1,
-          combo: 1,
-          product
-        };
-      });
+      const listOfProductsFromCombo = Object.entries(comboData).map(
+        ([product, value]: any) => {
+          return {
+            idProduct: value?.idProduct,
+            productCode: value?.productCode,
+            quantity: 1,
+            combo: 1,
+            product
+          };
+        }
+      );
       setComboProductsList(prevList => {
         return [...prevList, ...listOfProductsFromCombo];
       });
@@ -391,7 +431,9 @@ const NewSaleList = (props: NewSaleListProps) => {
                 <AutocompleteDebounce
                   maxOptions={15}
                   name="products"
-                  onSelectItem={product => handleAddProduct('products', product)}
+                  onSelectItem={product =>
+                    handleAddProduct('products', product)
+                  }
                   placeholder="Escriba un Producto"
                   url={searchingProductsUrl || null}
                   dataFetchKeyName="inventory"
@@ -428,7 +470,9 @@ const NewSaleList = (props: NewSaleListProps) => {
                 <Box
                   flex={1}
                   display={
-                    comboPackagesList.length === 0 && productsList.length === 0 ? 'flex' : 'unset'
+                    comboPackagesList.length === 0 && productsList.length === 0
+                      ? 'flex'
+                      : 'unset'
                   }
                   alignItems="center"
                   justifyContent="center"

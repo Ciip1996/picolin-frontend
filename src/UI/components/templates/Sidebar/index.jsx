@@ -15,7 +15,10 @@ import { getErrorData, nestTernary } from 'UI/utils';
 
 import { CollapsibleArrowOpen, CollapsibleArrowClosed } from 'UI/res';
 import SalesSummary from 'UI/components/organisms/SalesSummary';
-import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
+import {
+  showAlert as showAlertAction,
+  confirm as confirmAction
+} from 'actions/app';
 import { DEFAULT_STORE } from 'UI/constants/defaults';
 
 import { styles, useStyles, useSidebarStyles } from './styles';
@@ -39,7 +42,8 @@ type SidebarItemProps = {
   subItems: Array<Object>
 };
 
-const isActiveItem = (item: SidebarItemProps, route) => route.startsWith(item.route);
+const isActiveItem = (item: SidebarItemProps, route) =>
+  route.startsWith(item.route);
 
 const isActiveParent = (item: SidebarItemProps, route) =>
   item.subItems && item.subItems.some(subitem => isActiveItem(subitem, route));
@@ -63,7 +67,9 @@ const Sidebar = (props: SidebarProps) => {
   const sidebarClasses = useSidebarStyles();
 
   const activeParent = getParent(selectedRoute);
-  const [openedItems, setOpenedItems] = useState(activeParent ? [activeParent.route] : []);
+  const [openedItems, setOpenedItems] = useState(
+    activeParent ? [activeParent.route] : []
+  );
 
   const SidebarItem = (RenderItemProps: Object) => {
     const { item } = RenderItemProps;
@@ -81,7 +87,11 @@ const Sidebar = (props: SidebarProps) => {
               : item.icon.inactive}
           </ListItemIcon>
         </div>
-        <ListItemText className={sidebarClasses.label} disableTypography primary={item.title} />
+        <ListItemText
+          className={sidebarClasses.label}
+          disableTypography
+          primary={item.title}
+        />
       </ListItem>
     );
   };
@@ -92,14 +102,24 @@ const Sidebar = (props: SidebarProps) => {
     return item.subItems.map(subitem => {
       const isActive = isActiveItem(subitem, selectedRoute);
       return (
-        <Link key={subitem.route} to={subitem.route} className="nav-link router-link">
+        <Link
+          key={subitem.route}
+          to={subitem.route}
+          className="nav-link router-link"
+        >
           <ListItem
-            className={isActive ? sidebarClasses.subitemSelected : sidebarClasses.subitems}
+            className={
+              isActive
+                ? sidebarClasses.subitemSelected
+                : sidebarClasses.subitems
+            }
             button
             onClick={() => handleListItemClick(subitem)}
           >
             <div style={styles.iconWrapper}>
-              <ListItemIcon>{isActive ? subitem.icon.active : subitem.icon.inactive}</ListItemIcon>
+              <ListItemIcon>
+                {isActive ? subitem.icon.active : subitem.icon.inactive}
+              </ListItemIcon>
             </div>
             <ListItemText
               className={sidebarClasses.label}
@@ -124,11 +144,15 @@ const Sidebar = (props: SidebarProps) => {
         const queryParams = queryString.stringify({
           idStore: DEFAULT_STORE.id
         });
-        const response = await API.get(`${Endpoints.GetDayIncome}?${queryParams}`);
+        const response = await API.get(
+          `${Endpoints.GetDayIncome}?${queryParams}`
+        );
         if (response) {
           setIncome({
-            card: response.data.find(each => each.paymentMethod === 'Tarjeta')?.value,
-            cash: response.data.find(each => each.paymentMethod === 'Efectivo')?.value
+            card: response.data.find(each => each.paymentMethod === 'Tarjeta')
+              ?.value,
+            cash: response.data.find(each => each.paymentMethod === 'Efectivo')
+              ?.value
           });
         }
       } catch (err) {
@@ -136,7 +160,9 @@ const Sidebar = (props: SidebarProps) => {
           severity: 'error',
           title: getErrorData(err)?.title || 'Error en conexión',
           autoHideDuration: 800000,
-          body: JSON.stringify(getErrorData(err)?.message) || 'Contacte a soporte técnico'
+          body:
+            JSON.stringify(getErrorData(err)?.message) ||
+            'Contacte a soporte técnico'
         });
         throw err;
       }
@@ -207,7 +233,11 @@ const Sidebar = (props: SidebarProps) => {
                 </Collapse>
               </div>
             ) : (
-              <Link key={item.route} to={item.route} className="nav-link router-link">
+              <Link
+                key={item.route}
+                to={item.route}
+                className="nav-link router-link"
+              >
                 <SidebarItem item={item} />
               </Link>
             )

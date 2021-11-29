@@ -13,10 +13,12 @@ const Contents = {
   },
   Spanish: {
     pageTitle: 'INICIAR SESIÓN',
-    defaultSubtitle: '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
+    defaultSubtitle:
+      '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
     errUser: 'Tu usuario es incorrecto.',
     errPwd: 'Tu contraseña es incorrecta',
-    errServer: 'Ocurrió un error en servidor. Porfavor intente mas tarde o contacte a soporte.',
+    errServer:
+      'Ocurrió un error en servidor. Porfavor intente mas tarde o contacte a soporte.',
     requser: 'Se requiere un nombre de usuario',
     reqpwd: 'Se requiere una contraseña',
     labuser: 'Usuario',

@@ -59,7 +59,10 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
         cashInCashier: cashier?.cashInCashier,
         terminalAmountRegistered: cashier?.terminalAmountRegistered
       };
-      const response = await API.post(`${Endpoints.Cashier}${Endpoints.CloseCashier}`, params);
+      const response = await API.post(
+        `${Endpoints.Cashier}${Endpoints.CloseCashier}`,
+        params
+      );
       if (response) {
         onShowAlert({
           severity: 'success',
@@ -119,11 +122,15 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
       const queryParams = queryString.stringify({
         idStore: DEFAULT_STORE.id
       });
-      const response = await API.get(`${Endpoints.GetDayIncome}?${queryParams}`);
+      const response = await API.get(
+        `${Endpoints.GetDayIncome}?${queryParams}`
+      );
       if (response) {
         setIncome({
-          card: response.data.find(each => each.paymentMethod === 'Tarjeta')?.value,
-          cash: response.data.find(each => each.paymentMethod === 'Efectivo')?.value
+          card: response.data.find(each => each.paymentMethod === 'Tarjeta')
+            ?.value,
+          cash: response.data.find(each => each.paymentMethod === 'Efectivo')
+            ?.value
         });
       }
     } catch (err) {
@@ -131,7 +138,9 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
         severity: 'error',
         title: getErrorData(err)?.title || 'Error en conexión',
         autoHideDuration: 800000,
-        body: JSON.stringify(getErrorData(err)?.message) || 'Contacte a soporte técnico'
+        body:
+          JSON.stringify(getErrorData(err)?.message) ||
+          'Contacte a soporte técnico'
       });
       throw err;
     }
@@ -146,8 +155,12 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
     const { card, cash } = income;
     const totalOfCashPayments =
       todaysPayments?.length > 0
-        ? Number(todaysPayments.reduce((total, obj) => obj.cost && Number(obj.cost) + total, 0)) *
-          -1
+        ? Number(
+            todaysPayments.reduce(
+              (total, obj) => obj.cost && Number(obj.cost) + total,
+              0
+            )
+          ) * -1
         : Number(0.0);
     setCashier({
       initial: Number(1000.0),
@@ -157,7 +170,13 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
       terminalAmountRegistered: Number(getValues('card')),
       totalOfCashPayments
     });
-  }, [getIncomeData, getListOfTodaysPayments, getValues, income, todaysPayments]);
+  }, [
+    getIncomeData,
+    getListOfTodaysPayments,
+    getValues,
+    income,
+    todaysPayments
+  ]);
 
   useEffect(() => {
     setCashierInformation([
@@ -191,10 +210,16 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
   useEffect(() => {
     // calculate the difference if existing
     const totalInCashier = cashier.initial + cashier.cashSales;
-    const totalAmountValid = cashier.cashInCashier - cashier.totalOfCashPayments;
+    const totalAmountValid =
+      cashier.cashInCashier - cashier.totalOfCashPayments;
     const newDiff = -totalInCashier + totalAmountValid;
     setDifference(newDiff);
-  }, [cashier.cashInCashier, cashier.cashSales, cashier.initial, cashier.totalOfCashPayments]);
+  }, [
+    cashier.cashInCashier,
+    cashier.cashSales,
+    cashier.initial,
+    cashier.totalOfCashPayments
+  ]);
 
   return (
     <>
@@ -211,25 +236,52 @@ const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
             <Box>
               <div style={globalStyles.feeDrawerslabel}>
                 <Grid component="nav">
-                  <Text variant="body2" text={Contents[language]?.PaymentsSubtitle} fontSize={13} />
+                  <Text
+                    variant="body2"
+                    text={Contents[language]?.PaymentsSubtitle}
+                    fontSize={13}
+                  />
                   <br />
                   {todaysPayments ? (
                     todaysPayments.map((each: Object) => {
-                      return <InfoRow title={each.concept} value={each.cost} isValueCurrency />;
+                      return (
+                        <InfoRow
+                          title={each.concept}
+                          value={each.cost}
+                          isValueCurrency
+                        />
+                      );
                     })
                   ) : (
-                    <InfoRow title="No se registró ningún pago hoy" value={null} />
+                    <InfoRow
+                      title="No se registró ningún pago hoy"
+                      value={null}
+                    />
                   )}
                 </Grid>
                 <br />
-                <Text variant="body2" text={Contents[language]?.SummarySubtitle} fontSize={13} />
+                <Text
+                  variant="body2"
+                  text={Contents[language]?.SummarySubtitle}
+                  fontSize={13}
+                />
                 <br />
                 <Grid component="nav">
                   {cashierInformation.map((each: Object) => {
-                    return <InfoRow title={each?.title} value={each.cost} isValueCurrency />;
+                    return (
+                      <InfoRow
+                        title={each?.title}
+                        value={each.cost}
+                        isValueCurrency
+                      />
+                    );
                   })}
                   <Box>
-                    <InfoRowTotal title="Diferencia: " value={difference} isValueCurrency />
+                    <InfoRowTotal
+                      title="Diferencia: "
+                      value={difference}
+                      isValueCurrency
+                    />
                   </Box>
                 </Grid>
               </div>

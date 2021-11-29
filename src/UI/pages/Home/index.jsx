@@ -47,7 +47,8 @@ const Home = () => {
               fontSize={47}
               text={
                 wasReloaded
-                  ? `¡Bienvenido ${user?.userName || ''} al sistema Picolin Store!`
+                  ? `¡Bienvenido ${user?.userName ||
+                      ''} al sistema Picolin Store!`
                   : 'Cargando permisos porfavor espere...'
               }
             />

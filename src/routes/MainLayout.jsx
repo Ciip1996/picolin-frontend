@@ -80,7 +80,11 @@ const MainLayout = ({ children, onShowAlert, ...rest }: Object) => {
   };
 
   const toggleDrawer = (drawer: string, open: boolean) => event => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
     setUiState(prevState => ({ ...prevState, [drawer]: open }));
@@ -129,10 +133,17 @@ const MainLayout = ({ children, onShowAlert, ...rest }: Object) => {
         >
           <div role="presentation">
             <ConfirmCloseCashierDrawer
-              cashierData={uiState?.closeCashierForm ? uiState?.closeCashierForm : undefined}
+              cashierData={
+                uiState?.closeCashierForm
+                  ? uiState?.closeCashierForm
+                  : undefined
+              }
               onConfirmedCloseCashier={onConfirmedCloseCashier}
               onShowAlert={onShowAlert}
-              handleClose={toggleDrawer('isConfirmCloseCashierDrawerOpen', false)}
+              handleClose={toggleDrawer(
+                'isConfirmCloseCashierDrawerOpen',
+                false
+              )}
             />
           </div>
         </Drawer>

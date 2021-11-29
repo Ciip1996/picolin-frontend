@@ -32,23 +32,56 @@ const ProductForm = (props: ProductFormProps) => {
   const { register, errors, setValue, getValues } = useFormContext();
 
   useEffect(() => {
-    register({ name: 'idType' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'idMaterial' }, { required: ` ${Contents[language]?.RequiredMessage}` });
-    register({ name: 'idColor' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register(
+      { name: 'idType' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'idMaterial' },
+      { required: ` ${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'idColor' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
     // register({ name: 'idProvider' }, { required: `${Contents[language]?.RequiredMessage}` }); // TODO: restore this once the client ask for it
     register({ name: 'idProvider' });
-    register({ name: 'size' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'pieces' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'cost' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'salePrice' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'idStore' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'idGender' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'quantity' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register(
+      { name: 'size' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'pieces' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'cost' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'salePrice' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'idStore' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'idGender' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'quantity' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
     register({ name: 'name' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
   }, [language, register]);
 
   const handleComboChange = (name: string, value: any) => {
-    setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
+    setComboValues((prevState: MapType): MapType => ({
+      ...prevState,
+      [name]: value
+    }));
     setValue(name, value?.id ? value?.id : value?.title, true);
   };
 

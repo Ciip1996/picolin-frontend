@@ -24,7 +24,16 @@ type FileChipProps = {
 };
 
 const FileChip = (props: FileChipProps) => {
-  const { loading, error, message, file, fileName, style, onFileDelete, ...rest } = props;
+  const {
+    loading,
+    error,
+    message,
+    file,
+    fileName,
+    style,
+    onFileDelete,
+    ...rest
+  } = props;
   const classes = useStyles();
   const circularProgressClasses = useProgressStyles();
   const [status, setStatus] = useState('loading');
@@ -43,7 +52,11 @@ const FileChip = (props: FileChipProps) => {
           disabled
           tooltipText={Contents[language]?.txtLoading}
         >
-          <CircularProgress classes={circularProgressClasses} size={24} thickness={4} />
+          <CircularProgress
+            classes={circularProgressClasses}
+            size={24}
+            thickness={4}
+          />
         </CustomIconButton>
       )
     },
@@ -114,7 +127,12 @@ const FileChip = (props: FileChipProps) => {
         </CardActionArea>
         {error ? design.error.adornment : design[status].adornment}
         {error && (
-          <Text variant="body1" text={message} fontSize={12} customStyle={styles.errorLabel} />
+          <Text
+            variant="body1"
+            text={message}
+            fontSize={12}
+            customStyle={styles.errorLabel}
+          />
         )}
       </Card>
     </Fade>

@@ -16,7 +16,10 @@ import TextBox from 'UI/components/atoms/TextBox';
 import { Endpoints } from 'UI/constants/endpoints';
 import { getErrorData } from 'UI/utils';
 
-import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
+import {
+  showAlert as showAlertAction,
+  confirm as confirmAction
+} from 'actions/app';
 import { EntityRoutes } from 'routes/constants';
 import { useStyles } from './styles';
 import Contents from './strings';
@@ -92,14 +95,18 @@ const LogIn = (props: LogInProps) => {
       <Box className={classes.containerBox}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <center>
-            <h1 className={classes.header}>{Contents[language]?.pageTitle || 'INICIAR SESIÓN'}</h1>
+            <h1 className={classes.header}>
+              {Contents[language]?.pageTitle || 'INICIAR SESIÓN'}
+            </h1>
             <TextBox
               autoFocus
               className={classes.txtUser}
               name="user"
               label={Contents[language]?.labuser || 'Usuario'}
               inputRef={register({
-                required: Contents[language]?.requser || 'Se requiere un nombre de usuario'
+                required:
+                  Contents[language]?.requser ||
+                  'Se requiere un nombre de usuario'
               })}
               error={!!errors.user}
               helperText={errors.user && errors.user.message}
@@ -110,7 +117,8 @@ const LogIn = (props: LogInProps) => {
               label="Contraseña"
               type="password"
               inputRef={register({
-                required: Contents[language]?.reqpwd || 'Se requiere una contraseña'
+                required:
+                  Contents[language]?.reqpwd || 'Se requiere una contraseña'
               })}
               error={!!errors.pwd}
               helperText={errors.pwd && errors.pwd.message}
@@ -122,7 +130,9 @@ const LogIn = (props: LogInProps) => {
               text="Entrar"
               variant="important"
             >
-              {uiState.isLoading && <CircularProgress size={24} color={colors.white} />}
+              {uiState.isLoading && (
+                <CircularProgress size={24} color={colors.white} />
+              )}
             </ActionButton>
           </center>
         </form>

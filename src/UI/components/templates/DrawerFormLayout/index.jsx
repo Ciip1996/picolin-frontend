@@ -69,8 +69,15 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
     variant === 'borderless' && styles.drawerContainer
   ]);
   return (
-    <Box id="drawer-form" component="form" onSubmit={onSubmit} style={drawerStyle}>
-      {isTopToolbarNeeded && <Box style={styles.drawerTopToolbar}>{additionalHeaderButtons}</Box>}
+    <Box
+      id="drawer-form"
+      component="form"
+      onSubmit={onSubmit}
+      style={drawerStyle}
+    >
+      {isTopToolbarNeeded && (
+        <Box style={styles.drawerTopToolbar}>{additionalHeaderButtons}</Box>
+      )}
       <Box style={styles.drawerTitle}>
         <TitleLabel fontSize={28} text={title} textTransform="uppercase" />
       </Box>

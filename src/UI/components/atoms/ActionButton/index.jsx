@@ -50,7 +50,13 @@ const ActionButton = (props: ActionButtonProps) => {
       ? children
       : nestTernary(
           iconPosition !== 'none',
-          <div style={iconPosition === 'left' && isWithoutText ? styles.noDiv : styles.emptyDiv} />,
+          <div
+            style={
+              iconPosition === 'left' && isWithoutText
+                ? styles.noDiv
+                : styles.emptyDiv
+            }
+          />,
           undefined
         );
   };

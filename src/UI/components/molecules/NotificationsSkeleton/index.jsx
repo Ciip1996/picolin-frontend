@@ -20,7 +20,12 @@ const NotificationsSkeleton = (props: NotificationsSkeletonProps) => {
       {Array.from(Array(rows)).map((each, i) => (
         <Card className={classes.root} key={i.toString()}>
           <CardActions style={styles.iconContainer}>
-            <CustomSkeleton variant="circle" width={20} height={20} style={styles.icon} />
+            <CustomSkeleton
+              variant="circle"
+              width={20}
+              height={20}
+              style={styles.icon}
+            />
           </CardActions>
           <CardContent>
             <div className={classes.textContainer}>
@@ -32,7 +37,12 @@ const NotificationsSkeleton = (props: NotificationsSkeletonProps) => {
             </div>
           </CardContent>
           <CardActions style={styles.indicatorContainer}>
-            <CustomSkeleton variant="circle" width={12} height={12} style={styles.indicator} />
+            <CustomSkeleton
+              variant="circle"
+              width={12}
+              height={12}
+              style={styles.indicator}
+            />
           </CardActions>
         </Card>
       ))}

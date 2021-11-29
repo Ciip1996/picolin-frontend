@@ -33,8 +33,20 @@ export const fileViewLabels = [
     time: '12:54',
     isActiveCard: true
   },
-  { id: 2, bulkId: 'BK846468', subject: 'Hi BRASILW', message: loremIpsum, time: '12:54' },
-  { id: 3, bulkId: 'WW8F462358', subject: 'Dear Nigga friend', message: loremIpsum, time: '12:54' },
+  {
+    id: 2,
+    bulkId: 'BK846468',
+    subject: 'Hi BRASILW',
+    message: loremIpsum,
+    time: '12:54'
+  },
+  {
+    id: 3,
+    bulkId: 'WW8F462358',
+    subject: 'Dear Nigga friend',
+    message: loremIpsum,
+    time: '12:54'
+  },
   {
     id: 4,
     bulkId: 'SOAOW846468',
@@ -42,12 +54,48 @@ export const fileViewLabels = [
     message: loremIpsum,
     time: '12:54'
   },
-  { id: 5, bulkId: 'APOSOW84468', subject: 'Get to know', message: loremIpsum, time: '12:54' },
-  { id: 6, bulkId: 'QUWUW84998', subject: 'Blah Blah no ', message: loremIpsum, time: '12:54' },
-  { id: 7, bulkId: 'SIID6435468', subject: 'Hello', message: loremIpsum, time: '12:54' },
-  { id: 8, bulkId: 'SOEOW147968', subject: 'Bella Chiao', message: loremIpsum, time: '12:54' },
-  { id: 9, bulkId: 'ORORW987768', subject: 'New Message', message: loremIpsum, time: '12:54' },
-  { id: 10, bulkId: 'LOFKW687468', subject: 'Hi', message: loremIpsum, time: '12:54' }
+  {
+    id: 5,
+    bulkId: 'APOSOW84468',
+    subject: 'Get to know',
+    message: loremIpsum,
+    time: '12:54'
+  },
+  {
+    id: 6,
+    bulkId: 'QUWUW84998',
+    subject: 'Blah Blah no ',
+    message: loremIpsum,
+    time: '12:54'
+  },
+  {
+    id: 7,
+    bulkId: 'SIID6435468',
+    subject: 'Hello',
+    message: loremIpsum,
+    time: '12:54'
+  },
+  {
+    id: 8,
+    bulkId: 'SOEOW147968',
+    subject: 'Bella Chiao',
+    message: loremIpsum,
+    time: '12:54'
+  },
+  {
+    id: 9,
+    bulkId: 'ORORW987768',
+    subject: 'New Message',
+    message: loremIpsum,
+    time: '12:54'
+  },
+  {
+    id: 10,
+    bulkId: 'LOFKW687468',
+    subject: 'Hi',
+    message: loremIpsum,
+    time: '12:54'
+  }
 ];
 
 export const Names = {

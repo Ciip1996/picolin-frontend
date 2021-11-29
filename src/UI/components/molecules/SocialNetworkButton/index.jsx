@@ -33,8 +33,19 @@ const SocialNetworkButton = (props: SocialNetworkButtonProps) => {
   const { url, width, type } = props;
   const link = normalizeUrl(url);
   return (
-    <Box display="flex" width={width} alignItems="center" justifyContent="space-between">
-      <Link component="a" style={styles.Link} href={link} target="_blank" rel="noopener noreferrer">
+    <Box
+      display="flex"
+      width={width}
+      alignItems="center"
+      justifyContent="space-between"
+    >
+      <Link
+        component="a"
+        style={styles.Link}
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <Box display="flex" alignItems="center">
           <Box mr={1}>{icons[type]}</Box>
           <Text variant="body1" cropped text={link} />
@@ -42,7 +53,11 @@ const SocialNetworkButton = (props: SocialNetworkButtonProps) => {
       </Link>
 
       <CopyToClipboard onCopy={() => ({ copied: true })} text={link}>
-        <CustomIconButton tooltipPosition="bottom" style={styles} tooltipText="Copy link">
+        <CustomIconButton
+          tooltipPosition="bottom"
+          style={styles}
+          tooltipText="Copy link"
+        >
           <CopyIcon fill={colors.black} />
         </CustomIconButton>
       </CopyToClipboard>

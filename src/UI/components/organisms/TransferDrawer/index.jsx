@@ -34,7 +34,15 @@ const TransferDrawer = (props: TransferDrawerProps) => {
   const classes = useStyles();
 
   const form = useForm();
-  const { register, errors, handleSubmit, setValue, watch, unregister, reset } = form;
+  const {
+    register,
+    errors,
+    handleSubmit,
+    setValue,
+    watch,
+    unregister,
+    reset
+  } = form;
 
   const onSubmit = async (formData: Object) => {
     try {
@@ -54,7 +62,10 @@ const TransferDrawer = (props: TransferDrawerProps) => {
         products
       };
 
-      const response = await API.post(`${Endpoints.Transfers}${Endpoints.InsertTransfer}`, params);
+      const response = await API.post(
+        `${Endpoints.Transfers}${Endpoints.InsertTransfer}`,
+        params
+      );
       if (response) {
         onShowAlert({
           severity: 'success',
@@ -83,7 +94,10 @@ const TransferDrawer = (props: TransferDrawerProps) => {
       reset();
       registerFormField();
     }
-    setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
+    setComboValues((prevState: MapType): MapType => ({
+      ...prevState,
+      [name]: value
+    }));
     setValue(name, value ? value.id : value, true);
   };
 
@@ -115,7 +129,11 @@ const TransferDrawer = (props: TransferDrawerProps) => {
     unregister(productCode);
   };
 
-  const onModifyAmountOfItem = (productCode: Object, quantity: any, stock: number) => {
+  const onModifyAmountOfItem = (
+    productCode: Object,
+    quantity: any,
+    stock: number
+  ) => {
     const updatedProducts = productsList.map((each: Object) => {
       if (each?.product?.productCode === productCode) {
         const isStockUnavailable = quantity ? stock < quantity : stock < 0;
@@ -144,7 +162,10 @@ const TransferDrawer = (props: TransferDrawerProps) => {
       {
         required: `${Contents[language]?.requiredField}`,
         validate: value => {
-          return value !== watch('idDestination') || `${Contents[language]?.sameStore}`;
+          return (
+            value !== watch('idDestination') ||
+            `${Contents[language]?.sameStore}`
+          );
         }
       }
     );
@@ -153,7 +174,9 @@ const TransferDrawer = (props: TransferDrawerProps) => {
       {
         required: `${Contents[language]?.requiredField}`,
         validate: value => {
-          return value !== watch('idOrigin') || `${Contents[language]?.sameStore}`;
+          return (
+            value !== watch('idOrigin') || `${Contents[language]?.sameStore}`
+          );
         }
       }
     );
@@ -170,7 +193,11 @@ const TransferDrawer = (props: TransferDrawerProps) => {
   }, [register]);
 
   useEffect(() => {
-    if (productsList.length === 0 && comboValues.idOrigin && comboValues.idDestination)
+    if (
+      productsList.length === 0 &&
+      comboValues.idOrigin &&
+      comboValues.idDestination
+    )
       setValue('products', undefined, true);
   }, [comboValues.idDestination, comboValues.idOrigin, productsList, setValue]);
 
@@ -178,8 +205,10 @@ const TransferDrawer = (props: TransferDrawerProps) => {
 
   const baseUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`;
   const isIdSelected =
-    comboValues?.idOrigin?.id !== undefined && comboValues?.idOrigin?.id !== null;
-  const fullUrl = isIdSelected && baseUrl.replace(':idStore', comboValues.idOrigin.id);
+    comboValues?.idOrigin?.id !== undefined &&
+    comboValues?.idOrigin?.id !== null;
+  const fullUrl =
+    isIdSelected && baseUrl.replace(':idStore', comboValues.idOrigin.id);
   const urlString = isIdSelected ? fullUrl : null;
 
   return (
@@ -196,9 +225,17 @@ const TransferDrawer = (props: TransferDrawerProps) => {
           <div className={classes.root}>
             <Box>
               <div style={globalStyles.feeDrawerslabel}>
-                <Text variant="h2" text={Contents[language]?.Subtitle} fontSize={14} />
+                <Text
+                  variant="h2"
+                  text={Contents[language]?.Subtitle}
+                  fontSize={14}
+                />
                 <br />
-                <Text variant="subtitle1" text={Contents[language]?.FirstStep} fontSize={12} />
+                <Text
+                  variant="subtitle1"
+                  text={Contents[language]?.FirstStep}
+                  fontSize={12}
+                />
                 <InputContainer>
                   <AutocompleteSelect
                     autoFocus
@@ -216,18 +253,26 @@ const TransferDrawer = (props: TransferDrawerProps) => {
                     selectedValue={comboValues.idDestination}
                     placeholder={Contents[language]?.Destination}
                     error={!!errors?.idDestination}
-                    errorText={errors?.idDestination && errors?.idDestination.message}
+                    errorText={
+                      errors?.idDestination && errors?.idDestination.message
+                    }
                     onSelect={handleComboChange}
                     url={Endpoints.Stores}
                   />
                 </InputContainer>
                 <Divider />
-                <Text variant="subtitle1" text={Contents[language]?.SecondStep} fontSize={12} />
+                <Text
+                  variant="subtitle1"
+                  text={Contents[language]?.SecondStep}
+                  fontSize={12}
+                />
                 <InputContainer>
                   <AutocompleteDebounce
                     maxOptions={10}
                     name="products"
-                    onSelectItem={product => handleAddProduct('products', product)}
+                    onSelectItem={product =>
+                      handleAddProduct('products', product)
+                    }
                     placeholder="Escriba un Producto"
                     disabled={!isProductFieldEnabled}
                     url={urlString || null}

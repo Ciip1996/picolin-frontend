@@ -71,14 +71,28 @@ const DecisionDialog = (props: DecisionDialogProps) => {
 
   return (
     <div>
-      <Dialog fullWidth open={open} TransitionComponent={Transition} onClose={handleClose}>
-        <CustomIconButton style={styles.closeIcon} tooltipText="Close" onClick={handleClose}>
+      <Dialog
+        fullWidth
+        open={open}
+        TransitionComponent={Transition}
+        onClose={handleClose}
+      >
+        <CustomIconButton
+          style={styles.closeIcon}
+          tooltipText="Close"
+          onClick={handleClose}
+        >
           <CloseIcon fill={colors.black} />
         </CustomIconButton>
         <div style={styles.bodyContainer}>
           {severityValues[severity].icon}
           <div style={styles.textContainer}>
-            <Text variant="subtitle1" text={title} fontSize={22} fontWeight={700} />
+            <Text
+              variant="subtitle1"
+              text={title}
+              fontSize={22}
+              fontWeight={700}
+            />
             <Text variant="body2" text={message} />
           </div>
         </div>
@@ -102,7 +116,12 @@ const DecisionDialog = (props: DecisionDialogProps) => {
             />
           )}
         </DialogActions>
-        <div style={{ ...styles.footerBar, backgroundColor: severityValues[severity].color }} />
+        <div
+          style={{
+            ...styles.footerBar,
+            backgroundColor: severityValues[severity].color
+          }}
+        />
       </Dialog>
     </div>
   );
@@ -122,6 +141,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const DecisionDialogConnected = connect(null, mapDispatchToProps)(DecisionDialog);
+const DecisionDialogConnected = connect(
+  null,
+  mapDispatchToProps
+)(DecisionDialog);
 
 export default DecisionDialogConnected;

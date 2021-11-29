@@ -22,9 +22,19 @@ type ProductCardProps = {
 };
 
 const ProductCard = (props: ProductCardProps) => {
-  const { date, creator, recruiter, otherRecruiter, isLoading, action, type } = props;
+  const {
+    date,
+    creator,
+    recruiter,
+    otherRecruiter,
+    isLoading,
+    action,
+    type
+  } = props;
 
-  const formattedDate = moment(date).format(DateFormats.International.SimpleDateTime);
+  const formattedDate = moment(date).format(
+    DateFormats.International.SimpleDateTime
+  );
 
   return (
     <Box my={2}>
@@ -52,7 +62,13 @@ const ProductCard = (props: ProductCardProps) => {
             />
           </p>
           <p style={styles.itemContent}>
-            {getHistoryDescription(type, action, creator, recruiter, otherRecruiter)}
+            {getHistoryDescription(
+              type,
+              action,
+              creator,
+              recruiter,
+              otherRecruiter
+            )}
           </p>
         </>
       )}
@@ -60,16 +76,29 @@ const ProductCard = (props: ProductCardProps) => {
   );
 };
 
-const getHistoryDescription = (type, action, creator, recruiter, otherRecruiter) => {
+const getHistoryDescription = (
+  type,
+  action,
+  creator,
+  recruiter,
+  otherRecruiter
+) => {
   return type === AdditionalRecruiterType.Main ||
-    (type === AdditionalRecruiterType.Accountable && action === 'assign' && creator !== recruiter)
+    (type === AdditionalRecruiterType.Accountable &&
+      action === 'assign' &&
+      creator !== recruiter)
     ? getDescriptionForAssignment(creator, recruiter)
     : nestTernary(
         type === AdditionalRecruiterType.Accountable,
         getDescriptionForAccountable(action, creator, recruiter),
         nestTernary(
           type === AdditionalRecruiterType.Collaborator,
-          getDescriptionForCollaborator(action, creator, recruiter, otherRecruiter),
+          getDescriptionForCollaborator(
+            action,
+            creator,
+            recruiter,
+            otherRecruiter
+          ),
           <>
             <b>{creator}</b> created this item
           </>
@@ -97,15 +126,22 @@ const getDescriptionForAccountable = (action, creator, recruiter) => {
   );
 };
 
-const getDescriptionForCollaborator = (action, creator, recruiter, otherRecruiter) => {
+const getDescriptionForCollaborator = (
+  action,
+  creator,
+  recruiter,
+  otherRecruiter
+) => {
   if (creator !== otherRecruiter) {
     return action === 'assign' ? (
       <>
-        <b>{creator}</b> assigned <b>{recruiter}</b> to collaborate with <b>{otherRecruiter}</b>
+        <b>{creator}</b> assigned <b>{recruiter}</b> to collaborate with{' '}
+        <b>{otherRecruiter}</b>
       </>
     ) : (
       <>
-        <b>{creator}</b> removed <b>{recruiter}</b> from collaborating with <b>{otherRecruiter}</b>
+        <b>{creator}</b> removed <b>{recruiter}</b> from collaborating with{' '}
+        <b>{otherRecruiter}</b>
       </>
     );
   }

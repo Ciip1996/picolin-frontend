@@ -33,7 +33,10 @@ const ListPageLayoutSelector = props => {
     <Grid item xs={12}>
       <div style={styles.selectorContainer}>
         {loading ? (
-          <CustomSkeleton style={globalStyles.skeletonItem} color={colors.inactiveSideBarTab} />
+          <CustomSkeleton
+            style={globalStyles.skeletonItem}
+            color={colors.inactiveSideBarTab}
+          />
         ) : (
           selector
         )}
@@ -82,7 +85,11 @@ const ListPageLayout = (props: ListPageLayoutProps) => {
 
   return (
     <div style={customStyle} mode={mode}>
-      <Grid style={mode === 'onPage' ? styles.containerOnPage : null} container spacing={3}>
+      <Grid
+        style={mode === 'onPage' ? styles.containerOnPage : null}
+        container
+        spacing={3}
+      >
         {mode === 'template' && (
           <ListPageLayoutTitle
             needsBackNavigation={needsBackNavigation}
@@ -90,7 +97,9 @@ const ListPageLayout = (props: ListPageLayoutProps) => {
             loading={loading}
           />
         )}
-        {mode !== 'onPage' && <ListPageLayoutSelector selector={selector} loading={loading} />}
+        {mode !== 'onPage' && (
+          <ListPageLayoutSelector selector={selector} loading={loading} />
+        )}
 
         <Grid style={gridStyle} item xs={12}>
           <ActiveFilters

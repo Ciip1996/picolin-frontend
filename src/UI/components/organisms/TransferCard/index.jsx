@@ -33,7 +33,16 @@ const TransferCard = (props: TransferCardProps) => {
     // errors
   } = props;
 
-  const { productCode, gender, size, type, color, cost, material, stock } = product;
+  const {
+    productCode,
+    gender,
+    size,
+    type,
+    color,
+    cost,
+    material,
+    stock
+  } = product;
 
   const prepareRemoveItem = () => {
     onRemoveItem(productCode);
@@ -58,7 +67,8 @@ const TransferCard = (props: TransferCardProps) => {
         name: productCode
       },
       {
-        required: 'Cantidad requerida, elija un número menor al de stock en existencia',
+        required:
+          'Cantidad requerida, elija un número menor al de stock en existencia',
         min: {
           value: 1,
           message: 'La cantidad debe ser mayor a 0'
@@ -83,7 +93,9 @@ const TransferCard = (props: TransferCardProps) => {
           className={classes.errorMessage}
           error={!!errors[productCode]}
         >
-          <FormHelperText>{errors[productCode] && errors[productCode].message}</FormHelperText>
+          <FormHelperText>
+            {errors[productCode] && errors[productCode].message}
+          </FormHelperText>
         </FormControl>
         <CustomIconButton
           tooltipText="Quitar de la lista"

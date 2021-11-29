@@ -41,7 +41,13 @@ const ErrorPage = ({ history, error }: ErrorPageProps) => {
 
     setErrorType({
       image: (
-        <TitleLabel shadow text="Unkown ERROR" fontWeight={700} fontSize={120} color={colors.red} />
+        <TitleLabel
+          shadow
+          text="Unkown ERROR"
+          fontWeight={700}
+          fontSize={120}
+          color={colors.red}
+        />
       ),
       title: Contents[language]?.errTitle,
       firstRow: Contents[language]?.errTitle2,
@@ -92,7 +98,12 @@ const ErrorPage = ({ history, error }: ErrorPageProps) => {
     <ContentPageLayout>
       <Grid className={classes.wrapper}>
         {errorType.image}
-        <TitleLabel shadow fontSize={48} fontWeight={700} text={errorType.title} />
+        <TitleLabel
+          shadow
+          fontSize={48}
+          fontWeight={700}
+          text={errorType.title}
+        />
         <Typography style={{ marginTop: 0, marginBottom: 0 }} component="div">
           <Box className={classes.text}>{errorType.firstRow}</Box>
           <Box className={classes.text}>

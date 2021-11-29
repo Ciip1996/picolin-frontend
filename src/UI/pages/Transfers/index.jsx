@@ -34,7 +34,11 @@ import { AddIcon, colors } from 'UI/res';
 import Contents from './strings';
 
 const CellSkeleton = ({ children, searching }) => {
-  return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
+  return searching ? (
+    <CustomSkeleton width="90%" height={18} />
+  ) : (
+    <>{children}</>
+  );
 };
 
 type TransferListProps = {
@@ -73,7 +77,11 @@ const TransferList = (props: TransferListProps) => {
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
   const toggleDrawer = (drawer: string, open: boolean) => event => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
     setUiState(prevState => ({ ...prevState, [drawer]: open }));
@@ -402,7 +410,9 @@ const TransferList = (props: TransferListProps) => {
         display: columnItems[7].display,
         sortDirection: sortDirection[7],
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>
+          );
         },
         filterType: 'custom'
       }
@@ -416,7 +426,9 @@ const TransferList = (props: TransferListProps) => {
         display: columnItems[8].display,
         sortDirection: sortDirection[8],
         customBodyRender: value => {
-          const formattedDate = moment(value).format(DateFormats.International.SimpleDateTime);
+          const formattedDate = moment(value).format(
+            DateFormats.International.SimpleDateTime
+          );
 
           return (
             <CellSkeleton searching={searching}>
@@ -469,7 +481,10 @@ const TransferList = (props: TransferListProps) => {
           >
             <ActionButton
               text={Contents[language]?.makeTransfer}
-              onClick={toggleDrawer('isTransferDrawerOpen', !uiState.isTransferDrawerOpen)}
+              onClick={toggleDrawer(
+                'isTransferDrawerOpen',
+                !uiState.isTransferDrawerOpen
+              )}
             >
               <AddIcon fill={colors.white} size={18} />
             </ActionButton>

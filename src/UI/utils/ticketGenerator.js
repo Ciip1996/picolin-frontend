@@ -1,5 +1,10 @@
 import jsPDF from 'jspdf';
-import { MontserratRegular, MontserratBold, RobotoMonoRegular, RobotoMonoBold } from 'UI/res/fonts';
+import {
+  MontserratRegular,
+  MontserratBold,
+  RobotoMonoRegular,
+  RobotoMonoBold
+} from 'UI/res/fonts';
 import { currencyFormatter, getFeatureFlags } from 'UI/utils';
 import { FeatureFlags } from 'UI/constants/featureFlags';
 import moment from 'moment-timezone';
@@ -32,8 +37,15 @@ const generateBaseDocumentWithHeader = (height, ticketNumber, date, idSale) => {
   doc.addFileToVFS('Montserrat-Bold-bold.ttf', MontserratBold);
   doc.addFont('Montserrat-Bold-bold.ttf', 'Montserrat-Bold', 'bold');
 
-  doc.addFileToVFS('RobotoMono-VariableFont_wght-normal.ttf', RobotoMonoRegular);
-  doc.addFont('RobotoMono-VariableFont_wght-normal.ttf', 'RobotoMono-VariableFont_wght', 'normal');
+  doc.addFileToVFS(
+    'RobotoMono-VariableFont_wght-normal.ttf',
+    RobotoMonoRegular
+  );
+  doc.addFont(
+    'RobotoMono-VariableFont_wght-normal.ttf',
+    'RobotoMono-VariableFont_wght',
+    'normal'
+  );
 
   doc.addFileToVFS('RobotoMono-Bold-bold.ttf', RobotoMonoBold);
   doc.addFont('RobotoMono-Bold-bold.ttf', 'RobotoMono-Bold', 'bold');
@@ -52,7 +64,11 @@ const generateBaseDocumentWithHeader = (height, ticketNumber, date, idSale) => {
   linePosition += 5;
   doc.text('Sucursal: Centro', leftMargin, linePosition);
   linePosition += 5;
-  doc.text('Pasaje Colón 115, Centro, 37000 León, Gto.', leftMargin, linePosition);
+  doc.text(
+    'Pasaje Colón 115, Centro, 37000 León, Gto.',
+    leftMargin,
+    linePosition
+  );
   linePosition += 5;
   doc.setFont('RobotoMono-Bold', 'bold');
   doc.text(`Ticket Nº: ${ticketNumber}`, leftMargin, linePosition);
@@ -79,22 +95,36 @@ const generateFooter = (doc, line, amountOfProducts) => {
   linePosition += 5;
 
   doc.text(
-    `Fecha de Impresión: ${moment().format(DateFormats.International.SimpleDateTime)} `,
+    `Fecha de Impresión: ${moment().format(
+      DateFormats.International.SimpleDateTime
+    )} `,
     leftMargin,
     linePosition
   );
   if (amountOfProducts) {
     linePosition += 5;
     doc.setFont('RobotoMono-Bold', 'bold');
-    doc.text(`Articulos Vendidos: ${amountOfProducts}`, leftMargin, linePosition);
+    doc.text(
+      `Articulos Vendidos: ${amountOfProducts}`,
+      leftMargin,
+      linePosition
+    );
   }
   linePosition += 10;
   doc.setFontSize(smallTextSize);
-  doc.text(`¡Picolin agradece su compra, vuelva pronto!`, leftMargin, linePosition);
+  doc.text(
+    `¡Picolin agradece su compra, vuelva pronto!`,
+    leftMargin,
+    linePosition
+  );
   doc.setFont('RobotoMono-VariableFont_wght', 'normal');
 
   linePosition += 5;
-  doc.text(`Una vez salida la mercancía de la tienda, `, leftMargin, linePosition);
+  doc.text(
+    `Una vez salida la mercancía de la tienda, `,
+    leftMargin,
+    linePosition
+  );
   linePosition += 5;
   doc.text(`no se aceptarán devoluciones.`, leftMargin, linePosition);
   return doc;
@@ -104,7 +134,12 @@ export const generateCloseCashierTicket = data => {
   // Set Header
   const extraHeight = data?.cashierInformation?.length * 12;
 
-  const doc = generateBaseDocumentWithHeader(extraHeight, data?.ticket, data?.date, data?.idSale);
+  const doc = generateBaseDocumentWithHeader(
+    extraHeight,
+    data?.ticket,
+    data?.date,
+    data?.idSale
+  );
   let linePosition = initialLinePositionAfterHeader;
 
   // Set Body
@@ -119,7 +154,11 @@ export const generateCloseCashierTicket = data => {
   data?.cashierInformation &&
     data.cashierInformation.forEach(each => {
       doc.text(`${each?.title}`, leftMargin, linePosition);
-      doc.text(each?.cost ? `${currencyFormatter(each?.cost)}` : '--', rightMargin, linePosition);
+      doc.text(
+        each?.cost ? `${currencyFormatter(each?.cost)}` : '--',
+        rightMargin,
+        linePosition
+      );
       linePosition += 12;
     });
   // Differency
@@ -156,8 +195,16 @@ const generateTicket = data => {
 
   data?.detail &&
     data.detail.forEach((each, index) => {
-      doc.text(`Art.#${index + 1}: ${each?.productCode}`, leftMargin, linePosition);
-      doc.text(`${each?.type} ${each?.material} ${each?.color}`, leftMargin, linePosition + 5);
+      doc.text(
+        `Art.#${index + 1}: ${each?.productCode}`,
+        leftMargin,
+        linePosition
+      );
+      doc.text(
+        `${each?.type} ${each?.material} ${each?.color}`,
+        leftMargin,
+        linePosition + 5
+      );
       doc.text(
         !each.combo ? `${currencyFormatter(each?.salePrice)}` : 'paquete',
         rightMargin,
@@ -179,32 +226,54 @@ const generateTicket = data => {
   doc.text(`${data?.sale?.paymentMethod}`, rightMargin, linePosition);
   linePosition += 5;
   doc.text(`Subtotal: `, leftMargin, linePosition);
-  doc.text(`${currencyFormatter(data?.sale?.subtotal)}`, rightMargin, linePosition);
+  doc.text(
+    `${currencyFormatter(data?.sale?.subtotal)}`,
+    rightMargin,
+    linePosition
+  );
   linePosition += 5;
   if (featureFlags.includes(FeatureFlags.Taxes)) {
     doc.text(`IVA: `, leftMargin, linePosition);
-    doc.text(`${currencyFormatter(data?.sale?.iva)}`, rightMargin, linePosition);
+    doc.text(
+      `${currencyFormatter(data?.sale?.iva)}`,
+      rightMargin,
+      linePosition
+    );
     linePosition += 5;
   }
   doc.text(`Descuento: `, leftMargin, linePosition);
   doc.text(`-`, rightMargin - 1, linePosition);
-  doc.text(`${currencyFormatter(data?.sale?.discount)}`, rightMargin, linePosition);
+  doc.text(
+    `${currencyFormatter(data?.sale?.discount)}`,
+    rightMargin,
+    linePosition
+  );
   linePosition += 5;
 
   doc.setFont('RobotoMono-Bold', 'bold');
   doc.text(`Total: `, leftMargin, linePosition);
-  doc.text(`${currencyFormatter(data?.sale?.total)}`, rightMargin, linePosition);
+  doc.text(
+    `${currencyFormatter(data?.sale?.total)}`,
+    rightMargin,
+    linePosition
+  );
   doc.setFont('RobotoMono-VariableFont_wght', 'normal');
   linePosition += 10;
 
   doc.text(`Recibido: `, leftMargin, linePosition);
-  doc.text(`${currencyFormatter(data?.sale?.received)}`, rightMargin, linePosition);
+  doc.text(
+    `${currencyFormatter(data?.sale?.received)}`,
+    rightMargin,
+    linePosition
+  );
   linePosition += 5;
 
   doc.text(`Cambio: `, leftMargin, linePosition);
   doc.text(
     `${currencyFormatter(
-      data?.sale?.paymentMethod === 'Tarjeta' ? 0.0 : data?.sale?.received - data?.sale?.total
+      data?.sale?.paymentMethod === 'Tarjeta'
+        ? 0.0
+        : data?.sale?.received - data?.sale?.total
     )}`,
     rightMargin,
     linePosition

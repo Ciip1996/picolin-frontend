@@ -101,6 +101,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const NotifierConnected = connect(mapStateToProps, mapDispatchToProps)(withRouter(Notifier));
+const NotifierConnected = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(Notifier));
 
 export default NotifierConnected;

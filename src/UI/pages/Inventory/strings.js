@@ -24,7 +24,8 @@ const Contents = {
   },
   Spanish: {
     pageTitle: 'INVENTARIO',
-    defaultSubtitle: '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
+    defaultSubtitle:
+      '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
     labCode: 'Código',
     labColor: 'Color',
     labSize: 'Talla',

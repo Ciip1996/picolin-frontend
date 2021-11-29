@@ -92,7 +92,10 @@ export const TicketIcon = (props: Object) => {
           fill={fill}
           d="M41.472 13.252a4.985 4.985 0 01-7.13-6.972l-2.107-2.063-.004.007-4.28-4.182L.139 28.502l4.266 4.168 2.156 2.105a4.946 4.946 0 016.986-.082 4.94 4.94 0 01.079 6.987l2.156 2.109 4.267 4.168 27.812-28.462-6.389-6.243zm-7.596 14.86L19.981 42.335l-2.212-2.16c.67-2.658-.019-5.581-2.122-7.632-2.099-2.052-5.035-2.673-7.678-1.944l-2.212-2.162 13.896-14.219 2.843 2.779 2.084-2.133-2.844-2.779 6.254-6.4 2.232 2.184c-.656 2.644.038 5.547 2.122 7.591 2.093 2.046 5.018 2.676 7.652 1.959l2.214 2.161-6.253 6.398-2.728-2.665-2.086 2.136 2.733 2.663z"
         />
-        <path fill={fill} d="M28.91 23.267l-4.296-4.197 2.085-2.135 4.296 4.197z" />
+        <path
+          fill={fill}
+          d="M28.91 23.267l-4.296-4.197 2.085-2.135 4.296 4.197z"
+        />
       </g>
     </svg>
   );
@@ -208,7 +211,10 @@ export const NewInventoryItemNotificationIcon = ({
         fill={fill}
         d="M18.281 19.711a.75.75 0 01-.75-.75v-4.677a.75.75 0 111.5 0v4.677a.75.75 0 01-.75.75z"
       />
-      <path fill={fill} d="M20.62 17.373h-4.677a.75.75 0 110-1.5h4.677a.75.75 0 010 1.5z" />
+      <path
+        fill={fill}
+        d="M20.62 17.373h-4.677a.75.75 0 110-1.5h4.677a.75.75 0 010 1.5z"
+      />
     </svg>
   );
 };
@@ -346,8 +352,20 @@ export const MoreIcon = ({
       <defs>
         <style>{`.moreicon{fill:${fill}}`}</style>
       </defs>
-      <circle className="moreicon" cx={2} cy={2} r={2} transform="translate(0 7)" />
-      <circle className="moreicon" cx={2} cy={2} r={2} transform="translate(0 14)" />
+      <circle
+        className="moreicon"
+        cx={2}
+        cy={2}
+        r={2}
+        transform="translate(0 7)"
+      />
+      <circle
+        className="moreicon"
+        cx={2}
+        cy={2}
+        r={2}
+        transform="translate(0 14)"
+      />
       <circle className="moreicon" cx={2} cy={2} r={2} />
     </svg>
   );
@@ -524,7 +542,13 @@ export const CareerbuilderIcon = ({
         <style>{'.prefix__a{fill:#fff;opacity:.5}'}</style>
       </defs>
       <g transform="translate(-370.286 -445.264)">
-        <circle fill={fill} cx={14} cy={14} r={14} transform="translate(370.286 445.264)" />
+        <circle
+          fill={fill}
+          cx={14}
+          cy={14}
+          r={14}
+          transform="translate(370.286 445.264)"
+        />
         <path
           className="prefix__a"
           d="M382.75 457.269a2.612 2.612 0 014.073 1h6.35a8.832 8.832 0 00-14.79-5.372zM381.802 459.283a2.6 2.6 0 01.66-1.731l-4.368-4.368a8.832 8.832 0 00-.217 12.132l4.457-4.457a2.6 2.6 0 01-.532-1.576zM386.832 460.265a2.608 2.608 0 01-4.231.9l-4.446 4.446a8.836 8.836 0 0015.041-5.341z"
@@ -572,7 +596,13 @@ export const IndeedIcon = ({
         <style>{'.prefix__a{fill:#fff}'}</style>
       </defs>
       <g transform="translate(-612.413 -445.568)">
-        <circle fill={fill} cx={14} cy={14} r={14} transform="translate(612.413 445.568)" />
+        <circle
+          fill={fill}
+          cx={14}
+          cy={14}
+          r={14}
+          transform="translate(612.413 445.568)"
+        />
         <path
           className="prefix__a"
           d="M625.321 460.137a4.955 4.955 0 002.843-.6v.419c0 2.114.005 4.229 0 6.343a4.132 4.132 0 01-.1.943 1.316 1.316 0 01-1.491 1.061 1.376 1.376 0 01-1.253-1.313c-.035-.536-.028-1.075-.029-1.612v-4.95c.005-.083.019-.17.03-.291zM628.823 456.251a2.128 2.128 0 01-2.186 2.169 2.156 2.156 0 01-2.2-2.17 2.189 2.189 0 012.166-2.178 2.144 2.144 0 012.22 2.179z"
@@ -773,7 +803,10 @@ export const DeleteIcon = ({
 }: IconProps) => {
   return (
     <svg width={size} height={size} viewBox="0 0 22.5 22.5" {...rest}>
-      <path fill={fill} d="M21.75 4.5h-21a.75.75 0 110-1.5h21a.75.75 0 010 1.5z" />
+      <path
+        fill={fill}
+        d="M21.75 4.5h-21a.75.75 0 110-1.5h21a.75.75 0 010 1.5z"
+      />
       <path
         fill={fill}
         d="M15 4.5H7.5a.75.75 0 01-.75-.75v-1.5A2.252 2.252 0 019 0h4.5a2.253 2.253 0 012.25 2.25v1.5a.75.75 0 01-.75.75zM8.25 3h6v-.75a.751.751 0 00-.75-.75H9a.75.75 0 00-.75.75zM9 17.25a.75.75 0 01-.75-.75V9a.75.75 0 011.5 0v7.5a.75.75 0 01-.75.75zM13.5 17.25a.75.75 0 01-.75-.75V9a.75.75 0 011.5 0v7.5a.75.75 0 01-.75.75z"
@@ -924,7 +957,12 @@ export const CollapsibleArrowClosed = ({
 export const CandidatesIcon = (props: Object) => {
   const { size = defaultIconSize, fill = colors.oxford } = props;
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 23.997 24">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 23.997 24"
+    >
       <defs>
         <style>.a{fill}</style>
       </defs>
@@ -971,7 +1009,12 @@ export const NamesIcon = (props: Object) => {
 export const CompaniesIcon = (props: Object) => {
   const { size = defaultIconSize, fill = colors.oxford } = props;
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+    >
       <defs>
         <style>.a{fill}</style>
       </defs>
@@ -1054,7 +1097,10 @@ export const ArrowLeft = ({
       viewBox="0 0 24 24"
       {...rest}
     >
-      <path fill={fill} d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z" />
+      <path
+        fill={fill}
+        d="M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z"
+      />
     </svg>
   );
 };
@@ -1182,7 +1228,12 @@ export const HomeIcon = (props: Object) => {
     style = {}
   } = props;
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 21.6">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 21.6"
+    >
       <defs>
         <style>
           .a{contrast}.b{fill}
@@ -1213,7 +1264,12 @@ export const HomeIcon = (props: Object) => {
 export const JobOrdersIcon = (props: Object) => {
   const { size = defaultIconSize, fill = colors.oxford, style = {} } = props;
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 21">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 24 21"
+    >
       <defs>
         <style>.a{fill}</style>
       </defs>
@@ -1235,13 +1291,25 @@ export const MapIcon = (props: Object) => {
     style = {}
   } = props;
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 22.4 24">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 22.4 24"
+    >
       <defs>
         <style>
           .a{fill}.b{contrast}
         </style>
       </defs>
-      <circle fill={contrast} className="a" cx="4" cy="4" r="4" transform="translate(7.2 7.273)" />
+      <circle
+        fill={contrast}
+        className="a"
+        cx="4"
+        cy="4"
+        r="4"
+        transform="translate(7.2 7.273)"
+      />
       <path
         fill={fill}
         className="b"
@@ -1321,7 +1389,12 @@ export const InventoryIconMap = ({
 };
 
 export const MapInventoryIcon = (props: Object) => {
-  const { size = defaultIconSize, fill = defaultIconColor, onMouseEnter, info = 0 } = props;
+  const {
+    size = defaultIconSize,
+    fill = defaultIconColor,
+    onMouseEnter,
+    info = 0
+  } = props;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -1350,7 +1423,12 @@ export const MapInventoryIcon = (props: Object) => {
 export const PaperWriteIcon = (props: IconProps) => {
   const { size = defaultIconSize } = props;
   return (
-    <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 25.691 25.5">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height={size}
+      viewBox="0 0 25.691 25.5"
+    >
       <defs>
         <style>
           {
@@ -1363,7 +1441,13 @@ export const PaperWriteIcon = (props: IconProps) => {
           className="prefix__a"
           d="M13.114 19.079l-3.959.565.567-3.959L19.903 5.503a2.4 2.4 0 013.394 3.394z"
         />
-        <rect className="prefix__a" width={8} height={3.2} rx={0.75} transform="translate(4.8)" />
+        <rect
+          className="prefix__a"
+          width={8}
+          height={3.2}
+          rx={0.75}
+          transform="translate(4.8)"
+        />
         <path
           className="prefix__a"
           d="M12.8 1.6H16a1.6 1.6 0 011.6 1.6M17.6 19.2v3.2A1.6 1.6 0 0116 24H1.6A1.6 1.6 0 010 22.4V3.2a1.6 1.6 0 011.6-1.6h3.2M4.8 8h8M4.8 12.8H8"
@@ -1374,7 +1458,12 @@ export const PaperWriteIcon = (props: IconProps) => {
 };
 
 export const MapCompanyIcon = (props: Object) => {
-  const { size = defaultIconSize, fill = defaultIconColor, onMouseEnter, info = 0 } = props;
+  const {
+    size = defaultIconSize,
+    fill = defaultIconColor,
+    onMouseEnter,
+    info = 0
+  } = props;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -1401,7 +1490,12 @@ export const MapCompanyIcon = (props: Object) => {
 };
 
 export const MapJobOrderIcon = (props: Object) => {
-  const { size = defaultIconSize, fill = defaultIconColor, onMouseEnter, info = 0 } = props;
+  const {
+    size = defaultIconSize,
+    fill = defaultIconColor,
+    onMouseEnter,
+    info = 0
+  } = props;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -1461,7 +1555,10 @@ export const LinkedinIcon = ({
 }: IconProps) => {
   return (
     <svg width={size} height={size} viewBox="0 0 28.196 28.196" {...rest}>
-      <path d="M14.1 0A14.1 14.1 0 110 14.1 14.1 14.1 0 0114.1 0z" fill={fill} />
+      <path
+        d="M14.1 0A14.1 14.1 0 110 14.1 14.1 14.1 0 0114.1 0z"
+        fill={fill}
+      />
       <path
         d="M21.719 16.209v5.812h-3.37v-5.423c0-1.362-.487-2.291-1.707-2.291a1.843 1.843 0 00-1.729 1.232 2.306 2.306 0 00-.112.821v5.661h-3.369s.045-9.184 0-10.135h3.37v1.436c-.007.011-.016.022-.022.033h.022v-.033a3.346 3.346 0 013.037-1.674c2.217 0 3.879 1.449 3.879 4.561zM7.907 7a1.756 1.756 0 10-.044 3.5h.022A1.757 1.757 0 107.907 7zM6.2 22.021h3.369V11.885H6.2z"
         fill="#f1f1f1"
@@ -1543,7 +1640,13 @@ export const WriteUpIcon = ({
           className="writeUp"
           d="M13.114 19.079l-3.959.565.567-3.959L19.903 5.503a2.4 2.4 0 013.394 3.394z"
         />
-        <rect className="writeUp" width={8} height={3.2} rx={0.75} transform="translate(4.8)" />
+        <rect
+          className="writeUp"
+          width={8}
+          height={3.2}
+          rx={0.75}
+          transform="translate(4.8)"
+        />
         <path
           className="writeUp"
           d="M12.8 1.6H16a1.6 1.6 0 011.6 1.6M17.6 19.2v3.2A1.6 1.6 0 0116 24H1.6A1.6 1.6 0 010 22.4V3.2a1.6 1.6 0 011.6-1.6h3.2M4.8 8h8M4.8 12.8H8"
@@ -1557,7 +1660,13 @@ export const AddNameIcon = (props: Object) => {
   const { size = defaultIconSize, fill = colors.oxford, ...rest } = props;
 
   return (
-    <svg id="prefix__Regular" width={size} height={size} viewBox="0 0 24 24" {...rest}>
+    <svg
+      id="prefix__Regular"
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      {...rest}
+    >
       <defs>
         <style>
           {`.AddNameIcon{fill:none;stroke:${fill};stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px}`}
@@ -1586,7 +1695,13 @@ export const SearchProjectIcon = (props: Object) => {
           fill={fill}
           d="M-19805.75-7882h-16.5a3.755 3.755 0 00-3.75 3.75v18a2.253 2.253 0 002.25 2.25h15.75a2.253 2.253 0 002.25-2.25v-14.25a3.75 3.75 0 000-7.5zm-16.5 1.5a2.25 2.25 0 11-2.25 2.25 2.253 2.253 0 012.25-2.25zm15 20.25a.751.751 0 01-.75.75h-15.75a.752.752 0 01-.75-.75v-15.019a3.715 3.715 0 002.25.769h15zm1.5-15.75h-13.519a3.676 3.676 0 000-4.5h13.519a2.25 2.25 0 010 4.5z"
         />
-        <rect fill={contrast} width={10} height={10} rx={3} transform="translate(-19824 -7870)" />
+        <rect
+          fill={contrast}
+          width={10}
+          height={10}
+          rx={3}
+          transform="translate(-19824 -7870)"
+        />
         <path
           fill={fill}
           d="M-19819.5-7867.436l3.27-2.726v7.525a.75.75 0 101.5 0v-7.524l3.269 2.725a.75.75 0 10.961-1.152l-4.5-3.75a.75.75 0 00-.961 0l-4.5 3.75a.75.75 0 00.96 1.152z"
@@ -1689,7 +1804,13 @@ export const FolderIcon = (props: IconProps) => {
 export const GearIcon = (props: IconProps) => {
   const { fill = colors.oxford, size = defaultIconSize, ...rest } = props;
   return (
-    <svg fill={fill} width={size} height={size} viewBox="0 0 24.491 25" {...rest}>
+    <svg
+      fill={fill}
+      width={size}
+      height={size}
+      viewBox="0 0 24.491 25"
+      {...rest}
+    >
       <path d="M17.745 19.751a2.25 2.25 0 112.25-2.25 2.253 2.253 0 01-2.25 2.25zm0-3a.75.75 0 10.75.75.752.752 0 00-.75-.75zM6.745 9.751a2.25 2.25 0 112.25-2.25 2.253 2.253 0 01-2.25 2.25zm0-3a.75.75 0 10.75.75.752.752 0 00-.75-.75z" />
       <path d="M17.748 25.001a2.107 2.107 0 01-.6-.088 2.073 2.073 0 01-1.394-1.395l-.442-1.452a.244.244 0 00-.288-.168l-1.47.341a2.089 2.089 0 01-1.994-3.459l1.03-1.11a.25.25 0 000-.341l-1.032-1.112a2.089 2.089 0 011.99-3.46l1.476.343a.243.243 0 00.287-.168l.442-1.454a2.08 2.08 0 013.984.008l.442 1.451a.244.244 0 00.288.168l1.471-.34a2.089 2.089 0 011.993 3.459l-1.03 1.11a.25.25 0 000 .341l1.032 1.112a2.089 2.089 0 01-1.991 3.459l-1.476-.345a.242.242 0 00-.287.168l-.442 1.449a2.083 2.083 0 01-1.989 1.483zm-2.672-4.608a1.751 1.751 0 011.671 1.238l.441 1.453a.579.579 0 00.832.347.576.576 0 00.281-.344l.442-1.451a1.747 1.747 0 012.06-1.193l1.473.341a.6.6 0 00.528-.144.591.591 0 00.029-.832l-1.031-1.113a1.753 1.753 0 010-2.381l1.03-1.113a.589.589 0 00-.56-.976l-1.468.339a1.749 1.749 0 01-2.061-1.194l-.441-1.452a.581.581 0 00-1.113 0l-.441 1.454a1.754 1.754 0 01-2.06 1.2l-1.473-.342a.581.581 0 00-.527.144.59.59 0 00-.03.832l1.031 1.113a1.754 1.754 0 010 2.381l-1.031 1.101a.589.589 0 00.56.976l1.468-.339a1.68 1.68 0 01.39-.046zM6.748 15.001a2.107 2.107 0 01-.6-.088 2.073 2.073 0 01-1.394-1.395l-.442-1.452a.244.244 0 00-.288-.168l-1.47.341A2.089 2.089 0 01.56 8.78l1.03-1.11a.25.25 0 000-.341L.558 6.217a2.089 2.089 0 011.99-3.46l1.476.343a.243.243 0 00.287-.168l.442-1.454a2.08 2.08 0 013.984.008l.442 1.451a.244.244 0 00.288.168l1.471-.34a2.089 2.089 0 011.993 3.459l-1.03 1.11a.25.25 0 000 .341l1.032 1.112a2.089 2.089 0 01-1.991 3.459l-1.476-.345a.242.242 0 00-.287.168l-.442 1.449a2.083 2.083 0 01-1.989 1.483zm-2.672-4.608a1.751 1.751 0 011.671 1.238l.441 1.453a.579.579 0 00.832.347.576.576 0 00.281-.344l.442-1.451a1.747 1.747 0 012.06-1.193l1.473.341a.6.6 0 00.528-.144.591.591 0 00.029-.832l-1.031-1.113a1.753 1.753 0 010-2.381l1.03-1.113a.589.589 0 00-.56-.976l-1.468.339A1.749 1.749 0 017.743 3.37l-.441-1.452a.581.581 0 00-1.113 0l-.441 1.454a1.754 1.754 0 01-2.06 1.2L2.215 4.23a.581.581 0 00-.527.144.59.59 0 00-.03.832l1.031 1.113a1.754 1.754 0 010 2.381L1.658 9.801a.589.589 0 00.56.976l1.468-.339a1.68 1.68 0 01.39-.046z" />
     </svg>
@@ -1974,7 +2095,10 @@ export const Operating10Icon = ({
           fill={fill}
           d="M9.75,12a.75.75,0,0,1-.75-.75V7.5H8.25a.75.75,0,0,1,0-1.5H9a1.5,1.5,0,0,1,1.5,1.5v3.75A.75.75,0,0,1,9.75,12Z"
         />
-        <path fill={fill} d="M11.25,12h-3a.75.75,0,0,1,0-1.5h3a.75.75,0,0,1,0,1.5Z" />
+        <path
+          fill={fill}
+          d="M11.25,12h-3a.75.75,0,0,1,0-1.5h3a.75.75,0,0,1,0,1.5Z"
+        />
       </g>
     </svg>
   );
@@ -2147,7 +2271,10 @@ export const NewFolderIcon = (props: IconProps) => {
   const { size = defaultIconSize, fill = colors.oxford } = props;
   return (
     <svg width={size} height={size} viewBox="0 0 24.001 24" {...props}>
-      <path fill={fill} d="M8.25 19.5h-5.8a.75.75 0 010-1.5h5.8a.75.75 0 010 1.5z" />
+      <path
+        fill={fill}
+        d="M8.25 19.5h-5.8a.75.75 0 010-1.5h5.8a.75.75 0 010 1.5z"
+      />
       <path
         fill={fill}
         d="M2.446 19.476A2.45 2.45 0 010 17.061V2.25A2.252 2.252 0 012.25 0h4.5A2.252 2.252 0 019 2.25V3h9.75A2.253 2.253 0 0121 5.25V7.5h.75A2.254 2.254 0 0124 9.748a2.283 2.283 0 01-.075.579.75.75 0 11-1.451-.381.8.8 0 00.026-.2.752.752 0 00-.75-.746H7.878a.753.753 0 00-.72.542L4.807 17.7a2.462 2.462 0 01-2.324 1.78zM2.25 1.5a.75.75 0 00-.75.75v14.8a.93.93 0 00.288.657.864.864 0 00.674.269.955.955 0 00.9-.691l2.354-8.159A2.261 2.261 0 017.878 7.5H19.5V5.25a.751.751 0 00-.75-.75H8.25a.75.75 0 01-.75-.75v-1.5a.75.75 0 00-.75-.75z"

@@ -50,12 +50,20 @@ const ComboCard = (props: ComboCardProps) => {
         </Tooltip> */}
         <Tooltip title="Paquete Bautizo" placement="top">
           <span style={{ width: '100%' }}>
-            <Text variant="h2" className={classes.title} text="Paquete Bautizo" />
+            <Text
+              variant="h2"
+              className={classes.title}
+              text="Paquete Bautizo"
+            />
           </span>
         </Tooltip>
         <Tooltip title={`${currencyFormatter(800)}`}>
           <span>
-            <Text variant="h2" className={classes.price} text={`${currencyFormatter(800)}`} />
+            <Text
+              variant="h2"
+              className={classes.price}
+              text={`${currencyFormatter(800)}`}
+            />
           </span>
         </Tooltip>
         <Box width={24} />
@@ -78,7 +86,10 @@ const ComboCard = (props: ComboCardProps) => {
             title={<ListProductRow product={footwear} />}
             classes={{ tooltip: classes.noMaxWidth }}
           >
-            <Chip label={`Calzado: ${footwear?.productCode}`} className={classes.chip} />
+            <Chip
+              label={`Calzado: ${footwear?.productCode}`}
+              className={classes.chip}
+            />
           </Tooltip>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -88,7 +99,10 @@ const ComboCard = (props: ComboCardProps) => {
             title={<ListProductRow product={ajuar} />}
             classes={{ tooltip: classes.noMaxWidth }}
           >
-            <Chip label={`Ajuar: ${ajuar?.productCode}`} className={classes.chip} />
+            <Chip
+              label={`Ajuar: ${ajuar?.productCode}`}
+              className={classes.chip}
+            />
           </Tooltip>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -98,7 +112,10 @@ const ComboCard = (props: ComboCardProps) => {
             title={<ListProductRow product={blanket} />}
             classes={{ tooltip: classes.noMaxWidth }}
           >
-            <Chip label={`Sabana: ${blanket?.productCode}`} className={classes.chip} />
+            <Chip
+              label={`Sabana: ${blanket?.productCode}`}
+              className={classes.chip}
+            />
           </Tooltip>
         </Grid>
         <Grid item xs={12} sm={6} lg={3}>
@@ -108,7 +125,10 @@ const ComboCard = (props: ComboCardProps) => {
             title={<ListProductRow product={diaperRacks} />}
             classes={{ tooltip: classes.noMaxWidth }}
           >
-            <Chip label={`Pañalero: ${diaperRacks?.productCode}`} className={classes.chip} />
+            <Chip
+              label={`Pañalero: ${diaperRacks?.productCode}`}
+              className={classes.chip}
+            />
           </Tooltip>
         </Grid>
       </Grid>

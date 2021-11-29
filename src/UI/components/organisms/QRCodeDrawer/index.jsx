@@ -25,7 +25,13 @@ type QRCodeDrawerProps = {
 };
 
 const QRCodeDrawer = (props: QRCodeDrawerProps) => {
-  const { handleClose, onShowAlert, productCode, productDescription, idProduct } = props;
+  const {
+    handleClose,
+    onShowAlert,
+    productCode,
+    productDescription,
+    idProduct
+  } = props;
   const language = localStorage.getItem('language');
 
   // const [copies, setCopies] = useState(null);
@@ -113,17 +119,22 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
         const topMargin = 5;
         const textWrappingWidth = 25;
 
-        resizeImage(imgData, QRCodeImageSize, QRCodeImageSize).then(resizedImage => {
-          pdf.setFontSize(7);
-          pdf.setFont(undefined, 'bold');
-          pdf.text(`ID: ${idProduct}`, textleftMargin, topMargin + 3);
-          pdf.text(`${productCode}`, textleftMargin, topMargin + 7);
-          pdf.setFont(undefined, 'normal');
-          const splitTitle = pdf.splitTextToSize(productDescription, textWrappingWidth);
-          pdf.text(textleftMargin, topMargin + 12, splitTitle);
-          pdf.addImage(resizedImage, 'PNG', qrCodeLeftMargin, topMargin);
-          pdf.save(`${productCode}.pdf`);
-        });
+        resizeImage(imgData, QRCodeImageSize, QRCodeImageSize).then(
+          resizedImage => {
+            pdf.setFontSize(7);
+            pdf.setFont(undefined, 'bold');
+            pdf.text(`ID: ${idProduct}`, textleftMargin, topMargin + 3);
+            pdf.text(`${productCode}`, textleftMargin, topMargin + 7);
+            pdf.setFont(undefined, 'normal');
+            const splitTitle = pdf.splitTextToSize(
+              productDescription,
+              textWrappingWidth
+            );
+            pdf.text(textleftMargin, topMargin + 12, splitTitle);
+            pdf.addImage(resizedImage, 'PNG', qrCodeLeftMargin, topMargin);
+            pdf.save(`${productCode}.pdf`);
+          }
+        );
       });
       onShowAlert({
         severity: 'success',
@@ -153,12 +164,20 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
           variant="borderless"
           uiState={uiState}
           cancelText={Contents[language]?.Skip}
-          initialText={productCode ? Contents[language]?.Download : Contents[language]?.Close}
+          initialText={
+            productCode
+              ? Contents[language]?.Download
+              : Contents[language]?.Close
+          }
           isCancelButtonNeeded={!!productCode}
         >
           {productCode ? (
             <>
-              <Text variant="body1" text={Contents[language]?.Subtitle} fontSize={14} />
+              <Text
+                variant="body1"
+                text={Contents[language]?.Subtitle}
+                fontSize={14}
+              />
               <Box
                 height="calc(90% - 88px)"
                 flexDirection="column"
@@ -167,7 +186,12 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
                 alignItems="center"
               >
                 <div id="QRCodeContainer">
-                  <QRCode size={300} renderAs="svg" value={productCode} level="H" />
+                  <QRCode
+                    size={300}
+                    renderAs="svg"
+                    value={productCode}
+                    level="H"
+                  />
                 </div>
                 <strong>{`Código de Producto: ${productCode}`}</strong>
               </Box>

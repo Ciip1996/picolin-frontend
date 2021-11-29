@@ -19,7 +19,9 @@ const CollapsiblePanel = (props: CollapsiblePanelProps) => {
 
   const sideMenuStyles = {
     ...styles[`${mode}Container`],
-    ...(isSideMenuOpen ? styles[[`${mode}ContainerOpened`]] : styles[`${mode}ContainerClosed`])
+    ...(isSideMenuOpen
+      ? styles[[`${mode}ContainerOpened`]]
+      : styles[`${mode}ContainerClosed`])
   };
 
   return (

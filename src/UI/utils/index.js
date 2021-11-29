@@ -92,7 +92,8 @@ export const normalizeUrl = (url: string): string => {
 };
 
 export const getFeatureFlags = (): string[] => {
-  const featureFlagsSetting = `${(window.PICOLIN_ENV && window.PICOLIN_ENV.FEATURE_FLAGS) ||
+  const featureFlagsSetting = `${(window.PICOLIN_ENV &&
+    window.PICOLIN_ENV.FEATURE_FLAGS) ||
     process.env.REACT_APP_FEATURE_FLAGS}`;
 
   return featureFlagsSetting ? featureFlagsSetting.split('|') : [];
@@ -207,7 +208,9 @@ export const makeMultiFieldFiltering = (fieldsToLookupInto: string[]) => (
     option =>
       option[fieldsToLookupInto[0]].toLowerCase().startsWith(term) ||
       words.every(word =>
-        fieldsToLookupInto.some(field => option[field].toLowerCase().includes(word))
+        fieldsToLookupInto.some(field =>
+          option[field].toLowerCase().includes(word)
+        )
       )
   );
 };
@@ -217,7 +220,13 @@ export const makeMultiFieldFiltering = (fieldsToLookupInto: string[]) => (
  * @param {Error} error Error catched in an Exception
  */
 export const getErrorData = (error: any) => {
-  if (!error || !error.request || !error.response || error.request.responseType !== 'json') {
+  if (
+    error === undefined ||
+    !error ||
+    !error.request ||
+    !error.response ||
+    error.request.responseType !== 'json'
+  ) {
     return GenericContents[language].error.message;
   }
   const errorData = {
@@ -236,7 +245,10 @@ export const getErrorData = (error: any) => {
           GenericContents[language].error.title
         )
   };
-  return errorData || nestTernary(errorData.message, errorData.message, errorData.error?.message);
+  return (
+    errorData ||
+    nestTernary(errorData.message, errorData.message, errorData.error?.message)
+  );
 };
 
 export const phoneFormatter = (value: ?string) => {
@@ -248,13 +260,21 @@ export const phoneFormatter = (value: ?string) => {
 };
 
 export const currencyFormatter = (inputNumber: number) =>
-  new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(inputNumber);
+  new Intl.NumberFormat('en', { style: 'currency', currency: 'USD' }).format(
+    inputNumber
+  );
 
 export const numberFormatter = (inputNumber: number) =>
   new Intl.NumberFormat('en').format(inputNumber);
 
-export const compensationFormatter = (min: number, mid: number, max: number): string =>
-  `${currencyFormatter(max)} - ${currencyFormatter(mid)} - ${currencyFormatter(min)}`;
+export const compensationFormatter = (
+  min: number,
+  mid: number,
+  max: number
+): string =>
+  `${currencyFormatter(max)} - ${currencyFormatter(mid)} - ${currencyFormatter(
+    min
+  )}`;
 
 export const phoneNumberFormatter = (phoneNumber: ?string): string => {
   if (!phoneNumber) return '';
@@ -266,7 +286,8 @@ export const industrySpecialtyOptionLabel = (item: any) =>
 
 export const titleOptionLabel = (item: any) => item.title;
 
-export const idOptionSelected = (option: any, value: any) => option.id === value.id;
+export const idOptionSelected = (option: any, value: any) =>
+  option.id === value.id;
 
 /**
  * Builds a formatted string that represents a period, considering if the period crosses a month or year change, i.e.:
@@ -281,15 +302,17 @@ export const formatMetricPeriod = (metric: any) => {
   const isPeriodInSameMonth = startDate.month() === endDate.month();
   const isPeriodInSameYear = startDate.year() === endDate.year();
   return isPeriodInSameMonth
-    ? `${startDate.format(DateFormats.International.MonthDay)} - ${endDate.format('DD, YYYY')}`
+    ? `${startDate.format(
+        DateFormats.International.MonthDay
+      )} - ${endDate.format('DD, YYYY')}`
     : nestTernary(
         isPeriodInSameYear,
-        `${startDate.format(DateFormats.International.MonthDay)} - ${endDate.format(
+        `${startDate.format(
+          DateFormats.International.MonthDay
+        )} - ${endDate.format(DateFormats.International.MonthDayYear)}`,
+        `${startDate.format(
           DateFormats.International.MonthDayYear
-        )}`,
-        `${startDate.format(DateFormats.International.MonthDayYear)} - ${endDate.format(
-          DateFormats.International.MonthDayYear
-        )}`
+        )} - ${endDate.format(DateFormats.International.MonthDayYear)}`
       );
 };
 

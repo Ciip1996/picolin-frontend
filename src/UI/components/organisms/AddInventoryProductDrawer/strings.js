@@ -1,7 +1,8 @@
 const Contents = {
   English: {
     Title: 'Register new Inventory',
-    Subtitle: 'Insert the data of the product you may want to add to the inventory.'
+    Subtitle:
+      'Insert the data of the product you may want to add to the inventory.'
   },
   Spanish: {
     Title: 'Agregar inventario',

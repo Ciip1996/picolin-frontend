@@ -46,7 +46,12 @@ export const entityTypes = [
 ];
 
 featureFlags.includes(FeatureFlags.Names) &&
-  entityTypes.push({ id: 'name', title: 'Names', singular: 'Name', isActive: false });
+  entityTypes.push({
+    id: 'name',
+    title: 'Names',
+    singular: 'Name',
+    isActive: false
+  });
 
 // featureFlags.includes(FeatureFlags.FeeAgreement) &&
 //   entityTypes.push({

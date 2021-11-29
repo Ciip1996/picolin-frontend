@@ -5,26 +5,26 @@ module.exports = {
     // jest: true
   },
   extends: [
-    'plugin:react/recommended',
-    'airbnb',
-    'prettier',
-    'prettier/react',
-    'plugin:flowtype/recommended',
-    'prettier/flowtype',
-    'eslint-config-prettier'
+    "plugin:react/recommended",
+    "airbnb",
+    "prettier",
+    "prettier/react",
+    "plugin:flowtype/recommended",
+    "prettier/flowtype",
+    "eslint-config-prettier"
   ],
-  parser: 'babel-eslint',
+  parser: "babel-eslint",
   settings: {
-    'import/resolver': {
+    "import/resolver": {
       node: {
-        moduleDirectory: ['node_modules', 'src/']
+        moduleDirectory: ["node_modules", "src/"]
       }
     }
   },
   globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-    React: 'readonly',
+    Atomics: "readonly",
+    SharedArrayBuffer: "readonly",
+    React: "readonly",
     localStorage: true,
     fetch: false
     // shallow: "readonly",
@@ -37,33 +37,39 @@ module.exports = {
       jsx: true
     },
     ecmaVersion: 2018,
-    sourceType: 'module'
+    sourceType: "module"
   },
-  plugins: ['react', 'prettier', 'react-hooks'],
+  plugins: ["react", "prettier", "react-hooks"],
   rules: {
-    camelcase: 'off',
-    'linebreak-style': ['error', 'unix'],
-    'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
-    'no-use-before-define': 'off',
-    'react/prop-types': 'off',
-    'comma-dangle': 'off',
-    'import/prefer-default-export': 'off',
-    'global-require': 'off',
-    'react/jsx-props-no-spreading': 'off',
-    'react/require-default-props': [
-      'error',
+    "no-debugger": "warn",
+    camelcase: "off",
+    "no-unused-expressions": [
+      "error",
+      { allowShortCircuit: true, allowTernary: true }
+    ],
+    "no-use-before-define": "off",
+    "react/prop-types": "off",
+    "comma-dangle": "off",
+    "import/prefer-default-export": "off",
+    "global-require": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": [
+      "error",
       { forbidDefaultForRequired: false, ignoreFunctionalComponents: false }
     ],
-    'react/default-props-match-prop-types': ['error', { allowRequiredDefaults: true }],
-    'prettier/prettier': [
-      'error',
+    "react/default-props-match-prop-types": [
+      "error",
+      { allowRequiredDefaults: true }
+    ],
+    "prettier/prettier": [
+      "error",
+      {},
       {
-        singleQuote: true,
-        printWidth: 100,
-        trailingComma: 'none'
+        usePrettierrc: true
       }
     ],
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn'
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "flowtype/no-types-missing-file-annotation": "warn"
   }
 };

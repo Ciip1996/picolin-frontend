@@ -37,14 +37,26 @@ const InfoLabel = (props: InfoLabelProps) => {
       {isLoading ? (
         <CustomSkeleton onContainer style={styles.skeleton} />
       ) : (
-        <Text variant="body2" fontWeight={fontWeightTitle} fontSize={fontSizeTitle} text={title} />
+        <Text
+          variant="body2"
+          fontWeight={fontWeightTitle}
+          fontSize={fontSizeTitle}
+          text={title}
+        />
       )}
-      {colorIndicator && <ColorIndicator height={15} width={15} color={colorIndicator} />}
+      {colorIndicator && (
+        <ColorIndicator height={15} width={15} color={colorIndicator} />
+      )}
       {isLoading ? (
-        <CustomSkeleton onContainer style={{ ...styles.skeleton, width: '90%', marginTop: 8 }} />
+        <CustomSkeleton
+          onContainer
+          style={{ ...styles.skeleton, width: '90%', marginTop: 8 }}
+        />
       ) : (
         <Text
-          customStyle={colorIndicator && { display: 'inline-block', marginLeft: 10 }}
+          customStyle={
+            colorIndicator && { display: 'inline-block', marginLeft: 10 }
+          }
           variant="subtitle1"
           fontWeight={fontWeightDescription}
           fontSize={fontSizeDescription}

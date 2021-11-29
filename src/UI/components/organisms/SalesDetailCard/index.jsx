@@ -12,10 +12,19 @@ import {
 } from '@material-ui/core';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 import { currencyFormatter } from 'UI/utils';
-import { EmptyFeeAgreement, CloseIcon, PrintIcon, DownloadFileIcon, colors } from 'UI/res';
+import {
+  EmptyFeeAgreement,
+  CloseIcon,
+  PrintIcon,
+  DownloadFileIcon,
+  colors
+} from 'UI/res';
 import { DateFormats } from 'UI/constants/defaults';
 import ListProductRow from 'UI/components/molecules/ListProductRow';
-import { downloadSaleTicketPDF, sendToPrintSaleTicket } from 'UI/utils/ticketGenerator';
+import {
+  downloadSaleTicketPDF,
+  sendToPrintSaleTicket
+} from 'UI/utils/ticketGenerator';
 import Contents from './strings';
 import { useStyles } from './styles';
 
@@ -52,7 +61,9 @@ const SummaryCard = (props: SummaryCardProps) => {
         <Tooltip title="Imprimir Ticket" placement="bottom">
           <IconButton
             size="medium"
-            onClick={() => !!data && sendToPrintSaleTicket(saleData, `${ticket}.pdf`)}
+            onClick={() =>
+              !!data && sendToPrintSaleTicket(saleData, `${ticket}.pdf`)
+            }
           >
             <PrintIcon fill={colors.black} />
           </IconButton>
@@ -60,7 +71,9 @@ const SummaryCard = (props: SummaryCardProps) => {
         <Tooltip title="Descargar Ticket" placement="bottom">
           <IconButton
             size="medium"
-            onClick={() => !!data && downloadSaleTicketPDF(saleData, `${ticket}.pdf`)}
+            onClick={() =>
+              !!data && downloadSaleTicketPDF(saleData, `${ticket}.pdf`)
+            }
           >
             <DownloadFileIcon fill={colors.black} />
           </IconButton>
@@ -125,34 +138,15 @@ const SummaryCard = (props: SummaryCardProps) => {
                 <ListItem divider className={classes.Content}>
                   <ListItemText
                     primary={
-                      <span className={classes.Description}>{Contents[language]?.ticket}</span>
-                    }
-                  />
-                  <ListItemText
-                    secondary={<span className={classes.CostDescription}>{ticket || '--'}</span>}
-                  />
-                </ListItem>
-                <ListItem divider className={classes.Content}>
-                  <ListItemText
-                    primary={
-                      <span className={classes.Description}>{Contents[language]?.idSale}</span>
-                    }
-                  />
-                  <ListItemText
-                    secondary={<span className={classes.CostDescription}>{idSale || '--'}</span>}
-                  />
-                </ListItem>
-
-                <ListItem divider className={classes.Content}>
-                  <ListItemText
-                    primary={
-                      <span className={classes.Description}>{Contents[language]?.date}</span>
+                      <span className={classes.Description}>
+                        {Contents[language]?.ticket}
+                      </span>
                     }
                   />
                   <ListItemText
                     secondary={
                       <span className={classes.CostDescription}>
-                        {date ? moment(date).format(DateFormats.International.DayDate) : '--'}
+                        {ticket || '--'}
                       </span>
                     }
                   />
@@ -160,7 +154,46 @@ const SummaryCard = (props: SummaryCardProps) => {
                 <ListItem divider className={classes.Content}>
                   <ListItemText
                     primary={
-                      <span className={classes.Description}>{Contents[language]?.Subtotal}</span>
+                      <span className={classes.Description}>
+                        {Contents[language]?.idSale}
+                      </span>
+                    }
+                  />
+                  <ListItemText
+                    secondary={
+                      <span className={classes.CostDescription}>
+                        {idSale || '--'}
+                      </span>
+                    }
+                  />
+                </ListItem>
+
+                <ListItem divider className={classes.Content}>
+                  <ListItemText
+                    primary={
+                      <span className={classes.Description}>
+                        {Contents[language]?.date}
+                      </span>
+                    }
+                  />
+                  <ListItemText
+                    secondary={
+                      <span className={classes.CostDescription}>
+                        {date
+                          ? moment(date).format(
+                              DateFormats.International.DayDate
+                            )
+                          : '--'}
+                      </span>
+                    }
+                  />
+                </ListItem>
+                <ListItem divider className={classes.Content}>
+                  <ListItemText
+                    primary={
+                      <span className={classes.Description}>
+                        {Contents[language]?.Subtotal}
+                      </span>
                     }
                   />
                   <ListItemText
@@ -174,7 +207,9 @@ const SummaryCard = (props: SummaryCardProps) => {
                 <ListItem divider className={classes.Content}>
                   <ListItemText
                     primary={
-                      <span className={classes.Description}>{Contents[language]?.Taxes}</span>
+                      <span className={classes.Description}>
+                        {Contents[language]?.Taxes}
+                      </span>
                     }
                   />
                   <ListItemText
@@ -188,13 +223,17 @@ const SummaryCard = (props: SummaryCardProps) => {
                 <ListItem divider className={classes.Content}>
                   <ListItemText
                     primary={
-                      <span className={classes.Description}>{Contents[language]?.discount}</span>
+                      <span className={classes.Description}>
+                        {Contents[language]?.discount}
+                      </span>
                     }
                   />
                   <ListItemText
                     secondary={
                       <span className={classes.CostDescription}>
-                        {discount ? currencyFormatter(parseFloat(discount) * -1) : '--'}
+                        {discount
+                          ? currencyFormatter(parseFloat(discount) * -1)
+                          : '--'}
                       </span>
                     }
                   />
@@ -202,19 +241,25 @@ const SummaryCard = (props: SummaryCardProps) => {
                 <ListItem divider className={classes.Content}>
                   <ListItemText
                     primary={
-                      <span className={classes.Description}>{Contents[language]?.Payment}</span>
+                      <span className={classes.Description}>
+                        {Contents[language]?.Payment}
+                      </span>
                     }
                   />
                   <ListItemText
                     secondary={
-                      <span className={classes.CostDescription}>{paymentMethod || '--'}</span>
+                      <span className={classes.CostDescription}>
+                        {paymentMethod || '--'}
+                      </span>
                     }
                   />
                 </ListItem>
                 <ListItem divider className={classes.Content}>
                   <ListItemText
                     primary={
-                      <span className={classes.Description}>{Contents[language]?.Received}</span>
+                      <span className={classes.Description}>
+                        {Contents[language]?.Received}
+                      </span>
                     }
                   />
                   <ListItemText
@@ -227,7 +272,11 @@ const SummaryCard = (props: SummaryCardProps) => {
                 </ListItem>
                 <ListItem>
                   <ListItemText
-                    primary={<span className={classes.Total}>{Contents[language].Total}</span>}
+                    primary={
+                      <span className={classes.Total}>
+                        {Contents[language].Total}
+                      </span>
+                    }
                   />
                   <ListItemText
                     secondary={

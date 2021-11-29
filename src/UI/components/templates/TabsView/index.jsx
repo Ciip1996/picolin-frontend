@@ -5,7 +5,12 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from 'UI/components/atoms/TabPanel';
 import { colors } from 'UI/res';
-import { useStyles, useTabPanelStyles, useTabStyles, useWrapperStyles } from './styles';
+import {
+  useStyles,
+  useTabPanelStyles,
+  useTabStyles,
+  useWrapperStyles
+} from './styles';
 
 type TabsViewProps = {
   tabs: Array<Object>,
@@ -24,9 +29,18 @@ function a11yProps(index: any) {
 }
 
 const TabsView = (props: TabsViewProps) => {
-  const { tabs, selectedTab, onChangeTabIndex, content, panelHeight, fullHeight } = props;
+  const {
+    tabs,
+    selectedTab,
+    onChangeTabIndex,
+    content,
+    panelHeight,
+    fullHeight
+  } = props;
   const classes = useStyles();
-  const wrapperClasses = useWrapperStyles(fullHeight ? { minHeight: '100%' } : { height: '100%' });
+  const wrapperClasses = useWrapperStyles(
+    fullHeight ? { minHeight: '100%' } : { height: '100%' }
+  );
   const tabPanelClasses = useTabPanelStyles({ panelHeight });
   const tabClasses = useTabStyles();
 
@@ -56,7 +70,12 @@ const TabsView = (props: TabsViewProps) => {
             const styledIcon = icon
               ? {
                   ...icon,
-                  props: { fill: selectedTab === index ? colors.success : colors.iconInactive }
+                  props: {
+                    fill:
+                      selectedTab === index
+                        ? colors.success
+                        : colors.iconInactive
+                  }
                 }
               : undefined;
             return (

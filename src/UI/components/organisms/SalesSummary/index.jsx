@@ -23,24 +23,44 @@ const SalesSummary = (props: SalesSummaryProps) => {
     <Card className={classes.content}>
       <ListItem>
         <ListItemText
-          primary={<span className={classes.Description}>{Contents[language]?.cash}</span>}
+          primary={
+            <span className={classes.Description}>
+              {Contents[language]?.cash}
+            </span>
+          }
         />
         <ListItemText
           secondary={
-            <Tooltip title={cash ? currencyFormatter(cash) : '...'} placement="right">
-              <Chip label={cash ? currencyFormatter(cash) : '...'} className={classes.cash} />
+            <Tooltip
+              title={cash ? currencyFormatter(cash) : '...'}
+              placement="right"
+            >
+              <Chip
+                label={cash ? currencyFormatter(cash) : '...'}
+                className={classes.cash}
+              />
             </Tooltip>
           }
         />
       </ListItem>
       <ListItem>
         <ListItemText
-          primary={<span className={classes.Description}>{Contents[language]?.card}</span>}
+          primary={
+            <span className={classes.Description}>
+              {Contents[language]?.card}
+            </span>
+          }
         />
         <ListItemText
           secondary={
-            <Tooltip title={card ? currencyFormatter(card) : '...'} placement="right">
-              <Chip label={card ? currencyFormatter(card) : '...'} className={classes.card} />
+            <Tooltip
+              title={card ? currencyFormatter(card) : '...'}
+              placement="right"
+            >
+              <Chip
+                label={card ? currencyFormatter(card) : '...'}
+                className={classes.card}
+              />
             </Tooltip>
           }
         />

@@ -8,7 +8,8 @@ const Contents = {
   },
   Spanish: {
     defaultTitle: 'Sin resultados',
-    defaultSubtitle: '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
+    defaultSubtitle:
+      '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
     errorTitle: '¡Ups ocurrió un Error!',
     errorSubtitle:
       'Lo sentimos, algo inesperado ocurrió. Intenta refrescando la página. Tambien puedes intentar nuevamente más tarde o contactar a soporte técnico.'

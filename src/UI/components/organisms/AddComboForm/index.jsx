@@ -26,10 +26,22 @@ const AddComboForm = (props: SaleFormProps) => {
   const { register, errors, setValue } = useFormContext();
 
   useEffect(() => {
-    register({ name: 'diaperRacks' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'footwear' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'blanket' }, { required: `${Contents[language]?.RequiredMessage}` });
-    register({ name: 'ajuar' }, { required: `${Contents[language]?.RequiredMessage}` });
+    register(
+      { name: 'diaperRacks' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'footwear' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'blanket' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'ajuar' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
   }, [language, register]);
 
   const searchingProductsUrl = `${Endpoints.Inventory}${Endpoints.GetInventory}`.replace(
@@ -38,7 +50,10 @@ const AddComboForm = (props: SaleFormProps) => {
   );
 
   const handleComboChange = (name: string, value: any) => {
-    setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
+    setComboValues((prevState: MapType): MapType => ({
+      ...prevState,
+      [name]: value
+    }));
     setValue(name, value || null, true);
   };
 

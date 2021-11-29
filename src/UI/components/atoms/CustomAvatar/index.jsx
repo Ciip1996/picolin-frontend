@@ -15,13 +15,28 @@ type CustomAvatarProps = {
 };
 
 const CustomAvatar = (props: CustomAvatarProps) => {
-  const { acron, variant, style, backgroundColor, children, mode, rest } = props;
+  const {
+    acron,
+    variant,
+    style,
+    backgroundColor,
+    children,
+    mode,
+    rest
+  } = props;
 
-  const customStyle = fuseStyles([styles.Avatar, { ...style, backgroundColor }]);
+  const customStyle = fuseStyles([
+    styles.Avatar,
+    { ...style, backgroundColor }
+  ]);
 
   return (
     <Avatar style={customStyle} variant={variant} {...rest}>
-      {mode === 'acron' ? <span>{acron || 'N/A'}</span> : <span>{children}</span>}
+      {mode === 'acron' ? (
+        <span>{acron || 'N/A'}</span>
+      ) : (
+        <span>{children}</span>
+      )}
     </Avatar>
   );
 };

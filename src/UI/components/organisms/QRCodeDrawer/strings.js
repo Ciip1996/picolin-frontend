@@ -7,7 +7,8 @@ const Contents = {
     Copies: 'Copies',
     Close: 'Close',
     QRCodeErrorTitle: 'Error while building QR Code',
-    QRCodeErrorMessage: 'There was an error building the QR Code please contact IT Support.',
+    QRCodeErrorMessage:
+      'There was an error building the QR Code please contact IT Support.',
     CopiesRequired: 'You should tell us how many copies to Download do you want'
   },
   Spanish: {

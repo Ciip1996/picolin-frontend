@@ -1,7 +1,8 @@
 const Contents = {
   English: {
     Title: 'Register a new package',
-    Subtitle: 'Insert the data of the product you may want to add to the package.'
+    Subtitle:
+      'Insert the data of the product you may want to add to the package.'
   },
   Spanish: {
     Title: 'Agregar paquete',

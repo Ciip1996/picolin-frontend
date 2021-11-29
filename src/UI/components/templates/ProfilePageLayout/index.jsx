@@ -36,7 +36,9 @@ const ProfilePageLayout = (props: ProfilePageLayoutProps) => {
           {RecruiterBar && (
             <Hidden mdUp>
               <div
-                className={isLoading ? classes.layoutTopOnLoading : classes.layoutTop}
+                className={
+                  isLoading ? classes.layoutTopOnLoading : classes.layoutTop
+                }
                 style={styles}
               >
                 {RecruiterBar}
@@ -52,7 +54,12 @@ const ProfilePageLayout = (props: ProfilePageLayoutProps) => {
                   alignItems="center"
                   px={2}
                 >
-                  <CustomSkeleton width={230} onContainer height={18} radius={30} />
+                  <CustomSkeleton
+                    width={230}
+                    onContainer
+                    height={18}
+                    radius={30}
+                  />
                 </Box>
               </Box>
               <Box
@@ -64,7 +71,10 @@ const ProfilePageLayout = (props: ProfilePageLayoutProps) => {
               >
                 <Box display="flex" flex={1} flexDirection="column" mb={1.5}>
                   {Array.from(Array(5)).map((e, i) => (
-                    <Box key={i.toString()} style={globalStyles.skeletonContainer}>
+                    <Box
+                      key={i.toString()}
+                      style={globalStyles.skeletonContainer}
+                    >
                       <CustomSkeleton style={globalStyles.skeletonCol} />
                       <CustomSkeleton style={globalStyles.skeletonCol} />
                     </Box>
@@ -92,7 +102,11 @@ const ProfilePageLayout = (props: ProfilePageLayoutProps) => {
           <div className={classes.rightContainer}>
             {RecruiterBar && (
               <Hidden smDown>
-                <div className={isLoading ? classes.layoutTopOnLoading : classes.layoutTop}>
+                <div
+                  className={
+                    isLoading ? classes.layoutTopOnLoading : classes.layoutTop
+                  }
+                >
                   {RecruiterBar}
                 </div>
               </Hidden>
@@ -118,7 +132,10 @@ const ProfilePageLayout = (props: ProfilePageLayoutProps) => {
                 </Box>
                 <Box style={styles.skeletonTabsBackground}>
                   {Array.from(Array(6)).map((e, i) => (
-                    <Box key={i.toString() + e} style={globalStyles.skeletonContainer}>
+                    <Box
+                      key={i.toString() + e}
+                      style={globalStyles.skeletonContainer}
+                    >
                       {Array.from(Array(4)).map((f, j) => (
                         <CustomSkeleton
                           key={j.toString() + f}

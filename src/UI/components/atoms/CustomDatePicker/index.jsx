@@ -3,7 +3,10 @@ import React from 'react';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 
 import { InputAdornment } from '@material-ui/core';
-import { Clear as ClearIcon, InsertInvitation as CalendarIcon } from '@material-ui/icons';
+import {
+  Clear as ClearIcon,
+  InsertInvitation as CalendarIcon
+} from '@material-ui/icons';
 import { DatePicker, DateTimePicker } from '@material-ui/pickers';
 
 import { useStyles } from './styles';
@@ -19,7 +22,16 @@ type CustomDatePickerProps = {
 };
 
 const CustomDatePicker = (props: CustomDatePickerProps) => {
-  const { label, name, customStyle, withTime, value, onDateChange, disabled, ...rest } = props;
+  const {
+    label,
+    name,
+    customStyle,
+    withTime,
+    value,
+    onDateChange,
+    disabled,
+    ...rest
+  } = props;
   const classes = useStyles();
 
   const onDateClear = e => {

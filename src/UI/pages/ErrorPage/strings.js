@@ -15,12 +15,14 @@ const Contents = {
     err404btn: 'Go Back',
     err500title: 'Internal Server Error',
     err500first: 'Oops! We didn’t see that coming.',
-    err500second: 'We’re are working on fixing the problem as soon as possible!',
+    err500second:
+      'We’re are working on fixing the problem as soon as possible!',
     err500btn: 'NOTIFY SUPPORT'
   },
   Spanish: {
     pageTitle: 'PÁGINA DE ERROR',
-    defaultSubtitle: '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
+    defaultSubtitle:
+      '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
     errTitle: 'No sabemos lo que esta ocurriendo',
     errTitle2: 'Favor de reintentar en unos momentos',
     txtbtn: 'Regresar',
@@ -34,7 +36,8 @@ const Contents = {
     err404btn: 'Regresar',
     err500title: 'Internal Server Error',
     err500first: 'Oops! No vimos venir eso.',
-    err500second: 'Estamos trabajando en arreglar este problema lo mas pronto posible!',
+    err500second:
+      'Estamos trabajando en arreglar este problema lo mas pronto posible!',
     err500btn: 'AVISAR A SOPORTE'
   }
 };

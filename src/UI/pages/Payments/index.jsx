@@ -36,7 +36,11 @@ import { AddIcon, colors } from 'UI/res';
 import Contents from './strings';
 
 const CellSkeleton = ({ children, searching }) => {
-  return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
+  return searching ? (
+    <CustomSkeleton width="90%" height={18} />
+  ) : (
+    <>{children}</>
+  );
 };
 
 type PaymentListProps = {
@@ -73,7 +77,11 @@ const PaymentList = (props: PaymentListProps) => {
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
   const toggleDrawer = (drawer: string, open: boolean) => event => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
     setUiState(prevState => ({ ...prevState, [drawer]: open }));
@@ -145,7 +153,8 @@ const PaymentList = (props: PaymentListProps) => {
         severity: 'error',
         autoHideDuration: 3000,
         title: getErrorData(err)?.title || 'Error en conexión',
-        body: message || getErrorData(err)?.message || 'Contacte a soporte técnico'
+        body:
+          message || getErrorData(err)?.message || 'Contacte a soporte técnico'
       });
       throw err;
     }
@@ -357,7 +366,9 @@ const PaymentList = (props: PaymentListProps) => {
         sortDirection: sortDirection[5],
         filterType: 'custom',
         customBodyRender: value => {
-          const formattedDate = moment(value).format(DateFormats.International.SimpleDateTime);
+          const formattedDate = moment(value).format(
+            DateFormats.International.SimpleDateTime
+          );
           return (
             <CellSkeleton searching={searching}>
               <strong>{formattedDate || '--'}</strong>
@@ -377,7 +388,9 @@ const PaymentList = (props: PaymentListProps) => {
                       name && name,
                       date && {
                         title: `En fecha ${
-                          date ? date.format(DateFormats.International.DetailDate) : ''
+                          date
+                            ? date.format(DateFormats.International.DetailDate)
+                            : ''
                         }`,
                         date
                       }
@@ -461,7 +474,10 @@ const PaymentList = (props: PaymentListProps) => {
           >
             <ActionButton
               text={Contents[language]?.makePayment}
-              onClick={toggleDrawer('isPaymentDrawerOpen', !uiState.isPaymentDrawerOpen)}
+              onClick={toggleDrawer(
+                'isPaymentDrawerOpen',
+                !uiState.isPaymentDrawerOpen
+              )}
             >
               <AddIcon fill={colors.white} size={18} />
             </ActionButton>

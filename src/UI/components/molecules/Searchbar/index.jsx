@@ -50,7 +50,12 @@ const Searchbar = (props: SearchbarProps) => {
   }
 
   return (
-    <Paper style={customStyle} className={classes.root} elevation={0} variant="outlined">
+    <Paper
+      style={customStyle}
+      className={classes.root}
+      elevation={0}
+      variant="outlined"
+    >
       <InputBase
         className={classes.input}
         placeholder={placeholder}

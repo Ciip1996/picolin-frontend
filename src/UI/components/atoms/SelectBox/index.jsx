@@ -37,7 +37,10 @@ const SelectBox = (props: SelectBoxProps) => {
   const classes = useOtherClasses({ isGlobal });
 
   const [selectedValue, setSelectedValue] = useState(
-    selected || ((isGlobal || showFirstOption) && options && options.length ? options[0] : null)
+    selected ||
+      ((isGlobal || showFirstOption) && options && options.length
+        ? options[0]
+        : null)
   );
 
   const handleChange = event => {
@@ -49,7 +52,10 @@ const SelectBox = (props: SelectBoxProps) => {
   return (
     <FormControl style={{ width: '100%' }} variant="outlined" error={error}>
       {!isGlobal && (
-        <InputLabel htmlFor="outlined-select-native-simple" className={classes.label}>
+        <InputLabel
+          htmlFor="outlined-select-native-simple"
+          className={classes.label}
+        >
           {placeholder}
         </InputLabel>
       )}
@@ -63,7 +69,11 @@ const SelectBox = (props: SelectBoxProps) => {
         {...rest}
       >
         {options.map(option => (
-          <MenuItem className={classes.selectMenu} key={Math.random()} value={option}>
+          <MenuItem
+            className={classes.selectMenu}
+            key={Math.random()}
+            value={option}
+          >
             {displayKey ? option[displayKey] : option}
           </MenuItem>
         ))}

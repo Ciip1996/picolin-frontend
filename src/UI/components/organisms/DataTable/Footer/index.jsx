@@ -21,7 +21,14 @@ type CustomFooterProps = {
 };
 
 const CustomFooter = (props: CustomFooterProps) => {
-  const { count, textLabels, rowsPerPage, page, changeRowsPerPage, changePage } = props;
+  const {
+    count,
+    textLabels,
+    rowsPerPage,
+    page,
+    changeRowsPerPage,
+    changePage
+  } = props;
 
   const handleRowChange = event => {
     changeRowsPerPage && changeRowsPerPage(event.target.value);

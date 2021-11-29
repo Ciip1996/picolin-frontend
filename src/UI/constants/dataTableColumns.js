@@ -7,7 +7,12 @@ export const candidatesColumns = [
   'Added Date'
 ];
 
-export const companiesColumns = ['Company Name', 'Industry', 'Location', 'Added Date'];
+export const companiesColumns = [
+  'Company Name',
+  'Industry',
+  'Location',
+  'Added Date'
+];
 
 export const jobOrdersColumns = [
   'Functional Title',

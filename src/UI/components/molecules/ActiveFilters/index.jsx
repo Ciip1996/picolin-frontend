@@ -32,7 +32,14 @@ const ActiveFilters = (props: ActiveFiltersProps) => {
   const filtersSkeleton = (numberOfFilters: number) => {
     return Array.from({ length: numberOfFilters + 1 })
       .map((_, index) => index)
-      .map(index => <CustomSkeleton key={`filter-${index}`} width="10%" height={30} radius={15} />);
+      .map(index => (
+        <CustomSkeleton
+          key={`filter-${index}`}
+          width="10%"
+          height={30}
+          radius={15}
+        />
+      ));
   };
 
   return (
@@ -42,11 +49,13 @@ const ActiveFilters = (props: ActiveFiltersProps) => {
           filtersSkeleton(activeFilters.length)
         ) : (
           <>
-            <b>Filters: </b>
+            <b>{Contents[language]?.Filters}:</b>
             {activeFilters.map(filter => (
               <Chip
                 key={filter.id}
-                label={filter.value.title || filter.value.full_name || filter.value}
+                label={
+                  filter.value.title || filter.value.full_name || filter.value
+                }
                 onDelete={() => {
                   handleDeleteClick(filter.id);
                 }}
@@ -54,9 +63,9 @@ const ActiveFilters = (props: ActiveFiltersProps) => {
                 className={classes.chip}
               />
             ))}
-            {activeFilters.length > 1 && (
+            {activeFilters.length >= 1 && (
               <Chip
-                label={Contents[language]?.labelFilter}
+                label={Contents[language]?.ResetAllFilters}
                 onDelete={onReset}
                 className={classes.chip}
               />

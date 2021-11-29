@@ -46,7 +46,9 @@ const AutocompleteDebounce = (props: AutocompleteDebounceProps) => {
         });
         const response = await API.get(`${url}?${queryParams}`);
         if (response.status === 200 && response?.data[dataFetchKeyName]) {
-          const options = dataFetchKeyName ? response?.data[dataFetchKeyName] : response?.data;
+          const options = dataFetchKeyName
+            ? response?.data[dataFetchKeyName]
+            : response?.data;
           setData(options);
         } else {
           setData([]);

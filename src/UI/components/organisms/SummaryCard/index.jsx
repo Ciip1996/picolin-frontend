@@ -40,11 +40,21 @@ type SummaryCardProps = {
 const SummaryCard = (props: SummaryCardProps) => {
   const { watchFields, onNewItemAdded, comboValues, setComboValues } = props;
 
-  const { register, unregister, setValue, errors, getValues, triggerValidation } = useFormContext();
+  const {
+    register,
+    unregister,
+    setValue,
+    errors,
+    getValues,
+    triggerValidation
+  } = useFormContext();
   const classes = useStyles();
 
   const onSelectionChange = (name: string, value: any) => {
-    setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
+    setComboValues((prevState: MapType): MapType => ({
+      ...prevState,
+      [name]: value
+    }));
     setValue(name, value?.id ? value.id : value, true);
     onNewItemAdded();
   };
@@ -70,10 +80,19 @@ const SummaryCard = (props: SummaryCardProps) => {
           }
         }
       );
-    } else if (!comboValues?.idPaymentMethod || comboValues?.idPaymentMethod?.id !== 2) {
+    } else if (
+      !comboValues?.idPaymentMethod ||
+      comboValues?.idPaymentMethod?.id !== 2
+    ) {
       unregister('received');
     }
-  }, [comboValues, register, triggerValidation, unregister, watchFields.totalWithDiscount]);
+  }, [
+    comboValues,
+    register,
+    triggerValidation,
+    unregister,
+    watchFields.totalWithDiscount
+  ]);
 
   const hasAnImportantError = !!errors?.received || !!errors?.discount;
 
@@ -131,7 +150,9 @@ const SummaryCard = (props: SummaryCardProps) => {
         disabled={isSummaryEnabled}
         control={<Switch color="primary" />}
         className={classes.invoice}
-        checked={featureFlags.includes(FeatureFlags.Taxes) && getValues('invoice')}
+        checked={
+          featureFlags.includes(FeatureFlags.Taxes) && getValues('invoice')
+        }
         onChange={onSwitcherChange}
         label={Contents[language]?.invoice}
         labelPlacement="start"
@@ -157,7 +178,11 @@ const SummaryCard = (props: SummaryCardProps) => {
         </ListItem> */}
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.Description}>{Contents[language]?.Subtotal}</span>}
+            primary={
+              <span className={classes.Description}>
+                {Contents[language]?.Subtotal}
+              </span>
+            }
           />
           <ListItemText
             secondary={
@@ -165,7 +190,11 @@ const SummaryCard = (props: SummaryCardProps) => {
                 name="display_subtotal"
                 className={classes.currencyValue}
                 variant="body1"
-                text={watchFields.subtotal ? currencyFormatter(watchFields.subtotal) : '--'}
+                text={
+                  watchFields.subtotal
+                    ? currencyFormatter(watchFields.subtotal)
+                    : '--'
+                }
                 fontSize={16}
               />
             }
@@ -173,7 +202,11 @@ const SummaryCard = (props: SummaryCardProps) => {
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.Description}>{Contents[language]?.Taxes}</span>}
+            primary={
+              <span className={classes.Description}>
+                {Contents[language]?.Taxes}
+              </span>
+            }
           />
           <ListItemText
             secondary={
@@ -181,7 +214,9 @@ const SummaryCard = (props: SummaryCardProps) => {
                 name="display_taxes"
                 className={classes.currencyValue}
                 variant="body1"
-                text={watchFields.iva ? currencyFormatter(watchFields.iva) : 'N/A'}
+                text={
+                  watchFields.iva ? currencyFormatter(watchFields.iva) : 'N/A'
+                }
                 fontSize={16}
               />
             }
@@ -189,7 +224,11 @@ const SummaryCard = (props: SummaryCardProps) => {
         </ListItem>
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.Description}>{Contents[language]?.Discount}</span>}
+            primary={
+              <span className={classes.Description}>
+                {Contents[language]?.Discount}
+              </span>
+            }
           />
           <ListItemText
             secondary={
@@ -210,7 +249,11 @@ const SummaryCard = (props: SummaryCardProps) => {
 
         <ListItem divider className={classes.Item}>
           <ListItemText
-            primary={<span className={classes.Description}>{Contents[language]?.change}</span>}
+            primary={
+              <span className={classes.Description}>
+                {Contents[language]?.change}
+              </span>
+            }
           />
           <ListItemText
             secondary={
@@ -232,7 +275,9 @@ const SummaryCard = (props: SummaryCardProps) => {
       </List>
       <Box className={classes.List}>
         <ListItem className={classes.Item}>
-          <ListItemText primary={<span className={classes.Total}>TOTAL</span>} />
+          <ListItemText
+            primary={<span className={classes.Total}>TOTAL</span>}
+          />
           <ListItemText
             secondary={
               <Text
@@ -249,7 +294,11 @@ const SummaryCard = (props: SummaryCardProps) => {
             }
           />
         </ListItem>
-        <FormControl component="fieldset" className={classes.errorMessage} error={!isEmpty(errors)}>
+        <FormControl
+          component="fieldset"
+          className={classes.errorMessage}
+          error={!isEmpty(errors)}
+        >
           <FormHelperText>
             {isEmpty(errors)
               ? 'Revise el formulario antes de finalizar.'
@@ -257,7 +306,12 @@ const SummaryCard = (props: SummaryCardProps) => {
           </FormHelperText>
         </FormControl>
 
-        <Box display="flex" flex={1} justifyContent="flex-end" alignItems="center">
+        <Box
+          display="flex"
+          flex={1}
+          justifyContent="flex-end"
+          alignItems="center"
+        >
           <ActionButton
             type="submit"
             status="success"

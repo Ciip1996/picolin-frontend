@@ -14,7 +14,16 @@ type ColorIndicatorProps = {
 };
 
 const ColorIndicator = (props: ColorIndicatorProps) => {
-  const { color, height, width, onClick, onMouseEnter, info, status, customStyle } = props;
+  const {
+    color,
+    height,
+    width,
+    onClick,
+    onMouseEnter,
+    info,
+    status,
+    customStyle
+  } = props;
   const classes = useStyles();
 
   const style = {

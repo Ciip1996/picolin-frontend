@@ -20,7 +20,10 @@ import InputContainer from 'UI/components/atoms/InputContainer';
 import { EntityRoutes } from 'routes/constants';
 import { VALIDATION_REGEXS } from 'UI/utils';
 
-import { showAlert as showAlertAction, confirm as confirmAction } from 'actions/app';
+import {
+  showAlert as showAlertAction,
+  confirm as confirmAction
+} from 'actions/app';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -39,7 +42,14 @@ const RegisterUser = (props: RegisterProps) => {
 
   const history = useHistory();
 
-  const { register, handleSubmit, errors, setValue, watch, setError } = useForm();
+  const {
+    register,
+    handleSubmit,
+    errors,
+    setValue,
+    watch,
+    setError
+  } = useForm();
 
   useEffect(() => {
     register({ name: 'role' }, { required: Contents[language]?.requireRole });
@@ -48,7 +58,15 @@ const RegisterUser = (props: RegisterProps) => {
   const onSubmit = async (formData: Object) => {
     try {
       setUiState(prevState => ({ ...prevState, isLoading: true }));
-      const { password, confirmPwd, name, firstLastName, role, secondLastName, user } = formData;
+      const {
+        password,
+        confirmPwd,
+        name,
+        firstLastName,
+        role,
+        secondLastName,
+        user
+      } = formData;
       // react hook forms is doing this validation but we are double validating in order to prevent mistakes or code injection
       if (password === confirmPwd) {
         const params = {
@@ -84,7 +102,9 @@ const RegisterUser = (props: RegisterProps) => {
         setError('user', 'notMatch', Contents[language]?.userAlreadyExists);
         showAlert({
           severity: 'warning',
-          title: response?.data?.title ? response?.data?.title : `Error ${response.status}`,
+          title: response?.data?.title
+            ? response?.data?.title
+            : `Error ${response.status}`,
           code: response?.status || '500',
           autoHideDuration: 800000,
           body: `${response?.data?.message}`
@@ -92,7 +112,9 @@ const RegisterUser = (props: RegisterProps) => {
       } else {
         showAlert({
           severity: 'error',
-          title: response?.data?.title ? response?.data?.title : `Error ${response.status}`,
+          title: response?.data?.title
+            ? response?.data?.title
+            : `Error ${response.status}`,
           code: response?.status || '500',
           autoHideDuration: 800000,
           body: response?.data?.message || Contents[language]?.errServer
@@ -118,7 +140,9 @@ const RegisterUser = (props: RegisterProps) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Box className={classes.containerBox}>
             <Box className={classes.formLayout}>
-              <h1 className={classes.header}>{Contents[language]?.pageTitle}</h1>
+              <h1 className={classes.header}>
+                {Contents[language]?.pageTitle}
+              </h1>
               <InputContainer>
                 <TextBox
                   autoFocus
@@ -155,7 +179,8 @@ const RegisterUser = (props: RegisterProps) => {
                   inputRef={register({
                     required: Contents[language]?.requirePwdConfirmation,
                     validate: value =>
-                      value === watch('password') || Contents[language]?.passwordConfirmationMistake
+                      value === watch('password') ||
+                      Contents[language]?.passwordConfirmationMistake
                   })}
                   error={!!errors.confirmPwd}
                   helperText={errors.confirmPwd && errors.confirmPwd.message}
@@ -180,7 +205,9 @@ const RegisterUser = (props: RegisterProps) => {
                     required: Contents[language]?.requirefirstLastName
                   })}
                   error={!!errors.firstLastName}
-                  helperText={errors.firstLastName && errors.firstLastName.message}
+                  helperText={
+                    errors.firstLastName && errors.firstLastName.message
+                  }
                 />
               </InputContainer>
               <InputContainer>
@@ -191,7 +218,9 @@ const RegisterUser = (props: RegisterProps) => {
                     required: Contents[language]?.require2LastName
                   })}
                   error={!!errors.secondLastName}
-                  helperText={errors.secondLastName && errors.secondLastName.message}
+                  helperText={
+                    errors.secondLastName && errors.secondLastName.message
+                  }
                 />
               </InputContainer>
               <InputContainer>
@@ -211,7 +240,9 @@ const RegisterUser = (props: RegisterProps) => {
                 className={classes.RegisterButton}
                 text={Contents[language]?.RegisterUser}
               >
-                {uiState.isLoading && <CircularProgress size={24} color={colors.white} />}
+                {uiState.isLoading && (
+                  <CircularProgress size={24} color={colors.white} />
+                )}
               </ActionButton>
             </Box>
           </Box>

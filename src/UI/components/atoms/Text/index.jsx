@@ -13,7 +13,15 @@ type TextProps = {
 };
 
 export default function Text(props: TextProps) {
-  const { text, fontWeight, cropped, fontSize, customStyle, variant, ...rest } = props;
+  const {
+    text,
+    fontWeight,
+    cropped,
+    fontSize,
+    customStyle,
+    variant,
+    ...rest
+  } = props;
   const classes = useStyles();
   return (
     <Typography

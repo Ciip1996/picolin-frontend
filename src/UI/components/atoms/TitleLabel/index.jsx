@@ -29,7 +29,10 @@ const Title = props => {
       {loading ? (
         <Grid container>
           <Grid item md={3} sm={4}>
-            <CustomSkeleton style={globalStyles.skeletonItem} color={colors.inactiveSideBarTab} />
+            <CustomSkeleton
+              style={globalStyles.skeletonItem}
+              color={colors.inactiveSideBarTab}
+            />
           </Grid>
         </Grid>
       ) : (
@@ -56,7 +59,10 @@ const NavigationTitle = props => {
       {loading ? (
         <Grid container>
           <Grid item md={3} sm={4}>
-            <CustomSkeleton style={globalStyles.skeletonItem} color={colors.inactiveSideBarTab} />
+            <CustomSkeleton
+              style={globalStyles.skeletonItem}
+              color={colors.inactiveSideBarTab}
+            />
           </Grid>
         </Grid>
       ) : (

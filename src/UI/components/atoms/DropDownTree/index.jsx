@@ -70,7 +70,11 @@ const DropDownTree = (props: DropDownTreeProps) => {
           className={classes.select}
           id="grouped-select"
         >
-          <MenuItem onClick={onClick} className={classes.firstMenu} value="New Template">
+          <MenuItem
+            onClick={onClick}
+            className={classes.firstMenu}
+            value="New Template"
+          >
             <Button
               color="primary"
               className={classes.button}

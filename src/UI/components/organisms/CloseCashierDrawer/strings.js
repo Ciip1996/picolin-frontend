@@ -16,7 +16,8 @@ const Contents = {
     Title: 'CORTE DE CAJA',
     CardSubtitle:
       'La suma total de ventas con tarjeta este se obtiene del corte de terminal o sumando todos los tickets de esta.',
-    CashSubtitle: 'La cantidad de dinero en efectivo que hay en caja al hacer el corte de caja.',
+    CashSubtitle:
+      'La cantidad de dinero en efectivo que hay en caja al hacer el corte de caja.',
     requiredField: 'Este campo es requerido.',
     Cash: 'Efectivo en Caja',
     Terminal: 'Corte de Terminal',

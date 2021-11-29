@@ -60,7 +60,11 @@ const ButtonMenu = (props: ButtonMenuProps) => {
   useEffect(() => {
     setEmptyMenu(
       MenuItems.every(item => {
-        return item.visible === false || item.visible === null || item.visible === undefined;
+        return (
+          item.visible === false ||
+          item.visible === null ||
+          item.visible === undefined
+        );
       })
     );
   }, [MenuItems]);

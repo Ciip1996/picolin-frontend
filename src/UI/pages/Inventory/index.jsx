@@ -34,7 +34,11 @@ import { AddIcon, colors } from 'UI/res';
 import Contents from './strings';
 
 const CellSkeleton = ({ children, searching }) => {
-  return searching ? <CustomSkeleton width="90%" height={18} /> : <>{children}</>;
+  return searching ? (
+    <CustomSkeleton width="90%" height={18} />
+  ) : (
+    <>{children}</>
+  );
 };
 
 type InventoryListProps = {
@@ -77,7 +81,11 @@ const InventoryList = (props: InventoryListProps) => {
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
   const toggleDrawer = (drawer: string, open: boolean) => event => {
-    if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
     setUiState(prevState => ({ ...prevState, [drawer]: open }));
@@ -157,7 +165,8 @@ const InventoryList = (props: InventoryListProps) => {
         severity: 'error',
         autoHideDuration: 3000,
         title: getErrorData(err)?.title || 'Error en conexión',
-        body: message || getErrorData(err)?.message || 'Contacte a soporte técnico'
+        body:
+          message || getErrorData(err)?.message || 'Contacte a soporte técnico'
       });
       throw err;
     }
@@ -302,7 +311,9 @@ const InventoryList = (props: InventoryListProps) => {
         display: columnItems[11].display,
         sortDirection: sortDirection[11],
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>
+          );
         },
         filterType: 'custom'
       }
@@ -381,7 +392,9 @@ const InventoryList = (props: InventoryListProps) => {
         filterType: 'custom',
         customBodyRender: value => {
           return (
-            <CellSkeleton searching={searching}>{value === -1 ? 'Unitalla' : value}</CellSkeleton>
+            <CellSkeleton searching={searching}>
+              {value === -1 ? 'Unitalla' : value}
+            </CellSkeleton>
           );
         }
       }
@@ -397,7 +410,9 @@ const InventoryList = (props: InventoryListProps) => {
         filterType: 'custom',
         customBodyRender: value => {
           return (
-            <CellSkeleton searching={searching}>{value || (value === 0 ? 0 : '--')}</CellSkeleton>
+            <CellSkeleton searching={searching}>
+              {value || (value === 0 ? 0 : '--')}
+            </CellSkeleton>
           );
         }
       }
@@ -521,7 +536,9 @@ const InventoryList = (props: InventoryListProps) => {
         display: columnItems[8].display,
         sortDirection: sortDirection[8],
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>
+          );
         },
         filterType: 'custom'
       }
@@ -535,7 +552,9 @@ const InventoryList = (props: InventoryListProps) => {
         display: columnItems[9].display,
         sortDirection: sortDirection[9],
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>
+          );
         },
         filterType: 'custom',
         filterOptions: {
@@ -567,7 +586,9 @@ const InventoryList = (props: InventoryListProps) => {
         sortDirection: sortDirection[10],
         customBodyRender: value => {
           return (
-            <CellSkeleton searching={searching}>{value || (value === 0 ? 0 : '--')}</CellSkeleton>
+            <CellSkeleton searching={searching}>
+              {value || (value === 0 ? 0 : '--')}
+            </CellSkeleton>
           );
         },
         filterType: 'custom',
@@ -640,7 +661,10 @@ const InventoryList = (props: InventoryListProps) => {
             {isUserAdmin && (
               <ActionButton
                 text={Contents[language]?.addNewProduct}
-                onClick={toggleDrawer('isAddProductDrawerOpen', !uiState.isAddProductDrawerOpen)}
+                onClick={toggleDrawer(
+                  'isAddProductDrawerOpen',
+                  !uiState.isAddProductDrawerOpen
+                )}
               >
                 <AddIcon fill={colors.white} size={18} />
               </ActionButton>

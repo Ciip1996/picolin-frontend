@@ -17,7 +17,12 @@ const InfoRowTotal = (props: InfoRowTotalProps) => {
 
   return (
     <Box>
-      <Box display="flex" flexDirection="row" justify="right" alignItems="center">
+      <Box
+        display="flex"
+        flexDirection="row"
+        justify="right"
+        alignItems="center"
+      >
         <span className={classes.title}>{title}</span>
         <Text
           name="diaplay_total"

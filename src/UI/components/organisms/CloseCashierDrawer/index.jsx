@@ -88,7 +88,11 @@ const CloseCashierDrawer = (props: CloseCashierDrawerProps) => {
           <div className={classes.root}>
             <Box>
               <div style={globalStyles.feeDrawerslabel}>
-                <Text variant="body2" text={Contents[language]?.CashSubtitle} fontSize={13} />
+                <Text
+                  variant="body2"
+                  text={Contents[language]?.CashSubtitle}
+                  fontSize={13}
+                />
                 <InputContainer>
                   <TextBox
                     inputType="currency"
@@ -101,7 +105,11 @@ const CloseCashierDrawer = (props: CloseCashierDrawerProps) => {
                   />
                 </InputContainer>
                 <br />
-                <Text variant="body2" text={Contents[language]?.CardSubtitle} fontSize={13} />
+                <Text
+                  variant="body2"
+                  text={Contents[language]?.CardSubtitle}
+                  fontSize={13}
+                />
                 <InputContainer>
                   <TextBox
                     inputType="currency"

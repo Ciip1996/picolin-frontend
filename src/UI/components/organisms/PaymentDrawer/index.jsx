@@ -75,7 +75,10 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
   };
 
   const handleComboChange = (name?: string, value: any) => {
-    setComboValues((prevState: MapType): MapType => ({ ...prevState, [name]: value }));
+    setComboValues((prevState: MapType): MapType => ({
+      ...prevState,
+      [name]: value
+    }));
     setValue(name, value ? value.id : value, true);
   };
 
@@ -119,7 +122,11 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
           <div className={classes.root}>
             <Box>
               <div style={globalStyles.feeDrawerslabel}>
-                <Text variant="h2" text={Contents[language]?.Subtitle} fontSize={14} />
+                <Text
+                  variant="h2"
+                  text={Contents[language]?.Subtitle}
+                  fontSize={14}
+                />
                 <br />
                 <InputContainer>
                   <TextBox
@@ -148,10 +155,13 @@ const PaymentDrawer = (props: PaymentDrawerProps) => {
                     placeholder={Contents[language]?.Category}
                     url={`${Endpoints.StorePaymentCategories}`}
                     onSelect={handleComboChange}
-                    getOptionSelected={(option, value) => option.id === value.id}
+                    getOptionSelected={(option, value) =>
+                      option.id === value.id
+                    }
                     error={!!errors?.idStorePaymentCategory}
                     errorText={
-                      errors?.idStorePaymentCategory && errors?.idStorePaymentCategory.message
+                      errors?.idStorePaymentCategory &&
+                      errors?.idStorePaymentCategory.message
                     }
                   />
                 </InputContainer>

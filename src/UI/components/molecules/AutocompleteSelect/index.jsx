@@ -114,7 +114,8 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
     setOptions([]);
   };
 
-  const defaultOptionSelectedFn = (option, value) => option[displayKey] === value[displayKey];
+  const defaultOptionSelectedFn = (option, value) =>
+    option[displayKey] === value[displayKey];
   const defaultOptionLabelFn = option => option[displayKey];
 
   const typeaheadProps = typeahead
@@ -144,7 +145,10 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
             // given from the server by specifiying the key value that you want to have.
             // The value must be an array in order to work.
             const filteredData = response.data.filter(itm => {
-              return dataResponseFilter.value.indexOf(itm[dataResponseFilter.key]) > -1;
+              return (
+                dataResponseFilter.value.indexOf(itm[dataResponseFilter.key]) >
+                -1
+              );
             });
             setOptions(filteredData);
             handleOptionsLoaded(filteredData);
@@ -196,7 +200,15 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
       setLoading(false);
     };
     search();
-  }, [dataFetchKeyName, keyword, showAlert, typeahead, typeaheadLimit, typeaheadParams, url]);
+  }, [
+    dataFetchKeyName,
+    keyword,
+    showAlert,
+    typeahead,
+    typeaheadLimit,
+    typeaheadParams,
+    url
+  ]);
 
   const chipProps = disabledItemsFocusable
     ? { onDelete: null, classes: chipClassesDisabled }
@@ -290,12 +302,17 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const AutocompleteSelectConnected = connect(null, mapDispatchToProps)(AutocompleteSelect);
+const AutocompleteSelectConnected = connect(
+  null,
+  mapDispatchToProps
+)(AutocompleteSelect);
 
 export default AutocompleteSelectConnected;
 
 const renderStatusIndicator = (color: string) => {
-  return <ColorIndicator color={color} width={10} height={10} onClick={() => {}} />;
+  return (
+    <ColorIndicator color={color} width={10} height={10} onClick={() => {}} />
+  );
 };
 export const statusRenderOption = (option: any) => (
   <>
