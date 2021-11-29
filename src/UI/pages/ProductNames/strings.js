@@ -1,6 +1,6 @@
 const Contents = {
   English: {
-    pageTitle: 'PRODUCTS',
+    pageTitle: 'NAMES',
     labStatus: 'Status',
     labIdProvider: 'Payment',
     labProvider: 'ID Provider',
@@ -8,7 +8,7 @@ const Contents = {
     disabled: 'Disabled'
   },
   Spanish: {
-    pageTitle: 'PRODUCTOS',
+    pageTitle: 'NOMBRES',
     labStatus: 'Estatus',
     labIdProvider: 'ID Proveedor',
     labProvider: 'Proveedor',

@@ -78,8 +78,8 @@ const ProductNamesList = props => {
 
   const [uiState, setUiState] = useState({
     keyword: savedParams?.keyword || undefined,
-    orderBy: savedParams?.orderBy || undefined,
-    direction: savedParams?.direction || undefined,
+    orderBy: savedParams?.orderBy || 'idName',
+    direction: savedParams?.direction || 'asc',
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
     isTransferDrawerOpen: true
@@ -87,12 +87,7 @@ const ProductNamesList = props => {
 
   const getData = useCallback(async () => {
     try {
-      const {
-        store_filter,
-        date_filter = undefined,
-        payment_filter = undefined,
-        invoice_filter = undefined
-      } = filters;
+      const { provider_filter = undefined, status_filter } = filters;
 
       const params = {
         keyword: uiState.keyword,
@@ -100,10 +95,8 @@ const ProductNamesList = props => {
         direction: uiState.direction,
         page: uiState.page + 1,
         perPage: uiState.perPage,
-        nameString: date_filter?.filterWord,
-        idPaymentMethod: payment_filter?.id,
-        store: store_filter?.id,
-        invoice: invoice_filter?.id
+        providerId: provider_filter?.id,
+        status: status_filter?.id
       };
 
       saveFilters('productos', { filters, params });
@@ -298,8 +291,8 @@ const ProductNamesList = props => {
                   placeholder={Contents[language]?.labStatus}
                   selectedValue={filters.status_filter}
                   defaultOptions={[
-                    { id: 0, title: Contents[language]?.enabled },
-                    { id: 1, title: Contents[language]?.disabled }
+                    { id: 0, title: Contents[language]?.disabled },
+                    { id: 1, title: Contents[language]?.enabled }
                   ]}
                   onSelect={handleFilterChange}
                 />
@@ -320,22 +313,6 @@ const ProductNamesList = props => {
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        },
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="provider_filter"
-                  selectedValue={filters.provider_filter}
-                  placeholder={Contents[language]?.labProvider}
-                  url={Endpoints.Provider}
-                  defaultOptions={[]}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
         }
       }
     },
@@ -350,6 +327,21 @@ const ProductNamesList = props => {
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        },
+        filterOptions: {
+          display: () => {
+            return (
+              <FormControl>
+                <AutocompleteSelect
+                  name="provider_filter"
+                  selectedValue={filters.provider_filter}
+                  placeholder={Contents[language]?.labProvider}
+                  url={Endpoints.Provider}
+                  onSelect={handleFilterChange}
+                />
+              </FormControl>
+            );
+          }
         }
       }
     }
