@@ -171,9 +171,6 @@ const DataTable = (props: DataTableProps) => {
         },
         textLabels: {
           body: {
-            toolbar: {
-              search: Contents[language]?.Search
-            },
             noMatch: (
               <DataTableEmptyState
                 error={error}
@@ -184,7 +181,35 @@ const DataTable = (props: DataTableProps) => {
               />
             ),
             toolTip: Contents[language]?.Sort,
-            columnHeaderTooltip: column => `${Contents[language]?.SortFor} ${column.label}`
+            columnHeaderTooltip: column =>
+              `${Contents[language]?.SortFor} ${column.label}`
+          },
+          pagination: {
+            next: Contents[language]?.Next,
+            previous: Contents[language]?.Previous,
+            rowsPerPage: Contents[language]?.RowsPerPage,
+            displayRows: Contents[language]?.DisplayRows
+          },
+          toolbar: {
+            search: Contents[language]?.Search,
+            downloadCsv: Contents[language]?.DownloadCSV,
+            print: Contents[language]?.Print,
+            viewColumns: Contents[language]?.ViewColumns,
+            filterTable: Contents[language]?.FilterTable
+          },
+          filter: {
+            all: Contents[language]?.All,
+            title: Contents[language]?.FilterTitle,
+            reset: Contents[language]?.Reset
+          },
+          viewColumns: {
+            title: Contents[language]?.ShowColumns,
+            titleAria: Contents[language]?.ShowColumnsAria
+          },
+          selectedRows: {
+            text: Contents[language]?.SelectedRowsText,
+            delete: Contents[language]?.SelectedRowsDelete,
+            deleteAria: Contents[language]?.SelectedRowsDeleteAria
           }
         }
       }

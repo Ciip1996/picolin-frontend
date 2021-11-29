@@ -52,7 +52,7 @@ const CustomFooter = (props: CustomFooterProps) => {
             page={page}
             labelRowsPerPage={Contents[language]?.ItemsPerPage}
             labelDisplayedRows={({ from, to }) =>
-              `${Contents[language]?.Results} ${from}-${to} ${'of'} ${Number(count)}`
+              `${Contents[language]?.Results} ${Contents[language]?.From} ${from} ${Contents[language]?.From} ${to}`
             }
             backIconButtonProps={{
               'aria-label': textLabels && textLabels.previous

@@ -1,6 +1,11 @@
 // @flow
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect
+} from 'react-router-dom';
 
 import PrivateRoute from 'routes/PrivateRoute';
 import { isAuthenticated } from 'services/Authentication';
@@ -37,11 +42,17 @@ const Routes = () => {
     <Router>
       <Notifier />
       <Switch>
-        <Route exact path="/" render={() => <Redirect to={EntityRoutes.Home} />} />
+        <Route
+          exact
+          path="/"
+          render={() => <Redirect to={EntityRoutes.Home} />}
+        />
         <Route
           exact
           path={EntityRoutes.Login}
-          render={() => (isAuthenticated() ? <Redirect to={EntityRoutes.Home} /> : <Login />)}
+          render={() =>
+            isAuthenticated() ? <Redirect to={EntityRoutes.Home} /> : <Login />
+          }
         />
 
         <PrivateRoute
@@ -53,7 +64,11 @@ const Routes = () => {
         <PrivateRoute exact path={EntityRoutes.Home} component={Home} />
         <PrivateRoute exact path={EntityRoutes.Sales} component={Sales} />
         <PrivateRoute exact path={EntityRoutes.NewSale} component={NewSale} />
-        <PrivateRoute exact path={EntityRoutes.Inventory} component={Inventory} />
+        <PrivateRoute
+          exact
+          path={EntityRoutes.Inventory}
+          component={Inventory}
+        />
         <PrivateRoute exact path={EntityRoutes.Payments} component={Payments} />
 
         <PrivateRoute
