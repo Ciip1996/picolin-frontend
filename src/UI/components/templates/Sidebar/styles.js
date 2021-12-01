@@ -52,11 +52,14 @@ export const useSidebarStyles = makeStyles(theme => ({
     paddingLeft: 40
   },
   subitemSelected: {
-    backgroundColor: colors.appBackground,
+    backgroundColor: colors.primaryLight,
     height: sidebarItem.height,
     paddingLeft: 40,
-    color: colors.black,
-    fontWeight: 500
+    color: colors.white,
+    fontWeight: 500,
+    '&:hover': {
+      backgroundColor: colors.primaryLight
+    }
   },
   iconWrapper: {
     marginLeft: 0
