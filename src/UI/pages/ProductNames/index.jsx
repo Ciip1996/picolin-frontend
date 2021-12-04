@@ -13,6 +13,7 @@ import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import ProductNamesDetailCard from 'UI/components/organisms/SalesDetailCard';
 import { getErrorData } from 'UI/utils';
+import { colors } from 'UI/res';
 
 import Modal from '@material-ui/core/Modal';
 
@@ -280,7 +281,18 @@ const ProductNamesList = props => {
         sortDirection: sortDirection[2],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>
+              <div
+                style={{
+                  color: value ? colors.active : colors.error,
+                  fontWeight: 'bold'
+                }}
+              >
+                {value ? 'Activo' : 'Inactivo'}
+              </div>
+            </CellSkeleton>
+          );
         },
         filterOptions: {
           display: () => {
