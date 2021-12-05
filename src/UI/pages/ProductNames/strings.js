@@ -5,15 +5,17 @@ const Contents = {
     labIdProvider: 'Payment',
     labProvider: 'ID Provider',
     enabled: 'Enabled',
-    disabled: 'Disabled'
+    disabled: 'Disabled',
+    addNewNameProduct: 'Product Name'
   },
   Spanish: {
-    pageTitle: 'NOMBRES',
+    pageTitle: 'Nombre de Productos',
     labStatus: 'Estatus',
     labIdProvider: 'ID Proveedor',
     labProvider: 'Proveedor',
     enabled: 'Activo',
-    disabled: 'Inactivo'
+    disabled: 'Inactivo',
+    addNewNameProduct: 'Nombre'
   }
 };
 export default Contents;

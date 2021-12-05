@@ -13,7 +13,7 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 
 import { showAlert } from 'actions/app';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
-import { userHasAdminPermissions } from 'services/Authorization';
+import { userHasAdminOrManagerPermissions } from 'services/Authorization';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -67,7 +67,7 @@ const InventoryList = (props: InventoryListProps) => {
   const { onShowAlert } = props;
   const language = localStorage.getItem('language');
 
-  const isUserAdmin = userHasAdminPermissions();
+  const isUserAdminOrManager = userHasAdminOrManagerPermissions();
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState(false);
@@ -97,7 +97,7 @@ const InventoryList = (props: InventoryListProps) => {
     direction: savedParams?.direction || undefined,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isAddProductDrawerOpen: false && isUserAdmin,
+    isAddProductDrawerOpen: false && isUserAdminOrManager,
     isQRCodeDrawerOpen: false,
     idProduct: null,
     productCode: null,
@@ -658,7 +658,7 @@ const InventoryList = (props: InventoryListProps) => {
               selectedValue={filters.store_filter}
               onSelect={handleFilterChange}
             />
-            {isUserAdmin && (
+            {isUserAdminOrManager && (
               <ActionButton
                 text={Contents[language]?.addNewProduct}
                 onClick={toggleDrawer(

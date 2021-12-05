@@ -40,7 +40,7 @@ const sideBarMenu = [
         display: isUserEmployee
       },
       {
-        title: 'Nombres',
+        title: 'Nombre de Productos',
         route: EntityRoutes.ProductNames,
         icon: {
           inactive: <ProductNamesIcon fill={colors.oxford} />,

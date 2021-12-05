@@ -4,6 +4,7 @@ import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { FormControl, Box } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import Drawer from '@material-ui/core/Drawer';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -11,18 +12,20 @@ import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import ProductNamesDetailCard from 'UI/components/organisms/SalesDetailCard';
 import { getErrorData } from 'UI/utils';
-
-import Modal from '@material-ui/core/Modal';
+import { colors, AddIcon } from 'UI/res';
+import ActionButton from 'UI/components/atoms/ActionButton';
+import AddProductNameDrawer from 'UI/components/organisms/AddProductNameDrawer';
+// import ViewProductNameDetails from 'UI/components/organisms/ViewProductNameDetails';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import type { Filters } from 'types/app';
-import { PageTitles } from 'UI/constants/defaults';
+import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 import { Endpoints } from 'UI/constants/endpoints';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
 import { showAlert } from 'actions/app';
+import { userHasAdminOrManagerPermissions } from 'services/Authorization';
 import Contents from './strings';
 
 const CellSkeleton = ({ children, searching }) => {
@@ -51,24 +54,15 @@ const getSortDirections = (orderBy, direction) =>
 const ProductNamesList = props => {
   const { onShowAlert } = props;
   const language = localStorage.getItem('language');
+  const isUserAdminOrManager = userHasAdminOrManagerPermissions();
 
   const [error, setError] = useState(false);
   const [searching, setSearching] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState([{}]);
-  const [selectedSale, setSelectedSale] = useState({});
-  const [openModal, setOpenModal] = React.useState(false);
-
+  const [selectedProductName, setSelectedProductName] = useState({});
   const [count, setCount] = useState(0);
-
-  const handleOpenProject = () => {
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
 
   const savedSearch = getFilters('productos');
   const savedFilters = savedSearch?.filters;
@@ -76,13 +70,25 @@ const ProductNamesList = props => {
 
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
+  const toggleDrawer = (drawer: string, open: boolean) => event => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setUiState(prevState => ({ ...prevState, [drawer]: open }));
+  };
+
   const [uiState, setUiState] = useState({
     keyword: savedParams?.keyword || undefined,
     orderBy: savedParams?.orderBy || 'idName',
     direction: savedParams?.direction || 'asc',
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isTransferDrawerOpen: true
+    isAddProductNameDrawerOpen: false && isUserAdminOrManager,
+    isViewDetailsProductNameDrawerOpen: false
   });
 
   const getData = useCallback(async () => {
@@ -102,7 +108,7 @@ const ProductNamesList = props => {
       saveFilters('productos', { filters, params });
 
       const queryParams = queryString.stringify(params);
-      const url = `${Endpoints.Names}${Endpoints.GetProductNames}?`;
+      const url = `${Endpoints.ProductNames}${Endpoints.GetProductNames}?`;
 
       const response = await API.get(`${url}${queryParams}`);
 
@@ -131,6 +137,13 @@ const ProductNamesList = props => {
     uiState.orderBy,
     uiState.direction
   ]);
+
+  const onProductNameInserted = () => {
+    setUiState(prevState => ({
+      ...prevState,
+      isAddProductNameDrawerOpen: false
+    }));
+  };
 
   const handleSearchChange = newKeyword => {
     setSearching(true);
@@ -196,17 +209,17 @@ const ProductNamesList = props => {
     columnItems[index].display = display;
   };
 
-  const getSaleDetail = async (id: any) => {
+  const getNameDetail = async (id: any) => {
     try {
       const response = await API.get(
-        `${Endpoints.ProductNames}${Endpoints.GetSaleDetailsByIdSale}`.replace(
+        `${Endpoints.ProductNames}${Endpoints.GetProductNameDetailsByIdName}`.replace(
           ':id',
           id
         )
       );
       if (response.status === 200) {
         const detailedData = { ...response.data };
-        setSelectedSale(detailedData);
+        setSelectedProductName(detailedData);
       }
     } catch (getSaleDetailError) {
       setError(true);
@@ -221,9 +234,12 @@ const ProductNamesList = props => {
   };
 
   const handleRowClick = (rowData: Object) => {
-    const { id } = data[rowData.rowIndex];
-    getSaleDetail(id);
-    handleOpenProject();
+    const { idName } = data[rowData.rowIndex];
+    getNameDetail(idName);
+    setUiState(prevState => ({
+      ...prevState,
+      isViewDetailsProductNameDrawerOpen: true
+    }));
   };
 
   const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
@@ -280,7 +296,18 @@ const ProductNamesList = props => {
         sortDirection: sortDirection[2],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>
+              <div
+                style={{
+                  color: value ? colors.active : colors.error,
+                  fontWeight: 'bold'
+                }}
+              >
+                {value ? 'Activo' : 'Inactivo'}
+              </div>
+            </CellSkeleton>
+          );
         },
         filterOptions: {
           display: () => {
@@ -366,7 +393,29 @@ const ProductNamesList = props => {
       <ListPageLayout
         loading={loading}
         title={Contents[language]?.pageTitle}
-        selector={null}
+        selector={
+          <Box
+            flex={1}
+            display="flex"
+            flexDirection="column"
+            alignItems="flex-start"
+            justifyContent="center"
+            flexWrap="wrap"
+            minWidth={238}
+          >
+            {isUserAdminOrManager && (
+              <ActionButton
+                text={Contents[language]?.addNewNameProduct}
+                onClick={toggleDrawer(
+                  'isAddProductNameDrawerOpen',
+                  !uiState.isAddProductNameDrawerOpen
+                )}
+              >
+                <AddIcon fill={colors.white} size={18} />
+              </ActionButton>
+            )}
+          </Box>
+        }
         filters={filters}
         onFilterRemove={handleFilterRemove}
         onFiltersReset={handleResetFiltersClick}
@@ -399,22 +448,37 @@ const ProductNamesList = props => {
           </Box>
         </Box>
       </ListPageLayout>
-      <Modal
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          display: 'flex'
-        }}
-        open={openModal}
-        onClose={handleCloseModal}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
+      <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isViewDetailsProductNameDrawerOpen}
+        onClose={toggleDrawer('isViewDetailsProductNameDrawerOpen', false)}
       >
-        <ProductNamesDetailCard
-          saleData={selectedSale}
-          onCloseModal={handleCloseModal}
-        />
-      </Modal>
+        <div role="presentation">
+          {/* TODO: use drawer to show the selectedProductName */}
+          <AddProductNameDrawer
+            onProductNameInserted={onProductNameInserted}
+            onShowAlert={onShowAlert}
+            selectedProductName={selectedProductName}
+            handleClose={toggleDrawer(
+              'isViewDetailsProductNameDrawerOpen',
+              false
+            )}
+          />
+        </div>
+      </Drawer>
+      <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isAddProductNameDrawerOpen}
+        onClose={toggleDrawer('isAddProductNameDrawerOpen', false)}
+      >
+        <div role="presentation">
+          <AddProductNameDrawer
+            onProductNameInserted={onProductNameInserted}
+            onShowAlert={onShowAlert}
+            handleClose={toggleDrawer('isAddProductNameDrawerOpen', false)}
+          />
+        </div>
+      </Drawer>
     </ContentPageLayout>
   );
 };
