@@ -9,7 +9,7 @@ const Contents = {
     addNewNameProduct: 'Product Name'
   },
   Spanish: {
-    pageTitle: 'NOMBRES',
+    pageTitle: 'Nombre de Productos',
     labStatus: 'Estatus',
     labIdProvider: 'ID Proveedor',
     labProvider: 'Proveedor',

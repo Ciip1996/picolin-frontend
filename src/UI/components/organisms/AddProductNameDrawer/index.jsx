@@ -17,11 +17,20 @@ import Contents from './strings';
 type AddInventoryProductDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
-  onProductNameInserted: () => any
+  onProductNameInserted: () => any,
+  selectedProductName: Object
 };
 
 const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
-  const { handleClose, onShowAlert, onProductNameInserted } = props;
+  const {
+    handleClose,
+    onShowAlert,
+    onProductNameInserted,
+    selectedProductName
+  } = props;
+
+  console.log(selectedProductName);
+  // TODO show edit mode
   const language = localStorage.getItem('language');
 
   const form = useForm({

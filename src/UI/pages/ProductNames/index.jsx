@@ -454,7 +454,16 @@ const ProductNamesList = props => {
         onClose={toggleDrawer('isViewDetailsProductNameDrawerOpen', false)}
       >
         <div role="presentation">
-          <p> {JSON.stringify(selectedProductName)}</p>
+          {/* TODO: use drawer to show the selectedProductName */}
+          <AddProductNameDrawer
+            onProductNameInserted={onProductNameInserted}
+            onShowAlert={onShowAlert}
+            selectedProductName={selectedProductName}
+            handleClose={toggleDrawer(
+              'isViewDetailsProductNameDrawerOpen',
+              false
+            )}
+          />
         </div>
       </Drawer>
       <Drawer

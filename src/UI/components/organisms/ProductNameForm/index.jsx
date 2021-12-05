@@ -57,7 +57,7 @@ const ProductNameForm = (props: ProductNameFormProps) => {
 
   const onSwitcherChange = (event: Object) => {
     const isStatusChecked = event.target.checked;
-    setValue('status', isStatusChecked, true);
+    setValue('status', isStatusChecked ? 1 : 0, true);
   };
 
   return (
