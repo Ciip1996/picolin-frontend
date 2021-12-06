@@ -1,6 +1,7 @@
 // @flow
 import React, { useState, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
+import styled from 'styled-components';
 
 import Box from '@material-ui/core/Box';
 import Switch from '@material-ui/core/Switch';
@@ -15,6 +16,12 @@ import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
 
 import Contents from './strings';
+
+export const UpperCaseTextBox = styled(TextBox)`
+  input {
+    text-transform: uppercase;
+  }
+`;
 
 type ProductNameFormProps = {
   initialValues: MapType
@@ -51,7 +58,9 @@ const ProductNameForm = (props: ProductNameFormProps) => {
   };
 
   const handleTextChange = (name?: string, value: any) => {
-    setValue(name, value, true);
+    if (name === 'name') {
+      setValue(name, value ? value.toUpperCase() : '', true);
+    } else setValue(name, value, true);
     setComboValues({ ...comboValues });
   };
 
@@ -63,7 +72,7 @@ const ProductNameForm = (props: ProductNameFormProps) => {
   return (
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%">
       <InputContainer>
-        <TextBox
+        <UpperCaseTextBox
           inputType="text"
           name="name"
           label={Contents[language]?.Name}
