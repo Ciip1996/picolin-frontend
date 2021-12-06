@@ -72,11 +72,13 @@ const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
         onProductNameInserted();
       }
     } catch (err) {
+      const { title, message } = getErrorData(err);
+
       onShowAlert({
         severity: 'error',
-        title: getErrorData(err)?.title || 'Error en conexión',
-        autoHideDuration: 800000,
-        body: getErrorData(err)?.message || 'Contacte a soporte técnico'
+        autoHideDuration: 3000,
+        title,
+        body: message
       });
       throw err;
     }

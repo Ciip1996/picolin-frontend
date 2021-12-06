@@ -183,10 +183,21 @@ export const URL_VALIDATION = {
     message: `Max length is ${urlMaxLength}`
   }
 };
+/**
+ * This function receives a string and it normalize it to NFD Unicode normal form decomposes combined graphemes into the combination of simple ones.
+ * @param {string} str string to capitalize first letter
+ */
+
+export const normalizeStrToNFD = (str: string) => {
+  return str
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .toUpperCase();
+};
 
 /**
  * Make uppercase the first letter of a string
- * @param {number} str string to capitalize first letter
+ * @param {string} str string to capitalize first letter
  */
 
 export const capitalizeFirstLetter = (str: string) => {

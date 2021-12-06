@@ -6,7 +6,8 @@ const Contents = {
   },
   Spanish: {
     Title: 'Agregar Nombre de Producto',
-    Subtitle: 'Complete el formulario de alta de nombre de producto.'
+    Subtitle:
+      'Complete el formulario de alta de nombre de producto. El nombre no puede contener acentos ni caracteres especiales.'
   }
 };
 export default Contents;
