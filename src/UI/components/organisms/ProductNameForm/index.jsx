@@ -11,7 +11,7 @@ import TextBox from 'UI/components/atoms/TextBox';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { Endpoints } from 'UI/constants/endpoints';
 
-import { PRODUCT_DESCRIPTION_VALIDATION } from 'UI/utils';
+import { PRODUCT_DESCRIPTION_VALIDATION, normalizeStrToNFD } from 'UI/utils';
 import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
 
@@ -59,7 +59,7 @@ const ProductNameForm = (props: ProductNameFormProps) => {
 
   const handleTextChange = (name?: string, value: any) => {
     if (name === 'name') {
-      setValue(name, value ? value.toUpperCase() : '', true);
+      setValue(name, normalizeStrToNFD(value || ''), true);
     } else setValue(name, value, true);
     setComboValues({ ...comboValues });
   };
