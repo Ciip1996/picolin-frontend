@@ -130,32 +130,25 @@ const NavBar = ({ handleCloseCashier }: NavBarProps) => {
                 }}
               >
                 {featureFlags.includes(FeatureFlags.MenuNavBar) && (
-                  <>
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                  </>
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
                 )}
-                <>
-                  {isUserAdmin ? (
-                    <MenuItem
-                      onClick={navigateToRegisterUserPage}
-                      className={classes.menuLink}
-                    >
-                      Registrar Usuario
-                    </MenuItem>
-                  ) : null}
+                {isUserAdmin ? (
                   <MenuItem
-                    onClick={handleCloseCashier}
+                    onClick={navigateToRegisterUserPage}
                     className={classes.menuLink}
                   >
-                    Corte de Caja
+                    Registrar Usuario
                   </MenuItem>
-                  <MenuItem
-                    onClick={handleLogout}
-                    className={classes.loginLink}
-                  >
-                    Cerrar Sesión
-                  </MenuItem>
-                </>
+                ) : null}
+                <MenuItem
+                  onClick={handleCloseCashier}
+                  className={classes.menuLink}
+                >
+                  Corte de Caja
+                </MenuItem>
+                <MenuItem onClick={handleLogout} className={classes.loginLink}>
+                  Cerrar Sesión
+                </MenuItem>
               </Menu>
             </Box>
           </div>

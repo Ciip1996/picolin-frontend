@@ -16,7 +16,7 @@ type ActionButtonProps = {
   onClick: any => any,
   isWithLargeContent: boolean,
   isWithoutText: boolean,
-  isHighlited: boolean,
+  isHighlited?: boolean,
   ...
 };
 
@@ -90,7 +90,8 @@ ActionButton.defaultProps = {
   text: '',
   children: undefined,
   style: {},
-  onClick: () => {}
+  onClick: () => {},
+  isHighlited: false
 };
 
 export default ActionButton;

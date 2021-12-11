@@ -1,5 +1,6 @@
 // @flow
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 
@@ -20,12 +21,13 @@ import {
   confirm as confirmAction
 } from 'actions/app';
 import { DEFAULT_STORE } from 'UI/constants/defaults';
+import { isAuthenticated } from 'services/Authentication';
 
 import { styles, useStyles, useSidebarStyles } from './styles';
 import sideBarMenu from './SidebarMenu';
 
 type SidebarProps = {
-  children?: any,
+  children?: React.Node,
   showAlert: any => void
 };
 
@@ -143,6 +145,10 @@ const Sidebar = (props: SidebarProps) => {
   useEffect(() => {
     const getData = async () => {
       try {
+        if (!isAuthenticated()) {
+          // if no authenticated return null
+          return null;
+        }
         const queryParams = queryString.stringify({
           idStore: DEFAULT_STORE.id
         });
@@ -168,6 +174,7 @@ const Sidebar = (props: SidebarProps) => {
         });
         throw err;
       }
+      return null;
     };
     setInterval(getData, 10000);
     getData();
