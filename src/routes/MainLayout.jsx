@@ -103,7 +103,7 @@ const MainLayout = ({ children, onShowAlert, ...rest }: Object) => {
                     style={{ width: 200, minHeight: 48 }}
                     text="Nueva Venta"
                     onClick={GoToNewPage}
-                    variant="important"
+                    isHighlited
                   >
                     <AddIcon fill={colors.white} size={18} />
                   </ActionButton>

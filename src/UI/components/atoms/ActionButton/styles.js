@@ -32,15 +32,17 @@ export const styles = {
   }
 };
 
+const highlitedButtonStyle =
+  'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)';
+
 export const useStyles = makeStyles(theme => ({
   root: {
     ...theme.button,
     color: colors.white,
     border: 0,
     background: props => {
+      if (props.isHighlited) return highlitedButtonStyle;
       switch (props.variant) {
-        case 'important':
-          return 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)';
         case 'outlined':
           return 'transparent';
         case 'contained':
@@ -49,11 +51,11 @@ export const useStyles = makeStyles(theme => ({
           return colors.primary;
       }
     },
+
     '&:hover': {
       background: props => {
+        if (props.isHighlited) return highlitedButtonStyle;
         switch (props.variant) {
-          case 'important':
-            return 'linear-gradient(270deg, #ED8A9C 0%, #F5C4A1 100%)';
           case 'outlined':
             return colors.lightGrey;
           case 'contained':
