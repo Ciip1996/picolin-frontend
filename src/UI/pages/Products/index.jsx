@@ -50,10 +50,10 @@ const columnItems = [
   { id: 7, name: 'size', display: true },
   { id: 8, name: 'pieces', display: true },
   { id: 9, name: 'cost', display: true },
-  { id: 10, name: 'fk_idGender', display: true },
-  { id: 11, name: 'fk_idColor', display: true },
+  { id: 10, name: 'gender', display: true },
+  { id: 11, name: 'color', display: true },
   { id: 12, name: 'registrationDate', display: true },
-  { id: 13, name: 'fk_idUser', display: true },
+  { id: 13, name: 'user', display: true },
   { id: 14, name: 'observations', display: true }
 ];
 const getSortDirections = (orderBy, direction) =>
@@ -389,7 +389,7 @@ const ProductsList = props => {
       }
     },
     {
-      name: 'fk_idGender',
+      name: 'gender',
       label: Contents[language]?.lblGender,
       options: {
         filter: true,
@@ -403,7 +403,7 @@ const ProductsList = props => {
       }
     },
     {
-      name: 'fk_idColor',
+      name: 'color',
       label: Contents[language]?.lblColor,
       options: {
         filter: true,
@@ -431,7 +431,7 @@ const ProductsList = props => {
       }
     },
     {
-      name: 'fk_idUser',
+      name: 'user',
       label: Contents[language]?.lblUser,
       options: {
         filter: true,
