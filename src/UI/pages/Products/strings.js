@@ -1,16 +1,22 @@
 const Contents = {
-  English: {
-    pageTitle: 'LIST OF PRODUCTS',
-    labStatus: 'Status',
-    labIdProvider: 'Payment',
-    labProvider: 'ID Provider',
-    addNewNameProduct: 'Product Name'
-  },
+  English: {},
   Spanish: {
     pageTitle: 'Listado de Productos',
-    labStatus: 'Estatus',
-    labIdProvider: 'ID Proveedor',
-    labProvider: 'Proveedor',
+    lblIdProduct: 'ID',
+    lblProductCode: 'Codigo de Producto',
+    lblName: 'Nombre',
+    lblType: 'Tipo',
+    lblMaterial: 'Material',
+    lblProvider: 'Proveedor',
+    lblSize: 'Tamaño',
+    lblPieces: 'Piezas',
+    lblCost: 'Costo',
+    lblSalePrice: 'Precio',
+    lblGender: 'Género',
+    lblColor: 'Color',
+    lblRegistrationDate: 'Fecha de Registro',
+    lblUser: 'Usuario Registro',
+    lblObservations: 'Observaciones',
     addNewNameProduct: 'Nuevo Producto'
   }
 };

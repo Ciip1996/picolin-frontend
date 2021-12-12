@@ -237,7 +237,7 @@ const ProductsList = props => {
     },
     {
       name: 'idProduct',
-      label: Contents[language]?.lblIdProduct, // TODO
+      label: Contents[language]?.lblIdProduct,
       options: {
         filter: true,
         sort: true,
@@ -291,8 +291,8 @@ const ProductsList = props => {
       }
     },
     {
-      name: 'idType',
-      label: Contents[language]?.lblIdType,
+      name: 'type',
+      label: Contents[language]?.lblType,
       options: {
         filter: true,
         sort: true,
@@ -305,7 +305,7 @@ const ProductsList = props => {
       }
     },
     {
-      name: 'idMaterial',
+      name: 'material',
       label: Contents[language]?.lblMaterial,
       options: {
         filter: true,
@@ -319,7 +319,7 @@ const ProductsList = props => {
       }
     },
     {
-      name: 'idProvider',
+      name: 'provider',
       label: Contents[language]?.lblProvider,
       options: {
         filter: true,
@@ -334,7 +334,7 @@ const ProductsList = props => {
     },
     {
       name: 'size',
-      label: Contents[language]?.lblProvider,
+      label: Contents[language]?.lblSize,
       options: {
         filter: true,
         sort: true,
@@ -345,8 +345,120 @@ const ProductsList = props => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }
       }
+    },
+    {
+      name: 'pieces',
+      label: Contents[language]?.lblPieces,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[7].display,
+        sortDirection: sortDirection[7],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'cost',
+      label: Contents[language]?.lblCost,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[8].display,
+        sortDirection: sortDirection[8],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'salePrice',
+      label: Contents[language]?.lblSalePrice,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[9].display,
+        sortDirection: sortDirection[9],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'fk_idGender',
+      label: Contents[language]?.lblGender,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[10].display,
+        sortDirection: sortDirection[10],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'fk_idColor',
+      label: Contents[language]?.lblColor,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[11].display,
+        sortDirection: sortDirection[11],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'registrationDate',
+      label: Contents[language]?.lblRegistrationDate,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[12].display,
+        sortDirection: sortDirection[12],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'fk_idUser',
+      label: Contents[language]?.lblUser,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[13].display,
+        sortDirection: sortDirection[13],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'observations',
+      label: Contents[language]?.lblObservations,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[14].display,
+        sortDirection: sortDirection[14],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
     }
-  ]; //   pieces, cost, salePrice, fk_idGender, fk_idColor, registrationDate, fk_idUser, observations
+  ];
 
   useEffect(() => {
     if (error) {

@@ -34,6 +34,6 @@ export const Endpoints = {
   GetProductNames: '/getNames',
   GetProductNameDetailsByIdName: '/getNameById/:id',
   InsertProductNames: '/insertProductName',
-  Products: '/products', // TODO: add on backend
-  GetProducts: '/getProducts/:idStore' // TODO: add on backend
+  Products: '/products',
+  GetProducts: '/getProducts'
 };
