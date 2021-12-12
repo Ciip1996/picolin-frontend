@@ -33,5 +33,7 @@ export const Endpoints = {
   GetNames: 'lists/getNames',
   GetProductNames: '/getNames',
   GetProductNameDetailsByIdName: '/getNameById/:id',
-  InsertProductNames: '/insertProductName'
+  InsertProductNames: '/insertProductName',
+  Products: '/products',
+  GetProducts: '/getProducts'
 };

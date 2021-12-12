@@ -15,6 +15,11 @@ type SalesSummaryProps = {
 };
 const language = localStorage.getItem('language');
 
+const ReferencedTooltipCard = React.forwardRef((props, ref) => {
+  //  Spread the props to the underlying DOM element.
+  return <Chip ref={ref} {...props} />;
+});
+
 const SalesSummary = (props: SalesSummaryProps) => {
   const { cash, card } = props;
 
@@ -57,7 +62,7 @@ const SalesSummary = (props: SalesSummaryProps) => {
               title={card ? currencyFormatter(card) : '...'}
               placement="right"
             >
-              <Chip
+              <ReferencedTooltipCard
                 label={card ? currencyFormatter(card) : '...'}
                 className={classes.card}
               />

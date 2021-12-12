@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
 
 /** Atoms, Components and Styles */
-import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
+// import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
@@ -15,8 +15,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import { getErrorData } from 'UI/utils';
 import { colors, AddIcon } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
-import AddProductNameDrawer from 'UI/components/organisms/AddProductNameDrawer';
-// import ViewProductNameDetails from 'UI/components/organisms/ViewProductNameDetails';
+import AddInventoryProductDrawer from 'UI/components/organisms/AddInventoryProductDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -36,22 +35,31 @@ const CellSkeleton = ({ children, searching }) => {
   );
 };
 
-const ProductNamesListProps = {
+const ProductsListProps = {
   onShowAlert: PropTypes.func.isRequired
 };
 
 const columnItems = [
-  { id: 0, name: 'idName', display: true },
-  { id: 1, name: 'name', display: true },
-  { id: 2, name: 'status', display: true },
-  { id: 3, name: 'idProvider', display: true },
-  { id: 4, name: 'provider', display: true }
+  { id: 0, name: 'idTable', display: true },
+  { id: 1, name: 'idProduct', display: true },
+  { id: 2, name: 'productCode', display: true },
+  { id: 3, name: 'name', display: true },
+  { id: 4, name: 'fk_idType', display: true },
+  { id: 5, name: 'fk_idMaterial', display: true },
+  { id: 6, name: 'fk_idProvider', display: true },
+  { id: 7, name: 'size', display: true },
+  { id: 8, name: 'pieces', display: true },
+  { id: 9, name: 'cost', display: true },
+  { id: 10, name: 'fk_idGender', display: true },
+  { id: 11, name: 'fk_idColor', display: true },
+  { id: 12, name: 'registrationDate', display: true },
+  { id: 13, name: 'fk_idUser', display: true },
+  { id: 14, name: 'observations', display: true }
 ];
-
 const getSortDirections = (orderBy, direction) =>
   columnItems.map(item => (item.name === orderBy ? direction : 'none'));
 
-const ProductNamesList = props => {
+const ProductsList = props => {
   const { onShowAlert } = props;
   const language = localStorage.getItem('language');
   const isUserAdminOrManager = userHasAdminOrManagerPermissions();
@@ -61,7 +69,6 @@ const ProductNamesList = props => {
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState([{}]);
-  // const [selectedProductName, setSelectedProductName] = useState({});
   const [count, setCount] = useState(0);
 
   const savedSearch = getFilters('productos');
@@ -83,12 +90,12 @@ const ProductNamesList = props => {
 
   const [uiState, setUiState] = useState({
     keyword: savedParams?.keyword || undefined,
-    orderBy: savedParams?.orderBy || 'idName',
+    orderBy: savedParams?.orderBy || 'idProduct',
     direction: savedParams?.direction || 'asc',
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isAddProductNameDrawerOpen: false && isUserAdminOrManager,
-    isViewDetailsProductNameDrawerOpen: false
+    isAddProductDrawerOpen: false && isUserAdminOrManager,
+    isViewDetailsProductDrawerOpen: false
   });
 
   const getData = useCallback(async () => {
@@ -108,7 +115,7 @@ const ProductNamesList = props => {
       saveFilters('productos', { filters, params });
 
       const queryParams = queryString.stringify(params);
-      const url = `${Endpoints.ProductNames}${Endpoints.GetProductNames}?`;
+      const url = `${Endpoints.Products}${Endpoints.GetProducts}?`;
 
       const response = await API.get(`${url}${queryParams}`);
 
@@ -138,10 +145,10 @@ const ProductNamesList = props => {
     uiState.direction
   ]);
 
-  const onProductNameInserted = () => {
+  const onProductInserted = () => {
     setUiState(prevState => ({
       ...prevState,
-      isAddProductNameDrawerOpen: false
+      isAddProductDrawerOpen: false
     }));
   };
 
@@ -154,14 +161,15 @@ const ProductNamesList = props => {
     }));
   };
 
-  const handleFilterChange = (name: string, value: any) => {
-    setSearching(true);
-    setFilters({ ...filters, [name]: value });
-    setUiState(prevState => ({
-      ...prevState,
-      page: 0
-    }));
-  };
+  // TODO: add filters and uncomment
+  // const handleFilterChange = (name: string, value: any) => {
+  //   setSearching(true);
+  //   setFilters({ ...filters, [name]: value });
+  //   setUiState(prevState => ({
+  //     ...prevState,
+  //     page: 0
+  //   }));
+  // };
 
   const handleResetFiltersClick = () => {
     setSearching(true);
@@ -209,45 +217,16 @@ const ProductNamesList = props => {
     columnItems[index].display = display;
   };
 
-  // const getNameDetail = async (id: any) => {
-  //   try {
-  //     const response = await API.get(
-  //       `${Endpoints.ProductNames}${Endpoints.GetProductNameDetailsByIdName}`.replace(
-  //         ':id',
-  //         id
-  //       )
-  //     );
-  //     if (response.status === 200) {
-  //       const detailedData = response.data;
-  //       setSelectedProductName(detailedData);
-  //       setUiState(prevState => ({
-  //         ...prevState,
-  //         isViewDetailsProductNameDrawerOpen: true
-  //       }));
-  //     }
-  //   } catch (getSaleDetailError) {
-  //     setError(true);
-  //     onShowAlert({
-  //       severity: 'error',
-  //       autoHideDuration: 3000,
-  //       title: getErrorData(getSaleDetailError).title,
-  //       body: getErrorData(getSaleDetailError).message
-  //     });
-  //     throw getSaleDetailError;
-  //   }
-  // };
-
   const handleRowClick = () => {
     // (rowData: Object) => {
-    // const { idName } = data[rowData.rowIndex];
-    // getNameDetail(idName);
+    // const { idProduct } = data[rowData.rowIndex];
   };
 
   const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
 
   const columns = [
     {
-      name: 'id',
+      name: 'idTable',
       options: {
         filter: true,
         sort: false,
@@ -257,7 +236,8 @@ const ProductNamesList = props => {
       }
     },
     {
-      name: 'idName',
+      name: 'idProduct',
+      label: Contents[language]?.lblIdProduct,
       options: {
         filter: true,
         sort: true,
@@ -270,8 +250,8 @@ const ProductNamesList = props => {
       }
     },
     {
-      name: 'name',
-      label: Contents[language]?.labDate,
+      name: 'productCode',
+      label: Contents[language]?.lblProductCode,
       options: {
         filter: true,
         sort: true,
@@ -288,8 +268,8 @@ const ProductNamesList = props => {
       }
     },
     {
-      name: 'status',
-      label: Contents[language]?.labStatus,
+      name: 'name',
+      label: Contents[language]?.lblName,
       options: {
         filter: true,
         sort: true,
@@ -299,40 +279,20 @@ const ProductNamesList = props => {
         customBodyRender: value => {
           return (
             <CellSkeleton searching={searching}>
-              <div
-                style={{
-                  color: value ? colors.active : colors.error,
-                  fontWeight: 'bold'
-                }}
-              >
-                {value ? 'Activo' : 'Inactivo'}
-              </div>
+              <strong>{value}</strong>
             </CellSkeleton>
           );
         },
         filterOptions: {
           display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="status_filter"
-                  placeholder={Contents[language]?.labStatus}
-                  selectedValue={filters.status_filter}
-                  defaultOptions={[
-                    { id: 0, title: Contents[language]?.disabled },
-                    { id: 1, title: Contents[language]?.enabled }
-                  ]}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
+            return <FormControl />;
           }
         }
       }
     },
     {
-      name: 'idProvider',
-      label: Contents[language]?.labIdProvider,
+      name: 'type',
+      label: Contents[language]?.lblType,
       options: {
         filter: true,
         sort: true,
@@ -345,8 +305,8 @@ const ProductNamesList = props => {
       }
     },
     {
-      name: 'provider',
-      label: Contents[language]?.labProvider,
+      name: 'material',
+      label: Contents[language]?.lblMaterial,
       options: {
         filter: true,
         sort: true,
@@ -355,21 +315,146 @@ const ProductNamesList = props => {
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        },
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="provider_filter"
-                  selectedValue={filters.provider_filter}
-                  placeholder={Contents[language]?.labProvider}
-                  url={Endpoints.Provider}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
+        }
+      }
+    },
+    {
+      name: 'provider',
+      label: Contents[language]?.lblProvider,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[5].display,
+        sortDirection: sortDirection[5],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'size',
+      label: Contents[language]?.lblSize,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[6].display,
+        sortDirection: sortDirection[6],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'pieces',
+      label: Contents[language]?.lblPieces,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[7].display,
+        sortDirection: sortDirection[7],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'cost',
+      label: Contents[language]?.lblCost,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[8].display,
+        sortDirection: sortDirection[8],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'salePrice',
+      label: Contents[language]?.lblSalePrice,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[9].display,
+        sortDirection: sortDirection[9],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'fk_idGender',
+      label: Contents[language]?.lblGender,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[10].display,
+        sortDirection: sortDirection[10],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'fk_idColor',
+      label: Contents[language]?.lblColor,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[11].display,
+        sortDirection: sortDirection[11],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'registrationDate',
+      label: Contents[language]?.lblRegistrationDate,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[12].display,
+        sortDirection: sortDirection[12],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'fk_idUser',
+      label: Contents[language]?.lblUser,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[13].display,
+        sortDirection: sortDirection[13],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'observations',
+      label: Contents[language]?.lblObservations,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[14].display,
+        sortDirection: sortDirection[14],
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }
       }
     }
@@ -385,7 +470,7 @@ const ProductNamesList = props => {
   }, [error]);
 
   useEffect(() => {
-    document.title = PageTitles.ProductNames;
+    document.title = PageTitles.Products;
     getData();
   }, [error, getData]);
 
@@ -408,8 +493,8 @@ const ProductNamesList = props => {
               <ActionButton
                 text={Contents[language]?.addNewNameProduct}
                 onClick={toggleDrawer(
-                  'isAddProductNameDrawerOpen',
-                  !uiState.isAddProductNameDrawerOpen
+                  'isAddProductDrawerOpen',
+                  !uiState.isAddProductDrawerOpen
                 )}
               >
                 <AddIcon fill={colors.white} size={18} />
@@ -451,33 +536,15 @@ const ProductNamesList = props => {
       </ListPageLayout>
       <Drawer
         anchor={drawerAnchor}
-        open={uiState.isViewDetailsProductNameDrawerOpen}
-        onClose={toggleDrawer('isViewDetailsProductNameDrawerOpen', false)}
+        open={uiState.isAddProductDrawerOpen}
+        onClose={toggleDrawer('isAddProductDrawerOpen', false)}
       >
         <div role="presentation">
-          {/* TODO: use drawer to show the selectedProductName */}
-          <AddProductNameDrawer
-            onProductNameInserted={onProductNameInserted}
+          {/* TODO: test and check that this is working fine */}
+          <AddInventoryProductDrawer
+            onProductInserted={onProductInserted}
             onShowAlert={onShowAlert}
-            // selectedProductName={selectedProductName}
-            handleClose={toggleDrawer(
-              'isViewDetailsProductNameDrawerOpen',
-              false
-            )}
-          />
-        </div>
-      </Drawer>
-      <Drawer
-        anchor={drawerAnchor}
-        open={uiState.isAddProductNameDrawerOpen}
-        onClose={toggleDrawer('isAddProductNameDrawerOpen', false)}
-      >
-        <div role="presentation">
-          <AddProductNameDrawer
-            selectedProductName={{}}
-            onProductNameInserted={onProductNameInserted}
-            onShowAlert={onShowAlert}
-            handleClose={toggleDrawer('isAddProductNameDrawerOpen', false)}
+            handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
           />
         </div>
       </Drawer>
@@ -490,6 +557,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-ProductNamesList.propTypes = ProductNamesListProps;
+ProductsList.propTypes = ProductsListProps;
 
-export default connect(null, mapDispatchToProps)(ProductNamesList);
+export default connect(null, mapDispatchToProps)(ProductsList);

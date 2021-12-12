@@ -121,7 +121,9 @@ import {
   TicketIcon,
   PrintIcon,
   DownloadFileIcon,
-  PaymentIcon
+  PaymentIcon,
+  WarehouseIcon,
+  ProductsIcon
 } from './icons';
 
 export {
@@ -245,5 +247,7 @@ export {
   TicketIcon,
   PrintIcon,
   DownloadFileIcon,
-  PaymentIcon
+  PaymentIcon,
+  WarehouseIcon,
+  ProductsIcon
 };

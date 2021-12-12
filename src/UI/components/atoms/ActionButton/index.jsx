@@ -6,7 +6,7 @@ import { styles, useStyles } from './styles';
 
 type ActionButtonProps = {
   status: 'success' | 'error' | 'default',
-  variant: 'contained' | 'outlined' | 'important',
+  variant: 'contained' | 'outlined' | 'text',
   type: 'button' | 'submit',
   text: string,
   isResponsive: boolean,
@@ -16,6 +16,7 @@ type ActionButtonProps = {
   onClick: any => any,
   isWithLargeContent: boolean,
   isWithoutText: boolean,
+  isHighlited?: boolean,
   ...
 };
 
@@ -31,6 +32,7 @@ const ActionButton = (props: ActionButtonProps) => {
     isResponsive,
     isWithLargeContent,
     isWithoutText,
+    isHighlited,
     ...rest
   } = props;
 
@@ -88,7 +90,8 @@ ActionButton.defaultProps = {
   text: '',
   children: undefined,
   style: {},
-  onClick: () => {}
+  onClick: () => {},
+  isHighlited: false
 };
 
 export default ActionButton;

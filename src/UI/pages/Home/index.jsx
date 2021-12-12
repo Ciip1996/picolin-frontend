@@ -83,7 +83,7 @@ const Home = () => {
               </ActionButton>
               <ActionButton
                 style={styles.button}
-                text="Inventario"
+                text="Inventarios"
                 onClick={() => handleActionClick(EntityRoutes.CompanyCreate)}
               >
                 <AddIcon {...styles.iconSize} />

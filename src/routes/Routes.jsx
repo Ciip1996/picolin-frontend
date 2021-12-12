@@ -19,6 +19,7 @@ import Inventory from 'UI/pages/Inventory';
 import Transfers from 'UI/pages/Transfers';
 import Payments from 'UI/pages/Payments';
 import ProductNames from 'UI/pages/ProductNames';
+import Products from 'UI/pages/Products';
 
 import Login from 'UI/pages/Login';
 import RegisterUser from 'UI/pages/RegisterUser';
@@ -72,6 +73,13 @@ const Routes = () => {
           path={EntityRoutes.ProductNames}
           component={ProductNames}
           enabled={isUserManagerOrAdmin}
+        />
+
+        <PrivateRoute
+          exact
+          path={EntityRoutes.Products}
+          component={Products}
+          enabled={isUserManagerOrAdmin} // TODO: review if they regular employees should be able to see the whole list of products
         />
 
         <PrivateRoute exact path={EntityRoutes.Home} component={Home} />

@@ -72,10 +72,11 @@ export const PageTitles = {
   RegisterUser: `${AppName} | Registar usuario`,
   Home: `${AppName} | Inicio`,
   NotFound: `${AppName} | Not Found`,
-  Inventory: `${AppName} | Inventario`,
+  Inventory: `${AppName} | Inventarios`,
   Transfers: `${AppName} | Transferencias`,
   Payments: `${AppName} | Pagos`,
-  ProductNames: `${AppName} | Productos (Nombres)`
+  ProductNames: `${AppName} | Nombres de Productos (Modelos)`,
+  Products: `${AppName} | Productos`
 };
 
 export const DrawerName = {

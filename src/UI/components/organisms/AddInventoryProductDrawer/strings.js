@@ -5,7 +5,7 @@ const Contents = {
       'Insert the data of the product you may want to add to the inventory.'
   },
   Spanish: {
-    Title: 'Agregar inventario',
+    Title: 'Registrar producto en Inventario',
     Subtitle:
       'Complete el formulario de alta de inventario. Debe repetir este proceso por cada tipo de producto.'
   }
