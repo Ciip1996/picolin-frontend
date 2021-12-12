@@ -5,7 +5,7 @@ const Contents = {
     labCode: 'Code'
   },
   Spanish: {
-    pageTitle: 'Inventario',
+    pageTitle: 'Inventarios',
     defaultSubtitle:
       '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
     labCode: 'Código'

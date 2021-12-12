@@ -50,7 +50,7 @@ const columnItems = [
   { id: 1, name: 'productCode', display: true },
   { id: 2, name: 'color', display: true },
   { id: 3, name: 'size', display: true },
-  { id: 4, name: 'pieces', display: true },
+  { id: 4, name: 'pieces', display: false },
   { id: 5, name: 'salePrice', display: true },
   { id: 6, name: 'gender', display: true },
   { id: 7, name: 'type', display: true },
@@ -276,11 +276,21 @@ const InventoryList = (props: InventoryListProps) => {
 
   const columns = [
     {
-      name: 'idInventory',
+      name: 'idTable',
+      options: {
+        filter: false,
+        sort: false,
+        display: 'excluded',
+        filterType: 'custom'
+      }
+    },
+    {
+      name: 'idProduct',
+      label: Contents[language]?.lblIdProduct,
       options: {
         filter: true,
         sort: false,
-        display: 'excluded',
+        display: columnItems[0].display,
         filterType: 'custom'
       }
     },

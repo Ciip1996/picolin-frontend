@@ -30,7 +30,7 @@ const sideBarMenu = [
     },
     subItems: [
       {
-        title: 'Inventario',
+        title: 'Inventarios',
         route: EntityRoutes.Inventory,
         icon: {
           inactive: <InventoryIcon fill={colors.oxford} />,

@@ -23,10 +23,11 @@ const Contents = {
     labName: 'Name / Model'
   },
   Spanish: {
-    pageTitle: 'INVENTARIO',
+    pageTitle: 'INVENTARIOS',
     defaultSubtitle:
       '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
-    labCode: 'Código',
+    lblIdProduct: 'Id',
+    labCode: 'Código de Producto',
     labColor: 'Color',
     labSize: 'Talla',
     labPieces: 'Piezas',
@@ -35,7 +36,7 @@ const Contents = {
     labType: 'Tipo',
     labReserved: 'Apartados',
     labStock: 'Stock',
-    labInventory: 'INVENTARIO',
+    labInventory: 'INVENTARIOS',
     labMaterials: 'Materiales',
     addNewProduct: 'Entrada',
     Girl: 'Niña',
