@@ -18,7 +18,7 @@ type AddInventoryProductDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
   onProductNameInserted: () => any,
-  selectedProductName: Object
+  selectedProductName?: Object
 };
 
 const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
@@ -29,12 +29,11 @@ const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
     selectedProductName
   } = props;
 
-  console.log(selectedProductName);
   // TODO show edit mode
   const language = localStorage.getItem('language');
 
   const form = useForm({
-    defaultValues: {}
+    defaultValues: { ...selectedProductName }
   });
 
   const { handleSubmit } = form;
@@ -114,6 +113,8 @@ const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
   );
 };
 
-AddProductNameDrawer.defaultProps = {};
+AddProductNameDrawer.defaultProps = {
+  selectedProductName: {}
+};
 
 export default AddProductNameDrawer;

@@ -61,7 +61,7 @@ const ProductNamesList = props => {
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState([{}]);
-  const [selectedProductName, setSelectedProductName] = useState({});
+  // const [selectedProductName, setSelectedProductName] = useState({});
   const [count, setCount] = useState(0);
 
   const savedSearch = getFilters('productos');
@@ -209,37 +209,38 @@ const ProductNamesList = props => {
     columnItems[index].display = display;
   };
 
-  const getNameDetail = async (id: any) => {
-    try {
-      const response = await API.get(
-        `${Endpoints.ProductNames}${Endpoints.GetProductNameDetailsByIdName}`.replace(
-          ':id',
-          id
-        )
-      );
-      if (response.status === 200) {
-        const detailedData = { ...response.data };
-        setSelectedProductName(detailedData);
-      }
-    } catch (getSaleDetailError) {
-      setError(true);
-      onShowAlert({
-        severity: 'error',
-        autoHideDuration: 3000,
-        title: getErrorData(getSaleDetailError).title,
-        body: getErrorData(getSaleDetailError).message
-      });
-      throw getSaleDetailError;
-    }
-  };
+  // const getNameDetail = async (id: any) => {
+  //   try {
+  //     const response = await API.get(
+  //       `${Endpoints.ProductNames}${Endpoints.GetProductNameDetailsByIdName}`.replace(
+  //         ':id',
+  //         id
+  //       )
+  //     );
+  //     if (response.status === 200) {
+  //       const detailedData = response.data;
+  //       setSelectedProductName(detailedData);
+  //       setUiState(prevState => ({
+  //         ...prevState,
+  //         isViewDetailsProductNameDrawerOpen: true
+  //       }));
+  //     }
+  //   } catch (getSaleDetailError) {
+  //     setError(true);
+  //     onShowAlert({
+  //       severity: 'error',
+  //       autoHideDuration: 3000,
+  //       title: getErrorData(getSaleDetailError).title,
+  //       body: getErrorData(getSaleDetailError).message
+  //     });
+  //     throw getSaleDetailError;
+  //   }
+  // };
 
-  const handleRowClick = (rowData: Object) => {
-    const { idName } = data[rowData.rowIndex];
-    getNameDetail(idName);
-    setUiState(prevState => ({
-      ...prevState,
-      isViewDetailsProductNameDrawerOpen: true
-    }));
+  const handleRowClick = () => {
+    // (rowData: Object) => {
+    // const { idName } = data[rowData.rowIndex];
+    // getNameDetail(idName);
   };
 
   const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
@@ -458,7 +459,7 @@ const ProductNamesList = props => {
           <AddProductNameDrawer
             onProductNameInserted={onProductNameInserted}
             onShowAlert={onShowAlert}
-            selectedProductName={selectedProductName}
+            // selectedProductName={selectedProductName}
             handleClose={toggleDrawer(
               'isViewDetailsProductNameDrawerOpen',
               false
@@ -473,6 +474,7 @@ const ProductNamesList = props => {
       >
         <div role="presentation">
           <AddProductNameDrawer
+            selectedProductName={{}}
             onProductNameInserted={onProductNameInserted}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isAddProductNameDrawerOpen', false)}
