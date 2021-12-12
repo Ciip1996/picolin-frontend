@@ -39,6 +39,7 @@ export const useSidebarStyles = makeStyles(theme => ({
     }
   },
   collapsibleMenu: {
+    color: colors.oxford,
     fontWeight: 700,
     backgroundColor: colors.inactiveSideBarTab,
     ...theme.sidebarItem,

@@ -6,7 +6,9 @@ import {
   TransfersIcon,
   SalesIcon,
   PaymentIcon,
-  ProductNamesIcon
+  ProductNamesIcon,
+  WarehouseIcon,
+  ProductsIcon
   // TicketIcon
 } from 'UI/res/icons';
 
@@ -21,12 +23,12 @@ const isUserManagerOrAdmin = userHasAdminOrManagerPermissions();
 
 const sideBarMenu = [
   {
-    title: 'Productos',
-    route: 'products',
+    title: 'Almacen',
+    route: 'warehouse',
     icon: {
-      inactive: <InventoryIcon fill={colors.oxford} />,
-      opened: <InventoryIcon fill={colors.oxford} />,
-      active: <InventoryIcon fill={colors.oxford} />
+      inactive: <WarehouseIcon fill={colors.oxford} />,
+      opened: <WarehouseIcon fill={colors.oxford} />,
+      active: <WarehouseIcon fill={colors.oxford} />
     },
     subItems: [
       {
@@ -40,7 +42,17 @@ const sideBarMenu = [
         display: isUserEmployee
       },
       {
-        title: 'Nombre de Productos',
+        title: 'Productos',
+        route: EntityRoutes.Products,
+        icon: {
+          inactive: <ProductsIcon fill={colors.oxford} />,
+          opened: null,
+          active: <ProductsIcon fill={colors.white} />
+        },
+        display: isUserManagerOrAdmin
+      },
+      {
+        title: 'Nombres / Modelos',
         route: EntityRoutes.ProductNames,
         icon: {
           inactive: <ProductNamesIcon fill={colors.oxford} />,

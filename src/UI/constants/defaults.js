@@ -75,7 +75,8 @@ export const PageTitles = {
   Inventory: `${AppName} | Inventarios`,
   Transfers: `${AppName} | Transferencias`,
   Payments: `${AppName} | Pagos`,
-  ProductNames: `${AppName} | Productos (Nombres)`
+  ProductNames: `${AppName} | Nombres de Productos (Modelos)`,
+  Products: `${AppName} | Productos`
 };
 
 export const DrawerName = {
