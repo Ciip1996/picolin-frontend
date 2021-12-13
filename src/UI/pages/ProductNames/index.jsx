@@ -120,13 +120,15 @@ const ProductNamesList = props => {
       setSearching(false);
       setError(false);
     } catch (err) {
+      const { title, message } = getErrorData(err);
       setError(true);
       onShowAlert({
         severity: 'error',
         autoHideDuration: 3000,
-        title: getErrorData(err)?.title || 'Error en conexión',
-        body: getErrorData(err).message || JSON.stringify(err)
+        title: title || 'Error en conexión',
+        body: message || JSON.stringify(err)
       });
+      throw err;
     }
   }, [
     filters,
