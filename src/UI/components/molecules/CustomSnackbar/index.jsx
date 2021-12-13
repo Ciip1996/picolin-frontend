@@ -127,7 +127,7 @@ const CustomSnackbar = forwardRef<CustomSnackbarProps, any>(
                 {title} {code && `${Contents[language]?.labelCode} ${code}`}
               </div>
               <div className={classes.body} style={styles.truncateText}>
-                {body}
+                {typeof body === 'string' ? body : JSON.stringify(body)}
               </div>
             </div>
           </MuiAlert>
