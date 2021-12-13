@@ -28,6 +28,8 @@ import { showAlert } from 'actions/app';
 import { userHasAdminOrManagerPermissions } from 'services/Authorization';
 import Contents from './strings';
 
+const filter_name = 'product_names';
+
 const CellSkeleton = ({ children, searching }) => {
   return searching ? (
     <CustomSkeleton width="90%" height={18} />
@@ -64,7 +66,7 @@ const ProductNamesList = props => {
   // const [selectedProductName, setSelectedProductName] = useState({});
   const [count, setCount] = useState(0);
 
-  const savedSearch = getFilters('productos');
+  const savedSearch = getFilters(filter_name);
   const savedFilters = savedSearch?.filters;
   const savedParams = savedSearch?.params;
 
@@ -105,7 +107,7 @@ const ProductNamesList = props => {
         status: status_filter?.id
       };
 
-      saveFilters('productos', { filters, params });
+      saveFilters(filter_name, { filters, params });
 
       const queryParams = queryString.stringify(params);
       const url = `${Endpoints.ProductNames}${Endpoints.GetProductNames}?`;
