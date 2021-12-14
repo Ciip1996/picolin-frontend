@@ -40,21 +40,20 @@ const ProductsListProps = {
 };
 
 const columnItems = [
-  { id: 0, name: 'idTable', display: true },
-  { id: 1, name: 'idProduct', display: true },
-  { id: 2, name: 'productCode', display: true },
-  { id: 3, name: 'name', display: true },
-  { id: 4, name: 'fk_idType', display: true },
-  { id: 5, name: 'fk_idMaterial', display: true },
-  { id: 6, name: 'fk_idProvider', display: true },
-  { id: 7, name: 'size', display: true },
-  { id: 8, name: 'pieces', display: true },
-  { id: 9, name: 'cost', display: true },
-  { id: 10, name: 'gender', display: true },
-  { id: 11, name: 'color', display: true },
-  { id: 12, name: 'registrationDate', display: true },
-  { id: 13, name: 'user', display: true },
-  { id: 14, name: 'observations', display: true }
+  { id: 0, name: 'idProduct', display: true },
+  { id: 1, name: 'productCode', display: true },
+  { id: 2, name: 'name', display: true },
+  { id: 3, name: 'type', display: true },
+  { id: 4, name: 'material', display: true },
+  { id: 5, name: 'provider', display: true },
+  { id: 6, name: 'size', display: true },
+  { id: 7, name: 'pieces', display: true },
+  { id: 8, name: 'cost', display: true },
+  { id: 9, name: 'gender', display: true },
+  { id: 10, name: 'color', display: true },
+  { id: 11, name: 'registrationDate', display: true },
+  { id: 12, name: 'user', display: true },
+  { id: 13, name: 'observations', display: true }
 ];
 const getSortDirections = (orderBy, direction) =>
   columnItems.map(item => (item.name === orderBy ? direction : 'none'));
@@ -394,8 +393,8 @@ const ProductsList = props => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[10].display,
-        sortDirection: sortDirection[10],
+        display: columnItems[9].display,
+        sortDirection: sortDirection[9],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
@@ -408,8 +407,8 @@ const ProductsList = props => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[11].display,
-        sortDirection: sortDirection[11],
+        display: columnItems[10].display,
+        sortDirection: sortDirection[10],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
@@ -422,8 +421,8 @@ const ProductsList = props => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[12].display,
-        sortDirection: sortDirection[12],
+        display: columnItems[11].display,
+        sortDirection: sortDirection[11],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
@@ -436,8 +435,8 @@ const ProductsList = props => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[13].display,
-        sortDirection: sortDirection[13],
+        display: columnItems[12].display,
+        sortDirection: sortDirection[12],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
@@ -450,8 +449,8 @@ const ProductsList = props => {
       options: {
         filter: true,
         sort: true,
-        display: columnItems[14].display,
-        sortDirection: sortDirection[14],
+        display: columnItems[13].display,
+        sortDirection: sortDirection[13],
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
