@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { FormControl, Box } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
+import moment from 'moment-timezone';
 
 /** Atoms, Components and Styles */
 // import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -20,7 +21,7 @@ import AddInventoryProductDrawer from 'UI/components/organisms/AddInventoryProdu
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import type { Filters } from 'types/app';
-import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
+import { drawerAnchor, DateFormats, PageTitles } from 'UI/constants/defaults';
 import { Endpoints } from 'UI/constants/endpoints';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
 import { showAlert } from 'actions/app';
@@ -425,7 +426,16 @@ const ProductsList = props => {
         sortDirection: sortDirection[11],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>
+              <strong>
+                {value &&
+                  moment(value).format(
+                    DateFormats.International.DetailDateTime
+                  )}
+              </strong>
+            </CellSkeleton>
+          );
         }
       }
     },
