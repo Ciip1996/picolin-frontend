@@ -9,7 +9,7 @@ const Contents = {
     lblMaterial: 'Material',
     lblProvider: 'Proveedor',
     lblSize: 'Tamaño',
-    lblPieces: 'Piezas',
+    lblPieces: '# Partes',
     lblCost: 'Costo',
     lblSalePrice: 'Precio',
     lblGender: 'Género',

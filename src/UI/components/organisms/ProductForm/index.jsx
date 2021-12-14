@@ -234,6 +234,7 @@ const ProductForm = (props: ProductFormProps) => {
           errorText={errors?.quantity && errors?.quantity.message}
           onChange={handleTextChange}
           value={getValues('quantity') || ''}
+          helperText={Contents[language]?.StockDescription}
         />
         <Separator />
         <TextBox
@@ -244,6 +245,7 @@ const ProductForm = (props: ProductFormProps) => {
           errorText={errors?.pieces && errors?.pieces.message}
           onChange={handleTextChange}
           value={getValues('pieces') || ''}
+          helperText={Contents[language]?.PiecesDescription}
         />
       </InputContainer>
     </Box>

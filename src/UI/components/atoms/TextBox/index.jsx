@@ -2,8 +2,12 @@
 import React from 'react';
 import NumberFormat from 'react-number-format';
 import { nestTernary } from 'UI/utils/index';
-import { TextField } from '@material-ui/core';
-import { useStyles } from './styles';
+import {
+  useStyles,
+  StyledFormControl,
+  StyledFormHelperText,
+  StyledTextField
+} from './styles';
 
 // Custom Number Format Masks for phone, currency or any number (including phone extensions)
 type NumberFormatCustomProps = {
@@ -64,7 +68,8 @@ type TextBoxProps = {
   defaultValue: string,
   readOnly: boolean,
   outPutValue: boolean,
-  inputType: 'currency' | 'phone' | 'number' | 'text' | 'percentage'
+  inputType: 'currency' | 'phone' | 'number' | 'text' | 'percentage',
+  helperText?: string
 };
 
 const TextBox = (props: TextBoxProps) => {
@@ -88,6 +93,7 @@ const TextBox = (props: TextBoxProps) => {
     readOnly,
     inputType,
     outPutValue,
+    helperText,
     ...rest
   } = props;
 
@@ -106,37 +112,43 @@ const TextBox = (props: TextBoxProps) => {
   const classes = useStyles(props);
 
   return (
-    <TextField
-      classes={classes}
-      error={error}
-      disabled={disabled || outPutValue}
-      helperText={errorText}
-      onChange={handleChange}
-      required={required}
-      name={name}
-      label={label}
-      placeholder={label}
-      variant="outlined"
-      inputRef={inputRef}
-      {...additionalProps}
-      autoComplete="new-password"
-      multiline={multiline}
-      rows={rows}
-      InputProps={
-        // this is only for numbers
-        inputType === 'number' ||
-        inputType === 'percentage' ||
-        inputType === 'currency' ||
-        inputType === 'phone'
-          ? {
-              readOnly,
-              type: { type: 'number', inputType },
-              inputComponent: NumberFormatCustom
-            }
-          : undefined
-      }
-      {...rest}
-    />
+    <StyledFormControl>
+      <StyledTextField
+        style={{ display: 'flex', flex: 1 }}
+        classes={classes}
+        error={error}
+        disabled={disabled || outPutValue}
+        helperText={errorText}
+        onChange={handleChange}
+        required={required}
+        name={name}
+        label={label}
+        placeholder={label}
+        variant="outlined"
+        inputRef={inputRef}
+        {...additionalProps}
+        autoComplete="new-password"
+        multiline={multiline}
+        rows={rows}
+        InputProps={
+          // this is only for numbers
+          inputType === 'number' ||
+          inputType === 'percentage' ||
+          inputType === 'currency' ||
+          inputType === 'phone'
+            ? {
+                readOnly,
+                type: { type: 'number', inputType },
+                inputComponent: NumberFormatCustom
+              }
+            : undefined
+        }
+        {...rest}
+      />
+      {helperText ? (
+        <StyledFormHelperText>{helperText}</StyledFormHelperText>
+      ) : null}
+    </StyledFormControl>
   );
 };
 
@@ -158,7 +170,8 @@ TextBox.defaultProps = {
   defaultValue: '',
   readOnly: false,
   label: '',
-  inputType: 'text'
+  inputType: 'text',
+  helperText: ''
 };
 
 export default TextBox;

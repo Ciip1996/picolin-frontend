@@ -22,14 +22,17 @@ const Contents = {
     Color: 'Color *',
     Provider: 'Código de Linea',
     Size: 'Talla *',
-    Pieces: '# Piezas en producto *',
+    Pieces: '# Partes en producto *',
     Cost: 'Costo *',
     SalePrice: 'Precio de Venta *',
     ReceptionPlace: 'Lugar de recepción *',
     Gender: 'Género *',
-    Quantity: 'Cantidad de unidades *',
+    Quantity: 'Cantidad de productos *',
     Name: 'Nombre *',
-    UniqueSize: 'Unitalla'
+    UniqueSize: 'Unitalla',
+    PiecesDescription:
+      'Es el número de piezas/partes que contiene cada producto individual. Ej. 1 conjunto tiene 2 piezas.',
+    StockDescription: 'Es el número de productos que ingresan. Ej. 16 ropones.'
   }
 };
 export default Contents;

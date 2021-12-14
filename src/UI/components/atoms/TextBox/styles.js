@@ -1,6 +1,22 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { input } from 'UI/constants/dimensions';
 import { colors } from 'UI/res';
+import styled from 'styled-components';
+import { FormControl, FormHelperText, TextField } from '@material-ui/core';
+
+export const StyledFormControl = styled(FormControl)`
+  flex-direction: column;
+  width: inherit;
+`;
+
+export const StyledFormHelperText = styled(FormHelperText)`
+  display: flex;
+  flex: 1;
+`;
+export const StyledTextField = styled(TextField)`
+  display: flex;
+  flex: 1;
+`;
 
 export const useStyles = makeStyles(theme => ({
   root: {

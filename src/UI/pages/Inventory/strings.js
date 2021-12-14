@@ -30,7 +30,7 @@ const Contents = {
     labCode: 'Código de Producto',
     labColor: 'Color',
     labSize: 'Talla',
-    labPieces: 'Piezas',
+    labPieces: '# Partes',
     labPrice: 'Precio',
     labGender: 'Género',
     labType: 'Tipo',
