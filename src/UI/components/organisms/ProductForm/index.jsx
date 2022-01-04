@@ -104,6 +104,7 @@ const ProductForm = (props: ProductFormProps) => {
         <AutocompleteSelect
           noOptionsText="No se existe este nombre, solicite al administrador que lo agregue."
           name="name"
+          displayKey="name_with_provider"
           selectedValue={comboValues.name}
           placeholder={Contents[language]?.Name}
           error={!!errors?.name}
