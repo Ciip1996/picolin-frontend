@@ -44,8 +44,6 @@ const ProductForm = (props: ProductFormProps) => {
       { name: 'idColor' },
       { required: `${Contents[language]?.RequiredMessage}` }
     );
-    // register({ name: 'idProvider' }, { required: `${Contents[language]?.RequiredMessage}` }); // TODO: restore this once the client ask for it
-    register({ name: 'idProvider' });
     register(
       { name: 'size' },
       { required: `${Contents[language]?.RequiredMessage}` }
@@ -215,15 +213,6 @@ const ProductForm = (props: ProductFormProps) => {
           url={Endpoints.Stores}
         />
         <Separator />
-        <AutocompleteSelect
-          name="idProvider"
-          selectedValue={comboValues.idProvider}
-          placeholder={Contents[language]?.Provider}
-          error={!!errors?.idProvider}
-          errorText={errors?.idProvider && errors?.idProvider.message}
-          onSelect={handleComboChange}
-          url={Endpoints.Provider}
-        />
       </InputContainer>
       <InputContainer>
         <TextBox
