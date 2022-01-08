@@ -1,9 +1,9 @@
 import jsPDF from 'jspdf';
 import {
+  SourceSansPro,
+  SourceSansProBold,
   MontserratRegular,
-  MontserratBold,
-  RobotoMonoRegular,
-  RobotoMonoBold
+  MontserratBold
 } from 'UI/res/fonts';
 import { currencyFormatter, getFeatureFlags } from 'UI/utils';
 import { FeatureFlags } from 'UI/constants/featureFlags';
@@ -31,24 +31,22 @@ const generateBaseDocumentWithHeader = (height, ticketNumber, date, idSale) => {
     format: [80, height + baseHeight]
   });
   // add custom font
+
+  doc.addFileToVFS('SourceSansPro-Regular-normal.ttf', SourceSansPro);
+  doc.addFont(
+    'SourceSansPro-Regular-normal.ttf',
+    'SourceSansPro-Regular',
+    'normal'
+  );
+
+  doc.addFileToVFS('SourceSansPro-Bold-normal.ttf', SourceSansProBold);
+  doc.addFont('SourceSansPro-Bold-normal.ttf', 'SourceSansPro-Bold', 'normal');
+
   doc.addFileToVFS('Montserrat-Regular-normal.ttf', MontserratRegular);
   doc.addFont('Montserrat-Regular-normal.ttf', 'Montserrat-Regular', 'normal');
 
   doc.addFileToVFS('Montserrat-Bold-bold.ttf', MontserratBold);
   doc.addFont('Montserrat-Bold-bold.ttf', 'Montserrat-Bold', 'bold');
-
-  doc.addFileToVFS(
-    'RobotoMono-VariableFont_wght-normal.ttf',
-    RobotoMonoRegular
-  );
-  doc.addFont(
-    'RobotoMono-VariableFont_wght-normal.ttf',
-    'RobotoMono-VariableFont_wght',
-    'normal'
-  );
-
-  doc.addFileToVFS('RobotoMono-Bold-bold.ttf', RobotoMonoBold);
-  doc.addFont('RobotoMono-Bold-bold.ttf', 'RobotoMono-Bold', 'bold');
 
   let linePosition = 20;
 
@@ -57,7 +55,7 @@ const generateBaseDocumentWithHeader = (height, ticketNumber, date, idSale) => {
   doc.setTextColor(textColor);
   doc.text('PICOLIN STORE®', leftMargin, linePosition);
   doc.setFontSize(smallTextSize);
-  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
+  doc.setFont('SourceSansPro-Regular', 'normal');
 
   linePosition += 5;
   doc.text('wwww.picolin.com.mx', leftMargin, linePosition);
@@ -70,9 +68,10 @@ const generateBaseDocumentWithHeader = (height, ticketNumber, date, idSale) => {
     linePosition
   );
   linePosition += 5;
-  doc.setFont('RobotoMono-Bold', 'bold');
+
+  doc.setFont('SourceSansPro-Bold', 'bold'); // change to SourceSansPro
   doc.text(`Ticket Nº: ${ticketNumber}`, leftMargin, linePosition);
-  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
+  doc.setFont('SourceSansPro-Regular', 'normal'); // change to SourceSansPro
 
   linePosition += 5;
   doc.text(
@@ -117,7 +116,7 @@ const generateFooter = (doc, line, amountOfProducts) => {
     leftMargin,
     linePosition
   );
-  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
+  doc.setFont('SourceSansPro-Regular', 'normal');
 
   linePosition += 5;
   doc.text(
@@ -149,7 +148,7 @@ export const generateCloseCashierTicket = data => {
 
   doc.setFont('RobotoMono-Bold', 'bold');
   doc.text('DETALLE DE CORTE DE CAJA:', leftMargin, linePosition);
-  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
+  doc.setFont('SourceSansPro-Regular', 'normal');
   linePosition += 7;
   data?.cashierInformation &&
     data.cashierInformation.forEach(each => {
@@ -165,7 +164,7 @@ export const generateCloseCashierTicket = data => {
   doc.setFont('RobotoMono-Bold', 'bold');
   doc.text(`Diferencia: `, leftMargin, linePosition);
   doc.text(`${currencyFormatter(data?.difference)}`, rightMargin, linePosition);
-  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
+  doc.setFont('SourceSansPro-Regular', 'normal');
   linePosition += 10;
   return generateFooter(doc, linePosition, null);
 };
@@ -190,7 +189,7 @@ const generateTicket = data => {
 
   doc.setFont('RobotoMono-Bold', 'bold');
   doc.text('PRODUCTOS:', leftMargin, linePosition);
-  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
+  doc.setFont('SourceSansPro-Regular', 'normal');
   linePosition += 7;
 
   data?.detail &&
@@ -257,7 +256,7 @@ const generateTicket = data => {
     rightMargin,
     linePosition
   );
-  doc.setFont('RobotoMono-VariableFont_wght', 'normal');
+  doc.setFont('SourceSansPro-Regular', 'normal');
   linePosition += 10;
 
   doc.text(`Recibido: `, leftMargin, linePosition);

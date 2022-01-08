@@ -99,9 +99,7 @@ const InventoryList = (props: InventoryListProps) => {
     perPage: savedParams?.perPage || 10,
     isAddProductDrawerOpen: false && isUserAdminOrManager,
     isQRCodeDrawerOpen: false,
-    idProduct: null,
-    productCode: null,
-    productDescription: null
+    selectedProduct: null
   });
 
   const getData = useCallback(async () => {
@@ -209,18 +207,11 @@ const InventoryList = (props: InventoryListProps) => {
     setFilters({ ...filters, [filterName]: undefined });
   };
 
-  const onProductInserted = (
-    productCode: string,
-    productDescription: string,
-    idProduct: string
-  ) => {
+  const onProductInserted = () => {
     setUiState(prevState => ({
       ...prevState,
       isQRCodeDrawerOpen: true,
-      isAddProductDrawerOpen: false,
-      idProduct,
-      productCode,
-      productDescription
+      isAddProductDrawerOpen: false
     }));
   };
 
@@ -261,14 +252,12 @@ const InventoryList = (props: InventoryListProps) => {
   };
 
   const handleRowClick = newItem => {
-    const { productCode, name, idProduct } = data[newItem.rowIndex];
+    const selectedProduct = data[newItem.rowIndex];
 
     setUiState(prevState => ({
       ...prevState,
       isQRCodeDrawerOpen: true,
-      productCode,
-      productDescription: name,
-      idProduct
+      selectedProduct: selectedProduct || null
     }));
   };
 
@@ -729,9 +718,7 @@ const InventoryList = (props: InventoryListProps) => {
       >
         <div role="presentation">
           <QRCodeDrawer
-            idProduct={uiState.idProduct || ''}
-            productCode={uiState.productCode || ''}
-            productDescription={uiState.productDescription || ''}
+            selectedProduct={uiState?.selectedProduct}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isQRCodeDrawerOpen', false)}
           />

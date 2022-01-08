@@ -5,47 +5,39 @@ import Box from '@material-ui/core/Box';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 import QRCode from 'qrcode.react';
 import html2canvas from 'html2canvas';
-import jsPDF from 'jspdf';
-
+import { generateTagQR } from 'UI/utils/tagGenerator';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
-// import TextBox from 'UI/components/atoms/TextBox';
+import TextBox from 'UI/components/atoms/TextBox';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
-
-// import { MontserratRegular } from 'UI/res/fonts';
+import InputContainer from 'UI/components/atoms/InputContainer';
 import { useStyles } from './styles';
 import Contents from './strings';
 
 type QRCodeDrawerProps = {
+  selectedProduct: Object,
   handleClose: any => any,
   onShowAlert: any => any,
   productCode: string,
-  productDescription: string,
-  idProduct: string
+  productDescription: string
 };
 
 const QRCodeDrawer = (props: QRCodeDrawerProps) => {
-  const {
-    handleClose,
-    onShowAlert,
-    productCode,
-    productDescription,
-    idProduct
-  } = props;
+  const { selectedProduct, handleClose, onShowAlert } = props;
+
+  const { productCode, name, material, color, gender, size } = selectedProduct;
+
+  const productInformation = `${name} ${material} ${color} ${gender} ${
+    size === 'UNITALLA' ? '' : 'talla'
+  } ${size}`;
+
   const language = localStorage.getItem('language');
 
-  // const [copies, setCopies] = useState(null);
-
   const form = useForm({
-    defaultValues: {}
+    defaultValues: { tagFontSize: 6 }
   });
 
-  const {
-    handleSubmit
-    // register
-    //  errors,
-    //  setValue
-  } = form;
+  const { handleSubmit, errors, setValue, getValues, register } = form;
 
   const [uiState, setUiState] = useState({
     isSaving: false,
@@ -61,81 +53,26 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
     }));
   }, []);
 
-  // useEffect(() => {
-  //   register({ name: 'copies' }, { required: `${Contents[language]?.CopiesRequired}` });
-  // }, [language, register]);
+  useEffect(() => {
+    register(
+      { name: 'tagFontSize' },
+      { required: `${Contents[language]?.TagFontSizeRequired}` }
+    );
+  }, [language, register]);
 
   const classes = useStyles();
 
-  // const handleTextChange = (name?: string, value: any) => {
-  //   setValue(name, value, true);
-  // };
-
-  function resizeImage(base64Str, maxWidth = 300, maxHeight = 300) {
-    return new Promise(resolve => {
-      const img = new Image();
-      img.src = base64Str;
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const MAX_WIDTH = maxWidth;
-        const MAX_HEIGHT = maxHeight;
-        let { width } = img;
-        let { height } = img;
-
-        if (width > height) {
-          if (width > MAX_WIDTH) {
-            height *= MAX_WIDTH / width;
-            width = MAX_WIDTH;
-          }
-        } else if (height > MAX_HEIGHT) {
-          width *= MAX_HEIGHT / height;
-          height = MAX_HEIGHT;
-        }
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL());
-      };
-    });
-  }
-
   const onSubmit = async () => {
     try {
-      // TODO: SEND TO PRINT THE QR CODE
-      // const { copies } = formData;
       const qrCodeDiv: any = document.getElementById('QRCodeContainer');
-      await html2canvas(qrCodeDiv).then(canvas => {
-        const imgData = canvas.toDataURL('image/png');
-        // eslint-disable-next-line new-cap
-        const pdf = new jsPDF({
-          orientation: 'landscape',
-          unit: 'mm',
-          format: [65, 45]
-        });
-        const QRCodeImageSize = 110;
-        const textleftMargin = 35;
-        const qrCodeLeftMargin = 3;
-        const topMargin = 5;
-        const textWrappingWidth = 25;
-
-        resizeImage(imgData, QRCodeImageSize, QRCodeImageSize).then(
-          resizedImage => {
-            pdf.setFontSize(7);
-            pdf.setFont(undefined, 'bold');
-            pdf.text(`ID: ${idProduct}`, textleftMargin, topMargin + 3);
-            pdf.text(`${productCode}`, textleftMargin, topMargin + 7);
-            pdf.setFont(undefined, 'normal');
-            const splitTitle = pdf.splitTextToSize(
-              productDescription,
-              textWrappingWidth
-            );
-            pdf.text(textleftMargin, topMargin + 12, splitTitle);
-            pdf.addImage(resizedImage, 'PNG', qrCodeLeftMargin, topMargin);
-            pdf.save(`${productCode}.pdf`);
-          }
-        );
-      });
+      await html2canvas(qrCodeDiv).then(canvas =>
+        generateTagQR(
+          canvas,
+          productCode,
+          productInformation,
+          getValues('tagFontSize')
+        )
+      );
       onShowAlert({
         severity: 'success',
         title: `Descargando etiqueta QR`,
@@ -151,6 +88,9 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
       });
       throw err;
     }
+  };
+  const handleTextChange = (inputName: string, value: any) => {
+    setValue(inputName, value, true);
   };
 
   return (
@@ -195,14 +135,19 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
                 </div>
                 <strong>{`Código de Producto: ${productCode}`}</strong>
               </Box>
-              {/* <TextBox
-                name="copies"
-                inputType="number"
-                label={Contents[language]?.Copies}
-                error={!!errors.copies}
-                errorText={errors.copies && errors.copies.message}
-                onChange={handleTextChange}
-              /> */}
+              <InputContainer>
+                <TextBox
+                  name="tagFontSize"
+                  inputType="number"
+                  label={Contents[language]?.TagFontSizeLabel}
+                  error={!!errors.tagFontSize}
+                  errorText={errors.tagFontSize && errors.tagFontSize.message}
+                  onChange={handleTextChange}
+                  value={getValues('tagFontSize')}
+                  helperText={Contents[language]?.TagFontSize}
+                  defaultValue={6}
+                />
+              </InputContainer>
             </>
           ) : (
             <Box

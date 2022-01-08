@@ -4,12 +4,13 @@ const Contents = {
     Subtitle: 'The product registered can be used.',
     Download: 'Download',
     Skip: 'Skip',
-    Copies: 'Copies',
+    TagFontSizeLabel: 'Tamaño de Letra',
     Close: 'Close',
     QRCodeErrorTitle: 'Error while building QR Code',
     QRCodeErrorMessage:
       'There was an error building the QR Code please contact IT Support.',
-    CopiesRequired: 'You should tell us how many copies to Download do you want'
+    TagFontSize: 'Tag Font Size',
+    TagFontSizeRequired: '--'
   },
   Spanish: {
     Title: 'Código QR',
@@ -17,12 +18,13 @@ const Contents = {
       'El código QR mostrado a continuación, le pertenece al producto que acaba de agregar al inventario. Puede proceder a descargar u omitir este paso si así lo desea.',
     Download: 'Descargar',
     Skip: 'Cerrar',
-    Copies: 'Copias',
+    TagFontSizeLabel: 'Tamaño de Letra',
     Close: 'Cerrar',
     QRCodeErrorTitle: 'Error al generar Código QR',
     QRCodeErrorMessage:
       'Porfavor intente mas tarde y si el error persite, Contacte a Soporte Técnico.',
-    CopiesRequired: 'Debe indicar cuantas copias desea descargar.'
+    TagFontSize: 'Será el tamaño de la letra de las etiquetas.',
+    TagFontSizeRequired: 'Se require un tamaño de letra para las etiquetas.'
   }
 };
 export default Contents;
