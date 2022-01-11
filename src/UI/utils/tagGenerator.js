@@ -54,9 +54,9 @@ export const generateTagQR = (
     'normal'
   );
 
-  const QRCodeImageSize = 110;
+  const QRCodeImageSize = 100;
   const textleftMargin = 35;
-  const qrCodeLeftMargin = 3;
+  const qrCodeLeftMargin = 5;
   const topMargin = 5;
   const textWrappingWidth = 25;
 
