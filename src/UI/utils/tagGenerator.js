@@ -63,7 +63,7 @@ export const generateTagQR = (
   resizeImage(imgData, QRCodeImageSize, QRCodeImageSize).then(resizedImage => {
     pdfDoc.setFont('SourceSansPro-Regular', 'normal');
     pdfDoc.setFontSize(customFontSize);
-    pdfDoc.text(`@&^* Código de Producto:`, textleftMargin, topMargin + 3);
+    pdfDoc.text(`Código de Producto:`, textleftMargin, topMargin + 3);
     pdfDoc.text(`${productCode}`, textleftMargin, topMargin + 6);
 
     const splitTitle = pdfDoc.splitTextToSize(
