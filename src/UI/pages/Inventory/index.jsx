@@ -185,7 +185,6 @@ const InventoryList = (props: InventoryListProps) => {
   };
 
   const onProductInserted = insertedProduct => {
-    debugger;
     setUiState(prevState => ({
       ...prevState,
       isQRCodeDrawerOpen: true,

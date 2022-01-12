@@ -48,7 +48,8 @@ const Contents = {
     maxCost: 'Costo máximo',
     labName: 'Nombre / Modelo',
     labStatus: 'Estatus',
-    labStore: 'Ubicación'
+    labStore: 'Ubicación',
+    labObservations: 'Observaciones'
   }
 };
 export default Contents;
