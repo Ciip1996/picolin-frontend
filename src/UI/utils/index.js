@@ -149,7 +149,14 @@ export const WARRANTY_VALIDATION = {
 
 const nameMaxLength = 128;
 export const PRODUCT_DESCRIPTION_VALIDATION = {
-  required: 'El nombre es obligatorio',
+  required: 'Este es un campo obligatorio',
+  maxLength: {
+    value: nameMaxLength,
+    message: `La longitud maxima es de ${nameMaxLength} caracteres`
+  }
+};
+
+export const OBSERVATIONS_VALIDATION = {
   maxLength: {
     value: nameMaxLength,
     message: `La longitud maxima es de ${nameMaxLength} caracteres`

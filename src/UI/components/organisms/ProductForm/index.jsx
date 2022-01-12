@@ -12,6 +12,7 @@ import { Endpoints } from 'UI/constants/endpoints';
 
 import {
   PRODUCT_DESCRIPTION_VALIDATION,
+  OBSERVATIONS_VALIDATION,
   PRODUCT_SIZE_VALIDATION
 } from 'UI/utils';
 import type { MapType } from 'types';
@@ -79,6 +80,7 @@ const ProductForm = (props: ProductFormProps) => {
       { required: `${Contents[language]?.RequiredMessage}` }
     );
     register({ name: 'name' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
+    register({ name: 'observations' }, { ...OBSERVATIONS_VALIDATION });
   }, [language, register]);
 
   const handleComboChange = (name: string, value: any) => {
@@ -121,7 +123,7 @@ const ProductForm = (props: ProductFormProps) => {
   }, [isSizeNumeric, language, register, unregister]);
 
   return (
-    <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%">
+    <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%" mb={100}>
       <InputContainer>
         <AutocompleteSelect
           noOptionsText="No se existe este nombre, solicite al administrador que lo agregue."
@@ -134,6 +136,17 @@ const ProductForm = (props: ProductFormProps) => {
           onSelect={handleComboChange}
           url={Endpoints.GetNames}
           autoFocus
+        />
+        <Separator />
+        <TextBox
+          inputType="number"
+          name="pieces"
+          label={Contents[language]?.Pieces}
+          error={!!errors?.pieces}
+          errorText={errors?.pieces && errors?.pieces.message}
+          onChange={handleTextChange}
+          value={getValues('pieces') || ''}
+          helperText={Contents[language]?.PiecesDescription}
         />
       </InputContainer>
       <InputContainer>
@@ -249,7 +262,7 @@ const ProductForm = (props: ProductFormProps) => {
           value={getValues('salePrice') || ''}
         />
       </InputContainer>
-      <InputContainer>
+      <InputContainer display="contents">
         <AutocompleteSelect
           name="idStore"
           selectedValue={comboValues.idStore}
@@ -261,7 +274,7 @@ const ProductForm = (props: ProductFormProps) => {
         />
         <Separator />
       </InputContainer>
-      <InputContainer>
+      <InputContainer display="contents">
         <TextBox
           inputType="number"
           name="quantity"
@@ -273,15 +286,18 @@ const ProductForm = (props: ProductFormProps) => {
           helperText={Contents[language]?.StockDescription}
         />
         <Separator />
+      </InputContainer>
+      <InputContainer display="contents">
         <TextBox
-          inputType="number"
-          name="pieces"
-          label={Contents[language]?.Pieces}
-          error={!!errors?.pieces}
-          errorText={errors?.pieces && errors?.pieces.message}
+          inputType="text"
+          multiline
+          name="observations"
+          label={Contents[language]?.Observations}
+          error={!!errors?.observations}
+          errorText={errors?.observations && errors?.observations.message}
           onChange={handleTextChange}
-          value={getValues('pieces') || ''}
-          helperText={Contents[language]?.PiecesDescription}
+          value={getValues('observations') || ''}
+          helperText={Contents[language]?.ObservationsDesc}
         />
       </InputContainer>
     </Box>

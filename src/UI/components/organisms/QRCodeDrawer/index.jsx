@@ -14,6 +14,7 @@ import InputContainer from 'UI/components/atoms/InputContainer';
 import { useStyles } from './styles';
 import Contents from './strings';
 
+const defaultTagLetterSize = 7;
 type QRCodeDrawerProps = {
   selectedProduct: Object,
   handleClose: any => any,
@@ -32,7 +33,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
   const language = localStorage.getItem('language');
 
   const form = useForm({
-    defaultValues: { tagFontSize: 6 }
+    defaultValues: { tagFontSize: defaultTagLetterSize }
   });
 
   const { handleSubmit, errors, setValue, getValues, register } = form;
@@ -143,7 +144,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
                   onChange={handleTextChange}
                   value={getValues('tagFontSize')}
                   helperText={Contents[language]?.TagFontSize}
-                  defaultValue="6"
+                  defaultValue={`${defaultTagLetterSize}`}
                 />
               </InputContainer>
             </>

@@ -12,7 +12,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import { getErrorData } from 'UI/utils';
 import { colors, AddIcon } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
-import AddProductDrawer from 'UI/components/organisms/AddProductDrawer';
+import AddInventoryProductDrawer from 'UI/components/organisms/AddInventoryProductDrawer';
 import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
 import ProductsTableAdapter from 'UI/pages/Products/ProductsTableAdapter';
 import ModifyProductDrawer from 'UI/components/organisms/ModifyProductDrawer';
@@ -294,7 +294,7 @@ const ProductsList = (props: ProductsListProps) => {
         onClose={toggleDrawer('isAddProductDrawerOpen', false)}
       >
         <div role="presentation">
-          <AddProductDrawer
+          <AddInventoryProductDrawer
             onProductInserted={onProductInserted}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isAddProductDrawerOpen', false)}

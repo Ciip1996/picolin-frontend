@@ -9,7 +9,7 @@ type InputContainerProps = {
 };
 
 const InputContainer = (props: InputContainerProps) => {
-  const { children, flex } = props;
+  const { children, flex, ...rest } = props;
   return (
     <Box
       mr={newItemPadding}
@@ -18,6 +18,8 @@ const InputContainer = (props: InputContainerProps) => {
       height={61}
       display="flex"
       alignItems={flex === 'start' ? 'flex-start' : 'center'}
+      {...rest}
+      marginRight={0}
     >
       {children}
     </Box>

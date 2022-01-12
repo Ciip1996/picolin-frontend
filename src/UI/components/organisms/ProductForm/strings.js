@@ -22,15 +22,20 @@ const Contents = {
     Color: 'Color *',
     Provider: 'Código de Linea',
     Size: 'Talla *',
-    Pieces: '# Partes en producto *',
+    Pieces: '# Accesorios / Partes *',
     Cost: 'Costo *',
     SalePrice: 'Precio de Venta *',
     Gender: 'Género *',
     Name: 'Nombre *',
-    NumericSize: 'Talla Numerica',
+    NumericSize: 'Talla Numérica',
     PiecesDescription:
-      'Es el número de piezas/partes que contiene cada producto individual. Ej. 1 conjunto tiene 2 piezas.',
-    StockDescription: 'Es el número de productos que ingresan. Ej. 16 ropones.'
+      'Es el número total de piezas, partes o accesorios que contiene cada producto. Ej. 1 conjunto tiene 2 piezas/accesorios.',
+    StockDescription:
+      'Es el número de productos a ingresar que son exactamente iguales en color, talla, costo, nombre, proveedor, etc. Ej. 16 ropones.',
+    Quantity: 'Cantidad de productos *',
+    ReceptionPlace: 'Lugar de recepción *',
+    Observations: 'Observaciones',
+    ObservationsDesc: 'Cualquier comentario que sea relevante almacenar'
   }
 };
 export default Contents;

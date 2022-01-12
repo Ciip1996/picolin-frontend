@@ -71,7 +71,8 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
     { id: 9, name: 'material', display: true },
     { id: 10, name: 'stock', display: true },
     { id: 11, name: 'name', display: true },
-    { id: 12, name: 'status', display: true }
+    { id: 12, name: 'status', display: true },
+    { id: 13, name: 'store', display: true }
   ];
 
   const getSortDirections = (orderBy: string, direction: string) =>
@@ -470,6 +471,19 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
               </FormControl>
             );
           }
+        }
+      }
+    },
+    {
+      name: 'store',
+      label: Contents[language]?.labStore,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[13].display,
+        sortDirection: sortDirection[13],
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }
       }
     }
