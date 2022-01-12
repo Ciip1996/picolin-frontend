@@ -7,6 +7,7 @@ import { FormControl, FormHelperText, TextField } from '@material-ui/core';
 export const StyledFormControl = styled(FormControl)`
   flex-direction: column;
   width: inherit;
+  height: max-content;
 `;
 
 export const StyledFormHelperText = styled(FormHelperText)`
@@ -40,7 +41,8 @@ export const useStyles = makeStyles(theme => ({
     },
     '& > div': {
       '& > textarea': {
-        width: props => props.rows === 1 && '90%'
+        width: props => props.rows === 1 && '90%',
+        zIndex: 10
       }
     }
   }

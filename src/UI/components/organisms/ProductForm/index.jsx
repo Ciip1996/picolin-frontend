@@ -123,7 +123,7 @@ const ProductForm = (props: ProductFormProps) => {
   }, [isSizeNumeric, language, register, unregister]);
 
   return (
-    <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%" mb={100}>
+    <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%" mb={10}>
       <InputContainer>
         <AutocompleteSelect
           noOptionsText="No se existe este nombre, solicite al administrador que lo agregue."
@@ -136,17 +136,6 @@ const ProductForm = (props: ProductFormProps) => {
           onSelect={handleComboChange}
           url={Endpoints.GetNames}
           autoFocus
-        />
-        <Separator />
-        <TextBox
-          inputType="number"
-          name="pieces"
-          label={Contents[language]?.Pieces}
-          error={!!errors?.pieces}
-          errorText={errors?.pieces && errors?.pieces.message}
-          onChange={handleTextChange}
-          value={getValues('pieces') || ''}
-          helperText={Contents[language]?.PiecesDescription}
         />
       </InputContainer>
       <InputContainer>
@@ -275,17 +264,31 @@ const ProductForm = (props: ProductFormProps) => {
         <Separator />
       </InputContainer>
       <InputContainer display="contents">
-        <TextBox
-          inputType="number"
-          name="quantity"
-          label={Contents[language]?.Quantity}
-          error={!!errors?.quantity}
-          errorText={errors?.quantity && errors?.quantity.message}
-          onChange={handleTextChange}
-          value={getValues('quantity') || ''}
-          helperText={Contents[language]?.StockDescription}
-        />
-        <Separator />
+        <Box display="flex" width="100%">
+          <TextBox
+            inputType="number"
+            name="quantity"
+            label={Contents[language]?.Quantity}
+            error={!!errors?.quantity}
+            errorText={errors?.quantity && errors?.quantity.message}
+            onChange={handleTextChange}
+            value={getValues('quantity') || ''}
+            helperText={Contents[language]?.StockDescription}
+          />
+          <Separator />
+          <TextBox
+            ref={register}
+            inputRef={register}
+            inputType="number"
+            name="pieces"
+            label={Contents[language]?.Pieces}
+            error={!!errors?.pieces}
+            errorText={errors?.pieces && errors?.pieces.message}
+            onChange={handleTextChange}
+            value={getValues('pieces') || ''}
+            helperText={Contents[language]?.PiecesDescription}
+          />
+        </Box>
       </InputContainer>
       <InputContainer display="contents">
         <TextBox
