@@ -184,11 +184,22 @@ const InventoryList = (props: InventoryListProps) => {
     setFilters({ ...filters, [filterName]: undefined });
   };
 
-  const onProductInserted = () => {
+  const onProductInserted = insertedProduct => {
+    debugger;
     setUiState(prevState => ({
       ...prevState,
       isQRCodeDrawerOpen: true,
-      isAddProductDrawerOpen: false
+      isAddProductDrawerOpen: false,
+      selectedProduct: insertedProduct || null
+    }));
+  };
+
+  const onRowsSelect = (currentRowsSelected: Array<any>) => {
+    const { dataIndex } = currentRowsSelected[0];
+    const selectedProduct = data[dataIndex];
+    setUiState(prevState => ({
+      ...prevState,
+      selectedProduct: selectedProduct || null
     }));
   };
 
@@ -296,7 +307,7 @@ const InventoryList = (props: InventoryListProps) => {
           handlePageClick={handlePageClick}
           setData={setData}
           setUiState={setUiState}
-          // handleRowClick={handleRowClick}
+          onRowsSelect={onRowsSelect}
           setSearching={setSearching}
         />
       </ListPageLayout>

@@ -25,9 +25,7 @@ const Contents = {
     Pieces: '# Partes en producto *',
     Cost: 'Costo *',
     SalePrice: 'Precio de Venta *',
-    ReceptionPlace: 'Lugar de recepción *',
     Gender: 'Género *',
-    Quantity: 'Cantidad de productos *',
     Name: 'Nombre *',
     NumericSize: 'Talla Numerica',
     PiecesDescription:

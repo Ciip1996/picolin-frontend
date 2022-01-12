@@ -7,7 +7,9 @@ const Contents = {
   Spanish: {
     Title: 'Registrar producto en Inventario',
     Subtitle:
-      'Complete el formulario de alta de inventario. Debe repetir este proceso por cada tipo de producto.'
+      'Complete el formulario de alta de inventario. Debe repetir este proceso por cada tipo de producto.',
+    Quantity: 'Cantidad de productos *',
+    ReceptionPlace: 'Lugar de recepción *'
   }
 };
 export default Contents;

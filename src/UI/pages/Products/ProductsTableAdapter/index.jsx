@@ -21,13 +21,13 @@ type ProductsTableAdapterPropTypes = {|
   count: number,
   filters: FilterProduct,
   handleFilterChange: (string, any) => any,
-  // handleRowClick: ?() => any,
+  onRowsSelect: (row: Array<any>, allRowsSelected: Array<any>) => void,
   handleResetFiltersClick: () => any,
   handleSearchChange: () => any,
   handleColumnSortClick: any => any,
   handlePerPageClick: () => any,
   handlePageClick: () => any,
-  setData: () => any,
+  setData: any,
   setUiState: UIStateProduct => any,
   setSearching: boolean => any,
   error: boolean,
@@ -44,7 +44,7 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
     error,
     loading,
     handleFilterChange,
-    // handleRowClick,
+    onRowsSelect,
     handleResetFiltersClick,
     handleSearchChange,
     handleColumnSortClick,
@@ -387,6 +387,7 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
       onPageClick={handlePageClick}
       onColumnDisplayClick={handleColumnDisplayClick}
       selectableRows="single"
+      onRowsSelect={onRowsSelect}
       customToolbarSelect={rows => {
         if (data?.length === 0) return null;
         const selectedRowIndex = rows?.data[0]?.index;

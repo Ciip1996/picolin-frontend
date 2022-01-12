@@ -4,9 +4,7 @@ import { UIState, type Maybe } from 'UI/types';
 export type UIStateProduct = UIState & {
   isAddProductDrawerOpen: boolean,
   isQRCodeDrawerOpen: boolean,
-  idProduct: ?number,
-  productCode: Maybe<number>,
-  productDescription: Maybe<string>,
+  selectedProduct: Maybe<Object>,
   isDeleteModal: boolean,
   isModifyProductDrawerOpen: boolean
 };

@@ -39,6 +39,7 @@ export const Endpoints = {
   InsertProductNames: '/insertProductName',
   Products: '/products',
   GetProducts: '/getProducts',
+  InsertProduct: '/insertProduct',
   DeleteProduct: '/deleteProductLogicallyById',
   RestoreProduct: '/restoreProductLogicallyById'
 };

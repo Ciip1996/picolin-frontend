@@ -22,7 +22,7 @@ type InventoryTableAdapterPropTypes = {|
   count: number,
   filters: FilterInventory,
   handleFilterChange: (string, any) => any,
-  // handleRowClick: ?() => any,
+  onRowsSelect: (row: Array<any>, allRowsSelected: Array<any>) => void,
   handleResetFiltersClick: () => any,
   handleSearchChange: () => any,
   handleColumnSortClick: any => any,
@@ -45,7 +45,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
     error,
     loading,
     handleFilterChange,
-    // handleRowClick,
+    onRowsSelect,
     handleResetFiltersClick,
     handleSearchChange,
     handleColumnSortClick,
@@ -493,6 +493,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
         handleSearchChange();
         setSearching(false);
       }}
+      onRowsSelect={onRowsSelect}
       onColumnSortClick={handleColumnSortClick}
       onPerPageClick={handlePerPageClick}
       onPageClick={handlePageClick}

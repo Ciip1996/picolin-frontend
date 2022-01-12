@@ -17,7 +17,7 @@ import Contents from './strings';
 type AddInventoryProductDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
-  onProductInserted: (number, string, number) => any
+  onProductInserted: Object => any
 };
 
 const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
@@ -53,17 +53,14 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
         formData
       );
       if (response) {
-        const { productCode, name, idProduct, message, title } = response?.data;
+        const { product, message, title } = response?.data;
         onShowAlert({
-          severity: 'success',
+          severity: response.status === 200 ? 'success' : 'warning',
           title,
           autoHideDuration: 3000,
           body: message
         });
-        productCode &&
-          name &&
-          idProduct &&
-          onProductInserted(productCode, name, idProduct);
+        onProductInserted(product);
       }
     } catch (err) {
       const { title, message, severity } = getErrorData(err);

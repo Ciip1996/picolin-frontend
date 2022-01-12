@@ -56,6 +56,7 @@ type DataTableProps = {
   customToolbarSelect?: any,
   theme: any,
   onRowClick?: (row: any) => void,
+  onRowsSelect: (row: Array<any>, allRowsSelected: Array<any>) => void,
   onResetfiltersClick?: () => void,
   onSearchTextChange?: (search: string) => void,
   onColumnSortClick?: (row: any) => void,
@@ -82,6 +83,7 @@ const DataTable = (props: DataTableProps) => {
     loading,
     customToolbarSelect,
     onRowClick,
+    onRowsSelect,
     onResetfiltersClick,
     onSearchTextChange,
     onColumnSortClick,
@@ -110,6 +112,7 @@ const DataTable = (props: DataTableProps) => {
         selectableRows,
         customToolbarSelect,
         selectableRowsOnClick: true,
+        onRowsSelect, // triggered when changing rows selection/deselection
         serverSide: true,
         count,
         page,

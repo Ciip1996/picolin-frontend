@@ -12,7 +12,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import { getErrorData } from 'UI/utils';
 import { colors, AddIcon } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
-import AddInventoryProductDrawer from 'UI/components/organisms/AddInventoryProductDrawer';
+import AddProductDrawer from 'UI/components/organisms/AddProductDrawer';
 import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
 import ProductsTableAdapter from 'UI/pages/Products/ProductsTableAdapter';
 import ModifyProductDrawer from 'UI/components/organisms/ModifyProductDrawer';
@@ -70,9 +70,7 @@ const ProductsList = (props: ProductsListProps) => {
     isAddProductDrawerOpen: false && isUserAdminOrManager,
     isModifyProductDrawerOpen: false,
     isQRCodeDrawerOpen: false,
-    idProduct: null,
-    productCode: null,
-    productDescription: null,
+    selectedProduct: null,
     isDeleteModal: false
   });
 
@@ -127,18 +125,12 @@ const ProductsList = (props: ProductsListProps) => {
     uiState.direction
   ]);
 
-  const onProductInserted = (
-    productCode: number,
-    productDescription: string,
-    idProduct: number
-  ) => {
+  const onProductInserted = (selectedProduct: Object) => {
     setUiState(prevState => ({
       ...prevState,
       isQRCodeDrawerOpen: true,
       isAddProductDrawerOpen: false,
-      idProduct,
-      productCode,
-      productDescription
+      selectedProduct
     }));
   };
 
@@ -160,6 +152,15 @@ const ProductsList = (props: ProductsListProps) => {
   //     page: 0
   //   }));
   // };
+
+  const onRowsSelect = (currentRowsSelected: Array<any>) => {
+    const { dataIndex } = currentRowsSelected[0];
+    const selectedProduct = data[dataIndex];
+    setUiState(prevState => ({
+      ...prevState,
+      selectedProduct: selectedProduct || null
+    }));
+  };
 
   const handleResetFiltersClick = () => {
     setSearching(true);
@@ -281,7 +282,7 @@ const ProductsList = (props: ProductsListProps) => {
               handlePageClick={handlePageClick}
               setData={setData}
               setUiState={setUiState}
-              // handleRowClick={handleRowClick}
+              onRowsSelect={onRowsSelect}
               setSearching={setSearching}
             />
           </Box>
@@ -293,8 +294,7 @@ const ProductsList = (props: ProductsListProps) => {
         onClose={toggleDrawer('isAddProductDrawerOpen', false)}
       >
         <div role="presentation">
-          {/* TODO: test and check that this is working fine */}
-          <AddInventoryProductDrawer
+          <AddProductDrawer
             onProductInserted={onProductInserted}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
@@ -308,9 +308,7 @@ const ProductsList = (props: ProductsListProps) => {
       >
         <div role="presentation">
           <QRCodeDrawer
-            idProduct={uiState.idProduct || null}
-            productCode={uiState.productCode || null}
-            productDescription={uiState.productDescription || ''}
+            selectedProduct={uiState?.selectedProduct}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isQRCodeDrawerOpen', false)}
           />

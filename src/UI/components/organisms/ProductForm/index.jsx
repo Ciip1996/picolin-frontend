@@ -217,11 +217,11 @@ const ProductForm = (props: ProductFormProps) => {
               setValue(name, item?.value, true);
             }}
             options={[
-              { id: 0, title: 'Unitalla', value: 'UNITALLA' },
-              { id: 1, title: 'Chica (CH)', value: 'CHICA' },
-              { id: 2, title: 'Mediana (M)', value: 'MEDIANA' },
-              { id: 3, title: 'Grande (G)', value: 'GRANDE' },
-              { id: 4, title: 'Extra Grande (XG)', value: 'EXTRA GRANDE' }
+              { id: 0, title: 'Unitalla', value: 'UN' },
+              { id: 1, title: 'Chica (CH)', value: 'CH' },
+              { id: 2, title: 'Mediana (M)', value: 'M' },
+              { id: 3, title: 'Grande (G)', value: 'G' },
+              { id: 4, title: 'Extra Grande (XG)', value: 'XG' }
             ]}
           />
         )}
