@@ -156,6 +156,18 @@ export const PRODUCT_DESCRIPTION_VALIDATION = {
   }
 };
 
+export const PRODUCT_SIZE_VALIDATION = {
+  required: 'El tamaño es requerido',
+  min: {
+    value: 0,
+    message: 'La talla minima permitida es 0'
+  },
+  max: {
+    value: 100,
+    message: 'La talla máxima permitida es 100'
+  }
+};
+
 const titleMaxLength = 512;
 export const TITLE_VALIDATION = {
   maxLength: {

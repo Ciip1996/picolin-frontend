@@ -10,7 +10,10 @@ import TextBox from 'UI/components/atoms/TextBox';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { Endpoints } from 'UI/constants/endpoints';
 
-import { PRODUCT_DESCRIPTION_VALIDATION } from 'UI/utils';
+import {
+  PRODUCT_DESCRIPTION_VALIDATION,
+  PRODUCT_SIZE_VALIDATION
+} from 'UI/utils';
 import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
 
@@ -27,9 +30,15 @@ const ProductForm = (props: ProductFormProps) => {
   const language = localStorage.getItem('language');
 
   const [comboValues, setComboValues] = useState<MapType>(initialValues);
-  const [uniqueSize, setUniqueSize] = useState(false);
+  const [isSizeNumeric, setIsSizeNumeric] = useState(true);
 
-  const { register, errors, setValue, getValues } = useFormContext();
+  const {
+    register,
+    errors,
+    setValue,
+    getValues,
+    unregister
+  } = useFormContext();
 
   useEffect(() => {
     register(
@@ -44,10 +53,7 @@ const ProductForm = (props: ProductFormProps) => {
       { name: 'idColor' },
       { required: `${Contents[language]?.RequiredMessage}` }
     );
-    register(
-      { name: 'size' },
-      { required: `${Contents[language]?.RequiredMessage}` }
-    );
+    register({ name: 'size' });
     register(
       { name: 'pieces' },
       { required: `${Contents[language]?.RequiredMessage}` }
@@ -89,14 +95,30 @@ const ProductForm = (props: ProductFormProps) => {
   };
 
   const onSwitcherChange = (event: Object) => {
-    const isUniqueSize = event.target.checked;
-    if (isUniqueSize) {
-      setValue('size', 'Unitalla', true);
-    } else {
-      setValue('size', null, true);
-    }
-    setUniqueSize(isUniqueSize);
+    const isNumericSize = event.target.checked;
+    setValue('size', null, true);
+    setIsSizeNumeric(isNumericSize);
   };
+
+  useEffect(() => {
+    if (isSizeNumeric) {
+      unregister('size');
+      register(
+        { name: 'size' },
+        {
+          ...PRODUCT_SIZE_VALIDATION
+        }
+      );
+    } else {
+      unregister('size');
+      register(
+        { name: 'size' },
+        {
+          required: `${Contents[language]?.RequiredMessage}`
+        }
+      );
+    }
+  }, [isSizeNumeric, language, register, unregister]);
 
   return (
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%">
@@ -160,26 +182,50 @@ const ProductForm = (props: ProductFormProps) => {
       </InputContainer>
       <InputContainer>
         <FormControlLabel
-          name="uniquesize"
+          name="isSizeNumeric"
           style={{ height: '100%' }}
           control={<Switch color="primary" />}
           onChange={onSwitcherChange}
-          label={Contents[language]?.UniqueSize}
+          label={Contents[language]?.NumericSize}
           labelPlacement="start"
-          error={!!errors.uniquesize}
-          helperText={errors.uniquesize && errors.uniquesize.message}
+          checked={isSizeNumeric}
         />
         <Separator />
-        <TextBox
-          disabled={uniqueSize}
-          inputType={uniqueSize ? 'text' : 'number'}
-          name="size"
-          label={Contents[language]?.Size}
-          error={!!errors?.size}
-          errorText={errors?.size && errors?.size.message}
-          onChange={handleTextChange}
-          value={getValues('size') || ''}
-        />
+        {isSizeNumeric ? (
+          <TextBox
+            inputType="number"
+            name="size"
+            label={Contents[language]?.Size}
+            error={!!errors?.size}
+            errorText={errors?.size && errors?.size.message}
+            onChange={handleTextChange}
+            value={getValues('size') || ''}
+          />
+        ) : (
+          <AutocompleteSelect
+            name="size"
+            displayKey="title"
+            selectedValue={comboValues.size}
+            placeholder={Contents[language]?.Size}
+            error={!!errors?.size}
+            errorText={errors?.size && errors?.size.message}
+            onSelect={(name: string, item: any) => {
+              setComboValues((prevState: MapType): MapType => ({
+                ...prevState,
+                [name]: item
+              }));
+              setValue(name, item?.value, true);
+            }}
+            options={[
+              { id: 0, title: 'Unitalla', value: 'UNITALLA' },
+              { id: 1, title: 'Chica (CH)', value: 'CHICA' },
+              { id: 2, title: 'Mediana (M)', value: 'MEDIANA' },
+              { id: 3, title: 'Grande (G)', value: 'GRANDE' },
+              { id: 4, title: 'Extra Grande (XG)', value: 'EXTRA GRANDE' }
+            ]}
+          />
+        )}
+
         <Separator />
       </InputContainer>
       <InputContainer>

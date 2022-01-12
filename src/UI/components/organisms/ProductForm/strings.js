@@ -13,7 +13,7 @@ const Contents = {
     Gender: 'Gender *',
     Quantity: 'Quantity *',
     Name: 'Name *',
-    UniqueSize: 'One Size'
+    NumericSize: 'Numeric Size'
   },
   Spanish: {
     RequiredMessage: 'Este es un campo obligatorio',
@@ -29,7 +29,7 @@ const Contents = {
     Gender: 'Género *',
     Quantity: 'Cantidad de productos *',
     Name: 'Nombre *',
-    UniqueSize: 'Unitalla',
+    NumericSize: 'Talla Numerica',
     PiecesDescription:
       'Es el número de piezas/partes que contiene cada producto individual. Ej. 1 conjunto tiene 2 piezas.',
     StockDescription: 'Es el número de productos que ingresan. Ej. 16 ropones.'
