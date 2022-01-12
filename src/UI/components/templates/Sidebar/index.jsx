@@ -164,13 +164,12 @@ const Sidebar = (props: SidebarProps) => {
           });
         }
       } catch (err) {
+        const { title, message, severity } = getErrorData(err);
         showAlert({
-          severity: 'error',
-          title: getErrorData(err)?.title || 'Error en conexión',
+          severity,
+          title,
           autoHideDuration: 800000,
-          body:
-            JSON.stringify(getErrorData(err)?.message) ||
-            'Contacte a soporte técnico'
+          body: message
         });
         throw err;
       }

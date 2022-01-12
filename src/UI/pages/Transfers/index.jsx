@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 
 import { FormControl } from '@material-ui/core';
-import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import ActionButton from 'UI/components/atoms/ActionButton';
 
 import { showAlert } from 'actions/app';
@@ -30,16 +29,9 @@ import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters, saveFilters } from 'services/FiltersStorage';
 import { AddIcon, colors } from 'UI/res';
+import CellSkeleton from 'UI/components/molecules/CellSkeleton';
 
 import Contents from './strings';
-
-const CellSkeleton = ({ children, searching }) => {
-  return searching ? (
-    <CustomSkeleton width="90%" height={18} />
-  ) : (
-    <>{children}</>
-  );
-};
 
 type TransferListProps = {
   onShowAlert: any => void
@@ -141,12 +133,12 @@ const TransferList = (props: TransferListProps) => {
       setError(false);
     } catch (err) {
       setError(true);
+      const { title, message, severity } = getErrorData(err);
       onShowAlert({
-        severity: 'error',
-        // title: Contents[language]?.pageTitle,
+        severity,
         autoHideDuration: 3000,
-        title: getErrorData(err)?.title || 'Error en conexión',
-        body: getErrorData(err)?.message || 'Contacte a soporte técnico'
+        title,
+        body: message
       });
     }
   }, [

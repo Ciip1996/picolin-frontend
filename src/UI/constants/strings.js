@@ -2,13 +2,15 @@ const GenericContents = {
   English: {
     error: {
       title: 'Error',
-      message: 'An error has ocurred. Please try again later'
+      message: 'An error has ocurred. Please try again later',
+      severity: 'error'
     }
   },
   Spanish: {
     error: {
-      title: 'Error',
-      message: 'Un error ha ocurrido. Porfavor intente nuevamente más tarde.'
+      title: 'Ocurrio un Error Desconocido',
+      message: 'Intente nuevamente o contacte a soporte técnico.',
+      severity: 'error'
     }
   }
 };

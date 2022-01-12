@@ -3,12 +3,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import queryString from 'query-string';
 import { connect } from 'react-redux';
 import { FormControl, Box } from '@material-ui/core';
-import PropTypes from 'prop-types';
 import Drawer from '@material-ui/core/Drawer';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
-import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
@@ -26,20 +24,17 @@ import { Endpoints } from 'UI/constants/endpoints';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
 import { showAlert } from 'actions/app';
 import { userHasAdminOrManagerPermissions } from 'services/Authorization';
+import StatusLabel, {
+  StatusLabelOptions
+} from 'UI/components/atoms/StatusLabel';
+import CellSkeleton from 'UI/components/molecules/CellSkeleton';
+
 import Contents from './strings';
 
 const filter_name = 'product_names';
 
-const CellSkeleton = ({ children, searching }) => {
-  return searching ? (
-    <CustomSkeleton width="90%" height={18} />
-  ) : (
-    <>{children}</>
-  );
-};
-
-const ProductNamesListProps = {
-  onShowAlert: PropTypes.func.isRequired
+type ProductNamesListProps = {
+  onShowAlert: any => {}
 };
 
 const columnItems = [
@@ -53,7 +48,7 @@ const columnItems = [
 const getSortDirections = (orderBy, direction) =>
   columnItems.map(item => (item.name === orderBy ? direction : 'none'));
 
-const ProductNamesList = props => {
+const ProductNamesList = (props: ProductNamesListProps) => {
   const { onShowAlert } = props;
   const language = localStorage.getItem('language');
   const isUserAdminOrManager = userHasAdminOrManagerPermissions();
@@ -122,12 +117,12 @@ const ProductNamesList = props => {
       setSearching(false);
       setError(false);
     } catch (err) {
-      const { title, message } = getErrorData(err);
+      const { title, message, severity } = getErrorData(err);
       setError(true);
       onShowAlert({
-        severity: 'error',
+        severity,
         autoHideDuration: 3000,
-        title: title || 'Error en conexión',
+        title,
         body: message || JSON.stringify(err)
       });
       throw err;
@@ -303,14 +298,7 @@ const ProductNamesList = props => {
         customBodyRender: value => {
           return (
             <CellSkeleton searching={searching}>
-              <div
-                style={{
-                  color: value ? colors.active : colors.error,
-                  fontWeight: 'bold'
-                }}
-              >
-                {value ? 'Activo' : 'Inactivo'}
-              </div>
+              <StatusLabel value={value} />
             </CellSkeleton>
           );
         },
@@ -322,10 +310,7 @@ const ProductNamesList = props => {
                   name="status_filter"
                   placeholder={Contents[language]?.labStatus}
                   selectedValue={filters.status_filter}
-                  defaultOptions={[
-                    { id: 0, title: Contents[language]?.disabled },
-                    { id: 1, title: Contents[language]?.enabled }
-                  ]}
+                  defaultOptions={StatusLabelOptions}
                   onSelect={handleFilterChange}
                 />
               </FormControl>
@@ -493,7 +478,5 @@ const mapDispatchToProps = dispatch => {
     onShowAlert: alert => dispatch(showAlert(alert))
   };
 };
-
-ProductNamesList.propTypes = ProductNamesListProps;
 
 export default connect(null, mapDispatchToProps)(ProductNamesList);

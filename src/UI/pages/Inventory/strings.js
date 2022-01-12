@@ -20,7 +20,8 @@ const Contents = {
     minCost: 'Minimun cost',
     maxSalePrice: 'Max Sale Price',
     maxCost: 'Maximum Cost',
-    labName: 'Name / Model'
+    labName: 'Name / Model',
+    labStatus: 'Status'
   },
   Spanish: {
     pageTitle: 'INVENTARIOS',
@@ -38,14 +39,15 @@ const Contents = {
     labStock: 'Stock',
     labInventory: 'INVENTARIOS',
     labMaterials: 'Materiales',
-    addNewProduct: 'Entrada',
+    addNewProduct: 'Surtir',
     Girl: 'Niña',
     Boy: 'Niño',
     minSalePrice: 'Precio de venta minimo',
     minCost: 'Costo mínimo',
     maxSalePrice: 'Precio de venta máximo',
     maxCost: 'Costo máximo',
-    labName: 'Nombre / Modelo'
+    labName: 'Nombre / Modelo',
+    labStatus: 'Estatus'
   }
 };
 export default Contents;

@@ -250,9 +250,10 @@ export const getErrorData = (error: any) => {
     !error.response ||
     error.request.responseType !== 'json'
   ) {
-    return GenericContents[language].error.message;
+    return GenericContents[language].error;
   }
   const errorData = {
+    severity: error?.response?.status === 500 ? 'error' : 'warning',
     message: error?.response?.data?.length
       ? error.response.data[0].message
       : nestTernary(

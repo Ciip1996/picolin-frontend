@@ -1,4 +1,5 @@
 // @flow
+import queryString from 'query-string';
 import React, { useEffect, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
@@ -8,7 +9,6 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import ColorIndicator from 'UI/components/atoms/ColorIndicator';
 import { showAlert as showAlertAction } from 'actions/app';
-import queryString from 'query-string';
 import { getErrorData } from 'UI/utils';
 import API from 'services/API';
 import { type DataResponseFilter } from 'types/app';
@@ -158,11 +158,12 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
           }
         })
         .catch(err => {
+          const { title, message, severity } = getErrorData(err);
           showAlert({
-            severity: 'error',
-            title: getErrorData(err)?.title || 'Error en conexión',
+            severity,
+            title,
             autoHideDuration: 800000,
-            body: getErrorData(err)?.message || 'Contacte a soporte técnico'
+            body: message
           });
         });
       setLoading(false);
@@ -192,9 +193,9 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
         .catch(err => {
           showAlert({
             severity: 'error',
-            title: getErrorData(err)?.title || 'Error en conexión',
+            title: getErrorData(err)?.title,
             autoHideDuration: 800000,
-            body: getErrorData(err)?.message || 'Contacte a soporte técnico'
+            body: getErrorData(err)?.message
           });
         });
       setLoading(false);

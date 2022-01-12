@@ -6,13 +6,15 @@ import Box from '@material-ui/core/Box';
 import { useStyles, styles } from './styles';
 
 type SwitcherProps = {
-  category: 'candidates' | 'job orders' | 'companies',
-  onSwitcherChange?: any => any
+  textOn: string,
+  textOff: string,
+  onSwitcherChange?: any => any,
+  isChecked: boolean
 };
 
 const Switcher = (props: SwitcherProps) => {
-  const { category, onSwitcherChange } = props;
-  const [checked, setChecked] = useState(true);
+  const { textOn, textOff, onSwitcherChange, isChecked } = props;
+  const [checked, setChecked] = useState(isChecked || false);
   const classes = useStyles();
 
   const handleChange = () => {
@@ -27,7 +29,7 @@ const Switcher = (props: SwitcherProps) => {
           style={styles.textContainer}
           className={!checked ? classes.selectedCategory : undefined}
         >
-          My {category}
+          {textOff}
         </Box>
       </Typography>
       <Switch
@@ -41,7 +43,7 @@ const Switcher = (props: SwitcherProps) => {
           style={classes.textContainer}
           className={checked ? classes.selectedCategory : undefined}
         >
-          My Industries {category}
+          {textOn}
         </Box>
       </Typography>
     </div>
@@ -49,7 +51,9 @@ const Switcher = (props: SwitcherProps) => {
 };
 
 Switcher.defaultProps = {
-  onSwitcherChange: undefined
+  onSwitcherChange: undefined,
+  textOn: 'On',
+  textOff: 'Off'
 };
 
 export default Switcher;

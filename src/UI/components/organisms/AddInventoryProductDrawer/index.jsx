@@ -17,7 +17,7 @@ import Contents from './strings';
 type AddInventoryProductDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
-  onProductInserted: (string, string, string) => any
+  onProductInserted: (number, string, number) => any
 };
 
 const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
@@ -66,11 +66,12 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
           onProductInserted(productCode, name, idProduct);
       }
     } catch (err) {
+      const { title, message, severity } = getErrorData(err);
       onShowAlert({
-        severity: 'error',
-        title: getErrorData(err)?.title || 'Error en conexión',
+        severity,
+        title,
         autoHideDuration: 800000,
-        body: getErrorData(err)?.message || 'Contacte a soporte técnico'
+        body: message
       });
       throw err;
     }

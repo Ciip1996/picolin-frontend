@@ -17,7 +17,8 @@ const Contents = {
     lblRegistrationDate: 'Fecha de Registro',
     lblUser: 'Usuario Registro',
     lblObservations: 'Observaciones',
-    addNewNameProduct: 'Nuevo Producto'
+    addNewNameProduct: 'Nuevo Producto',
+    lblStatus: 'Estatus'
   }
 };
 export default Contents;

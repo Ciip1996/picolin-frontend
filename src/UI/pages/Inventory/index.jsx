@@ -1,67 +1,36 @@
 // @flow
 import React, { useState, useEffect, useCallback } from 'react';
-
 import queryString from 'query-string';
 import { connect } from 'react-redux';
-
-import { FormControl } from '@material-ui/core';
 import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
 
-import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
-import ActionButton from 'UI/components/atoms/ActionButton';
-
-import { showAlert } from 'actions/app';
-import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
-import { userHasAdminOrManagerPermissions } from 'services/Authorization';
-
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
-import TextBox from 'UI/components/atoms/TextBox';
-import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import AddInventoryProductDrawer from 'UI/components/organisms/AddInventoryProductDrawer';
+import ModifyInventoryDrawer from 'UI/components/organisms/ModifyInventoryDrawer';
 import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
+import ActionButton from 'UI/components/atoms/ActionButton';
+import { showAlert, confirm as confirmAction } from 'actions/app';
+import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
+import { userHasAdminOrManagerPermissions } from 'services/Authorization';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorData, currencyFormatter } from 'UI/utils';
+import { getErrorData } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
 import { AddIcon, colors } from 'UI/res';
+import InventoryTableAdapter from 'UI/pages/Inventory/InventoryTableAdapter';
 import Contents from './strings';
-
-const CellSkeleton = ({ children, searching }) => {
-  return searching ? (
-    <CustomSkeleton width="90%" height={18} />
-  ) : (
-    <>{children}</>
-  );
-};
+import { type UIStateInventory } from './types';
 
 type InventoryListProps = {
   onShowAlert: any => void
 };
-
-const columnItems = [
-  { id: 0, name: 'idInventory', display: true },
-  { id: 1, name: 'productCode', display: true },
-  { id: 2, name: 'color', display: true },
-  { id: 3, name: 'size', display: true },
-  { id: 4, name: 'pieces', display: false },
-  { id: 5, name: 'salePrice', display: true },
-  { id: 6, name: 'gender', display: true },
-  { id: 7, name: 'type', display: true },
-  { id: 8, name: 'reservedQuantity', display: false },
-  { id: 9, name: 'material', display: true },
-  { id: 10, name: 'stock', display: true },
-  { id: 10, name: 'name', display: true }
-];
-
-const getSortDirections = (orderBy: string, direction: string) =>
-  columnItems.map(item => (item.name === orderBy ? direction : 'none'));
 
 const InventoryList = (props: InventoryListProps) => {
   const { onShowAlert } = props;
@@ -80,6 +49,21 @@ const InventoryList = (props: InventoryListProps) => {
   const savedParams = savedSearch?.params;
   const [filters, setFilters] = useState<Filters>(savedFilters || {});
 
+  const defaultValue: UIStateInventory = {
+    keyword: savedParams?.keyword,
+    orderBy: savedParams?.orderBy,
+    direction: savedParams?.direction,
+    page: savedParams?.page - 1 || 0,
+    perPage: savedParams?.perPage || 10,
+    isAddProductDrawerOpen: false && isUserAdminOrManager,
+    isQRCodeDrawerOpen: false,
+    isDeleteModal: false,
+    isModifyInventoryDrawer: false,
+    selectedProduct: null
+  };
+
+  const [uiState, setUiState] = useState<UIStateInventory>(defaultValue);
+
   const toggleDrawer = (drawer: string, open: boolean) => event => {
     if (
       event &&
@@ -88,19 +72,11 @@ const InventoryList = (props: InventoryListProps) => {
     ) {
       return;
     }
-    setUiState(prevState => ({ ...prevState, [drawer]: open }));
+    setUiState((prevState: UIStateInventory) => ({
+      ...prevState,
+      [drawer]: open
+    }));
   };
-
-  const [uiState, setUiState] = useState({
-    keyword: savedParams?.keyword || undefined,
-    orderBy: savedParams?.orderBy || undefined,
-    direction: savedParams?.direction || undefined,
-    page: savedParams?.page - 1 || 0,
-    perPage: savedParams?.perPage || 10,
-    isAddProductDrawerOpen: false && isUserAdminOrManager,
-    isQRCodeDrawerOpen: false,
-    selectedProduct: null
-  });
 
   const getData = useCallback(async () => {
     try {
@@ -114,7 +90,8 @@ const InventoryList = (props: InventoryListProps) => {
         minSalePrice_filter = undefined,
         maxSalePrice_filter = undefined,
         minCost_filter = undefined,
-        maxCost_filter = undefined
+        maxCost_filter = undefined,
+        status_filter = undefined
       } = filters;
 
       const params = {
@@ -131,7 +108,8 @@ const InventoryList = (props: InventoryListProps) => {
         minSalePrice: minSalePrice_filter?.numberValue,
         maxSalePrice: maxSalePrice_filter?.numberValue,
         minCost: minCost_filter?.numberValue,
-        maxCost: maxCost_filter?.numberValue
+        maxCost: maxCost_filter?.numberValue,
+        status: status_filter?.id
       };
 
       saveFilters('inventory', { filters, params });
@@ -148,23 +126,22 @@ const InventoryList = (props: InventoryListProps) => {
       } else if (response?.status === 500) {
         setError(true);
       }
-
       setCount(Number(response?.data?.totalResults) || 0);
       setLoading(false);
       setSearching(false);
       setError(false);
     } catch (err) {
-      const { message } = err;
+      // console.log({ json: JSON.stringify(err), err });
+      const { title, message, severity } = getErrorData(err);
       setError(true);
       setData([]);
       setLoading(false);
       setSearching(false);
       onShowAlert({
-        severity: 'error',
+        severity,
+        title,
         autoHideDuration: 3000,
-        title: getErrorData(err)?.title || 'Error en conexión',
-        body:
-          message || getErrorData(err)?.message || 'Contacte a soporte técnico'
+        body: message
       });
       throw err;
     }
@@ -215,10 +192,8 @@ const InventoryList = (props: InventoryListProps) => {
     }));
   };
 
-  const handleColumnSortClick = newSortDirection => {
-    const { orderBy, direction } = newSortDirection;
+  const handleColumnSortClick = ({ orderBy, direction }) => {
     setSearching(true);
-
     setUiState(prevState => ({
       ...prevState,
       orderBy,
@@ -245,382 +220,13 @@ const InventoryList = (props: InventoryListProps) => {
     }));
   };
 
-  const handleColumnDisplayClick = newColumnDisplay => {
-    const { column, display } = newColumnDisplay;
-    const index = columnItems.findIndex(item => item.name === column);
-    columnItems[index].display = display;
-  };
-
-  const handleRowClick = newItem => {
-    const selectedProduct = data[newItem.rowIndex];
-
-    setUiState(prevState => ({
-      ...prevState,
-      isQRCodeDrawerOpen: true,
-      selectedProduct: selectedProduct || null
-    }));
-  };
-
-  const sortDirection = getSortDirections(uiState.orderBy, uiState.direction);
-
-  const columns = [
-    {
-      name: 'idTable',
-      options: {
-        filter: false,
-        sort: false,
-        display: 'excluded',
-        filterType: 'custom'
-      }
-    },
-    {
-      name: 'idProduct',
-      label: Contents[language]?.lblIdProduct,
-      options: {
-        filter: true,
-        sort: false,
-        display: columnItems[0].display,
-        filterType: 'custom'
-      }
-    },
-    {
-      name: 'productCode',
-      label: Contents[language]?.labCode,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[1].display,
-        sortDirection: sortDirection[1],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return (
-            <CellSkeleton searching={searching}>
-              <strong>{value}</strong>
-            </CellSkeleton>
-          );
-        }
-      }
-    },
-    {
-      name: 'name',
-      label: Contents[language]?.labName,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[11].display,
-        sortDirection: sortDirection[11],
-        customBodyRender: value => {
-          return (
-            <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>
-          );
-        },
-        filterType: 'custom'
-      }
-    },
-    {
-      name: 'color',
-      label: Contents[language]?.labColor,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[2].display,
-        sortDirection: sortDirection[2],
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="color_filter"
-                  placeholder={Contents[language]?.labColor}
-                  url={Endpoints.Colors}
-                  selectedValue={filters.color_filter}
-                  onSelect={handleFilterChange}
-                />
-                <TextBox
-                  inputType="number"
-                  name="minSalePrice_filter"
-                  placeholder={Contents[language]?.minSalePrice}
-                  defaultValue={filters?.minSalePrice_filter?.numberValue}
-                  onChange={(name, numberValue) => {
-                    handleFilterChange(
-                      name,
-                      numberValue
-                        ? {
-                            numberValue,
-                            title: `minSalePrice: ${numberValue}`
-                          }
-                        : undefined
-                    );
-                  }}
-                />
-                <TextBox
-                  inputType="number"
-                  name="minCost_filter"
-                  placeholder={Contents[language]?.minCost}
-                  defaultValue={filters?.minCost_filter?.numberValue}
-                  onChange={(name, numberValue) => {
-                    handleFilterChange(
-                      name,
-                      numberValue
-                        ? {
-                            numberValue,
-                            title: `minCost: ${numberValue}`
-                          }
-                        : undefined
-                    );
-                  }}
-                />
-              </FormControl>
-            );
-          }
-        },
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        }
-      }
-    },
-    {
-      name: 'size',
-      label: Contents[language]?.labSize,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[3].display,
-        sortDirection: sortDirection[3],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return (
-            <CellSkeleton searching={searching}>
-              {value === -1 ? 'Unitalla' : value}
-            </CellSkeleton>
-          );
-        }
-      }
-    },
-    {
-      name: 'pieces',
-      label: Contents[language]?.labPieces,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[4].display,
-        sortDirection: sortDirection[4],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return (
-            <CellSkeleton searching={searching}>
-              {value || (value === 0 ? 0 : '--')}
-            </CellSkeleton>
-          );
-        }
-      }
-    },
-    {
-      name: 'salePrice',
-      label: Contents[language]?.labPrice,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[5].display,
-        sortDirection: sortDirection[5],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return (
-            <CellSkeleton searching={searching}>
-              {value ? currencyFormatter(value) : currencyFormatter(0)}
-            </CellSkeleton>
-          );
-        }
-      }
-    },
-    {
-      name: 'gender',
-      label: Contents[language]?.labGender,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[6].display,
-        sortDirection: sortDirection[6],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        },
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="gender_filter"
-                  placeholder={Contents[language]?.labGender}
-                  url={Endpoints.Genders}
-                  selectedValue={filters.gender_filter}
-                  onSelect={handleFilterChange}
-                />
-                <TextBox
-                  inputType="number"
-                  name="maxSalePrice_filter"
-                  placeholder={Contents[language]?.maxSalePrice}
-                  defaultValue={filters?.maxSalePrice_filter?.numberValue}
-                  onChange={(name, numberValue) => {
-                    handleFilterChange(
-                      name,
-                      numberValue
-                        ? {
-                            numberValue,
-                            title: `maxSalePrice: ${numberValue}`
-                          }
-                        : undefined
-                    );
-                  }}
-                />
-                <TextBox
-                  inputType="number"
-                  name="maxCost_filter"
-                  placeholder={Contents[language]?.maxCost}
-                  defaultValue={filters?.maxCost_filter?.numberValue}
-                  onChange={(name, numberValue) => {
-                    handleFilterChange(
-                      name,
-                      numberValue
-                        ? {
-                            numberValue,
-                            title: `maxCost: ${numberValue}`
-                          }
-                        : undefined
-                    );
-                  }}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'type',
-      label: Contents[language]?.labType,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[7].display,
-        sortDirection: sortDirection[7],
-        filterType: 'custom',
-        customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
-        },
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <AutocompleteSelect
-                  name="type_filter"
-                  placeholder={Contents[language]?.labType}
-                  url={Endpoints.GetTypes}
-                  selectedValue={filters.type_filter}
-                  onSelect={handleFilterChange}
-                />
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'reservedQuantity',
-      label: Contents[language]?.labReserved,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[8].display,
-        sortDirection: sortDirection[8],
-        customBodyRender: value => {
-          return (
-            <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>
-          );
-        },
-        filterType: 'custom'
-      }
-    },
-    {
-      name: 'material',
-      label: Contents[language]?.labMaterials,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[9].display,
-        sortDirection: sortDirection[9],
-        customBodyRender: value => {
-          return (
-            <CellSkeleton searching={searching}>{value || '--'}</CellSkeleton>
-          );
-        },
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <div display="flex">
-                  <AutocompleteSelect
-                    name="material_filter"
-                    placeholder={Contents[language]?.labMaterials}
-                    url={Endpoints.Materials}
-                    selectedValue={filters.material_filter}
-                    onSelect={handleFilterChange}
-                  />
-                </div>
-              </FormControl>
-            );
-          }
-        }
-      }
-    },
-    {
-      name: 'stock',
-      label: Contents[language]?.labStock,
-      options: {
-        filter: true,
-        sort: true,
-        display: columnItems[10].display,
-        sortDirection: sortDirection[10],
-        customBodyRender: value => {
-          return (
-            <CellSkeleton searching={searching}>
-              {value || (value === 0 ? 0 : '--')}
-            </CellSkeleton>
-          );
-        },
-        filterType: 'custom',
-        filterOptions: {
-          display: () => {
-            return (
-              <FormControl>
-                <div display="flex">
-                  <TextBox
-                    inputType="number"
-                    name="stock_filter"
-                    label={Contents[language]?.labStock}
-                    defaultValue={filters?.stock_filter?.numberValue}
-                    onChange={(name, numberValue) => {
-                      handleFilterChange(
-                        name,
-                        numberValue
-                          ? {
-                              numberValue,
-                              title: `Stock: ${numberValue}`
-                            }
-                          : undefined
-                      );
-                    }}
-                  />
-                </div>
-              </FormControl>
-            );
-          }
-        }
-      }
+  useEffect(() => {
+    if (data?.length === 0) {
+      setLoading(true);
+      setSearching(true);
+      getData();
     }
-  ];
+  }, [data, getData]);
 
   useEffect(() => {
     if (error) {
@@ -674,28 +280,24 @@ const InventoryList = (props: InventoryListProps) => {
         onFilterRemove={handleFilterRemove}
         onFiltersReset={handleResetFiltersClick}
       >
-        <DataTable
-          error={error}
+        <InventoryTableAdapter
           loading={loading}
-          data={data}
-          columns={columns}
+          error={error}
           count={count}
-          orderBy={uiState.orderBy}
-          direction={uiState.direction}
-          page={uiState.page}
-          rowsPerPage={uiState.perPage}
-          searchText={uiState.keyword}
-          onRowClick={handleRowClick}
-          onResetfiltersClick={handleResetFiltersClick}
-          onSearchTextChange={handleSearchChange}
-          onSearchClose={() => {
-            handleSearchChange();
-            setSearching(false);
-          }}
-          onColumnSortClick={handleColumnSortClick}
-          onPerPageClick={handlePerPageClick}
-          onPageClick={handlePageClick}
-          onColumnDisplayClick={handleColumnDisplayClick}
+          data={data || []}
+          uiState={uiState}
+          searching={searching}
+          filters={filters}
+          handleFilterChange={handleFilterChange}
+          handleResetFiltersClick={handleResetFiltersClick}
+          handleSearchChange={handleSearchChange}
+          handleColumnSortClick={handleColumnSortClick}
+          handlePerPageClick={handlePerPageClick}
+          handlePageClick={handlePageClick}
+          setData={setData}
+          setUiState={setUiState}
+          // handleRowClick={handleRowClick}
+          setSearching={setSearching}
         />
       </ListPageLayout>
       <Drawer
@@ -724,12 +326,26 @@ const InventoryList = (props: InventoryListProps) => {
           />
         </div>
       </Drawer>
+      <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isModifyInventoryDrawer}
+        onClose={toggleDrawer('isModifyInventoryDrawer', false)}
+      >
+        <div role="presentation">
+          <ModifyInventoryDrawer
+            onProductInserted={onProductInserted}
+            onShowAlert={onShowAlert}
+            handleClose={toggleDrawer('isModifyInventoryDrawer', false)}
+          />
+        </div>
+      </Drawer>
     </ContentPageLayout>
   );
 };
 const mapDispatchToProps = dispatch => {
   return {
-    onShowAlert: alert => dispatch(showAlert(alert))
+    onShowAlert: alert => dispatch(showAlert(alert)),
+    showConfirm: confirmation => dispatch(confirmAction(confirmation))
   };
 };
 

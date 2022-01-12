@@ -12,7 +12,7 @@ export const styles = {
 export const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(1),
-    height: 20,
+    minHeight: 20,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center'

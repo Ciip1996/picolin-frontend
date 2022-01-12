@@ -71,11 +71,10 @@ const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
         onProductNameInserted();
       }
     } catch (err) {
-      const { title, message } = getErrorData(err);
-
+      const { title, message, severity } = getErrorData(err);
       onShowAlert({
-        severity: 'error',
-        autoHideDuration: 3000,
+        severity,
+        autoHideDuration: 5000,
         title,
         body: message
       });

@@ -128,7 +128,7 @@ const LogIn = (props: LogInProps) => {
               status="success"
               className={classes.loginButton}
               text="Entrar"
-              variant="important"
+              isHighlited
             >
               {uiState.isLoading && (
                 <CircularProgress size={24} color={colors.white} />

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import 'App.css';
 import { THEME } from 'GlobalStyles';
 import Routes from 'routes/Routes';
@@ -12,8 +11,9 @@ import {
   getCurrentSessionExpirationDate,
   logout
 } from 'services/Authentication';
-import 'moment/locale/es';
 import { now } from 'lodash';
+import 'moment/locale/es';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DEFAULT_LOCALE = 'es';
 const DEFAULT_LANGUAGE = 'Spanish';

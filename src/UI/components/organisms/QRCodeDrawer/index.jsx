@@ -17,9 +17,7 @@ import Contents from './strings';
 type QRCodeDrawerProps = {
   selectedProduct: Object,
   handleClose: any => any,
-  onShowAlert: any => any,
-  productCode: string,
-  productDescription: string
+  onShowAlert: any => any
 };
 
 const QRCodeDrawer = (props: QRCodeDrawerProps) => {
@@ -145,7 +143,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
                   onChange={handleTextChange}
                   value={getValues('tagFontSize')}
                   helperText={Contents[language]?.TagFontSize}
-                  defaultValue={6}
+                  defaultValue="6"
                 />
               </InputContainer>
             </>

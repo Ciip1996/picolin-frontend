@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import moment from 'moment-timezone';
 
 import { FormControl } from '@material-ui/core';
-import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import CustomDatePicker from 'UI/components/atoms/CustomDatePicker';
 import { currencyFormatter, getErrorData } from 'UI/utils';
@@ -32,16 +31,9 @@ import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters, saveFilters } from 'services/FiltersStorage';
 import { AddIcon, colors } from 'UI/res';
+import CellSkeleton from 'UI/components/molecules/CellSkeleton';
 
 import Contents from './strings';
-
-const CellSkeleton = ({ children, searching }) => {
-  return searching ? (
-    <CustomSkeleton width="90%" height={18} />
-  ) : (
-    <>{children}</>
-  );
-};
 
 type PaymentListProps = {
   onShowAlert: any => void
@@ -144,17 +136,16 @@ const PaymentList = (props: PaymentListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
-      const { message } = err;
+      const { title, message, severity } = getErrorData(err);
       setError(true);
       setData([]);
       setLoading(false);
       setSearching(false);
       onShowAlert({
-        severity: 'error',
-        autoHideDuration: 3000,
-        title: getErrorData(err)?.title || 'Error en conexión',
-        body:
-          message || getErrorData(err)?.message || 'Contacte a soporte técnico'
+        severity,
+        autoHideDuration: 5000,
+        title,
+        body: message
       });
       throw err;
     }

@@ -7,7 +7,6 @@ import moment from 'moment-timezone';
 
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
-import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import CustomDatePicker from 'UI/components/atoms/CustomDatePicker';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
@@ -26,15 +25,8 @@ import type { Filters } from 'types/app';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
 
 import { showAlert } from 'actions/app';
+import CellSkeleton from 'UI/components/molecules/CellSkeleton';
 import Contents from './strings';
-
-const CellSkeleton = ({ children, searching }) => {
-  return searching ? (
-    <CustomSkeleton width="90%" height={18} />
-  ) : (
-    <>{children}</>
-  );
-};
 
 type SalesListProps = {
   onShowAlert: any => void
@@ -154,12 +146,13 @@ const SalesList = (props: SalesListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
+      const { title, message, severity } = getErrorData(err);
       setError(true);
       onShowAlert({
-        severity: 'error',
+        severity,
         autoHideDuration: 3000,
-        title: getErrorData(err)?.title || 'Error en conexión',
-        body: getErrorData(err).message || JSON.stringify(err)
+        title,
+        body: message || JSON.stringify(err)
       });
     }
   }, [
@@ -249,12 +242,14 @@ const SalesList = (props: SalesListProps) => {
         setSelectedSale(detailedData);
       }
     } catch (getSaleDetailError) {
+      const { title, message, severity } = getErrorData(getSaleDetailError);
+
       setError(true);
       onShowAlert({
-        severity: 'error',
+        severity,
         autoHideDuration: 3000,
-        title: getErrorData(getSaleDetailError).title,
-        body: getErrorData(getSaleDetailError).message
+        title,
+        body: message
       });
       throw getSaleDetailError;
     }

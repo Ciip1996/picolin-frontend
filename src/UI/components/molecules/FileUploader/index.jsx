@@ -116,11 +116,13 @@ const FileUploader = (props: FileUploaderProps) => {
           : { ...fileInfo, hasError: true }
       );
     } catch (err) {
+      const { title, message, severity } = getErrorData(err);
       processUploadResponse(newAttachments, {
         ...fileInfo,
-        title: getErrorData(err)?.title || 'Error en conexión',
+        severity,
+        title,
         autoHideDuration: 800000,
-        body: getErrorData(err)?.message || 'Contacte a soporte técnico',
+        body: message,
         hasError: true
       });
     }
@@ -163,9 +165,9 @@ const FileUploader = (props: FileUploaderProps) => {
         } catch (err) {
           showAlert({
             severity: 'error',
-            title: getErrorData(err)?.title || 'Error en conexión',
+            title: getErrorData(err)?.title,
             autoHideDuration: 800000,
-            body: getErrorData(err)?.message || 'Contacte a soporte técnico'
+            body: getErrorData(err)?.message
           });
         }
       }

@@ -1,14 +1,13 @@
 [ignore]
-.*/node_modules/findup/
-.*/node_modules/jsonlint-lines/.*
-.*/node_modules/@mapbox/jsonlint-lines-primitives/.*
+.*/node_modules/.*
+.*/coverage/.*
+.*/.cache/.*
+.*/test/.*
 
 [include]
 
 [libs]
 flow-typed
-./node_modules/mapbox-gl/flow-typed
-./node_modules/mapbox-gl/dist/mapbox-gl.js.flow
 
 [lints]
 
@@ -16,8 +15,15 @@ flow-typed
 module.system.node.resolve_dirname=node_modules
 module.system.node.resolve_dirname=src
 esproposal.optional_chaining=enable
+module.name_mapper='^~/\(.*\)$' -> '<PROJECT_ROOT>/src/\1'
+
 
 [strict]
 
 [untyped]
-.*/node_modules/
+.*/node_modules/react-redux/.*
+.*node_modules/react-redux.*
+.*node_modules/redux.*
+.*/node_modules/redux/.*
+.*/node_modules/jspdf/.*
+.*/node_modules/styled-components/.*

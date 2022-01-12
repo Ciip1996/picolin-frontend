@@ -4,6 +4,9 @@ export const Endpoints = {
   Inventory: '/inventory',
   GetInventory: '/getInventory/:idStore',
   InsertInventory: '/insertInventory',
+  ModifyInventory: '/updateInventory',
+  DeleteInventory: '/deleteInventoryLogicallyById',
+  RestoreInventory: '/restoreInventoryLogicallyById',
   Sales: '/sales',
   ProductNames: '/names',
   GetSales: '/getSales/:idStore',
@@ -35,5 +38,7 @@ export const Endpoints = {
   GetProductNameDetailsByIdName: '/getNameById/:id',
   InsertProductNames: '/insertProductName',
   Products: '/products',
-  GetProducts: '/getProducts'
+  GetProducts: '/getProducts',
+  DeleteProduct: '/deleteProductLogicallyById',
+  RestoreProduct: '/restoreProductLogicallyById'
 };

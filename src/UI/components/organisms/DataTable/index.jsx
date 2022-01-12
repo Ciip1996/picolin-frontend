@@ -65,7 +65,7 @@ type DataTableProps = {
   customEmptyStateIcon?: any,
   title?: string,
   subtitle?: string,
-  selectableRows?: 'none' | 'multiple',
+  selectableRows?: 'none' | 'multiple' | 'single',
   onColumnDisplayClick?: (row: any) => void
 };
 
@@ -108,8 +108,8 @@ const DataTable = (props: DataTableProps) => {
         filterType: 'dropdown',
         responsive: 'scrollFullHeight',
         selectableRows,
-        customToolbarSelect: () => customToolbarSelect,
-        selectableRowsOnClick: false,
+        customToolbarSelect,
+        selectableRowsOnClick: true,
         serverSide: true,
         count,
         page,
