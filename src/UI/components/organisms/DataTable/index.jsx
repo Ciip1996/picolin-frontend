@@ -56,7 +56,7 @@ type DataTableProps = {
   customToolbarSelect?: any,
   theme: any,
   onRowClick?: (row: any) => void,
-  onRowsSelect: (row: Array<any>, allRowsSelected: Array<any>) => void,
+  onRowsSelect?: (row: Array<any>, allRowsSelected: Array<any>) => void,
   onResetfiltersClick?: () => void,
   onSearchTextChange?: (search: string) => void,
   onColumnSortClick?: (row: any) => void,
@@ -261,7 +261,8 @@ DataTable.defaultProps = {
   selectableRows: 'none',
   customToolbarSelect: undefined,
   onColumnDisplayClick: undefined,
-  theme: getMuiTheme()
+  theme: getMuiTheme(),
+  onRowsSelect: () => {}
 };
 
 export default DataTable;
