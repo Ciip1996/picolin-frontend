@@ -14,8 +14,9 @@ import { getErrorData } from 'UI/utils';
 import { colors, AddIcon } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddProductNameDrawer from 'UI/components/organisms/AddProductNameDrawer';
-// import ViewProductNameDetails from 'UI/components/organisms/ViewProductNameDetails';
+import ModifyProductNameDrawer from 'UI/components/organisms/ModifyProductNameDrawer';
 
+// import ViewProductNameDetails from 'UI/components/organisms/ViewProductNameDetails';
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import type { Filters } from 'types/app';
@@ -28,6 +29,9 @@ import StatusLabel, {
   StatusLabelOptions
 } from 'UI/components/atoms/StatusLabel';
 import CellSkeleton from 'UI/components/molecules/CellSkeleton';
+import SelectedProductNameCustomToolbar, {
+  type ProductName
+} from './SelectedProductNameCustomToolbar';
 
 import Contents from './strings';
 
@@ -56,9 +60,9 @@ const ProductNamesList = (props: ProductNamesListProps) => {
   const [error, setError] = useState(false);
   const [searching, setSearching] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   const [data, setData] = useState([{}]);
-  // const [selectedProductName, setSelectedProductName] = useState({});
   const [count, setCount] = useState(0);
 
   const savedSearch = getFilters(filter_name);
@@ -85,7 +89,8 @@ const ProductNamesList = (props: ProductNamesListProps) => {
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
     isAddProductNameDrawerOpen: false && isUserAdminOrManager,
-    isViewDetailsProductNameDrawerOpen: false
+    isModifyInventoryDrawer: false && isUserAdminOrManager,
+    selectedProductName: {}
   });
 
   const getData = useCallback(async () => {
@@ -116,6 +121,7 @@ const ProductNamesList = (props: ProductNamesListProps) => {
       setLoading(false);
       setSearching(false);
       setError(false);
+      setRefresh(false);
     } catch (err) {
       const { title, message, severity } = getErrorData(err);
       setError(true);
@@ -137,11 +143,25 @@ const ProductNamesList = (props: ProductNamesListProps) => {
     uiState.direction
   ]);
 
-  const onProductNameInserted = () => {
+  const onRowsSelect = (currentRowsSelected: Array<any>) => {
+    const { dataIndex } = currentRowsSelected[0];
+    const selectedProduct = data[dataIndex];
     setUiState(prevState => ({
       ...prevState,
-      isAddProductNameDrawerOpen: false
+      selectedProduct: selectedProduct || null
     }));
+  };
+
+  const onProductNameInserted = productName => {
+    setUiState(prevState => ({
+      ...prevState,
+      isAddProductNameDrawerOpen: false,
+      isModifyInventoryDrawer: false,
+      keyword: productName || undefined,
+      page: 0,
+      perPage: 10
+    }));
+    setRefresh(true);
   };
 
   const handleSearchChange = newKeyword => {
@@ -221,7 +241,7 @@ const ProductNamesList = (props: ProductNamesListProps) => {
   //       setSelectedProductName(detailedData);
   //       setUiState(prevState => ({
   //         ...prevState,
-  //         isViewDetailsProductNameDrawerOpen: true
+  //         isModifyInventoryDrawer: true
   //       }));
   //     }
   //   } catch (getSaleDetailError) {
@@ -365,12 +385,17 @@ const ProductNamesList = (props: ProductNamesListProps) => {
   ];
 
   useEffect(() => {
+    if (refresh) {
+      getData();
+    }
+  }, [getData, refresh]);
+
+  useEffect(() => {
     if (error) {
       setData([]);
       setSearching(false);
       setLoading(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [error]);
 
   useEffect(() => {
@@ -434,25 +459,38 @@ const ProductNamesList = (props: ProductNamesListProps) => {
               onPerPageClick={handlePerPageClick}
               onPageClick={handlePageClick}
               onColumnDisplayClick={handleColumnDisplayClick}
+              onRowsSelect={onRowsSelect}
+              setSearching={setSearching}
+              selectableRows="single"
+              customToolbarSelect={selectedRows => {
+                if (data?.length === 0) return null;
+                const selectedRowIndex = selectedRows?.data[0]?.index;
+                const rowData = data[selectedRowIndex];
+                const productName: ProductName = rowData;
+                return (
+                  <SelectedProductNameCustomToolbar
+                    productName={productName}
+                    setUiState={setUiState}
+                    selectedRowIndex={selectedRowIndex}
+                    setRefresh={setRefresh}
+                  />
+                );
+              }}
             />
           </Box>
         </Box>
       </ListPageLayout>
       <Drawer
         anchor={drawerAnchor}
-        open={uiState.isViewDetailsProductNameDrawerOpen}
-        onClose={toggleDrawer('isViewDetailsProductNameDrawerOpen', false)}
+        open={uiState.isModifyInventoryDrawer}
+        onClose={toggleDrawer('isModifyInventoryDrawer', false)}
       >
         <div role="presentation">
-          {/* TODO: use drawer to show the selectedProductName */}
-          <AddProductNameDrawer
+          <ModifyProductNameDrawer
+            selectedProductName={uiState.selectedProductName}
             onProductNameInserted={onProductNameInserted}
             onShowAlert={onShowAlert}
-            // selectedProductName={selectedProductName}
-            handleClose={toggleDrawer(
-              'isViewDetailsProductNameDrawerOpen',
-              false
-            )}
+            handleClose={toggleDrawer('isModifyInventoryDrawer', false)}
           />
         </div>
       </Drawer>

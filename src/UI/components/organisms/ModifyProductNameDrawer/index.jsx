@@ -14,14 +14,14 @@ import { getErrorData } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-type AddInventoryProductDrawerProps = {
+type ModifyProductNameDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
   onProductNameInserted: (productName: string) => any,
   selectedProductName?: Object
 };
 
-const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
+const ModifyProductNameDrawer = (props: ModifyProductNameDrawerProps) => {
   const {
     handleClose,
     onShowAlert,
@@ -29,11 +29,14 @@ const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
     selectedProductName
   } = props;
 
-  // TODO show edit mode
   const language = localStorage.getItem('language');
 
   const form = useForm({
-    defaultValues: { ...selectedProductName, status: 1 }
+    defaultValues: {
+      idName: selectedProductName.idName || 100,
+      ...selectedProductName,
+      status: !!selectedProductName.status
+    }
   });
 
   const { handleSubmit } = form;
@@ -57,8 +60,8 @@ const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
   const onSubmit = async (formData: Object) => {
     try {
       const response = await API.post(
-        `${Endpoints.ProductNames}${Endpoints.InsertProductNames}`,
-        formData
+        `${Endpoints.ProductNames}${Endpoints.ModifyProductName}`,
+        { ...formData, status: +formData.status } // the unary operator turns boolean to integer value
       );
       if (response) {
         const { message, title } = response?.data;
@@ -102,7 +105,16 @@ const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
                 text={Contents[language]?.Subtitle}
                 fontSize={14}
               />
-              <ProductNameForm />
+              <ProductNameForm
+                showStatus
+                showId
+                initialComboValues={{
+                  idProvider: {
+                    id: selectedProductName.idProvider,
+                    title: selectedProductName.provider
+                  }
+                }}
+              />
             </div>
           </Box>
           <div />
@@ -112,8 +124,8 @@ const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
   );
 };
 
-AddProductNameDrawer.defaultProps = {
+ModifyProductNameDrawer.defaultProps = {
   selectedProductName: {}
 };
 
-export default AddProductNameDrawer;
+export default ModifyProductNameDrawer;

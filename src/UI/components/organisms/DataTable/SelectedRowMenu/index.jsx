@@ -16,21 +16,30 @@ type SelectedRowMenuProps = {
   onRowDeleted: any => any,
   onQRCodeDownload: any => any,
   onRowEdit: () => void,
-  isActionDelete: boolean
+  isActionDelete: boolean,
+  isQRCodeEnabled: boolean
 };
 
 const SelectedRowMenu = (props: SelectedRowMenuProps) => {
-  const { onRowDeleted, onQRCodeDownload, onRowEdit, isActionDelete } = props;
+  const {
+    onRowDeleted,
+    onQRCodeDownload,
+    onRowEdit,
+    isActionDelete,
+    isQRCodeEnabled
+  } = props;
 
   return (
     <ToolbarWrapper>
       <TableRow>
-        <CustomIconButton
-          tooltipText={Contents[language]?.qrcode}
-          onClick={onQRCodeDownload}
-        >
-          <QrCodeIcon />
-        </CustomIconButton>
+        {isQRCodeEnabled && (
+          <CustomIconButton
+            tooltipText={Contents[language]?.qrcode}
+            onClick={onQRCodeDownload}
+          >
+            <QrCodeIcon />
+          </CustomIconButton>
+        )}
         <CustomIconButton
           tooltipText={Contents[language]?.edit}
           onClick={onRowEdit}
@@ -59,7 +68,8 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
 SelectedRowMenu.defaultProps = {
   onRowDeleted: undefined,
   onQRCodeDownload: undefined,
-  isActionDelete: true
+  isActionDelete: true,
+  isQRCodeEnabled: true
 };
 
 export default SelectedRowMenu;

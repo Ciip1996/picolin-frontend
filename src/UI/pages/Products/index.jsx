@@ -211,13 +211,13 @@ const ProductsList = (props: ProductsListProps) => {
     }));
   };
 
-  useEffect(() => {
-    if (data?.length === 0) {
-      setLoading(true);
-      setSearching(true);
-      getData();
-    }
-  }, [data, getData]);
+  // useEffect(() => {
+  //   if (data?.length === 0) {
+  //     setLoading(true);
+  //     setSearching(true);
+  //     getData();
+  //   }
+  // }, [data, getData]);
 
   useEffect(() => {
     if (error) {
@@ -230,7 +230,7 @@ const ProductsList = (props: ProductsListProps) => {
   useEffect(() => {
     document.title = PageTitles.Products;
     getData();
-  }, [error, getData]);
+  }, [getData]);
 
   return (
     <ContentPageLayout>

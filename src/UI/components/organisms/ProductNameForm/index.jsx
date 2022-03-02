@@ -1,10 +1,11 @@
 // @flow
-import React, { useState, useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import React, { useState, useEffect, useRef } from 'react';
+import { useFormContext, Controller } from 'react-hook-form';
 import styled from 'styled-components';
 
 import Box from '@material-ui/core/Box';
 import Switch from '@material-ui/core/Switch';
+
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 import TextBox from 'UI/components/atoms/TextBox';
@@ -24,26 +25,24 @@ export const UpperCaseTextBox = styled(TextBox)`
 `;
 
 type ProductNameFormProps = {
-  initialValues: MapType
+  initialComboValues: MapType,
+  showStatus: boolean,
+  showId: boolean
 };
 
 const Separator = () => <span style={{ width: 20 }} />;
 
 const ProductNameForm = (props: ProductNameFormProps) => {
-  const { initialValues } = props;
+  const { initialComboValues, showStatus, showId } = props;
   const language = localStorage.getItem('language');
 
-  const [comboValues, setComboValues] = useState<MapType>(initialValues);
+  const [comboValues, setComboValues] = useState<MapType>(initialComboValues);
 
-  const { register, errors, setValue, getValues } = useFormContext();
+  const { register, errors, setValue, getValues, control } = useFormContext();
 
   useEffect(() => {
     register(
       { name: 'idProvider' },
-      { required: `${Contents[language]?.RequiredMessage}` }
-    );
-    register(
-      { name: 'status' },
       { required: `${Contents[language]?.RequiredMessage}` }
     );
     register({ name: 'name' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
@@ -64,14 +63,34 @@ const ProductNameForm = (props: ProductNameFormProps) => {
     setComboValues({ ...comboValues });
   };
 
-  const onSwitcherChange = (event: Object) => {
-    const isStatusChecked = event.target.checked;
-    setValue('status', isStatusChecked ? 1 : 0, true);
-  };
+  const inputRef = useRef();
 
   return (
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%">
       <InputContainer>
+        {showId && (
+          <>
+            <Controller
+              as={
+                <TextBox
+                  inputType="text"
+                  name="idName"
+                  InputProps={{
+                    readOnly: true
+                  }}
+                  inputRef={inputRef}
+                  label="ID"
+                  variant="outlined"
+                />
+              }
+              name="idName"
+              onFocus={() => inputRef.current.focus()}
+              control={control}
+              rules={{ required: true }}
+            />
+          </>
+        )}
+        <Separator />
         <UpperCaseTextBox
           inputType="text"
           name="name"
@@ -85,9 +104,20 @@ const ProductNameForm = (props: ProductNameFormProps) => {
       <InputContainer>
         <FormControlLabel
           name="status"
-          style={{ height: '100%' }}
-          control={<Switch color="primary" />}
-          onChange={onSwitcherChange}
+          style={{
+            height: '100%',
+            display: showStatus ? 'inherit' : 'none'
+          }}
+          control={
+            <Controller
+              as={<Switch inputRef={inputRef} color="primary" />}
+              name="status"
+              onFocus={() => inputRef.current.focus()}
+              control={control}
+              rules={{ required: false }}
+              style={{ height: '100%' }}
+            />
+          }
           label={Contents[language]?.Status}
           labelPlacement="start"
           error={!!errors.status}
@@ -109,7 +139,9 @@ const ProductNameForm = (props: ProductNameFormProps) => {
 };
 
 ProductNameForm.defaultProps = {
-  initialValues: {}
+  initialComboValues: {},
+  showStatus: false,
+  showId: false
 };
 
 export default ProductNameForm;

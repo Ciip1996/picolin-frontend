@@ -131,7 +131,6 @@ const InventoryList = (props: InventoryListProps) => {
       setSearching(false);
       setError(false);
     } catch (err) {
-      // console.log({ json: JSON.stringify(err), err });
       const { title, message, severity } = getErrorData(err);
       setError(true);
       setData([]);
@@ -230,13 +229,13 @@ const InventoryList = (props: InventoryListProps) => {
     }));
   };
 
-  useEffect(() => {
-    if (data?.length === 0) {
-      setLoading(true);
-      setSearching(true);
-      getData();
-    }
-  }, [data, getData]);
+  // useEffect(() => {
+  //   if (data?.length === 0 && searching === false) {
+  //     setLoading(true);
+  //     setSearching(true);
+  //     getData();
+  //   }
+  // }, [data?.length, getData, searching]);
 
   useEffect(() => {
     if (error) {
@@ -249,7 +248,7 @@ const InventoryList = (props: InventoryListProps) => {
   useEffect(() => {
     document.title = PageTitles.Inventory;
     getData();
-  }, [error, getData]);
+  }, [getData]);
 
   return (
     <ContentPageLayout>

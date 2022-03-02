@@ -23,7 +23,6 @@
     "flow-typed": "^3.1.0",
     "hellosign-embedded": "^2.8.0",
     "html2canvas": "^1.0.0-rc.7",
-    "imutable": "0.0.1",
     "install": "^0.13.0",
     "jsonwebtoken": "^8.5.1",
     "jspdf": "^2.1.1",
