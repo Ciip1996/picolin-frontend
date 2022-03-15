@@ -1,7 +1,16 @@
 import jsPDF from 'jspdf';
-import { SourceSansPro } from 'UI/res/fonts';
+import { RobotoMonoRegular, RobotoMonoBold } from 'UI/res/fonts';
+import { currencyFormatter } from 'UI/utils';
 
-function resizeImage(base64Str, maxWidth = 300, maxHeight = 300) {
+const MAX_FONT_SIZE_PERMITTED = 14;
+
+const getMaxFontSize = fontSize => {
+  return parseInt(fontSize, 10) > MAX_FONT_SIZE_PERMITTED
+    ? MAX_FONT_SIZE_PERMITTED
+    : fontSize;
+};
+
+function resizeImage(base64Str, maxWidth = 500, maxHeight = 500) {
   // TODO: resize with better resolution
   return new Promise(resolve => {
     const img = new Image();
@@ -37,6 +46,7 @@ export const generateTagQR = (
   canvas,
   productCode,
   productDescription,
+  productPrize = '--',
   customFontSize
 ) => {
   const imgData = canvas.toDataURL('image/png');
@@ -47,31 +57,53 @@ export const generateTagQR = (
     format: [65, 45]
   });
 
-  pdfDoc.addFileToVFS('SourceSansPro-Regular-normal.ttf', SourceSansPro);
+  pdfDoc.addFileToVFS('RobotoMono-Regular-normal.ttf', RobotoMonoRegular);
+  pdfDoc.addFileToVFS('RobotoMono-Bold-normal.ttf', RobotoMonoBold);
   pdfDoc.addFont(
-    'SourceSansPro-Regular-normal.ttf',
-    'SourceSansPro-Regular',
+    'RobotoMono-Regular-normal.ttf',
+    'RobotoMono-Regular',
     'normal'
   );
+  pdfDoc.addFont('RobotoMono-Bold-normal.ttf', 'RobotoMono-Bold', 'normal');
 
-  const QRCodeImageSize = 100;
-  const textleftMargin = 35;
-  const qrCodeLeftMargin = 5;
-  const topMargin = 5;
-  const textWrappingWidth = 25;
+  const QRCodeImageSize = 86;
+
+  const leftMargin = 5;
+  const baseTopMargin = 5;
+
+  const textleftMargin = 32;
+
+  let bodyTopMargin = baseTopMargin + 5;
+
+  const headerTextWrappingWidth = 56;
+  const bodyTextWrappingWidth = 32;
 
   resizeImage(imgData, QRCodeImageSize, QRCodeImageSize).then(resizedImage => {
-    pdfDoc.setFont('SourceSansPro-Regular', 'normal');
-    pdfDoc.setFontSize(customFontSize);
-    pdfDoc.text(`Código de Producto:`, textleftMargin, topMargin + 3);
-    pdfDoc.text(`${productCode}`, textleftMargin, topMargin + 6);
-
-    const splitTitle = pdfDoc.splitTextToSize(
-      productDescription,
-      textWrappingWidth
+    pdfDoc.setFont('RobotoMono-Regular', 'normal');
+    pdfDoc.setFontSize(getMaxFontSize(customFontSize));
+    const splittedProductCode = pdfDoc.splitTextToSize(
+      `CÓDIGO: ${productCode}`,
+      headerTextWrappingWidth
     );
-    pdfDoc.text(textleftMargin, topMargin + 14, splitTitle);
-    pdfDoc.addImage(resizedImage, 'PNG', qrCodeLeftMargin, topMargin);
+    pdfDoc.text(leftMargin, baseTopMargin, splittedProductCode);
+
+    pdfDoc.setFontSize(getMaxFontSize(parseInt(customFontSize, 10) + 4)); // add 4 size points to price
+    pdfDoc.setFont('RobotoMono-Bold', 'normal'); // set bold font weight
+    pdfDoc.text(
+      `${currencyFormatter(productPrize)}`,
+      textleftMargin,
+      (bodyTopMargin += 3)
+    );
+    pdfDoc.setFontSize(getMaxFontSize(customFontSize)); // restore regular size
+    pdfDoc.setFont('RobotoMono-Regular', 'normal'); // restore regular font weight
+
+    const splittedDescription = pdfDoc.splitTextToSize(
+      productDescription.toUpperCase(),
+      bodyTextWrappingWidth
+    );
+    pdfDoc.text(textleftMargin, (bodyTopMargin += 5), splittedDescription);
+
+    pdfDoc.addImage(resizedImage, 'PNG', leftMargin, baseTopMargin + 5);
     pdfDoc.save(`${productCode}.pdf`);
   });
 };

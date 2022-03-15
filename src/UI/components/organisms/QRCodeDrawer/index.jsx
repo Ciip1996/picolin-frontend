@@ -24,7 +24,15 @@ type QRCodeDrawerProps = {
 const QRCodeDrawer = (props: QRCodeDrawerProps) => {
   const { selectedProduct, handleClose, onShowAlert } = props;
 
-  const { productCode, name, material, color, gender, size } = selectedProduct;
+  const {
+    productCode,
+    name,
+    material,
+    color,
+    gender,
+    size,
+    salePrice
+  } = selectedProduct;
 
   const productInformation = `${name} ${material} ${color} ${gender} ${
     size === 'UNITALLA' ? '' : 'talla'
@@ -69,6 +77,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
           canvas,
           productCode,
           productInformation,
+          salePrice,
           getValues('tagFontSize')
         )
       );

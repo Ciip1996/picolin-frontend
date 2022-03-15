@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf';
 import {
-  SourceSansPro,
+  SourceSansProRegular,
   SourceSansProBold,
   MontserratRegular,
   MontserratBold
@@ -32,7 +32,7 @@ const generateBaseDocumentWithHeader = (height, ticketNumber, date, idSale) => {
   });
   // add custom font
 
-  doc.addFileToVFS('SourceSansPro-Regular-normal.ttf', SourceSansPro);
+  doc.addFileToVFS('SourceSansPro-Regular-normal.ttf', SourceSansProRegular);
   doc.addFont(
     'SourceSansPro-Regular-normal.ttf',
     'SourceSansPro-Regular',
