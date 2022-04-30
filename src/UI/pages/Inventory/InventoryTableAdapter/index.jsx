@@ -58,7 +58,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
   const language = localStorage.getItem('language');
 
   const columnItems = [
-    { id: 0, name: 'idProduct', display: true },
+    { id: 0, name: 'idProduct', display: false },
     { id: 1, name: 'productCode', display: true },
     { id: 2, name: 'color', display: true },
     { id: 3, name: 'size', display: true },
@@ -67,10 +67,10 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
     { id: 6, name: 'gender', display: true },
     { id: 7, name: 'type', display: true },
     { id: 8, name: 'reservedQuantity', display: false },
-    { id: 9, name: 'material', display: true },
+    { id: 9, name: 'material', display: false },
     { id: 10, name: 'stock', display: true },
     { id: 11, name: 'name', display: true },
-    { id: 12, name: 'status', display: false },
+    { id: 12, name: 'status', display: true },
     { id: 13, name: 'store', display: true },
     { id: 14, name: 'observations', display: false }
   ];
