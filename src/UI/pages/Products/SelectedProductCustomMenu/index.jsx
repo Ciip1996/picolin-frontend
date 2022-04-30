@@ -78,9 +78,9 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
       onRowDeleted={() =>
         showConfirm({
           severity: isActionDelete ? 'error' : 'warning',
-          title: `${isActionDelete ? 'Eliminar' : 'Restaurar'}`,
+          title: `${isActionDelete ? 'Desactivar' : 'Restaurar'}`,
           message: `Seguro(a) que deseas ${
-            isActionDelete ? 'Eliminar' : 'Restaurar'
+            isActionDelete ? 'Desactivar' : 'Restaurar'
           } este producto?`,
 
           onConfirm

@@ -83,9 +83,9 @@ const SelectedInventoryCustomMenu = (
       onRowDeleted={() =>
         showConfirm({
           severity: isActionDelete ? 'error' : 'warning',
-          title: `${isActionDelete ? 'Eliminar' : 'Restaurar'}`,
+          title: `${isActionDelete ? 'Desactivar' : 'Restaurar'}`,
           message: `Seguro(a) que deseas ${
-            isActionDelete ? 'Eliminar' : 'Restaurar'
+            isActionDelete ? 'Desactivar' : 'Restaurar'
           } este registro del inventario?`,
           onConfirm
         })
