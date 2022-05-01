@@ -21,16 +21,16 @@ import InputContainer from 'UI/components/atoms/InputContainer';
 import Contents from './strings';
 
 type ProductFormProps = {
-  initialValues: MapType
+  initialComboValues: MapType
 };
 
 const Separator = () => <span style={{ width: 20 }} />;
 
 const ProductForm = (props: ProductFormProps) => {
-  const { initialValues } = props;
+  const { initialComboValues } = props;
   const language = localStorage.getItem('language');
 
-  const [comboValues, setComboValues] = useState<MapType>(initialValues);
+  const [comboValues, setComboValues] = useState<MapType>(initialComboValues);
   const [isSizeNumeric, setIsSizeNumeric] = useState(true);
 
   const {
@@ -277,7 +277,7 @@ const ProductForm = (props: ProductFormProps) => {
 };
 
 ProductForm.defaultProps = {
-  initialValues: {}
+  initialComboValues: {}
 };
 
 export default ProductForm;

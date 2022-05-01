@@ -18,7 +18,7 @@ type ModifyProductNameDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
   onProductNameInserted: (productName: string) => any,
-  selectedProductName?: Object
+  selectedProductName?: any
 };
 
 const ModifyProductNameDrawer = (props: ModifyProductNameDrawerProps) => {
@@ -33,9 +33,9 @@ const ModifyProductNameDrawer = (props: ModifyProductNameDrawerProps) => {
 
   const form = useForm({
     defaultValues: {
-      idName: selectedProductName.idName || 100,
+      idName: selectedProductName?.idName || 100,
       ...selectedProductName,
-      status: !!selectedProductName.status
+      status: !!selectedProductName?.status
     }
   });
 
@@ -110,8 +110,8 @@ const ModifyProductNameDrawer = (props: ModifyProductNameDrawerProps) => {
                 showId
                 initialComboValues={{
                   idProvider: {
-                    id: selectedProductName.idProvider,
-                    title: selectedProductName.provider
+                    id: selectedProductName?.idProvider,
+                    title: selectedProductName?.provider
                   }
                 }}
               />

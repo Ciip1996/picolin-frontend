@@ -17,15 +17,28 @@ import Contents from './strings';
 type AddProductDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
-  onProductInserted: Object => any
+  onProductInserted: (product: Object) => any,
+  selectedProduct?: any,
+  isEditMode?: boolean
 };
 
 const AddProductDrawer = (props: AddProductDrawerProps) => {
-  const { handleClose, onShowAlert, onProductInserted } = props;
+  const {
+    handleClose,
+    onShowAlert,
+    onProductInserted,
+    selectedProduct,
+    isEditMode
+  } = props;
+
   const language = localStorage.getItem('language');
 
+  const { idName } = selectedProduct || {};
   const form = useForm({
-    defaultValues: {}
+    defaultValues: {
+      ...selectedProduct,
+      name: idName
+    }
   });
 
   const { handleSubmit } = form;
@@ -35,7 +48,8 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
     isSuccess: false,
     isReadOnly: false,
     isFormDisabled: false,
-    isLoading: true
+    isLoading: true,
+    preloadedProduct: {}
   });
 
   useEffect(() => {
@@ -48,10 +62,11 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
 
   const onSubmit = async (formData: Object) => {
     try {
-      const response = await API.post(
-        `${Endpoints.Products}${Endpoints.InsertProduct}`,
-        formData
-      );
+      const endpointURL = isEditMode
+        ? `${Endpoints.Products}${Endpoints.ModifyProduct}`
+        : `${Endpoints.Products}${Endpoints.InsertProduct}`;
+
+      const response = await API.post(endpointURL, formData);
       if (response) {
         const { insertedProduct, message, title } = response?.data;
         onShowAlert({
@@ -94,7 +109,31 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
                 text={Contents[language]?.Subtitle}
                 fontSize={14}
               />
-              <ProductForm />
+              <ProductForm
+                initialComboValues={{
+                  idType: {
+                    id: selectedProduct?.idType,
+                    title: selectedProduct?.type
+                  },
+                  name: {
+                    id: selectedProduct?.idName,
+                    title: selectedProduct?.name,
+                    name_with_provider: selectedProduct?.name_with_provider
+                  },
+                  idMaterial: {
+                    id: selectedProduct?.idMaterial,
+                    title: selectedProduct?.material
+                  },
+                  idGender: {
+                    id: selectedProduct?.idGender,
+                    title: selectedProduct?.gender
+                  },
+                  idColor: {
+                    id: selectedProduct?.idColor,
+                    title: selectedProduct?.color
+                  }
+                }}
+              />
             </div>
           </Box>
           <div />
@@ -104,6 +143,6 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
   );
 };
 
-AddProductDrawer.defaultProps = {};
+AddProductDrawer.defaultProps = { selectedProduct: null, isEditMode: false };
 
 export default AddProductDrawer;

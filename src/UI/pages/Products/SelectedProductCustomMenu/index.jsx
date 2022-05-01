@@ -72,6 +72,7 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
       onRowEdit={() =>
         setUiState(prevState => ({
           ...prevState,
+          isAddProductDrawerOpen: true,
           isModifyProductDrawerOpen: true
         }))
       }
@@ -87,7 +88,6 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
         })
       }
       onQRCodeDownload={() =>
-        // TODO show qrcode for product without inventory
         setUiState(prevState => ({
           ...prevState,
           isQRCodeDrawerOpen: true,
@@ -96,6 +96,12 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
         }))
       }
       isActionDelete={isActionDelete}
+      onCloneProduct={() => {
+        setUiState(prevState => ({
+          ...prevState,
+          isAddProductDrawerOpen: true
+        }));
+      }}
     />
   );
 };

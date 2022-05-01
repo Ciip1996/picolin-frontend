@@ -15,7 +15,6 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 import AddProductDrawer from 'UI/components/organisms/AddProductDrawer';
 import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
 import ProductsTableAdapter from 'UI/pages/Products/ProductsTableAdapter';
-import ModifyProductDrawer from 'UI/components/organisms/ModifyProductDrawer';
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import type { Filters } from 'types/app';
@@ -71,7 +70,8 @@ const ProductsList = (props: ProductsListProps) => {
     isModifyProductDrawerOpen: false,
     isQRCodeDrawerOpen: false,
     selectedProduct: null,
-    isDeleteModal: false
+    isDeleteModal: false,
+    preloadedProduct: {}
   });
 
   const getData = useCallback(async () => {
@@ -143,16 +143,6 @@ const ProductsList = (props: ProductsListProps) => {
     }));
   };
 
-  // TODO: add filters and uncomment
-  // const handleFilterChange = (name: string, value: any) => {
-  //   setSearching(true);
-  //   setFilters({ ...filters, [name]: value });
-  //   setUiState(prevState => ({
-  //     ...prevState,
-  //     page: 0
-  //   }));
-  // };
-
   const onRowsSelect = (currentRowsSelected: Array<any>) => {
     const { dataIndex } = currentRowsSelected[0];
     const selectedProduct = data[dataIndex];
@@ -210,14 +200,6 @@ const ProductsList = (props: ProductsListProps) => {
       page: 0
     }));
   };
-
-  // useEffect(() => {
-  //   if (data?.length === 0) {
-  //     setLoading(true);
-  //     setSearching(true);
-  //     getData();
-  //   }
-  // }, [data, getData]);
 
   useEffect(() => {
     if (error) {
@@ -295,9 +277,11 @@ const ProductsList = (props: ProductsListProps) => {
       >
         <div role="presentation">
           <AddProductDrawer
+            selectedProduct={uiState.selectedProduct}
             onProductInserted={onProductInserted}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
+            isEditMode={uiState.isModifyProductDrawerOpen}
           />
         </div>
       </Drawer>
@@ -311,19 +295,6 @@ const ProductsList = (props: ProductsListProps) => {
             selectedProduct={uiState?.selectedProduct}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isQRCodeDrawerOpen', false)}
-          />
-        </div>
-      </Drawer>
-      <Drawer
-        anchor={drawerAnchor}
-        open={uiState.isModifyProductDrawerOpen}
-        onClose={toggleDrawer('isModifyProductDrawerOpen', false)}
-      >
-        <div role="presentation">
-          <ModifyProductDrawer
-            onProductInserted={onProductInserted}
-            onShowAlert={onShowAlert}
-            handleClose={toggleDrawer('isModifyProductDrawerOpen', false)}
           />
         </div>
       </Drawer>

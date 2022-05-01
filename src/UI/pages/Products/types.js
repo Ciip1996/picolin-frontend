@@ -6,7 +6,8 @@ export type UIStateProduct = UIState & {
   isQRCodeDrawerOpen: boolean,
   selectedProduct: Maybe<Object>,
   isDeleteModal: boolean,
-  isModifyProductDrawerOpen: boolean
+  isModifyProductDrawerOpen: boolean,
+  preloadedProduct?: Object | null
 };
 
 export interface FilterProduct {
