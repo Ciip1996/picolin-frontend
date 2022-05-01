@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
-import InventoryProductForm from 'UI/components/organisms/InventoryProductForm';
+import ProductForm from 'UI/components/organisms/ProductForm';
 import { Endpoints } from 'UI/constants/endpoints';
 
 import API from 'services/API';
@@ -14,13 +14,13 @@ import { getErrorData } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-type AddInventoryProductDrawerProps = {
+type AddProductDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
   onProductInserted: Object => any
 };
 
-const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
+const AddProductDrawer = (props: AddProductDrawerProps) => {
   const { handleClose, onShowAlert, onProductInserted } = props;
   const language = localStorage.getItem('language');
 
@@ -49,18 +49,18 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
   const onSubmit = async (formData: Object) => {
     try {
       const response = await API.post(
-        `${Endpoints.Inventory}${Endpoints.InsertInventory}`,
+        `${Endpoints.Products}${Endpoints.InsertProduct}`,
         formData
       );
       if (response) {
-        const { product, message, title } = response?.data;
+        const { insertedProduct, message, title } = response?.data;
         onShowAlert({
           severity: response.status === 200 ? 'success' : 'warning',
           title,
           autoHideDuration: 3000,
           body: message
         });
-        onProductInserted(product);
+        onProductInserted(insertedProduct);
       }
     } catch (err) {
       const { title, message, severity } = getErrorData(err);
@@ -94,7 +94,7 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
                 text={Contents[language]?.Subtitle}
                 fontSize={14}
               />
-              <InventoryProductForm />
+              <ProductForm />
             </div>
           </Box>
           <div />
@@ -104,6 +104,6 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
   );
 };
 
-AddInventoryProductDrawer.defaultProps = {};
+AddProductDrawer.defaultProps = {};
 
-export default AddInventoryProductDrawer;
+export default AddProductDrawer;

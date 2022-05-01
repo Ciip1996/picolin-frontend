@@ -12,7 +12,7 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import { getErrorData } from 'UI/utils';
 import { colors, AddIcon } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
-import AddInventoryProductDrawer from 'UI/components/organisms/AddInventoryProductDrawer';
+import AddProductDrawer from 'UI/components/organisms/AddProductDrawer';
 import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
 import ProductsTableAdapter from 'UI/pages/Products/ProductsTableAdapter';
 import ModifyProductDrawer from 'UI/components/organisms/ModifyProductDrawer';
@@ -99,7 +99,7 @@ const ProductsList = (props: ProductsListProps) => {
       const response = await API.get(`${url}${queryParams}`);
 
       if (response?.status === 200) {
-        setData(response?.data?.names || []);
+        setData(response?.data?.products || []);
       }
       setCount(Number(response?.data?.totalResults) || 0);
       setLoading(false);
@@ -294,7 +294,7 @@ const ProductsList = (props: ProductsListProps) => {
         onClose={toggleDrawer('isAddProductDrawerOpen', false)}
       >
         <div role="presentation">
-          <AddInventoryProductDrawer
+          <AddProductDrawer
             onProductInserted={onProductInserted}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isAddProductDrawerOpen', false)}

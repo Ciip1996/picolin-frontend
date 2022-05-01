@@ -26,7 +26,7 @@ type ProductFormProps = {
 
 const Separator = () => <span style={{ width: 20 }} />;
 
-const ProductForm = (props: ProductFormProps) => {
+const InventoryProductForm = (props: ProductFormProps) => {
   const { initialValues } = props;
   const language = localStorage.getItem('language');
 
@@ -68,7 +68,15 @@ const ProductForm = (props: ProductFormProps) => {
       { required: `${Contents[language]?.RequiredMessage}` }
     );
     register(
+      { name: 'idStore' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
       { name: 'idGender' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'quantity' },
       { required: `${Contents[language]?.RequiredMessage}` }
     );
     register({ name: 'name' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
@@ -244,7 +252,30 @@ const ProductForm = (props: ProductFormProps) => {
         />
       </InputContainer>
       <InputContainer display="contents">
+        <AutocompleteSelect
+          name="idStore"
+          selectedValue={comboValues.idStore}
+          placeholder={Contents[language]?.ReceptionPlace}
+          error={!!errors?.idStore}
+          errorText={errors?.idStore && errors?.idStore.message}
+          onSelect={handleComboChange}
+          url={Endpoints.Stores}
+        />
+        <Separator />
+      </InputContainer>
+      <InputContainer display="contents">
         <Box display="flex" width="100%">
+          <TextBox
+            inputType="number"
+            name="quantity"
+            label={Contents[language]?.Quantity}
+            error={!!errors?.quantity}
+            errorText={errors?.quantity && errors?.quantity.message}
+            onChange={handleTextChange}
+            value={getValues('quantity') || ''}
+            helperText={Contents[language]?.StockDescription}
+          />
+          <Separator />
           <TextBox
             ref={register}
             inputRef={register}
@@ -276,8 +307,8 @@ const ProductForm = (props: ProductFormProps) => {
   );
 };
 
-ProductForm.defaultProps = {
+InventoryProductForm.defaultProps = {
   initialValues: {}
 };
 
-export default ProductForm;
+export default InventoryProductForm;
