@@ -34,6 +34,7 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
   const language = localStorage.getItem('language');
 
   const { idName } = selectedProduct || {};
+
   const form = useForm({
     defaultValues: {
       ...selectedProduct,
@@ -65,7 +66,6 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
       const endpointURL = isEditMode
         ? `${Endpoints.Products}${Endpoints.ModifyProduct}`
         : `${Endpoints.Products}${Endpoints.InsertProduct}`;
-
       const response = await API.post(endpointURL, formData);
       if (response) {
         const { insertedProduct, message, title } = response?.data;
@@ -88,28 +88,30 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
       throw err;
     }
   };
+  const uiMode = isEditMode ? 'Edit' : 'Register';
 
   return (
     <>
       <FormContext {...form}>
         <DrawerFormLayout
-          title={Contents[language]?.Title}
+          title={Contents[language][uiMode].Title}
           onSubmit={handleSubmit(onSubmit)}
           onClose={handleClose}
           onSecondaryButtonClick={handleClose}
           variant="borderless"
           uiState={uiState}
-          initialText="Agregar"
+          initialText={Contents[language][uiMode].Submit}
         >
           <form className={classes.root} noValidate autoComplete="off" />
           <Box>
             <div style={globalStyles.feeDrawerslabel}>
               <Text
                 variant="body1"
-                text={Contents[language]?.Subtitle}
+                text={Contents[language][uiMode]?.Subtitle}
                 fontSize={14}
               />
               <ProductForm
+                isEditMode={isEditMode}
                 initialComboValues={{
                   idType: {
                     id: selectedProduct?.idType,

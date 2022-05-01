@@ -21,13 +21,14 @@ import InputContainer from 'UI/components/atoms/InputContainer';
 import Contents from './strings';
 
 type ProductFormProps = {
-  initialComboValues: MapType
+  initialComboValues: MapType,
+  isEditMode?: boolean
 };
 
 const Separator = () => <span style={{ width: 20 }} />;
 
 const ProductForm = (props: ProductFormProps) => {
-  const { initialComboValues } = props;
+  const { initialComboValues, isEditMode } = props;
   const language = localStorage.getItem('language');
 
   const [comboValues, setComboValues] = useState<MapType>(initialComboValues);
@@ -95,6 +96,18 @@ const ProductForm = (props: ProductFormProps) => {
   };
 
   useEffect(() => {
+    if (isEditMode) {
+      unregister('idProduct');
+      register(
+        { name: 'idProduct' },
+        {
+          ...PRODUCT_SIZE_VALIDATION
+        }
+      );
+    } else {
+      unregister('idProduct');
+    }
+
     if (isSizeNumeric) {
       unregister('size');
       register(
@@ -112,7 +125,7 @@ const ProductForm = (props: ProductFormProps) => {
         }
       );
     }
-  }, [isSizeNumeric, language, register, unregister]);
+  }, [isEditMode, isSizeNumeric, language, register, unregister]);
 
   return (
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%" mb={10}>
@@ -277,7 +290,8 @@ const ProductForm = (props: ProductFormProps) => {
 };
 
 ProductForm.defaultProps = {
-  initialComboValues: {}
+  initialComboValues: {},
+  isEditMode: false
 };
 
 export default ProductForm;

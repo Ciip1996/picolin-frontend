@@ -1,13 +1,17 @@
 const Contents = {
-  English: {
-    Title: 'Register new Inventory',
-    Subtitle:
-      'Insert the data of the product you may want to add to the inventory.'
-  },
+  English: {},
   Spanish: {
-    Title: 'Registrar Producto',
-    Subtitle:
-      'Complete el formulario de alta de producto. Debe repetir este proceso por cada producto.'
+    Edit: {
+      Title: 'Modificar Producto',
+      Subtitle: 'Realize los cambios en los campos que desea modificar.',
+      Submit: 'Modificar'
+    },
+    Register: {
+      Title: 'Registrar Producto',
+      Subtitle:
+        'Complete el formulario de alta de producto. Debe repetir este proceso por cada producto.',
+      Submit: 'Agregar'
+    }
   }
 };
 export default Contents;

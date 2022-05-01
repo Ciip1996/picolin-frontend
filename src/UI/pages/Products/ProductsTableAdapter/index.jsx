@@ -400,7 +400,6 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
             setUiState={setUiState}
             selectedRowIndex={selectedRowIndex}
             setData={setData}
-            d
             productStatus={status}
           />
         );

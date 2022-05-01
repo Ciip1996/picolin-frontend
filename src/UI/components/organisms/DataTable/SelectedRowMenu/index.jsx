@@ -15,7 +15,7 @@ const language = localStorage.getItem('language');
 
 type SelectedRowMenuProps = {
   onRowDeleted: any => any,
-  onQRCodeDownload: any => any,
+  onQRCodeDownload?: any => any,
   onRowEdit: () => void,
   isActionDelete: boolean,
   isQRCodeEnabled: boolean,
