@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
-import ProductForm from 'UI/components/organisms/ProductForm';
+import InventoryProductForm from 'UI/components/organisms/InventoryProductForm';
 import { Endpoints } from 'UI/constants/endpoints';
 
 import API from 'services/API';
@@ -94,7 +94,7 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
                 text={Contents[language]?.Subtitle}
                 fontSize={14}
               />
-              <ProductForm />
+              <InventoryProductForm />
             </div>
           </Box>
           <div />

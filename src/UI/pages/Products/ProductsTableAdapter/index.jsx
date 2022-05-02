@@ -10,6 +10,7 @@ import StatusLabel, {
 } from 'UI/components/atoms/StatusLabel';
 import { DateFormats } from 'UI/constants/defaults';
 import moment from 'moment-timezone';
+import { currencyFormatter } from 'UI/utils';
 import SelectedProductCustomMenu from '../SelectedProductCustomMenu';
 import Contents from '../strings';
 import { type UIStateProduct, FilterProduct } from '../types';
@@ -27,11 +28,12 @@ type ProductsTableAdapterPropTypes = {|
   handleColumnSortClick: any => any,
   handlePerPageClick: () => any,
   handlePageClick: () => any,
-  setData: any,
+  setRefresh: () => any,
   setUiState: UIStateProduct => any,
   setSearching: boolean => any,
   error: boolean,
-  loading: boolean
+  loading: boolean,
+  rowsSelected: any
 |};
 
 const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
@@ -52,7 +54,8 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
     handlePageClick,
     setSearching,
     setUiState,
-    setData
+    setRefresh,
+    rowsSelected
   } = props;
   const language = localStorage.getItem('language');
 
@@ -230,7 +233,11 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
         sortDirection: sortDirection[8],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>
+              {value ? currencyFormatter(value) : currencyFormatter(0)}
+            </CellSkeleton>
+          );
         }
       }
     },
@@ -244,7 +251,11 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
         sortDirection: sortDirection[9],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>
+              {value ? currencyFormatter(value) : currencyFormatter(0)}
+            </CellSkeleton>
+          );
         }
       }
     },
@@ -399,12 +410,12 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
             idProduct={idProduct}
             setUiState={setUiState}
             selectedRowIndex={selectedRowIndex}
-            setData={setData}
-            d
             productStatus={status}
+            setRefresh={setRefresh}
           />
         );
       }}
+      rowsSelected={rowsSelected}
     />
   );
 };

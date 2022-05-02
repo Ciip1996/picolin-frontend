@@ -5,7 +5,7 @@ import Box from '@material-ui/core/Box';
 
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
-import ProductNameForm from 'UI/components/organisms/ProductNameForm';
+import ProductForm from 'UI/components/organisms/ProductForm';
 import { Endpoints } from 'UI/constants/endpoints';
 
 import API from 'services/API';
@@ -14,28 +14,31 @@ import { getErrorData } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-type ModifyProductNameDrawerProps = {
+type AddProductDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
-  onProductNameInserted: (productName: string) => any,
-  selectedProductName?: any
+  onProductInserted: (product: Object) => any,
+  selectedProduct?: any,
+  isEditMode?: boolean
 };
 
-const ModifyProductNameDrawer = (props: ModifyProductNameDrawerProps) => {
+const AddProductDrawer = (props: AddProductDrawerProps) => {
   const {
     handleClose,
     onShowAlert,
-    onProductNameInserted,
-    selectedProductName
+    onProductInserted,
+    selectedProduct,
+    isEditMode
   } = props;
 
   const language = localStorage.getItem('language');
 
+  const { idName } = selectedProduct || {};
+
   const form = useForm({
     defaultValues: {
-      idName: selectedProductName?.idName || 100,
-      ...selectedProductName,
-      status: !!selectedProductName?.status
+      ...selectedProduct,
+      name: idName
     }
   });
 
@@ -46,7 +49,8 @@ const ModifyProductNameDrawer = (props: ModifyProductNameDrawerProps) => {
     isSuccess: false,
     isReadOnly: false,
     isFormDisabled: false,
-    isLoading: true
+    isLoading: true,
+    preloadedProduct: {}
   });
 
   useEffect(() => {
@@ -59,59 +63,76 @@ const ModifyProductNameDrawer = (props: ModifyProductNameDrawerProps) => {
 
   const onSubmit = async (formData: Object) => {
     try {
-      const response = await API.post(
-        `${Endpoints.ProductNames}${Endpoints.ModifyProductName}`,
-        { ...formData, status: +formData.status } // the unary operator turns boolean to integer value
-      );
+      const endpointURL = isEditMode
+        ? `${Endpoints.Products}${Endpoints.ModifyProduct}`
+        : `${Endpoints.Products}${Endpoints.InsertProduct}`;
+      const response = await API.post(endpointURL, formData);
       if (response) {
-        const { message, title } = response?.data;
+        const { insertedProduct, message, title } = response?.data;
         onShowAlert({
-          severity: 'success',
+          severity: response.status === 200 ? 'success' : 'warning',
           title,
-          autoHideDuration: 5000,
+          autoHideDuration: 3000,
           body: message
         });
-        onProductNameInserted(formData.name);
+        onProductInserted(insertedProduct);
       }
     } catch (err) {
       const { title, message, severity } = getErrorData(err);
       onShowAlert({
         severity,
-        autoHideDuration: 5000,
         title,
+        autoHideDuration: 800000,
         body: message
       });
       throw err;
     }
   };
+  const uiMode = isEditMode ? 'Edit' : 'Register';
 
   return (
     <>
       <FormContext {...form}>
         <DrawerFormLayout
-          title={Contents[language]?.Title}
+          title={Contents[language][uiMode].Title}
           onSubmit={handleSubmit(onSubmit)}
           onClose={handleClose}
           onSecondaryButtonClick={handleClose}
           variant="borderless"
           uiState={uiState}
-          initialText="Agregar"
+          initialText={Contents[language][uiMode].Submit}
         >
           <form className={classes.root} noValidate autoComplete="off" />
           <Box>
             <div style={globalStyles.feeDrawerslabel}>
               <Text
                 variant="body1"
-                text={Contents[language]?.Subtitle}
+                text={Contents[language][uiMode]?.Subtitle}
                 fontSize={14}
               />
-              <ProductNameForm
-                showStatus
-                showId
+              <ProductForm
+                isEditMode={isEditMode}
                 initialComboValues={{
-                  idProvider: {
-                    id: selectedProductName?.idProvider,
-                    title: selectedProductName?.provider
+                  idType: {
+                    id: selectedProduct?.idType,
+                    title: selectedProduct?.type
+                  },
+                  name: {
+                    id: selectedProduct?.idName,
+                    title: selectedProduct?.name,
+                    name_with_provider: selectedProduct?.name_with_provider
+                  },
+                  idMaterial: {
+                    id: selectedProduct?.idMaterial,
+                    title: selectedProduct?.material
+                  },
+                  idGender: {
+                    id: selectedProduct?.idGender,
+                    title: selectedProduct?.gender
+                  },
+                  idColor: {
+                    id: selectedProduct?.idColor,
+                    title: selectedProduct?.color
                   }
                 }}
               />
@@ -124,8 +145,6 @@ const ModifyProductNameDrawer = (props: ModifyProductNameDrawerProps) => {
   );
 };
 
-ModifyProductNameDrawer.defaultProps = {
-  selectedProductName: {}
-};
+AddProductDrawer.defaultProps = { selectedProduct: null, isEditMode: false };
 
-export default ModifyProductNameDrawer;
+export default AddProductDrawer;

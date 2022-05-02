@@ -1,10 +1,11 @@
 const Contents = {
   English: {},
   Spanish: {
-    delete: 'Eliminar',
+    delete: 'Desactivar',
     qrcode: 'Descargar Código QR',
     edit: 'Modificar Datos',
-    restore: 'Restaurar'
+    restore: 'Restaurar',
+    clone: 'Clonar Producto'
   }
 };
 export default Contents;

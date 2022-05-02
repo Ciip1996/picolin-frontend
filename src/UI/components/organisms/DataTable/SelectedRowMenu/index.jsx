@@ -5,6 +5,7 @@ import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import { Delete as DeleteIcon } from '@material-ui/icons';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import EditIcon from '@mui/icons-material/Edit';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 /** Styles components */
 import RestoreFromTrashIcon from '@mui/icons-material/RestoreFromTrash';
 import { ToolbarWrapper } from './styles';
@@ -14,10 +15,11 @@ const language = localStorage.getItem('language');
 
 type SelectedRowMenuProps = {
   onRowDeleted: any => any,
-  onQRCodeDownload: any => any,
+  onQRCodeDownload?: any => any,
   onRowEdit: () => void,
   isActionDelete: boolean,
-  isQRCodeEnabled: boolean
+  isQRCodeEnabled: boolean,
+  onCloneProduct?: () => void
 };
 
 const SelectedRowMenu = (props: SelectedRowMenuProps) => {
@@ -25,6 +27,7 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
     onRowDeleted,
     onQRCodeDownload,
     onRowEdit,
+    onCloneProduct,
     isActionDelete,
     isQRCodeEnabled
   } = props;
@@ -40,6 +43,12 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
             <QrCodeIcon />
           </CustomIconButton>
         )}
+        <CustomIconButton
+          tooltipText={Contents[language]?.clone}
+          onClick={onCloneProduct}
+        >
+          <ContentCopyIcon />
+        </CustomIconButton>
         <CustomIconButton
           tooltipText={Contents[language]?.edit}
           onClick={onRowEdit}
@@ -69,7 +78,8 @@ SelectedRowMenu.defaultProps = {
   onRowDeleted: undefined,
   onQRCodeDownload: undefined,
   isActionDelete: true,
-  isQRCodeEnabled: true
+  isQRCodeEnabled: true,
+  onCloneProduct: () => {}
 };
 
 export default SelectedRowMenu;

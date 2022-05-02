@@ -76,8 +76,8 @@ const CustomSelectedMenu = (props: CustomSelectedMenuProps) => {
       onRowDeleted={() =>
         showConfirm({
           severity: 'error',
-          title: 'Eliminar registros de inventario',
-          message: `Seguro(a) que deseas eliminar esto del inventario?`,
+          title: 'Desactivar registros de inventario',
+          message: `Seguro(a) que deseas desactivar esto del inventario?`,
           onConfirm
         })
       }

@@ -12,10 +12,9 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import { getErrorData } from 'UI/utils';
 import { colors, AddIcon } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
-import AddInventoryProductDrawer from 'UI/components/organisms/AddInventoryProductDrawer';
+import AddProductDrawer from 'UI/components/organisms/AddProductDrawer';
 import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
 import ProductsTableAdapter from 'UI/pages/Products/ProductsTableAdapter';
-import ModifyProductDrawer from 'UI/components/organisms/ModifyProductDrawer';
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import type { Filters } from 'types/app';
@@ -40,6 +39,7 @@ const ProductsList = (props: ProductsListProps) => {
   const [error, setError] = useState(false);
   const [searching, setSearching] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   const [data, setData] = useState([{}]);
   const [count, setCount] = useState(0);
@@ -71,7 +71,9 @@ const ProductsList = (props: ProductsListProps) => {
     isModifyProductDrawerOpen: false,
     isQRCodeDrawerOpen: false,
     selectedProduct: null,
-    isDeleteModal: false
+    isDeleteModal: false,
+    preloadedProduct: {},
+    rowsSelected: undefined
   });
 
   const getData = useCallback(async () => {
@@ -99,12 +101,13 @@ const ProductsList = (props: ProductsListProps) => {
       const response = await API.get(`${url}${queryParams}`);
 
       if (response?.status === 200) {
-        setData(response?.data?.names || []);
+        setData(response?.data?.products || []);
       }
       setCount(Number(response?.data?.totalResults) || 0);
       setLoading(false);
       setSearching(false);
       setError(false);
+      setRefresh(false);
     } catch (err) {
       const { title, message, severity } = getErrorData(err);
       setError(true);
@@ -132,6 +135,7 @@ const ProductsList = (props: ProductsListProps) => {
       isAddProductDrawerOpen: false,
       selectedProduct
     }));
+    setRefresh(true);
   };
 
   const handleSearchChange = newKeyword => {
@@ -143,22 +147,13 @@ const ProductsList = (props: ProductsListProps) => {
     }));
   };
 
-  // TODO: add filters and uncomment
-  // const handleFilterChange = (name: string, value: any) => {
-  //   setSearching(true);
-  //   setFilters({ ...filters, [name]: value });
-  //   setUiState(prevState => ({
-  //     ...prevState,
-  //     page: 0
-  //   }));
-  // };
-
   const onRowsSelect = (currentRowsSelected: Array<any>) => {
     const { dataIndex } = currentRowsSelected[0];
     const selectedProduct = data[dataIndex];
     setUiState(prevState => ({
       ...prevState,
-      selectedProduct: selectedProduct || null
+      selectedProduct: selectedProduct || null,
+      rowsSelected: undefined
     }));
   };
 
@@ -211,14 +206,6 @@ const ProductsList = (props: ProductsListProps) => {
     }));
   };
 
-  // useEffect(() => {
-  //   if (data?.length === 0) {
-  //     setLoading(true);
-  //     setSearching(true);
-  //     getData();
-  //   }
-  // }, [data, getData]);
-
   useEffect(() => {
     if (error) {
       setData([]);
@@ -231,6 +218,12 @@ const ProductsList = (props: ProductsListProps) => {
     document.title = PageTitles.Products;
     getData();
   }, [getData]);
+
+  useEffect(() => {
+    if (refresh) {
+      getData();
+    }
+  }, [getData, refresh]);
 
   return (
     <ContentPageLayout>
@@ -250,10 +243,13 @@ const ProductsList = (props: ProductsListProps) => {
             {isUserAdminOrManager && (
               <ActionButton
                 text={Contents[language]?.addNewNameProduct}
-                onClick={toggleDrawer(
-                  'isAddProductDrawerOpen',
-                  !uiState.isAddProductDrawerOpen
-                )}
+                onClick={() => {
+                  setUiState(prevState => ({
+                    ...prevState,
+                    isAddProductDrawerOpen: true,
+                    selectedProduct: {}
+                  }));
+                }}
               >
                 <AddIcon fill={colors.white} size={18} />
               </ActionButton>
@@ -280,10 +276,11 @@ const ProductsList = (props: ProductsListProps) => {
               handleColumnSortClick={handleColumnSortClick}
               handlePerPageClick={handlePerPageClick}
               handlePageClick={handlePageClick}
-              setData={setData}
+              setRefresh={setRefresh}
               setUiState={setUiState}
               onRowsSelect={onRowsSelect}
               setSearching={setSearching}
+              rowsSelected={uiState.rowsSelected || undefined}
             />
           </Box>
         </Box>
@@ -291,13 +288,29 @@ const ProductsList = (props: ProductsListProps) => {
       <Drawer
         anchor={drawerAnchor}
         open={uiState.isAddProductDrawerOpen}
-        onClose={toggleDrawer('isAddProductDrawerOpen', false)}
+        onClose={() => {
+          setUiState(prevState => ({
+            ...prevState,
+            isAddProductDrawerOpen: false,
+            selectedProduct: false,
+            rowsSelected: []
+          }));
+        }}
       >
         <div role="presentation">
-          <AddInventoryProductDrawer
+          <AddProductDrawer
+            selectedProduct={uiState.selectedProduct}
             onProductInserted={onProductInserted}
             onShowAlert={onShowAlert}
-            handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
+            handleClose={() => {
+              setUiState(prevState => ({
+                ...prevState,
+                isAddProductDrawerOpen: false,
+                selectedProduct: false,
+                rowsSelected: []
+              }));
+            }}
+            isEditMode={uiState.isModifyProductDrawerOpen}
           />
         </div>
       </Drawer>
@@ -311,19 +324,6 @@ const ProductsList = (props: ProductsListProps) => {
             selectedProduct={uiState?.selectedProduct}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isQRCodeDrawerOpen', false)}
-          />
-        </div>
-      </Drawer>
-      <Drawer
-        anchor={drawerAnchor}
-        open={uiState.isModifyProductDrawerOpen}
-        onClose={toggleDrawer('isModifyProductDrawerOpen', false)}
-      >
-        <div role="presentation">
-          <ModifyProductDrawer
-            onProductInserted={onProductInserted}
-            onShowAlert={onShowAlert}
-            handleClose={toggleDrawer('isModifyProductDrawerOpen', false)}
           />
         </div>
       </Drawer>

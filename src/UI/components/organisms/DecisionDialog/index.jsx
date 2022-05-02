@@ -128,7 +128,7 @@ const DecisionDialog = (props: DecisionDialogProps) => {
 };
 
 DecisionDialog.defaultProps = {
-  confirmButtonText: 'yes',
+  confirmButtonText: 'si',
   cancelButtonText: 'no',
   severity: 'warning',
   withButtons: null,

@@ -11,11 +11,11 @@ import { type Dispatch } from 'types/redux';
 type SelectedProductCustomMenuProps = {
   onShowAlert: any => void,
   showConfirm: any => void,
-  setData: any => void,
   productStatus: number,
   setUiState: any => any,
   productCode: () => {},
-  idProduct: number
+  idProduct: number,
+  setRefresh: any => void
 };
 
 const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
@@ -25,8 +25,8 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
     showConfirm,
     productCode,
     idProduct,
-    setData,
-    productStatus
+    productStatus,
+    setRefresh
   } = props;
 
   const isActionDelete = productStatus === 1;
@@ -48,13 +48,12 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
           idProduct
         }
       );
-
       onShowAlert({
         severity: status === 200 ? 'success' : 'warning',
         title,
         body: message
       });
-      setData([]); // remove all data to fetch again
+      setRefresh(true); // refersh data again
     } catch (err) {
       const { title, message, severity } = getErrorData(err);
       onShowAlert({
@@ -72,22 +71,22 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
       onRowEdit={() =>
         setUiState(prevState => ({
           ...prevState,
+          isAddProductDrawerOpen: true,
           isModifyProductDrawerOpen: true
         }))
       }
       onRowDeleted={() =>
         showConfirm({
           severity: isActionDelete ? 'error' : 'warning',
-          title: `${isActionDelete ? 'Eliminar' : 'Restaurar'}`,
+          title: `${isActionDelete ? 'Desactivar' : 'Restaurar'}`,
           message: `Seguro(a) que deseas ${
-            isActionDelete ? 'Eliminar' : 'Restaurar'
+            isActionDelete ? 'Desactivar' : 'Restaurar'
           } este producto?`,
 
           onConfirm
         })
       }
       onQRCodeDownload={() =>
-        // TODO show qrcode for product without inventory
         setUiState(prevState => ({
           ...prevState,
           isQRCodeDrawerOpen: true,
@@ -96,6 +95,12 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
         }))
       }
       isActionDelete={isActionDelete}
+      onCloneProduct={() => {
+        setUiState(prevState => ({
+          ...prevState,
+          isAddProductDrawerOpen: true
+        }));
+      }}
     />
   );
 };

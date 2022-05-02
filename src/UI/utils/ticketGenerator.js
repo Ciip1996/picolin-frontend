@@ -3,7 +3,9 @@ import {
   SourceSansProRegular,
   SourceSansProBold,
   MontserratRegular,
-  MontserratBold
+  MontserratBold,
+  RobotoMonoRegular,
+  RobotoMonoBold
 } from 'UI/res/fonts';
 import { currencyFormatter, getFeatureFlags } from 'UI/utils';
 import { FeatureFlags } from 'UI/constants/featureFlags';
@@ -13,10 +15,10 @@ import { DateFormats } from 'UI/constants/defaults';
 const initialLinePositionAfterHeader = 57;
 
 const leftMargin = 5;
-const rightMargin = 60;
+const rightMargin = 45;
 const textColor = 50;
 const baseHeight = 180;
-const smallTextSize = 8;
+const smallTextSize = 7;
 const textSize = 9;
 const headerTextSize = 20;
 const separator = '---------------------------------';
@@ -32,6 +34,11 @@ const generateBaseDocumentWithHeader = (height, ticketNumber, date, idSale) => {
   });
   // add custom font
 
+  doc.addFileToVFS('RobotoMono-Regular-normal.ttf', RobotoMonoRegular);
+  doc.addFileToVFS('RobotoMono-Bold-normal.ttf', RobotoMonoBold);
+  doc.addFont('RobotoMono-Regular-normal.ttf', 'RobotoMono-Regular', 'normal');
+  doc.addFont('RobotoMono-Bold-normal.ttf', 'RobotoMono-Bold', 'normal');
+
   doc.addFileToVFS('SourceSansPro-Regular-normal.ttf', SourceSansProRegular);
   doc.addFont(
     'SourceSansPro-Regular-normal.ttf',
@@ -46,16 +53,16 @@ const generateBaseDocumentWithHeader = (height, ticketNumber, date, idSale) => {
   doc.addFont('Montserrat-Regular-normal.ttf', 'Montserrat-Regular', 'normal');
 
   doc.addFileToVFS('Montserrat-Bold-bold.ttf', MontserratBold);
-  doc.addFont('Montserrat-Bold-bold.ttf', 'Montserrat-Bold', 'bold');
+  doc.addFont('Montserrat-Bold-bold.ttf', 'Montserrat-Bold', 'normal');
 
   let linePosition = 20;
 
-  doc.setFont('Montserrat-Bold', 'bold');
+  doc.setFont('Montserrat-Bold', 'normal');
   doc.setFontSize(headerTextSize);
   doc.setTextColor(textColor);
   doc.text('PICOLIN STORE®', leftMargin, linePosition);
   doc.setFontSize(smallTextSize);
-  doc.setFont('SourceSansPro-Regular', 'normal');
+  doc.setFont('RobotoMono-Regular', 'normal');
 
   linePosition += 5;
   doc.text('wwww.picolin.com.mx', leftMargin, linePosition);
@@ -69,9 +76,9 @@ const generateBaseDocumentWithHeader = (height, ticketNumber, date, idSale) => {
   );
   linePosition += 5;
 
-  doc.setFont('SourceSansPro-Bold', 'bold'); // change to SourceSansPro
+  doc.setFont('SourceSansPro-Bold', 'normal'); // change to SourceSansPro
   doc.text(`Ticket Nº: ${ticketNumber}`, leftMargin, linePosition);
-  doc.setFont('SourceSansPro-Regular', 'normal'); // change to SourceSansPro
+  doc.setFont('RobotoMono-Regular', 'normal');
 
   linePosition += 5;
   doc.text(
@@ -86,7 +93,7 @@ const generateBaseDocumentWithHeader = (height, ticketNumber, date, idSale) => {
   return doc;
 };
 
-const generateFooter = (doc, line, amountOfProducts) => {
+const getDocumentWithFooter = (doc, line, amountOfProducts) => {
   let linePosition = line;
   // Set Footer
   linePosition += 10;
@@ -102,7 +109,7 @@ const generateFooter = (doc, line, amountOfProducts) => {
   );
   if (amountOfProducts) {
     linePosition += 5;
-    doc.setFont('RobotoMono-Bold', 'bold');
+    doc.setFont('RobotoMono-Bold', 'normal');
     doc.text(
       `Articulos Vendidos: ${amountOfProducts}`,
       leftMargin,
@@ -116,7 +123,7 @@ const generateFooter = (doc, line, amountOfProducts) => {
     leftMargin,
     linePosition
   );
-  doc.setFont('SourceSansPro-Regular', 'normal');
+  doc.setFont('RobotoMono-Regular', 'normal');
 
   linePosition += 5;
   doc.text(
@@ -146,9 +153,9 @@ export const generateCloseCashierTicket = data => {
   doc.text(separator, leftMargin, linePosition);
   linePosition += 5;
 
-  doc.setFont('RobotoMono-Bold', 'bold');
+  doc.setFont('RobotoMono-Bold', 'normal');
   doc.text('DETALLE DE CORTE DE CAJA:', leftMargin, linePosition);
-  doc.setFont('SourceSansPro-Regular', 'normal');
+  doc.setFont('RobotoMono-Regular', 'normal');
   linePosition += 7;
   data?.cashierInformation &&
     data.cashierInformation.forEach(each => {
@@ -161,12 +168,12 @@ export const generateCloseCashierTicket = data => {
       linePosition += 12;
     });
   // Differency
-  doc.setFont('RobotoMono-Bold', 'bold');
+  doc.setFont('RobotoMono-Bold', 'normal');
   doc.text(`Diferencia: `, leftMargin, linePosition);
   doc.text(`${currencyFormatter(data?.difference)}`, rightMargin, linePosition);
-  doc.setFont('SourceSansPro-Regular', 'normal');
+  doc.setFont('RobotoMono-Regular', 'normal');
   linePosition += 10;
-  return generateFooter(doc, linePosition, null);
+  return getDocumentWithFooter(doc, linePosition, null);
 };
 
 const generateTicket = data => {
@@ -187,9 +194,9 @@ const generateTicket = data => {
   doc.text(separator, leftMargin, linePosition);
   linePosition += 5;
 
-  doc.setFont('RobotoMono-Bold', 'bold');
+  doc.setFont('RobotoMono-Bold', 'normal');
   doc.text('PRODUCTOS:', leftMargin, linePosition);
-  doc.setFont('SourceSansPro-Regular', 'normal');
+  doc.setFont('RobotoMono-Regular', 'normal');
   linePosition += 7;
 
   data?.detail &&
@@ -207,9 +214,9 @@ const generateTicket = data => {
       doc.text(
         !each.combo ? `${currencyFormatter(each?.salePrice)}` : 'paquete',
         rightMargin,
-        linePosition
+        linePosition + 10
       );
-      linePosition += 12;
+      linePosition += 14;
     });
   // print the combos n times with the default price
   for (let i = 0; i < data?.sale?.combos; i += 1) {
@@ -249,14 +256,14 @@ const generateTicket = data => {
   );
   linePosition += 5;
 
-  doc.setFont('RobotoMono-Bold', 'bold');
+  doc.setFont('RobotoMono-Bold', 'normal');
   doc.text(`Total: `, leftMargin, linePosition);
   doc.text(
     `${currencyFormatter(data?.sale?.total)}`,
     rightMargin,
     linePosition
   );
-  doc.setFont('SourceSansPro-Regular', 'normal');
+  doc.setFont('RobotoMono-Regular', 'normal');
   linePosition += 10;
 
   doc.text(`Recibido: `, leftMargin, linePosition);
@@ -277,7 +284,7 @@ const generateTicket = data => {
     rightMargin,
     linePosition
   );
-  return generateFooter(doc, linePosition, data?.detail?.length);
+  return getDocumentWithFooter(doc, linePosition, data?.detail?.length);
 };
 
 export const downloadSaleTicketPDF = (data, ticketTitle) => {

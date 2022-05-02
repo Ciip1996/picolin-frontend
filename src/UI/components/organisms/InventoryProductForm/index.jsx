@@ -21,17 +21,16 @@ import InputContainer from 'UI/components/atoms/InputContainer';
 import Contents from './strings';
 
 type ProductFormProps = {
-  initialComboValues: MapType,
-  isEditMode?: boolean
+  initialValues: MapType
 };
 
 const Separator = () => <span style={{ width: 20 }} />;
 
-const ProductForm = (props: ProductFormProps) => {
-  const { initialComboValues, isEditMode } = props;
+const InventoryProductForm = (props: ProductFormProps) => {
+  const { initialValues } = props;
   const language = localStorage.getItem('language');
 
-  const [comboValues, setComboValues] = useState<MapType>(initialComboValues);
+  const [comboValues, setComboValues] = useState<MapType>(initialValues);
   const [isSizeNumeric, setIsSizeNumeric] = useState(true);
 
   const {
@@ -69,7 +68,15 @@ const ProductForm = (props: ProductFormProps) => {
       { required: `${Contents[language]?.RequiredMessage}` }
     );
     register(
+      { name: 'idStore' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
       { name: 'idGender' },
+      { required: `${Contents[language]?.RequiredMessage}` }
+    );
+    register(
+      { name: 'quantity' },
       { required: `${Contents[language]?.RequiredMessage}` }
     );
     register({ name: 'name' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
@@ -96,18 +103,6 @@ const ProductForm = (props: ProductFormProps) => {
   };
 
   useEffect(() => {
-    if (isEditMode) {
-      unregister('idProduct');
-      register(
-        { name: 'idProduct' },
-        {
-          ...PRODUCT_SIZE_VALIDATION
-        }
-      );
-    } else {
-      unregister('idProduct');
-    }
-
     if (isSizeNumeric) {
       unregister('size');
       register(
@@ -125,7 +120,7 @@ const ProductForm = (props: ProductFormProps) => {
         }
       );
     }
-  }, [isEditMode, isSizeNumeric, language, register, unregister]);
+  }, [isSizeNumeric, language, register, unregister]);
 
   return (
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%" mb={10}>
@@ -152,6 +147,7 @@ const ProductForm = (props: ProductFormProps) => {
           errorText={errors?.idType && errors?.idType?.message}
           onSelect={handleComboChange}
           url={Endpoints.GetTypes}
+          autoFocus
         />
         <Separator />
         <AutocompleteSelect
@@ -256,7 +252,30 @@ const ProductForm = (props: ProductFormProps) => {
         />
       </InputContainer>
       <InputContainer display="contents">
+        <AutocompleteSelect
+          name="idStore"
+          selectedValue={comboValues.idStore}
+          placeholder={Contents[language]?.ReceptionPlace}
+          error={!!errors?.idStore}
+          errorText={errors?.idStore && errors?.idStore.message}
+          onSelect={handleComboChange}
+          url={Endpoints.Stores}
+        />
+        <Separator />
+      </InputContainer>
+      <InputContainer display="contents">
         <Box display="flex" width="100%">
+          <TextBox
+            inputType="number"
+            name="quantity"
+            label={Contents[language]?.Quantity}
+            error={!!errors?.quantity}
+            errorText={errors?.quantity && errors?.quantity.message}
+            onChange={handleTextChange}
+            value={getValues('quantity') || ''}
+            helperText={Contents[language]?.StockDescription}
+          />
+          <Separator />
           <TextBox
             ref={register}
             inputRef={register}
@@ -288,9 +307,8 @@ const ProductForm = (props: ProductFormProps) => {
   );
 };
 
-ProductForm.defaultProps = {
-  initialComboValues: {},
-  isEditMode: false
+InventoryProductForm.defaultProps = {
+  initialValues: {}
 };
 
-export default ProductForm;
+export default InventoryProductForm;
