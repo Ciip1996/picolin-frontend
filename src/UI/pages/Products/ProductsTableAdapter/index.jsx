@@ -10,6 +10,7 @@ import StatusLabel, {
 } from 'UI/components/atoms/StatusLabel';
 import { DateFormats } from 'UI/constants/defaults';
 import moment from 'moment-timezone';
+import { currencyFormatter } from 'UI/utils';
 import SelectedProductCustomMenu from '../SelectedProductCustomMenu';
 import Contents from '../strings';
 import { type UIStateProduct, FilterProduct } from '../types';
@@ -232,7 +233,11 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
         sortDirection: sortDirection[8],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>
+              {value ? currencyFormatter(value) : currencyFormatter(0)}
+            </CellSkeleton>
+          );
         }
       }
     },
@@ -246,7 +251,11 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
         sortDirection: sortDirection[9],
         filterType: 'custom',
         customBodyRender: value => {
-          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+          return (
+            <CellSkeleton searching={searching}>
+              {value ? currencyFormatter(value) : currencyFormatter(0)}
+            </CellSkeleton>
+          );
         }
       }
     },

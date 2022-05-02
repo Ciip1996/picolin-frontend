@@ -7,7 +7,8 @@ export type UIStateProduct = UIState & {
   selectedProduct: Maybe<Object>,
   isDeleteModal: boolean,
   isModifyProductDrawerOpen: boolean,
-  preloadedProduct?: Object | null
+  preloadedProduct?: Object | null,
+  rowsSelected: any[] | typeof undefined
 };
 
 export interface FilterProduct {
