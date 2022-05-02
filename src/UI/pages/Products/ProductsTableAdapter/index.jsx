@@ -27,11 +27,12 @@ type ProductsTableAdapterPropTypes = {|
   handleColumnSortClick: any => any,
   handlePerPageClick: () => any,
   handlePageClick: () => any,
-  setData: any,
+  setRefresh: () => any,
   setUiState: UIStateProduct => any,
   setSearching: boolean => any,
   error: boolean,
-  loading: boolean
+  loading: boolean,
+  rowsSelected: any
 |};
 
 const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
@@ -52,7 +53,8 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
     handlePageClick,
     setSearching,
     setUiState,
-    setData
+    setRefresh,
+    rowsSelected
   } = props;
   const language = localStorage.getItem('language');
 
@@ -399,11 +401,12 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
             idProduct={idProduct}
             setUiState={setUiState}
             selectedRowIndex={selectedRowIndex}
-            setData={setData}
             productStatus={status}
+            setRefresh={setRefresh}
           />
         );
       }}
+      rowsSelected={rowsSelected}
     />
   );
 };

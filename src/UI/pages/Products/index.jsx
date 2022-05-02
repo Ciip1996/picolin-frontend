@@ -39,6 +39,7 @@ const ProductsList = (props: ProductsListProps) => {
   const [error, setError] = useState(false);
   const [searching, setSearching] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(false);
 
   const [data, setData] = useState([{}]);
   const [count, setCount] = useState(0);
@@ -71,7 +72,8 @@ const ProductsList = (props: ProductsListProps) => {
     isQRCodeDrawerOpen: false,
     selectedProduct: null,
     isDeleteModal: false,
-    preloadedProduct: {}
+    preloadedProduct: {},
+    rowsSelected: undefined
   });
 
   const getData = useCallback(async () => {
@@ -105,6 +107,7 @@ const ProductsList = (props: ProductsListProps) => {
       setLoading(false);
       setSearching(false);
       setError(false);
+      setRefresh(false);
     } catch (err) {
       const { title, message, severity } = getErrorData(err);
       setError(true);
@@ -132,6 +135,7 @@ const ProductsList = (props: ProductsListProps) => {
       isAddProductDrawerOpen: false,
       selectedProduct
     }));
+    setRefresh(true);
   };
 
   const handleSearchChange = newKeyword => {
@@ -148,7 +152,8 @@ const ProductsList = (props: ProductsListProps) => {
     const selectedProduct = data[dataIndex];
     setUiState(prevState => ({
       ...prevState,
-      selectedProduct: selectedProduct || null
+      selectedProduct: selectedProduct || null,
+      rowsSelected: undefined
     }));
   };
 
@@ -214,6 +219,12 @@ const ProductsList = (props: ProductsListProps) => {
     getData();
   }, [getData]);
 
+  useEffect(() => {
+    if (refresh) {
+      getData();
+    }
+  }, [getData, refresh]);
+
   return (
     <ContentPageLayout>
       <ListPageLayout
@@ -232,10 +243,13 @@ const ProductsList = (props: ProductsListProps) => {
             {isUserAdminOrManager && (
               <ActionButton
                 text={Contents[language]?.addNewNameProduct}
-                onClick={toggleDrawer(
-                  'isAddProductDrawerOpen',
-                  !uiState.isAddProductDrawerOpen
-                )}
+                onClick={() => {
+                  setUiState(prevState => ({
+                    ...prevState,
+                    isAddProductDrawerOpen: true,
+                    selectedProduct: {}
+                  }));
+                }}
               >
                 <AddIcon fill={colors.white} size={18} />
               </ActionButton>
@@ -262,10 +276,11 @@ const ProductsList = (props: ProductsListProps) => {
               handleColumnSortClick={handleColumnSortClick}
               handlePerPageClick={handlePerPageClick}
               handlePageClick={handlePageClick}
-              setData={setData}
+              setRefresh={setRefresh}
               setUiState={setUiState}
               onRowsSelect={onRowsSelect}
               setSearching={setSearching}
+              rowsSelected={uiState.rowsSelected || undefined}
             />
           </Box>
         </Box>
@@ -273,14 +288,28 @@ const ProductsList = (props: ProductsListProps) => {
       <Drawer
         anchor={drawerAnchor}
         open={uiState.isAddProductDrawerOpen}
-        onClose={toggleDrawer('isAddProductDrawerOpen', false)}
+        onClose={() => {
+          setUiState(prevState => ({
+            ...prevState,
+            isAddProductDrawerOpen: false,
+            selectedProduct: false,
+            rowsSelected: []
+          }));
+        }}
       >
         <div role="presentation">
           <AddProductDrawer
             selectedProduct={uiState.selectedProduct}
             onProductInserted={onProductInserted}
             onShowAlert={onShowAlert}
-            handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
+            handleClose={() => {
+              setUiState(prevState => ({
+                ...prevState,
+                isAddProductDrawerOpen: false,
+                selectedProduct: false,
+                rowsSelected: []
+              }));
+            }}
             isEditMode={uiState.isModifyProductDrawerOpen}
           />
         </div>
