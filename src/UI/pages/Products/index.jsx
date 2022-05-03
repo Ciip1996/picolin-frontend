@@ -292,7 +292,7 @@ const ProductsList = (props: ProductsListProps) => {
           setUiState(prevState => ({
             ...prevState,
             isAddProductDrawerOpen: false,
-            selectedProduct: false,
+            selectedProduct: {},
             rowsSelected: []
           }));
         }}
@@ -306,11 +306,40 @@ const ProductsList = (props: ProductsListProps) => {
               setUiState(prevState => ({
                 ...prevState,
                 isAddProductDrawerOpen: false,
-                selectedProduct: false,
+                selectedProduct: {},
                 rowsSelected: []
               }));
             }}
-            isEditMode={uiState.isModifyProductDrawerOpen}
+            isEditMode={false}
+          />
+        </div>
+      </Drawer>
+      <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isModifyProductDrawerOpen}
+        onClose={() => {
+          setUiState(prevState => ({
+            ...prevState,
+            isModifyProductDrawerOpen: false,
+            selectedProduct: {},
+            rowsSelected: []
+          }));
+        }}
+      >
+        <div role="presentation">
+          <AddProductDrawer
+            selectedProduct={uiState.selectedProduct}
+            onProductInserted={onProductInserted}
+            onShowAlert={onShowAlert}
+            handleClose={() => {
+              setUiState(prevState => ({
+                ...prevState,
+                isModifyProductDrawerOpen: false,
+                selectedProduct: {},
+                rowsSelected: []
+              }));
+            }}
+            isEditMode
           />
         </div>
       </Drawer>
