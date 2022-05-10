@@ -164,7 +164,7 @@ export const OBSERVATIONS_VALIDATION = {
 };
 
 export const PRODUCT_SIZE_VALIDATION = {
-  required: 'El tamaño es requerido',
+  required: 'La Talla es requerida',
   min: {
     value: 0,
     message: 'La talla minima permitida es 0'

@@ -61,7 +61,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
     { id: 0, name: 'idProduct', display: false },
     { id: 1, name: 'productCode', display: true },
     { id: 2, name: 'color', display: true },
-    { id: 3, name: 'size', display: true },
+    { id: 3, name: 'pSize', display: true },
     { id: 4, name: 'pieces', display: false },
     { id: 5, name: 'salePrice', display: true },
     { id: 6, name: 'gender', display: true },
@@ -205,7 +205,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
       }
     },
     {
-      name: 'size',
+      name: 'pSize',
       label: Contents[language]?.labSize,
       options: {
         filter: true,

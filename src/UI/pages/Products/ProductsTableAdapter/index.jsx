@@ -66,7 +66,7 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
     { id: 3, name: 'type', display: true },
     { id: 4, name: 'material', display: true },
     { id: 5, name: 'provider', display: true },
-    { id: 6, name: 'size', display: true },
+    { id: 6, name: 'pSize', display: true },
     { id: 7, name: 'pieces', display: true },
     { id: 8, name: 'cost', display: true },
     { id: 9, name: 'gender', display: true },
@@ -196,7 +196,7 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
       }
     },
     {
-      name: 'size',
+      name: 'pSize',
       label: Contents[language]?.lblSize,
       options: {
         filter: true,

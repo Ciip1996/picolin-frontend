@@ -30,13 +30,13 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
     material,
     color,
     gender,
-    size,
+    pSize,
     salePrice
   } = selectedProduct;
 
   const productInformation = `${name} ${material} ${color} ${gender} ${
-    size === 'UNITALLA' ? '' : 'talla'
-  } ${size}`;
+    pSize === 'UNITALLA' ? '' : 'talla'
+  } ${pSize}`;
 
   const language = localStorage.getItem('language');
 

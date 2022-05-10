@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FormContext, useForm } from 'react-hook-form';
 import Box from '@material-ui/core/Box';
 
@@ -62,33 +62,36 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
 
   const classes = useStyles();
 
-  const onSubmit = async (formData: Object) => {
-    try {
-      const endpointURL = isEditMode
-        ? `${Endpoints.Products}${Endpoints.ModifyProduct}`
-        : `${Endpoints.Products}${Endpoints.InsertProduct}`;
-      const response = await API.post(endpointURL, formData);
-      if (response) {
-        const { insertedProduct, message, title } = response?.data;
+  const onSubmit = useCallback(
+    async (formData: Object) => {
+      try {
+        const endpointURL = isEditMode
+          ? `${Endpoints.Products}${Endpoints.ModifyProduct}`
+          : `${Endpoints.Products}${Endpoints.InsertProduct}`;
+        const response = await API.post(endpointURL, formData);
+        if (response) {
+          const { insertedProduct, message, title } = response?.data;
+          onShowAlert({
+            severity: response.status === 200 ? 'success' : 'warning',
+            title,
+            autoHideDuration: 3000,
+            body: message
+          });
+          onProductInserted(insertedProduct);
+        }
+      } catch (err) {
+        const { title, message, severity } = getErrorData(err);
         onShowAlert({
-          severity: response.status === 200 ? 'success' : 'warning',
+          severity,
           title,
-          autoHideDuration: 3000,
+          autoHideDuration: 800000,
           body: message
         });
-        onProductInserted(insertedProduct);
+        throw err;
       }
-    } catch (err) {
-      const { title, message, severity } = getErrorData(err);
-      onShowAlert({
-        severity,
-        title,
-        autoHideDuration: 800000,
-        body: message
-      });
-      throw err;
-    }
-  };
+    },
+    [isEditMode, onProductInserted, onShowAlert]
+  );
 
   if (!isEmpty(errors)) {
     Object.entries(errors).map(([key, value]: any) => {

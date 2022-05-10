@@ -54,7 +54,7 @@ const InventoryProductForm = (props: ProductFormProps) => {
       { name: 'idColor' },
       { required: `${Contents[language]?.RequiredMessage}` }
     );
-    register({ name: 'size' });
+    register({ name: 'pSize' });
     register(
       { name: 'pieces' },
       { required: `${Contents[language]?.RequiredMessage}` }
@@ -98,23 +98,23 @@ const InventoryProductForm = (props: ProductFormProps) => {
 
   const onSwitcherChange = (event: Object) => {
     const isNumericSize = event.target.checked;
-    setValue('size', null, true);
+    setValue('pSize', null, true);
     setIsSizeNumeric(isNumericSize);
   };
 
   useEffect(() => {
     if (isSizeNumeric) {
-      unregister('size');
+      unregister('pSize');
       register(
-        { name: 'size' },
+        { name: 'pSize' },
         {
           ...PRODUCT_SIZE_VALIDATION
         }
       );
     } else {
-      unregister('size');
+      unregister('pSize');
       register(
-        { name: 'size' },
+        { name: 'pSize' },
         {
           required: `${Contents[language]?.RequiredMessage}`
         }
@@ -196,21 +196,21 @@ const InventoryProductForm = (props: ProductFormProps) => {
         {isSizeNumeric ? (
           <TextBox
             inputType="number"
-            name="size"
+            name="pSize"
             label={Contents[language]?.Size}
-            error={!!errors?.size}
-            errorText={errors?.size && errors?.size.message}
+            error={!!errors?.pSize}
+            errorText={errors?.pSize && errors?.pSize.message}
             onChange={handleTextChange}
-            value={getValues('size') || ''}
+            value={getValues('pSize') || ''}
           />
         ) : (
           <AutocompleteSelect
-            name="size"
+            name="pSize"
             displayKey="title"
-            selectedValue={comboValues.size}
+            selectedValue={comboValues.pSize}
             placeholder={Contents[language]?.Size}
-            error={!!errors?.size}
-            errorText={errors?.size && errors?.size.message}
+            error={!!errors?.pSize}
+            errorText={errors?.pSize && errors?.pSize.message}
             onSelect={(name: string, item: any) => {
               setComboValues((prevState: MapType): MapType => ({
                 ...prevState,

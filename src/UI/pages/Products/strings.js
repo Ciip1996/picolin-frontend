@@ -8,7 +8,7 @@ const Contents = {
     lblType: 'Tipo',
     lblMaterial: 'Material',
     lblProvider: 'Proveedor',
-    lblSize: 'Tamaño',
+    lblSize: 'Talla',
     lblPieces: '# Partes',
     lblCost: 'Costo',
     lblSalePrice: 'Precio',

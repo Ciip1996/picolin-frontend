@@ -36,7 +36,7 @@ const TransferCard = (props: TransferCardProps) => {
   const {
     productCode,
     gender,
-    size,
+    pSize,
     type,
     color,
     cost,
@@ -132,7 +132,7 @@ const TransferCard = (props: TransferCardProps) => {
             />
           </Grid>
           <Grid item xs={4}>
-            <Chip label={`Talla ${size}`} className={classes.Chip} />
+            <Chip label={`Talla ${pSize}`} className={classes.Chip} />
           </Grid>
           <Grid item xs={4}>
             <Chip label={type} className={classes.Chip} />
