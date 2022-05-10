@@ -100,9 +100,7 @@ const ProductForm = (props: ProductFormProps) => {
       unregister('idProduct');
       register(
         { name: 'idProduct' },
-        {
-          ...PRODUCT_SIZE_VALIDATION
-        }
+        { required: `${Contents[language]?.RequiredMessage}` }
       );
     } else {
       unregister('idProduct');
