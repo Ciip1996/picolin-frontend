@@ -7,6 +7,7 @@ import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
 import ProductForm from 'UI/components/organisms/ProductForm';
 import { Endpoints } from 'UI/constants/endpoints';
+import { isEmpty } from 'lodash';
 
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
@@ -42,7 +43,7 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
     }
   });
 
-  const { handleSubmit } = form;
+  const { handleSubmit, errors } = form;
 
   const [uiState, setUiState] = useState({
     isSaving: false,
@@ -88,8 +89,19 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
       throw err;
     }
   };
-  const uiMode = isEditMode ? 'Edit' : 'Register';
 
+  if (!isEmpty(errors)) {
+    Object.entries(errors).map(([key, value]: any) => {
+      return onShowAlert({
+        severity: 'error',
+        title: `Error en ${key}`,
+        autoHideDuration: 800000,
+        body: value?.message
+      });
+    });
+  }
+
+  const uiMode = isEditMode ? 'Edit' : 'Register';
   return (
     <>
       <FormContext {...form}>
