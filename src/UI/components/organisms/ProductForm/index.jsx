@@ -13,7 +13,8 @@ import { Endpoints } from 'UI/constants/endpoints';
 import {
   PRODUCT_DESCRIPTION_VALIDATION,
   OBSERVATIONS_VALIDATION,
-  PRODUCT_SIZE_VALIDATION
+  PRODUCT_SIZE_VALIDATION,
+  pSizeLabelOptions
 } from 'UI/utils';
 import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
@@ -32,7 +33,11 @@ const ProductForm = (props: ProductFormProps) => {
   const language = localStorage.getItem('language');
 
   const [comboValues, setComboValues] = useState<MapType>(initialComboValues);
-  const [isSizeNumeric, setIsSizeNumeric] = useState(true);
+  const { isSizeNumeric: isSizeNumericInitialValue } = initialComboValues;
+
+  const [isSizeNumeric, setIsSizeNumeric] = useState<boolean>(
+    isSizeNumericInitialValue
+  );
 
   const {
     register,
@@ -220,13 +225,7 @@ const ProductForm = (props: ProductFormProps) => {
               }));
               setValue(name, item?.value, true);
             }}
-            options={[
-              { id: 0, title: 'Unitalla', value: 'UN' },
-              { id: 1, title: 'Chica (CH)', value: 'CH' },
-              { id: 2, title: 'Mediana (M)', value: 'M' },
-              { id: 3, title: 'Grande (G)', value: 'G' },
-              { id: 4, title: 'Extra Grande (XG)', value: 'XG' }
-            ]}
+            options={pSizeLabelOptions}
           />
         )}
 

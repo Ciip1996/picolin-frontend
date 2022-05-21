@@ -13,7 +13,8 @@ import { Endpoints } from 'UI/constants/endpoints';
 import {
   PRODUCT_DESCRIPTION_VALIDATION,
   OBSERVATIONS_VALIDATION,
-  PRODUCT_SIZE_VALIDATION
+  PRODUCT_SIZE_VALIDATION,
+  pSizeLabelOptions
 } from 'UI/utils';
 import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
@@ -218,13 +219,7 @@ const InventoryProductForm = (props: ProductFormProps) => {
               }));
               setValue(name, item?.value, true);
             }}
-            options={[
-              { id: 0, title: 'Unitalla', value: 'UN' },
-              { id: 1, title: 'Chica (CH)', value: 'CH' },
-              { id: 2, title: 'Mediana (M)', value: 'M' },
-              { id: 3, title: 'Grande (G)', value: 'G' },
-              { id: 4, title: 'Extra Grande (XG)', value: 'XG' }
-            ]}
+            options={pSizeLabelOptions}
           />
         )}
 

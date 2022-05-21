@@ -35,8 +35,8 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
   } = selectedProduct;
 
   const productInformation = `${name} ${material} ${color} ${gender} ${
-    pSize === 'UNITALLA' ? '' : 'talla'
-  } ${pSize}`;
+    pSize === 'UN' ? '' : 'talla '
+  } ${pSize === 'UN' ? 'UNITALLA' : pSize}`;
 
   const language = localStorage.getItem('language');
 
@@ -72,6 +72,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
   const onSubmit = async () => {
     try {
       const qrCodeDiv: any = document.getElementById('QRCodeContainer');
+
       await html2canvas(qrCodeDiv).then(canvas =>
         generateTagQR(
           canvas,
