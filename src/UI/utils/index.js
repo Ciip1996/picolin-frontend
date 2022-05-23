@@ -7,6 +7,18 @@ import GenericContents from 'UI/constants/strings';
 
 const language = localStorage.getItem('language');
 
+export const pSizeLabelOptions = [
+  { id: 0, title: 'Unitalla', value: 'UN' },
+  { id: 1, title: 'Chica (CH)', value: 'CH' },
+  { id: 2, title: 'Mediana (M)', value: 'M' },
+  { id: 3, title: 'Grande (G)', value: 'G' },
+  { id: 4, title: 'Extra Grande (XG)', value: 'XG' }
+];
+
+export const getSizeObjectByValue = (value: string) => {
+  return pSizeLabelOptions.find(each => each.value === value) || {};
+};
+
 /**
  * Fuse two or more style objects into one.
  * @param {Array} stylesArray array of objects with inline style key values.

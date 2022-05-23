@@ -11,7 +11,7 @@ import { isEmpty } from 'lodash';
 
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
-import { getErrorData } from 'UI/utils';
+import { getErrorData, getSizeObjectByValue } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -105,6 +105,7 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
   }
 
   const uiMode = isEditMode ? 'Edit' : 'Register';
+
   return (
     <>
       <FormContext {...form}>
@@ -148,7 +149,11 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
                   idColor: {
                     id: selectedProduct?.idColor,
                     title: selectedProduct?.color
-                  }
+                  },
+                  pSize: getSizeObjectByValue(selectedProduct?.pSize || ''),
+                  isSizeNumeric: !Number.isNaN(
+                    parseInt(selectedProduct?.pSize, 10)
+                  )
                 }}
               />
             </div>

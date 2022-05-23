@@ -216,7 +216,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
         customBodyRender: value => {
           return (
             <CellSkeleton searching={searching}>
-              {value === -1 ? 'Unitalla' : value}
+              {value === 'UN' ? 'Unitalla' : value}
             </CellSkeleton>
           );
         }
