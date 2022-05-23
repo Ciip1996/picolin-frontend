@@ -68,6 +68,13 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
 
   return (
     <SelectedRowMenu
+      onFeedInventory={() => {
+        setUiState(prevState => ({
+          ...prevState,
+          isFeedInventoryDrawerOpen: true
+        }));
+      }}
+      isFeedInventoryEnabled
       onRowEdit={() =>
         setUiState(prevState => ({
           ...prevState,

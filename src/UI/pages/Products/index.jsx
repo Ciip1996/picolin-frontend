@@ -13,6 +13,7 @@ import { getErrorData } from 'UI/utils';
 import { colors, AddIcon } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddProductDrawer from 'UI/components/organisms/AddProductDrawer';
+import FeedInventoryDrawer from 'UI/components/organisms/FeedInventoryDrawer';
 import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
 import ProductsTableAdapter from 'UI/pages/Products/ProductsTableAdapter';
 /** API / EntityRoutes / Endpoints / EntityType */
@@ -69,6 +70,7 @@ const ProductsList = (props: ProductsListProps) => {
     perPage: savedParams?.perPage || 10,
     isAddProductDrawerOpen: false && isUserAdminOrManager,
     isModifyProductDrawerOpen: false,
+    isFeedInventoryDrawerOpen: true,
     isQRCodeDrawerOpen: false,
     selectedProduct: null,
     isDeleteModal: false,
@@ -343,6 +345,35 @@ const ProductsList = (props: ProductsListProps) => {
           />
         </div>
       </Drawer>
+      <Drawer
+        anchor={drawerAnchor}
+        open={uiState.isFeedInventoryDrawerOpen}
+        onClose={() => {
+          setUiState(prevState => ({
+            ...prevState,
+            isFeedInventoryDrawerOpen: false,
+            selectedProduct: {},
+            rowsSelected: []
+          }));
+        }}
+      >
+        <div role="presentation">
+          <FeedInventoryDrawer
+            selectedProduct={uiState.selectedProduct}
+            onProductInserted={onProductInserted}
+            onShowAlert={onShowAlert}
+            handleClose={() => {
+              setUiState(prevState => ({
+                ...prevState,
+                isFeedInventoryDrawerOpen: false,
+                selectedProduct: {},
+                rowsSelected: []
+              }));
+            }}
+          />
+        </div>
+      </Drawer>
+
       <Drawer
         anchor={drawerAnchor}
         open={uiState.isQRCodeDrawerOpen}

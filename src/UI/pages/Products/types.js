@@ -7,6 +7,7 @@ export type UIStateProduct = UIState & {
   selectedProduct: Maybe<Object>,
   isDeleteModal: boolean,
   isModifyProductDrawerOpen: boolean,
+  isFeedInventoryDrawerOpen: boolean,
   preloadedProduct?: Object | null,
   rowsSelected: any[] | typeof undefined
 };
