@@ -70,7 +70,7 @@ const ProductsList = (props: ProductsListProps) => {
     perPage: savedParams?.perPage || 10,
     isAddProductDrawerOpen: false && isUserAdminOrManager,
     isModifyProductDrawerOpen: false,
-    isFeedInventoryDrawerOpen: true,
+    isFeedInventoryDrawerOpen: false,
     isQRCodeDrawerOpen: false,
     selectedProduct: null,
     isDeleteModal: false,
@@ -136,6 +136,17 @@ const ProductsList = (props: ProductsListProps) => {
       isQRCodeDrawerOpen: true,
       isAddProductDrawerOpen: false,
       selectedProduct
+    }));
+    setRefresh(true);
+  };
+
+  const onInventoryInserted = (inventoryId: number) => {
+    setUiState(prevState => ({
+      ...prevState,
+      isQRCodeDrawerOpen: false,
+      isAddProductDrawerOpen: false,
+      isFeedInventoryDrawerOpen: false,
+      insertedInventoryId: inventoryId
     }));
     setRefresh(true);
   };
@@ -359,8 +370,8 @@ const ProductsList = (props: ProductsListProps) => {
       >
         <div role="presentation">
           <FeedInventoryDrawer
-            selectedProduct={uiState.selectedProduct}
-            onProductInserted={onProductInserted}
+            preloadedProduct={uiState.selectedProduct}
+            onInventoryInserted={onInventoryInserted}
             onShowAlert={onShowAlert}
             handleClose={() => {
               setUiState(prevState => ({

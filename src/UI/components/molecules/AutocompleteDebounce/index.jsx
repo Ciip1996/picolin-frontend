@@ -3,6 +3,7 @@ import React, { useState, useCallback } from 'react';
 import { debounce } from 'lodash';
 import queryString from 'query-string';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 import API from 'services/API';
 import ListProductRow from 'UI/components/molecules/ListProductRow';
@@ -16,7 +17,9 @@ type AutocompleteDebounceProps = {
   handleError: string => any,
   dataFetchKeyName: string,
   displayKey: string,
-  maxOptions: number
+  maxOptions: number,
+  error: boolean,
+  errorText: string
 };
 
 const AutocompleteDebounce = (props: AutocompleteDebounceProps) => {
@@ -28,6 +31,8 @@ const AutocompleteDebounce = (props: AutocompleteDebounceProps) => {
     handleError,
     dataFetchKeyName,
     displayKey,
+    error,
+    errorText,
     ...rest
   } = props;
   const language = localStorage.getItem('language');
@@ -58,8 +63,8 @@ const AutocompleteDebounce = (props: AutocompleteDebounceProps) => {
         setLoading(false);
         setData([]);
       }
-    } catch (error) {
-      const { message } = error;
+    } catch (catchError) {
+      const { message } = catchError;
       handleError(message);
     }
   };
@@ -89,6 +94,7 @@ const AutocompleteDebounce = (props: AutocompleteDebounceProps) => {
         placeholder={placeholder}
         {...rest}
       />
+      <FormHelperText error={error}>{error && errorText}</FormHelperText>
       <SuggestContainer>
         <Ul>
           {loading && (

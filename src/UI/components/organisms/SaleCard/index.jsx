@@ -133,7 +133,7 @@ const SaleCard = (props: SaleCardProps) => {
         <Text variant="subtitle1" className={classes.name} text={`${name}`} />
         <Grid container marginTop={6} spacing={2}>
           <Grid item xs={4} lg={2}>
-            <Chip label={`${stock} en stock`} className={classes.Chip} />
+            <Chip label={`${stock || 0} en stock`} className={classes.Chip} />
           </Grid>
           <Grid item xs={4} lg={2}>
             <Chip label={`Talla ${pSize}`} className={classes.Chip} />
