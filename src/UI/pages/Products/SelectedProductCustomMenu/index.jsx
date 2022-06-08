@@ -68,13 +68,17 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
 
   return (
     <SelectedRowMenu
+      isActionDeleteEnabled
+      isFeedInventoryEnabled
+      isQRCodeEnabled
+      isEditEnabled
+      isCloneProductEnabled
       onFeedInventory={() => {
         setUiState(prevState => ({
           ...prevState,
           isFeedInventoryDrawerOpen: true
         }));
       }}
-      isFeedInventoryEnabled
       onRowEdit={() =>
         setUiState(prevState => ({
           ...prevState,

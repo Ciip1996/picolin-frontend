@@ -6,7 +6,8 @@ export type UIStateInventory = UIState & {
   isQRCodeDrawerOpen: boolean,
   isDeleteModal: boolean,
   isModifyInventoryDrawer: boolean,
-  selectedProduct: Object
+  selectedProduct: Object,
+  isFeedInventoryDrawerOpen: boolean
 };
 
 export interface FilterInventory {

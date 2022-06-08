@@ -73,6 +73,9 @@ const SelectedInventoryCustomMenu = (
 
   return (
     <SelectedRowMenu
+      // isActionDeleteEnabled // Will hide this option as it is not removing the inventory properly
+      isFeedInventoryEnabled
+      isQRCodeEnabled
       onRowEdit={() =>
         setUiState(prevState => ({
           ...prevState,

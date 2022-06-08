@@ -71,7 +71,8 @@ const SelectedProductNameCustomToolbar = (props: SelectedProductNameProps) => {
 
   return (
     <SelectedRowMenu
-      isQRCodeEnabled={false}
+      isActionDeleteEnabled
+      isEditEnabled
       onRowEdit={() =>
         setUiState(prevState => ({
           ...prevState,

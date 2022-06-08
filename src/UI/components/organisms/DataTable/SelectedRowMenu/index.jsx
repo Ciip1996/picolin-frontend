@@ -23,6 +23,9 @@ type SelectedRowMenuProps = {
   isActionDelete: boolean,
   isQRCodeEnabled: boolean,
   isFeedInventoryEnabled: boolean,
+  isCloneProductEnabled: boolean,
+  isEditEnabled: boolean,
+  isActionDeleteEnabled: boolean,
   onCloneProduct?: () => void
 };
 
@@ -35,6 +38,9 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
     onCloneProduct,
     isActionDelete,
     isQRCodeEnabled,
+    isCloneProductEnabled,
+    isEditEnabled,
+    isActionDeleteEnabled,
     isFeedInventoryEnabled
   } = props;
 
@@ -58,32 +64,38 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
           </CustomIconButton>
         )}
 
-        <CustomIconButton
-          tooltipText={Contents[language]?.clone}
-          onClick={onCloneProduct}
-        >
-          <ContentCopyIcon />
-        </CustomIconButton>
-        <CustomIconButton
-          tooltipText={Contents[language]?.edit}
-          onClick={onRowEdit}
-        >
-          <EditIcon />
-        </CustomIconButton>
-        <CustomIconButton
-          tooltipText={
-            isActionDelete
-              ? Contents[language]?.delete
-              : Contents[language]?.restore
-          }
-          onClick={onRowDeleted}
-        >
-          {isActionDelete ? (
-            <DeleteIcon color="error" />
-          ) : (
-            <RestoreFromTrashIcon color="success" />
-          )}
-        </CustomIconButton>
+        {isCloneProductEnabled && (
+          <CustomIconButton
+            tooltipText={Contents[language]?.clone}
+            onClick={onCloneProduct}
+          >
+            <ContentCopyIcon />
+          </CustomIconButton>
+        )}
+        {isEditEnabled && (
+          <CustomIconButton
+            tooltipText={Contents[language]?.edit}
+            onClick={onRowEdit}
+          >
+            <EditIcon />
+          </CustomIconButton>
+        )}
+        {isActionDeleteEnabled && (
+          <CustomIconButton
+            tooltipText={
+              isActionDelete
+                ? Contents[language]?.delete
+                : Contents[language]?.restore
+            }
+            onClick={onRowDeleted}
+          >
+            {isActionDelete ? (
+              <DeleteIcon color="error" />
+            ) : (
+              <RestoreFromTrashIcon color="success" />
+            )}
+          </CustomIconButton>
+        )}
       </TableRow>
     </ToolbarWrapper>
   );
@@ -93,8 +105,11 @@ SelectedRowMenu.defaultProps = {
   onRowDeleted: undefined,
   onQRCodeDownload: undefined,
   isActionDelete: true,
-  isQRCodeEnabled: true,
+  isQRCodeEnabled: false,
   isFeedInventoryEnabled: false,
+  isCloneProductEnabled: false,
+  isEditEnabled: false,
+  isActionDeleteEnabled: false,
   onFeedInventory: () => {},
   onCloneProduct: () => {}
 };
