@@ -32,7 +32,7 @@ export const Li = styled.ul`
   display: flex;
   &:hover {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.14);
+    background-color: rgba(202, 202, 202, 1);
   }
 `;
 

@@ -2,11 +2,11 @@
 import { UIState } from 'UI/types';
 
 export type UIStateInventory = UIState & {
-  isAddProductDrawerOpen: boolean,
   isQRCodeDrawerOpen: boolean,
   isDeleteModal: boolean,
   isModifyInventoryDrawer: boolean,
-  selectedProduct: Object
+  selectedProduct: Object,
+  isFeedInventoryDrawerOpen: boolean
 };
 
 export interface FilterInventory {

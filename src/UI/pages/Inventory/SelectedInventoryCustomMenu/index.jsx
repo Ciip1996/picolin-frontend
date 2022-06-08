@@ -64,7 +64,7 @@ const SelectedInventoryCustomMenu = (
       onShowAlert({
         severity,
         title,
-        autoHideDuration: 800000,
+        autoHideDuration: 8000,
         body: message
       });
       throw err;
@@ -73,6 +73,8 @@ const SelectedInventoryCustomMenu = (
 
   return (
     <SelectedRowMenu
+      // isActionDeleteEnabled // Will hide this option as it is not removing the inventory properly
+      isQRCodeEnabled
       onRowEdit={() =>
         setUiState(prevState => ({
           ...prevState,

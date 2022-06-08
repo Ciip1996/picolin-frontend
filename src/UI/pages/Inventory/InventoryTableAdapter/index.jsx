@@ -72,7 +72,8 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
     { id: 11, name: 'name', display: true },
     { id: 12, name: 'status', display: true },
     { id: 13, name: 'store', display: true },
-    { id: 14, name: 'observations', display: false }
+    { id: 14, name: 'observations', display: false },
+    { id: 15, name: 'idInventory', display: true }
   ];
 
   const getSortDirections = (orderBy: string, direction: string) =>
@@ -104,7 +105,10 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
         sort: true,
         display: columnItems[0].display,
         sortDirection: sortDirection[0],
-        filterType: 'custom'
+        filterType: 'custom',
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
       }
     },
     {
@@ -496,6 +500,20 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
         sort: true,
         display: columnItems[14].display,
         sortDirection: sortDirection[14],
+        customBodyRender: value => {
+          return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'idInventory',
+      label: Contents[language]?.lblIdInventory,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[15].display,
+        sortDirection: sortDirection[15],
+        filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }

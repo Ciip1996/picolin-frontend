@@ -46,5 +46,6 @@ export const Endpoints = {
   InsertProduct: '/insertProduct',
   ModifyProduct: '/modifyProduct',
   DeleteProduct: '/deleteProductLogicallyById',
-  RestoreProduct: '/restoreProductLogicallyById'
+  RestoreProduct: '/restoreProductLogicallyById',
+  FeedProduct: '/feedInventoryWithProduct'
 };

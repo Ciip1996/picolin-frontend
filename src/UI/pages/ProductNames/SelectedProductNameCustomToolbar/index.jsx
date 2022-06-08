@@ -62,7 +62,7 @@ const SelectedProductNameCustomToolbar = (props: SelectedProductNameProps) => {
       onShowAlert({
         severity,
         title,
-        autoHideDuration: 800000,
+        autoHideDuration: 8000,
         body: message
       });
       throw err;
@@ -71,7 +71,8 @@ const SelectedProductNameCustomToolbar = (props: SelectedProductNameProps) => {
 
   return (
     <SelectedRowMenu
-      isQRCodeEnabled={false}
+      isActionDeleteEnabled
+      isEditEnabled
       onRowEdit={() =>
         setUiState(prevState => ({
           ...prevState,

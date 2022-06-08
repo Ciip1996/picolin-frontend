@@ -59,7 +59,7 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
       onShowAlert({
         severity,
         title,
-        autoHideDuration: 800000,
+        autoHideDuration: 8000,
         body: message
       });
       throw err;
@@ -68,6 +68,17 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
 
   return (
     <SelectedRowMenu
+      isActionDeleteEnabled
+      isFeedInventoryEnabled
+      isQRCodeEnabled
+      isEditEnabled
+      isCloneProductEnabled
+      onFeedInventory={() => {
+        setUiState(prevState => ({
+          ...prevState,
+          isFeedInventoryDrawerOpen: true
+        }));
+      }}
       onRowEdit={() =>
         setUiState(prevState => ({
           ...prevState,

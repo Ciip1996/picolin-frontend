@@ -72,7 +72,7 @@ const LogIn = (props: LogInProps) => {
         showAlert({
           severity: 'warning',
           title: `Login`,
-          autoHideDuration: 800000,
+          autoHideDuration: 8000,
           body: getErrorData(error)?.message || Contents[language]?.errServer
         });
       } else {
@@ -80,7 +80,7 @@ const LogIn = (props: LogInProps) => {
           severity: 'error',
           title: getErrorData(error)?.title || `Error`,
           code: response?.status || '500',
-          autoHideDuration: 800000,
+          autoHideDuration: 8000,
           body: getErrorData(error)?.message || Contents[language]?.errServer
         });
       }

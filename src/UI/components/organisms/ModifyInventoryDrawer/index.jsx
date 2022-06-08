@@ -75,7 +75,7 @@ const ModifyInventoryDrawer = (props: ModifyInventoryDrawerProps) => {
       onShowAlert({
         severity: 'error',
         title,
-        autoHideDuration: 800000,
+        autoHideDuration: 8000,
         body: message
       });
       throw err;
