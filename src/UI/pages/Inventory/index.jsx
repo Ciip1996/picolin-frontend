@@ -307,7 +307,7 @@ const InventoryList = (props: InventoryListProps) => {
       >
         <div role="presentation">
           <QRCodeDrawer
-            selectedProduct={uiState?.selectedProduct}
+            selectedProduct={uiState.selectedProduct}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isQRCodeDrawerOpen', false)}
           />
@@ -327,14 +327,12 @@ const InventoryList = (props: InventoryListProps) => {
       >
         <div role="presentation">
           <FeedInventoryDrawer
-            preloadedProduct={uiState.selectedProduct}
             onInventoryInserted={onInventoryInserted}
             onShowAlert={onShowAlert}
             handleClose={() => {
               setUiState(prevState => ({
                 ...prevState,
                 isFeedInventoryDrawerOpen: false,
-                selectedProduct: {},
                 rowsSelected: []
               }));
             }}
