@@ -121,7 +121,7 @@ const FileUploader = (props: FileUploaderProps) => {
         ...fileInfo,
         severity,
         title,
-        autoHideDuration: 800000,
+        autoHideDuration: 8000,
         body: message,
         hasError: true
       });
@@ -166,7 +166,7 @@ const FileUploader = (props: FileUploaderProps) => {
           showAlert({
             severity: 'error',
             title: getErrorData(err)?.title,
-            autoHideDuration: 800000,
+            autoHideDuration: 8000,
             body: getErrorData(err)?.message
           });
         }

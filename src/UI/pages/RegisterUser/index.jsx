@@ -82,7 +82,7 @@ const RegisterUser = (props: RegisterProps) => {
           showAlert({
             severity: 'success',
             title: `Registrar Usuario`,
-            autoHideDuration: 800000,
+            autoHideDuration: 8000,
             body: `El usuario "${user}" ha sido registrado exitosamente.`
           });
           history.push(EntityRoutes.Home);
@@ -92,7 +92,7 @@ const RegisterUser = (props: RegisterProps) => {
         showAlert({
           severity: 'warning',
           title: `Password confirmation`,
-          autoHideDuration: 800000,
+          autoHideDuration: 8000,
           body: `Your password don't match. Try again or contact IT support.`
         });
       }
@@ -106,7 +106,7 @@ const RegisterUser = (props: RegisterProps) => {
             ? response?.data?.title
             : `Error ${response.status}`,
           code: response?.status || '500',
-          autoHideDuration: 800000,
+          autoHideDuration: 8000,
           body: `${response?.data?.message}`
         });
       } else {
@@ -116,7 +116,7 @@ const RegisterUser = (props: RegisterProps) => {
             ? response?.data?.title
             : `Error ${response.status}`,
           code: response?.status || '500',
-          autoHideDuration: 800000,
+          autoHideDuration: 8000,
           body: response?.data?.message || Contents[language]?.errServer
         });
       }

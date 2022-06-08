@@ -168,7 +168,7 @@ const Sidebar = (props: SidebarProps) => {
         showAlert({
           severity,
           title,
-          autoHideDuration: 800000,
+          autoHideDuration: 8000,
           body: message
         });
         throw err;

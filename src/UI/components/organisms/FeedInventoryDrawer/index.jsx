@@ -50,14 +50,7 @@ const FeedInventoryDrawer = ({
     }
   });
 
-  const {
-    register,
-    errors,
-    getValues,
-    setValue,
-    handleSubmit,
-    unregister
-  } = useForm();
+  const { register, errors, getValues, setValue, handleSubmit } = useForm();
 
   const [uiState] = useState({
     isSaving: false,
@@ -72,7 +65,7 @@ const FeedInventoryDrawer = ({
       onShowAlert({
         severity: 'error',
         title: `Formulario Incompleto`,
-        autoHideDuration: 800000,
+        autoHideDuration: 8000,
         body: 'Porfavor revise los campos que faltan.'
       });
     }
@@ -119,7 +112,7 @@ const FeedInventoryDrawer = ({
         onShowAlert({
           severity,
           title,
-          autoHideDuration: 800000,
+          autoHideDuration: 8000,
           body: message
         });
         throw err;
@@ -149,8 +142,8 @@ const FeedInventoryDrawer = ({
   };
 
   const onRemoveProduct = () => {
-    setSelectedProduct({});
-    unregister('product');
+    setSelectedProduct(null);
+    setValue('product', null);
   };
 
   return (

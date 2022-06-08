@@ -84,7 +84,7 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
         onShowAlert({
           severity,
           title,
-          autoHideDuration: 800000,
+          autoHideDuration: 8000,
           body: message
         });
         throw err;
@@ -97,7 +97,7 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
       onShowAlert({
         severity: 'error',
         title: `Formulario Incompleto`,
-        autoHideDuration: 800000,
+        autoHideDuration: 8000,
         body: 'Porfavor revise los campos que faltan.'
       });
     }
