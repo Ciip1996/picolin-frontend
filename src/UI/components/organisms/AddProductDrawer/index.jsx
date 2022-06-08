@@ -92,17 +92,16 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
     },
     [isEditMode, onProductInserted, onShowAlert]
   );
-
-  if (!isEmpty(errors)) {
-    Object.entries(errors).map(([key, value]: any) => {
-      return onShowAlert({
+  useEffect(() => {
+    if (!isEmpty(errors)) {
+      onShowAlert({
         severity: 'error',
-        title: `Error en ${key}`,
+        title: `Formulario Incompleto`,
         autoHideDuration: 800000,
-        body: value?.message
+        body: 'Porfavor revise los campos que faltan.'
       });
-    });
-  }
+    }
+  }, [errors, onShowAlert]);
 
   const uiMode = isEditMode ? 'Edit' : 'Register';
 

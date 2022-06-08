@@ -37,19 +37,16 @@ const FeedInventoryDrawer = ({
   onInventoryInserted,
   preloadedProduct
 }: FeedInventoryDrawerProps) => {
+  const language = localStorage.getItem('language');
+
   const [comboValues, setComboValues] = useState<MapType>({});
   const [selectedProduct, setSelectedProduct] = useState<Object | null>(
     preloadedProduct || null
   );
 
-  const language = localStorage.getItem('language');
-
-  const { idProduct } = preloadedProduct || {};
-
   const form = useForm({
     defaultValues: {
-      ...preloadedProduct,
-      idProduct
+      ...preloadedProduct
     }
   });
 
@@ -62,20 +59,24 @@ const FeedInventoryDrawer = ({
     unregister
   } = useForm();
 
-  const [uiState, setUiState] = useState({
+  const [uiState] = useState({
     isSaving: false,
     isSuccess: false,
     isReadOnly: false,
     isFormDisabled: false,
-    isLoading: true,
-    preloadedProduct: {}
+    isLoading: true
   });
 
   useEffect(() => {
-    setUiState(prevState => ({
-      ...prevState
-    }));
-  }, []);
+    if (!isEmpty(errors)) {
+      onShowAlert({
+        severity: 'error',
+        title: `Formulario Incompleto`,
+        autoHideDuration: 800000,
+        body: 'Porfavor revise los campos que faltan.'
+      });
+    }
+  }, [errors, onShowAlert]);
 
   useEffect(() => {
     register(
@@ -90,7 +91,11 @@ const FeedInventoryDrawer = ({
       { name: 'stock' },
       { required: `${Contents[language]?.RequiredMessage}` }
     );
-  }, [language, register]);
+
+    if (preloadedProduct) {
+      setValue('product', preloadedProduct);
+    }
+  }, [language, preloadedProduct, register, setValue]);
 
   const classes = useStyles();
 
@@ -120,19 +125,8 @@ const FeedInventoryDrawer = ({
         throw err;
       }
     },
-    [onShowAlert]
+    [onInventoryInserted, onShowAlert]
   );
-
-  if (!isEmpty(errors)) {
-    Object.entries(errors).map(([key, value]: any) => {
-      return onShowAlert({
-        severity: 'error',
-        title: `Error en ${key}`,
-        autoHideDuration: 800000,
-        body: value?.message
-      });
-    });
-  }
 
   const uiMode = 'Feed';
 
