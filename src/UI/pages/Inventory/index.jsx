@@ -8,8 +8,8 @@ import Box from '@material-ui/core/Box';
 /** Atoms, Components and Styles */
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import AddInventoryProductDrawer from 'UI/components/organisms/AddInventoryProductDrawer';
-import ModifyInventoryDrawer from 'UI/components/organisms/ModifyInventoryDrawer';
+// import ModifyInventoryDrawer from 'UI/components/organisms/ModifyInventoryDrawer';
+import FeedInventoryDrawer from 'UI/components/organisms/FeedInventoryDrawer';
 import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import { showAlert, confirm as confirmAction } from 'actions/app';
@@ -55,11 +55,11 @@ const InventoryList = (props: InventoryListProps) => {
     direction: savedParams?.direction,
     page: savedParams?.page - 1 || 0,
     perPage: savedParams?.perPage || 10,
-    isAddProductDrawerOpen: false && isUserAdminOrManager,
     isQRCodeDrawerOpen: false,
     isDeleteModal: false,
     isModifyInventoryDrawer: false,
-    selectedProduct: null
+    selectedProduct: null,
+    isFeedInventoryDrawerOpen: isUserAdminOrManager && false
   };
 
   const [uiState, setUiState] = useState<UIStateInventory>(defaultValue);
@@ -183,12 +183,11 @@ const InventoryList = (props: InventoryListProps) => {
     setFilters({ ...filters, [filterName]: undefined });
   };
 
-  const onProductInserted = insertedProduct => {
+  const onInventoryInserted = () => {
     setUiState(prevState => ({
       ...prevState,
-      isQRCodeDrawerOpen: true,
-      isAddProductDrawerOpen: false,
-      selectedProduct: insertedProduct || null
+      isQRCodeDrawerOpen: false,
+      isFeedInventoryDrawerOpen: false
     }));
   };
 
@@ -229,14 +228,6 @@ const InventoryList = (props: InventoryListProps) => {
     }));
   };
 
-  // useEffect(() => {
-  //   if (data?.length === 0 && searching === false) {
-  //     setLoading(true);
-  //     setSearching(true);
-  //     getData();
-  //   }
-  // }, [data?.length, getData, searching]);
-
   useEffect(() => {
     if (error) {
       setData([]);
@@ -274,10 +265,10 @@ const InventoryList = (props: InventoryListProps) => {
             />
             {isUserAdminOrManager && (
               <ActionButton
-                text={Contents[language]?.addNewProduct}
+                text={Contents[language]?.feedInventory}
                 onClick={toggleDrawer(
-                  'isAddProductDrawerOpen',
-                  !uiState.isAddProductDrawerOpen
+                  'isFeedInventoryDrawerOpen',
+                  !uiState.isFeedInventoryDrawerOpen
                 )}
               >
                 <AddIcon fill={colors.white} size={18} />
@@ -311,19 +302,6 @@ const InventoryList = (props: InventoryListProps) => {
       </ListPageLayout>
       <Drawer
         anchor={drawerAnchor}
-        open={uiState.isAddProductDrawerOpen}
-        onClose={toggleDrawer('isAddProductDrawerOpen', false)}
-      >
-        <div role="presentation">
-          <AddInventoryProductDrawer
-            onProductInserted={onProductInserted}
-            onShowAlert={onShowAlert}
-            handleClose={toggleDrawer('isAddProductDrawerOpen', false)}
-          />
-        </div>
-      </Drawer>
-      <Drawer
-        anchor={drawerAnchor}
         open={uiState.isQRCodeDrawerOpen}
         onClose={toggleDrawer('isQRCodeDrawerOpen', false)}
       >
@@ -337,14 +315,29 @@ const InventoryList = (props: InventoryListProps) => {
       </Drawer>
       <Drawer
         anchor={drawerAnchor}
-        open={uiState.isModifyInventoryDrawer}
-        onClose={toggleDrawer('isModifyInventoryDrawer', false)}
+        open={uiState.isFeedInventoryDrawerOpen}
+        onClose={() => {
+          setUiState(prevState => ({
+            ...prevState,
+            isFeedInventoryDrawerOpen: false,
+            selectedProduct: {},
+            rowsSelected: []
+          }));
+        }}
       >
         <div role="presentation">
-          <ModifyInventoryDrawer
-            onProductInserted={onProductInserted}
+          <FeedInventoryDrawer
+            preloadedProduct={uiState.selectedProduct}
+            onInventoryInserted={onInventoryInserted}
             onShowAlert={onShowAlert}
-            handleClose={toggleDrawer('isModifyInventoryDrawer', false)}
+            handleClose={() => {
+              setUiState(prevState => ({
+                ...prevState,
+                isFeedInventoryDrawerOpen: false,
+                selectedProduct: {},
+                rowsSelected: []
+              }));
+            }}
           />
         </div>
       </Drawer>
