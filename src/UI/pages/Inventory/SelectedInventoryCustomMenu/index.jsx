@@ -6,6 +6,7 @@ import SelectedRowMenu from 'UI/components/organisms/DataTable/SelectedRowMenu';
 import { showAlert, confirm as confirmAction } from 'actions/app';
 import { getErrorData } from 'UI/utils';
 import { connect } from 'react-redux';
+import { InventoryStatus } from 'UI/constants/status';
 
 type SelectedInventoryCustomMenuProps = {
   onShowAlert: any => void,
@@ -32,9 +33,9 @@ const SelectedInventoryCustomMenu = (
     inventoryStatus
   } = props;
 
-  const isActionDelete = inventoryStatus === 1;
+  const isActionDisable = inventoryStatus === InventoryStatus.enabled;
 
-  const onConfirm = async ok => {
+  const onConfirmEnableDisableAction = async ok => {
     try {
       if (!ok) {
         return;
@@ -44,9 +45,9 @@ const SelectedInventoryCustomMenu = (
         data: { title, message }
       } = await API.post(
         `${Endpoints.Inventory}${
-          isActionDelete
-            ? Endpoints.DeleteInventory
-            : Endpoints.RestoreInventory
+          isActionDisable
+            ? Endpoints.DisableInventory
+            : Endpoints.EnableInventory
         }`,
         {
           idInventory
@@ -71,9 +72,39 @@ const SelectedInventoryCustomMenu = (
     }
   };
 
+  const onConfirmDeleteAction = async ok => {
+    try {
+      if (!ok) {
+        return;
+      }
+      const {
+        status,
+        data: { title, message }
+      } = await API.post(`${Endpoints.Inventory}${Endpoints.DeleteInventory}`, {
+        idInventory
+      });
+      onShowAlert({
+        severity: status === 200 ? 'success' : 'warning',
+        title,
+        body: message
+      });
+      setData([]); // empty data so it will refresh
+    } catch (err) {
+      const { title, message, severity } = getErrorData(err);
+      onShowAlert({
+        severity,
+        title,
+        autoHideDuration: 8000,
+        body: message
+      });
+      throw err;
+    }
+  };
+
   return (
     <SelectedRowMenu
-      // isActionDeleteEnabled // Will hide this option as it is not removing the inventory properly
+      isDisableActionEnabled
+      isActionDeleteEnabled
       isQRCodeEnabled
       onRowEdit={() =>
         setUiState(prevState => ({
@@ -84,12 +115,26 @@ const SelectedInventoryCustomMenu = (
       }
       onRowDeleted={() =>
         showConfirm({
-          severity: isActionDelete ? 'error' : 'warning',
-          title: `${isActionDelete ? 'Desactivar' : 'Restaurar'}`,
+          severity: 'error',
+          title: `Eliminar`,
+          message: `Seguro(a) que deseas Eliminar este registro del inventario? Esta accion es permanente y no puede deshacerse.`,
+          onConfirmDeleteAction
+        })
+      }
+      onRowEnableDisable={() =>
+        showConfirm({
+          severity: isActionDisable ? 'error' : 'warning',
+          title: `${
+            isActionDisable ? 'Desactivar / Ocultar' : 'Activar / Mostrar'
+          }`,
           message: `Seguro(a) que deseas ${
-            isActionDelete ? 'Desactivar' : 'Restaurar'
-          } este registro del inventario?`,
-          onConfirm
+            isActionDisable ? 'Desactivar / Ocultar' : 'Activar / Mostrar'
+          } este registro del inventario? ${
+            isActionDisable
+              ? 'Si lo haces ningun empleado podra ver este registro de inventario y sera como si no existiera.'
+              : 'Si lo haces los empleado podrán ver este registro de inventario nuevamente.'
+          }`,
+          onConfirmEnableDisableAction
         })
       }
       onQRCodeDownload={() =>
@@ -101,7 +146,7 @@ const SelectedInventoryCustomMenu = (
           productId
         }))
       }
-      isActionDelete={isActionDelete}
+      isActionDisable={isActionDisable}
     />
   );
 };
