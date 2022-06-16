@@ -11,12 +11,12 @@ import { InventoryStatus } from 'UI/constants/status';
 type SelectedInventoryCustomMenuProps = {
   onShowAlert: any => void,
   showConfirm: any => void,
-  setData: any => void,
   idInventory: number,
   setUiState: any => void,
   productCode: number,
   productId: number,
-  inventoryStatus: number
+  inventoryStatus: number,
+  setRefresh: any => void
 };
 
 const SelectedInventoryCustomMenu = (
@@ -29,8 +29,8 @@ const SelectedInventoryCustomMenu = (
     showConfirm,
     productCode,
     productId,
-    setData,
-    inventoryStatus
+    inventoryStatus,
+    setRefresh
   } = props;
 
   const isActionDisable = inventoryStatus === InventoryStatus.enabled.id;
@@ -59,7 +59,7 @@ const SelectedInventoryCustomMenu = (
         title,
         body: message
       });
-      setData([]); // empty data so it will refresh
+      setRefresh(true);
     } catch (err) {
       const { title, message, severity } = getErrorData(err);
       onShowAlert({
@@ -88,14 +88,14 @@ const SelectedInventoryCustomMenu = (
         title,
         body: message
       });
-      setData([]); // empty data so it will refresh
+      setRefresh(true); // refersh data again
     } catch (err) {
       const { title, message, severity } = getErrorData(err);
       onShowAlert({
         severity,
         title,
         autoHideDuration: 8000,
-        body: message
+        body: message || JSON.stringify(err)
       });
       throw err;
     }

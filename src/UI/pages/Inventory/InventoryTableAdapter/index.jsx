@@ -28,7 +28,7 @@ type InventoryTableAdapterPropTypes = {|
   handleColumnSortClick: any => any,
   handlePerPageClick: () => any,
   handlePageClick: () => any,
-  setData: () => any,
+  setRefresh: () => any,
   setUiState: UIStateInventory => any,
   setSearching: boolean => any,
   error: boolean,
@@ -53,7 +53,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
     handlePageClick,
     setSearching,
     setUiState,
-    setData
+    setRefresh
   } = props;
   const language = localStorage.getItem('language');
 
@@ -557,7 +557,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
             productId={productId}
             setUiState={setUiState}
             selectedRowIndex={selectedRowIndex}
-            setData={setData}
+            setRefresh={setRefresh}
             inventoryStatus={status}
           />
         );
