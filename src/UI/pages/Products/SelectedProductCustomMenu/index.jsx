@@ -82,7 +82,6 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
       onRowEdit={() =>
         setUiState(prevState => ({
           ...prevState,
-          // isAddProductDrawerOpen: true,
           isModifyProductDrawerOpen: true
         }))
       }
