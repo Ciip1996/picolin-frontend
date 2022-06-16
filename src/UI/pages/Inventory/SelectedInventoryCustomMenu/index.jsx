@@ -33,7 +33,7 @@ const SelectedInventoryCustomMenu = (
     inventoryStatus
   } = props;
 
-  const isActionDisable = inventoryStatus === InventoryStatus.enabled;
+  const isActionDisable = inventoryStatus === InventoryStatus.enabled.id;
 
   const onConfirmEnableDisableAction = async ok => {
     try {
@@ -118,7 +118,7 @@ const SelectedInventoryCustomMenu = (
           severity: 'error',
           title: `Eliminar`,
           message: `Seguro(a) que deseas Eliminar este registro del inventario? Esta accion es permanente y no puede deshacerse.`,
-          onConfirmDeleteAction
+          onConfirm: onConfirmDeleteAction
         })
       }
       onRowEnableDisable={() =>
@@ -134,7 +134,7 @@ const SelectedInventoryCustomMenu = (
               ? 'Si lo haces ningun empleado podra ver este registro de inventario y sera como si no existiera.'
               : 'Si lo haces los empleado podrán ver este registro de inventario nuevamente.'
           }`,
-          onConfirmEnableDisableAction
+          onConfirm: onConfirmEnableDisableAction
         })
       }
       onQRCodeDownload={() =>
