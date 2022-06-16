@@ -104,7 +104,7 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
             onClick={onRowEnableDisable}
           >
             {isActionDisable ? (
-              <VisibilityOffIcon color="error" />
+              <VisibilityOffIcon />
             ) : (
               <VisibilityIcon color="success" />
             )}
