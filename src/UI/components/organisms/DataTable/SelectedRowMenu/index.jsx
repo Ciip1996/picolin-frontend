@@ -28,7 +28,7 @@ type SelectedRowMenuProps = {
   isEditEnabled: boolean,
   isActionDeleteEnabled: boolean,
   isDisableActionEnabled: boolean,
-  isActionDisable: boolean,
+  isActionDisable?: boolean,
   onCloneProduct?: () => void,
   onRowEnableDisable: any => any
 };
@@ -123,6 +123,7 @@ SelectedRowMenu.defaultProps = {
   isCloneProductEnabled: false,
   isEditEnabled: false,
   isActionDeleteEnabled: false,
+  isActionDisable: false,
   onFeedInventory: () => {},
   onCloneProduct: () => {}
 };

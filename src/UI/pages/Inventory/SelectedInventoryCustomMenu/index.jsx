@@ -108,14 +108,8 @@ const SelectedInventoryCustomMenu = (
     <SelectedRowMenu
       isDisableActionEnabled={isUserAdmin}
       isActionDeleteEnabled={isUserAdmin}
+      isActionDisable={isActionDisable}
       isQRCodeEnabled
-      onRowEdit={() =>
-        setUiState(prevState => ({
-          ...prevState,
-          isModifyInventoryDrawer: true,
-          idInventory
-        }))
-      }
       onRowDeleted={() =>
         showConfirm({
           severity: 'error',
@@ -149,7 +143,6 @@ const SelectedInventoryCustomMenu = (
           productId
         }))
       }
-      isActionDisable={isActionDisable}
     />
   );
 };
