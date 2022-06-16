@@ -43,16 +43,11 @@ const cleanLocalStorage = () => {
   sessionStorage.clear();
 };
 
-const getRedirectPage = () => {
-  return localStorage.getItem('redirectPage');
-};
-
 export {
   getToken,
   getCurrentUser,
   isAuthenticated,
   logout,
   cleanLocalStorage,
-  getRedirectPage,
   getCurrentSessionExpirationDate
 };

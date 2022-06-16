@@ -7,6 +7,7 @@ import { showAlert, confirm as confirmAction } from 'actions/app';
 import { getErrorData } from 'UI/utils';
 import { connect } from 'react-redux';
 import { InventoryStatus } from 'UI/constants/status';
+import { userHasAdminOrManagerPermissions } from 'services/Authorization';
 
 type SelectedInventoryCustomMenuProps = {
   onShowAlert: any => void,
@@ -101,10 +102,12 @@ const SelectedInventoryCustomMenu = (
     }
   };
 
+  const isUserAdmin: boolean = userHasAdminOrManagerPermissions();
+
   return (
     <SelectedRowMenu
-      isDisableActionEnabled
-      isActionDeleteEnabled
+      isDisableActionEnabled={isUserAdmin}
+      isActionDeleteEnabled={isUserAdmin}
       isQRCodeEnabled
       onRowEdit={() =>
         setUiState(prevState => ({
@@ -123,7 +126,7 @@ const SelectedInventoryCustomMenu = (
       }
       onRowEnableDisable={() =>
         showConfirm({
-          severity: isActionDisable ? 'error' : 'warning',
+          severity: 'warning',
           title: `${
             isActionDisable ? 'Desactivar / Ocultar' : 'Activar / Mostrar'
           }`,

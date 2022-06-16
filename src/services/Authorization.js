@@ -55,7 +55,7 @@ export const userHasAdminOrManagerPermissions = () => {
   return (
     user.roleId === Roles.Admin ||
     user.roleId === Roles.SuperAdmin ||
-    user.roleId === Roles.Manager
+    user.roleId === Roles.Warehouse
   );
 };
 
@@ -68,7 +68,7 @@ export const userHasEmployeePermissions = () => {
   return (
     user.roleId === Roles.Admin ||
     user.roleId === Roles.SuperAdmin ||
-    user.roleId === Roles.Manager ||
-    user.roleId === Roles.Employee
+    user.roleId === Roles.Warehouse ||
+    user.roleId === Roles.Sales
   );
 };
