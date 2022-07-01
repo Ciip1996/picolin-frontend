@@ -40,6 +40,7 @@ const InventoryList = (props: InventoryListProps) => {
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
   const [error, setError] = useState(false);
+  const [refresh, setRefresh] = useState(false);
 
   const [data, setData] = useState<any>(null);
   const [count, setCount] = useState(0);
@@ -130,19 +131,16 @@ const InventoryList = (props: InventoryListProps) => {
       setLoading(false);
       setSearching(false);
       setError(false);
+      setRefresh(false);
     } catch (err) {
       const { title, message, severity } = getErrorData(err);
       setError(true);
-      setData([]);
-      setLoading(false);
-      setSearching(false);
       onShowAlert({
         severity,
         title,
         autoHideDuration: 3000,
-        body: message
+        body: message || JSON.stringify(err)
       });
-      throw err;
     }
   }, [
     filters,
@@ -189,6 +187,7 @@ const InventoryList = (props: InventoryListProps) => {
       isQRCodeDrawerOpen: false,
       isFeedInventoryDrawerOpen: false
     }));
+    setRefresh(true);
   };
 
   const onRowsSelect = (currentRowsSelected: Array<any>) => {
@@ -240,6 +239,12 @@ const InventoryList = (props: InventoryListProps) => {
     document.title = PageTitles.Inventory;
     getData();
   }, [getData]);
+
+  useEffect(() => {
+    if (refresh) {
+      getData();
+    }
+  }, [getData, refresh]);
 
   return (
     <ContentPageLayout>
@@ -294,10 +299,10 @@ const InventoryList = (props: InventoryListProps) => {
           handleColumnSortClick={handleColumnSortClick}
           handlePerPageClick={handlePerPageClick}
           handlePageClick={handlePageClick}
-          setData={setData}
           setUiState={setUiState}
           onRowsSelect={onRowsSelect}
           setSearching={setSearching}
+          setRefresh={setRefresh}
         />
       </ListPageLayout>
       <Drawer

@@ -19,13 +19,8 @@ import {
 } from 'services/Authentication';
 import { FeatureFlags } from 'UI/constants/featureFlags';
 import { getFeatureFlags } from 'UI/utils';
-
 import { PicolinLogo, colors } from 'UI/res';
-
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
-// import CustomIconButton from 'UI/components/atoms/CustomIconButton';
-// import GlobalSearchbar from 'UI/components/molecules/GlobalSearchbar';
-
 import { drawerAnchor } from 'UI/constants/defaults';
 import { EntityRoutes } from 'routes/constants';
 import { useStyles, styles } from './styles';
@@ -67,6 +62,23 @@ const NavBar = ({ handleCloseCashier }: NavBarProps) => {
     history.push('/');
   };
 
+  const getEmployeeColor: Function = () => {
+    if (user.roleId === 0 && isUserAdmin) return colors?.navyBlue;
+    if (user.roleId === 1 && isUserAdmin) return colors?.red;
+    if (user.roleId === 2) return colors?.purple;
+    if (user.roleId === 3) return colors?.primary;
+    return colors?.secondary;
+  };
+
+  const getEmployeeAcron: Function = () => {
+    if (user.roleId === 0 && isUserAdmin) return 'SUPER';
+    if (user.roleId === 1 && isUserAdmin) return 'ADMIN';
+    if (user.roleId === 3) return 'VENTA';
+    if (user.roleId === 2) return 'ALMAC';
+    return 'EMP';
+  };
+  const employeeAcron: string = getEmployeeAcron();
+  const employeeColor: string = getEmployeeColor();
   return (
     <Fragment key={drawerAnchor}>
       <div className={classes.wrapper}>
@@ -101,10 +113,9 @@ const NavBar = ({ handleCloseCashier }: NavBarProps) => {
               >
                 <div className={classes.name}>{user?.userName}</div>
                 <CustomAvatar
-                  acron={isUserAdmin ? 'ADM' : 'EMP'}
-                  backgroundColor={
-                    isUserAdmin ? colors?.primary : colors?.secondary
-                  }
+                  style={{ fontSize: 11 }}
+                  acron={employeeAcron}
+                  backgroundColor={employeeColor}
                 />
                 <MoreVertIcon />
               </CardActionArea>
