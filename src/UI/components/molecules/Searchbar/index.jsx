@@ -5,10 +5,11 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import { SearchBarIcon, colors } from 'UI/res';
 import { input } from 'UI/constants/dimensions';
+import { useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
+const language = useLanguage();
 
 type SearchbarProps = {
   name: string,

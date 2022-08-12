@@ -1,5 +1,15 @@
 const Contents = {
-  English: {},
+  English: {
+    Feed: {
+      Title: 'Feed Inventory',
+      Subtitle:
+        'Choose the options and fill the form in order to add this product to the inventory.',
+      Submit: 'Feed'
+    },
+    Store: 'Tienda',
+    Stock: 'Cantidad de Stock a Añadir',
+    RequiredMessage: 'Este campo es obligatorio.'
+  },
   Spanish: {
     Feed: {
       Title: 'Alimentar Inventario',

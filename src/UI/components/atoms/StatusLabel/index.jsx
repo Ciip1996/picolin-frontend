@@ -1,9 +1,13 @@
 import React from 'react';
 import { colors } from 'UI/res';
 
-const language = localStorage.getItem('language');
+const language = localStorage.getItem('language') || 'Spanish';
 
 const Contents = {
+  English: {
+    enabled: 'Enabled',
+    disabled: 'Disabled'
+  },
   Spanish: {
     enabled: 'Activo',
     disabled: 'Inactivo'

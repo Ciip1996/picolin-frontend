@@ -12,6 +12,7 @@ import InputContainer from 'UI/components/atoms/InputContainer';
 
 import ListProductRow from 'UI/components/molecules/ListProductRow';
 import { DEFAULT_STORE, ID_TYPES } from 'UI/constants/defaults';
+import { useLanguage } from 'UI/utils';
 import Contents from './strings';
 
 type SaleFormProps = {
@@ -20,7 +21,7 @@ type SaleFormProps = {
 
 const AddComboForm = (props: SaleFormProps) => {
   const { initialValues } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
   const [comboValues, setComboValues] = useState<MapType>(initialValues);
 
   const { register, errors, setValue } = useFormContext();

@@ -7,7 +7,7 @@ import { FormControl } from '@material-ui/core';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import TextBox from 'UI/components/atoms/TextBox';
 import { Endpoints } from 'UI/constants/endpoints';
-import { currencyFormatter } from 'UI/utils';
+import { currencyFormatter, useLanguage } from 'UI/utils';
 import StatusLabel, {
   StatusLabelOptions
 } from 'UI/components/atoms/StatusLabel';
@@ -55,7 +55,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
     setUiState,
     setRefresh
   } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const columnItems = [
     { id: 0, name: 'idProduct', display: false },

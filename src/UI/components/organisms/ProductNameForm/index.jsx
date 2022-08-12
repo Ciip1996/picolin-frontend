@@ -11,8 +11,12 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextBox from 'UI/components/atoms/TextBox';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { Endpoints } from 'UI/constants/endpoints';
+import {
+  useLanguage,
+  PRODUCT_DESCRIPTION_VALIDATION,
+  normalizeStrToNFD
+} from 'UI/utils';
 
-import { PRODUCT_DESCRIPTION_VALIDATION, normalizeStrToNFD } from 'UI/utils';
 import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
 
@@ -34,7 +38,7 @@ const Separator = () => <span style={{ width: 20 }} />;
 
 const ProductNameForm = (props: ProductNameFormProps) => {
   const { initialComboValues, showStatus, showId } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const [comboValues, setComboValues] = useState<MapType>(initialComboValues);
 

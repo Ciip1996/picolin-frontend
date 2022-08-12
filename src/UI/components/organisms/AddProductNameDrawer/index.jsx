@@ -7,10 +7,10 @@ import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
 import ProductNameForm from 'UI/components/organisms/ProductNameForm';
 import { Endpoints } from 'UI/constants/endpoints';
+import { useLanguage, getErrorData } from 'UI/utils';
 
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
-import { getErrorData } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -30,7 +30,7 @@ const AddProductNameDrawer = (props: AddInventoryProductDrawerProps) => {
   } = props;
 
   // TODO show edit mode
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const form = useForm({
     defaultValues: { ...selectedProductName, status: 1 }

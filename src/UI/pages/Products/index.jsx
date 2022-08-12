@@ -9,7 +9,7 @@ import Drawer from '@material-ui/core/Drawer';
 // import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import { getErrorData } from 'UI/utils';
+import { getErrorData, useLanguage } from 'UI/utils';
 import { colors, AddIcon } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddProductDrawer from 'UI/components/organisms/AddProductDrawer';
@@ -34,7 +34,7 @@ type ProductsListProps = {
 
 const ProductsList = (props: ProductsListProps) => {
   const { onShowAlert } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
   const isUserAdminOrManager = userHasAdminOrManagerPermissions();
 
   const [error, setError] = useState(false);
@@ -228,9 +228,9 @@ const ProductsList = (props: ProductsListProps) => {
   }, [error]);
 
   useEffect(() => {
-    document.title = PageTitles.Products;
+    document.title = language && PageTitles[language].Products;
     getData();
-  }, [getData]);
+  }, [getData, language]);
 
   useEffect(() => {
     if (refresh) {

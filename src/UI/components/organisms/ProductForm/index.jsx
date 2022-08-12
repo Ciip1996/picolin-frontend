@@ -14,7 +14,8 @@ import {
   PRODUCT_DESCRIPTION_VALIDATION,
   OBSERVATIONS_VALIDATION,
   PRODUCT_SIZE_VALIDATION,
-  pSizeLabelOptions
+  pSizeLabelOptions,
+  useLanguage
 } from 'UI/utils';
 import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
@@ -30,7 +31,7 @@ const Separator = () => <span style={{ width: 20 }} />;
 
 const ProductForm = (props: ProductFormProps) => {
   const { initialComboValues, isEditMode } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const [comboValues, setComboValues] = useState<MapType>(initialComboValues);
   const { isSizeNumeric: isSizeNumericInitialValue } = initialComboValues;

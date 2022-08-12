@@ -10,7 +10,7 @@ import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
-import { getErrorData } from 'UI/utils';
+import { getErrorData, useLanguage } from 'UI/utils';
 import { colors, AddIcon } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddProductNameDrawer from 'UI/components/organisms/AddProductNameDrawer';
@@ -54,7 +54,7 @@ const getSortDirections = (orderBy, direction) =>
 
 const ProductNamesList = (props: ProductNamesListProps) => {
   const { onShowAlert } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
   const isUserAdminOrManager = userHasAdminOrManagerPermissions();
 
   const [error, setError] = useState(false);
@@ -399,9 +399,9 @@ const ProductNamesList = (props: ProductNamesListProps) => {
   }, [error]);
 
   useEffect(() => {
-    document.title = PageTitles.ProductNames;
+    document.title = language && PageTitles[language].ProductNames;
     getData();
-  }, [error, getData]);
+  }, [error, getData, language]);
 
   return (
     <ContentPageLayout>

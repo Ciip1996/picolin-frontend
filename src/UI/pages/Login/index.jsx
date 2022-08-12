@@ -1,5 +1,5 @@
 // @flow
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -14,7 +14,7 @@ import { colors } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import TextBox from 'UI/components/atoms/TextBox';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorData } from 'UI/utils';
+import { getErrorData, useLanguage } from 'UI/utils';
 
 import {
   showAlert as showAlertAction,
@@ -29,20 +29,16 @@ type LogInProps = {
 };
 
 const LogIn = (props: LogInProps) => {
+  const language = useLanguage();
+
   const [uiState, setUiState] = useState({
     isLoading: false
   });
   const { showAlert } = props;
 
   const history = useHistory();
-  const language = localStorage.getItem('language');
 
   const { register, handleSubmit, errors, setError } = useForm();
-
-  useEffect(() => {
-    localStorage.setItem('language', 'Spanish');
-    localStorage.setItem('locale', 'es');
-  }, []);
 
   const onSubmit = async (formData: Object) => {
     try {
@@ -50,7 +46,7 @@ const LogIn = (props: LogInProps) => {
 
       const params = {
         user: formData.user,
-        password: formData.pwd
+        password: 'freedemopassword2022'
       };
       const response = await API.post(`${Endpoints.Login}`, params);
       if (response) {
@@ -110,6 +106,7 @@ const LogIn = (props: LogInProps) => {
               })}
               error={!!errors.user}
               helperText={errors.user && errors.user.message}
+              value="demo"
             />
             <TextBox
               className={classes.txtPwd}
@@ -122,6 +119,7 @@ const LogIn = (props: LogInProps) => {
               })}
               error={!!errors.pwd}
               helperText={errors.pwd && errors.pwd.message}
+              value="password"
             />
             <ActionButton
               type="submit"

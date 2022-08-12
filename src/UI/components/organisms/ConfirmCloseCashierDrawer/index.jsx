@@ -6,7 +6,7 @@ import queryString from 'query-string';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 
-import { getErrorData } from 'UI/utils';
+import { getErrorData, useLanguage } from 'UI/utils';
 import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
 import InfoRow from 'UI/components/molecules/InfoRow';
@@ -30,7 +30,7 @@ type CloseCashierDrawerProps = {
 
 const ConfirmCloseCashierDrawer = (props: CloseCashierDrawerProps) => {
   const { handleClose, onShowAlert, onConfirmedCloseCashier } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const classes = useStyles();
 

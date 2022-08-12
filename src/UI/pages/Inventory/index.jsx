@@ -19,7 +19,7 @@ import { userHasAdminOrManagerPermissions } from 'services/Authorization';
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorData } from 'UI/utils';
+import { getErrorData, useLanguage } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
@@ -34,7 +34,7 @@ type InventoryListProps = {
 
 const InventoryList = (props: InventoryListProps) => {
   const { onShowAlert } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const isUserAdminOrManager = userHasAdminOrManagerPermissions();
   const [loading, setLoading] = useState(true);
@@ -236,9 +236,9 @@ const InventoryList = (props: InventoryListProps) => {
   }, [error]);
 
   useEffect(() => {
-    document.title = PageTitles.Inventory;
+    document.title = language && PageTitles[language].Inventory;
     getData();
-  }, [getData]);
+  }, [getData, language]);
 
   useEffect(() => {
     if (refresh) {

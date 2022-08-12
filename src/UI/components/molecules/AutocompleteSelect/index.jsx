@@ -9,7 +9,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import ColorIndicator from 'UI/components/atoms/ColorIndicator';
 import { showAlert as showAlertAction } from 'actions/app';
-import { getErrorData } from 'UI/utils';
+import { getErrorData, useLanguage } from 'UI/utils';
 import API from 'services/API';
 import { type DataResponseFilter } from 'types/app';
 
@@ -77,7 +77,7 @@ const AutocompleteSelect = (props: AutocompleteSelectProps) => {
     ...rest
   } = props;
 
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const [options, setOptions] = useState([]);
   const [keyword, setKeyword] = useState(null);

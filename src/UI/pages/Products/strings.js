@@ -1,5 +1,24 @@
 const Contents = {
-  English: {},
+  English: {
+    pageTitle: 'Products List',
+    lblIdProduct: 'ID',
+    lblProductCode: 'Product ID',
+    lblName: 'Name',
+    lblType: 'Type',
+    lblMaterial: 'Material',
+    lblProvider: 'Provider',
+    lblSize: 'Size',
+    lblPieces: '# Pieces',
+    lblCost: 'Cost',
+    lblSalePrice: 'Sale Price',
+    lblGender: 'Gender',
+    lblColor: 'Color',
+    lblRegistrationDate: 'Register Date',
+    lblUser: 'User',
+    lblObservations: 'Observations',
+    addNewNameProduct: 'New Product',
+    lblStatus: 'Status'
+  },
   Spanish: {
     pageTitle: 'Listado de Productos',
     lblIdProduct: 'ID',

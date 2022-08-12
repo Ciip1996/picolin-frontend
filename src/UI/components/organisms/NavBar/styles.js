@@ -53,12 +53,21 @@ export const useStyles = makeStyles(theme => ({
   userCardWrapper: {
     flexDirection: 'row',
     display: 'flex',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    minHeight: 68
   },
   name: {
     fontWeight: theme.typography.fontWeightMedium,
     fontFamily: theme.typography.fontFamilyContent,
     marginRight: 10
+  },
+  languageContainer: {
+    marginRight: 24
+  },
+  language: {
+    fontSize: 14,
+    fontWeight: theme.typography.fontWeightMedium,
+    fontFamily: theme.typography.fontFamilyContent
   },
   userCard: {
     flexDirection: 'row',

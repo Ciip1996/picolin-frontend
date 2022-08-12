@@ -9,13 +9,14 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextBox from 'UI/components/atoms/TextBox';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import { Endpoints } from 'UI/constants/endpoints';
-
 import {
+  useLanguage,
   PRODUCT_DESCRIPTION_VALIDATION,
   OBSERVATIONS_VALIDATION,
   PRODUCT_SIZE_VALIDATION,
   pSizeLabelOptions
 } from 'UI/utils';
+
 import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
 
@@ -29,7 +30,7 @@ const Separator = () => <span style={{ width: 20 }} />;
 
 const InventoryProductForm = (props: ProductFormProps) => {
   const { initialValues } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const [comboValues, setComboValues] = useState<MapType>(initialValues);
   const [isSizeNumeric, setIsSizeNumeric] = useState(true);

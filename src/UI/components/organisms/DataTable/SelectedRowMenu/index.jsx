@@ -12,10 +12,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 /** Styles components */
+import { useLanguage } from 'UI/utils';
 import { ToolbarWrapper } from './styles';
 import Contents from './strings';
-
-const language = localStorage.getItem('language');
 
 type SelectedRowMenuProps = {
   onRowDeleted: any => any,
@@ -49,6 +48,7 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
     isFeedInventoryEnabled,
     isDisableActionEnabled
   } = props;
+  const language = useLanguage();
 
   return (
     <ToolbarWrapper>

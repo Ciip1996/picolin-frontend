@@ -13,6 +13,7 @@ import ButtonMenu from 'UI/components/molecules/ButtonMenu';
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 import { EditIcon, DeleteIcon, MoreIcon, colors } from 'UI/res';
 
+import { useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -26,7 +27,7 @@ type ProfileTabListCardProps = {
 
 const ProfileTabListCard = (props: ProfileTabListCardProps) => {
   const { item, definition, onEditClick, onItemClick, onDeleteClick } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const classes = useStyles();
 

@@ -14,7 +14,7 @@ import SaleCard from 'UI/components/organisms/SaleCard';
 import { v4 as uuidv4 } from 'uuid';
 
 import { isEmpty } from 'lodash';
-import { getErrorData } from 'UI/utils';
+import { getErrorData, useLanguage } from 'UI/utils';
 import type { MapType } from 'types';
 
 import API from 'services/API';
@@ -37,7 +37,7 @@ const FeedInventoryDrawer = ({
   onInventoryInserted,
   preloadedProduct
 }: FeedInventoryDrawerProps) => {
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const [comboValues, setComboValues] = useState<MapType>({});
   const [selectedProduct, setSelectedProduct] = useState<Object | null>(

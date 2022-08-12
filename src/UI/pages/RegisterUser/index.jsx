@@ -18,7 +18,7 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 import TextBox from 'UI/components/atoms/TextBox';
 import InputContainer from 'UI/components/atoms/InputContainer';
 import { EntityRoutes } from 'routes/constants';
-import { VALIDATION_REGEXS } from 'UI/utils';
+import { VALIDATION_REGEXS, useLanguage } from 'UI/utils';
 
 import {
   showAlert as showAlertAction,
@@ -31,14 +31,13 @@ type RegisterProps = {
   showAlert: any => void
 };
 
-const language = localStorage.getItem('language');
-
 const RegisterUser = (props: RegisterProps) => {
   const [uiState, setUiState] = useState({
     isLoading: false,
     role: undefined
   });
   const { showAlert } = props;
+  const language = useLanguage();
 
   const history = useHistory();
 
@@ -53,7 +52,7 @@ const RegisterUser = (props: RegisterProps) => {
 
   useEffect(() => {
     register({ name: 'role' }, { required: Contents[language]?.requireRole });
-  }, [register]);
+  }, [language, register]);
 
   const onSubmit = async (formData: Object) => {
     try {

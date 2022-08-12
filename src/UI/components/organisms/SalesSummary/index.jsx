@@ -4,7 +4,7 @@ import Card from '@material-ui/core/Card';
 import ListItem from '@material-ui/core/ListItem';
 import Chip from '@material-ui/core/Chip';
 import ListItemText from '@material-ui/core/ListItemText';
-import { currencyFormatter } from 'UI/utils';
+import { currencyFormatter, useLanguage } from 'UI/utils';
 import { Tooltip } from '@material-ui/core';
 import Contents from './string';
 import { useStyles } from './styles';
@@ -13,7 +13,6 @@ type SalesSummaryProps = {
   cash: number | null,
   card: number | null
 };
-const language = localStorage.getItem('language');
 
 const ReferencedTooltipCard = React.forwardRef((props, ref) => {
   //  Spread the props to the underlying DOM element.
@@ -22,6 +21,7 @@ const ReferencedTooltipCard = React.forwardRef((props, ref) => {
 
 const SalesSummary = (props: SalesSummaryProps) => {
   const { cash, card } = props;
+  const language = useLanguage();
 
   const classes = useStyles();
   return (

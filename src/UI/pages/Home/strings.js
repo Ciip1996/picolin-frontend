@@ -1,14 +1,18 @@
 const Contents = {
   English: {
-    pageTitle: 'Inventory',
-    defaultSubtitle: 'Maybe you should try again.',
-    labCode: 'Code'
+    pageTitle: 'Home Page',
+    welcomeFirst: 'Welcome',
+    welcomeSecond: 'to Picolin Store!',
+    loading: 'Loading permissions please wait...',
+    translationCaption:
+      'This site has not been translated into english completly. Sorry for the inconvenience'
   },
   Spanish: {
-    pageTitle: 'Inventarios',
-    defaultSubtitle:
-      '¡No pudimos encontrar lo que buscaba! Quizás deberías intentarlo de nuevo.',
-    labCode: 'Código'
+    pageTitle: 'Inicio',
+    welcomeFirst: '¡Bienvenido',
+    welcomeSecond: 'al sistema Picolin Store!',
+    loading: 'Cargando permisos porfavor espere...',
+    translationCaption: ''
   }
 };
 export default Contents;

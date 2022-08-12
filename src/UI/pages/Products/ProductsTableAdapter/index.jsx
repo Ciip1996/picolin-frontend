@@ -10,7 +10,7 @@ import StatusLabel, {
 } from 'UI/components/atoms/StatusLabel';
 import { DateFormats } from 'UI/constants/defaults';
 import moment from 'moment-timezone';
-import { currencyFormatter } from 'UI/utils';
+import { currencyFormatter, useLanguage } from 'UI/utils';
 import SelectedProductCustomMenu from '../SelectedProductCustomMenu';
 import Contents from '../strings';
 import { type UIStateProduct, FilterProduct } from '../types';
@@ -57,7 +57,7 @@ const ProductsTableAdapter = (props: ProductsTableAdapterPropTypes) => {
     setRefresh,
     rowsSelected
   } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const columnItems = [
     { id: 0, name: 'idProduct', display: true },

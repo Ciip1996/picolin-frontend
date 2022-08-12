@@ -11,19 +11,21 @@ import {
   ProductsIcon
   // TicketIcon
 } from 'UI/res/icons';
-
 import { colors } from 'UI/res';
 import {
   userHasAdminOrManagerPermissions,
   userHasEmployeePermissions
 } from 'services/Authorization';
+import Contents from './strings';
 
 const isUserEmployee = userHasEmployeePermissions();
 const isUserManagerOrAdmin = userHasAdminOrManagerPermissions();
 
+const language = localStorage.getItem('language') || 'Spanish';
+
 const sideBarMenu = [
   {
-    title: 'Almacen',
+    title: Contents[language].warehouse,
     route: 'warehouse',
     icon: {
       inactive: <WarehouseIcon fill={colors.oxford} />,
@@ -32,7 +34,7 @@ const sideBarMenu = [
     },
     subItems: [
       {
-        title: 'Inventarios',
+        title: Contents[language].inventory,
         route: EntityRoutes.Inventory,
         icon: {
           inactive: <InventoryIcon fill={colors.oxford} />,
@@ -42,7 +44,7 @@ const sideBarMenu = [
         display: isUserEmployee
       },
       {
-        title: 'Productos',
+        title: Contents[language].products,
         route: EntityRoutes.Products,
         icon: {
           inactive: <ProductsIcon fill={colors.oxford} />,
@@ -52,7 +54,7 @@ const sideBarMenu = [
         display: isUserManagerOrAdmin
       },
       {
-        title: 'Nombres / Modelos',
+        title: Contents[language].names,
         route: EntityRoutes.ProductNames,
         icon: {
           inactive: <ProductNamesIcon fill={colors.oxford} />,
@@ -65,7 +67,7 @@ const sideBarMenu = [
     display: isUserEmployee
   },
   {
-    title: 'Ventas',
+    title: Contents[language].sales,
     route: EntityRoutes.Sales,
     icon: {
       inactive: <SalesIcon fill={colors.oxford} />,
@@ -76,7 +78,7 @@ const sideBarMenu = [
   },
 
   {
-    title: 'Pagos',
+    title: Contents[language].payments,
     route: EntityRoutes.Payments,
     icon: {
       inactive: <PaymentIcon fill={colors.oxford} />,
@@ -86,7 +88,7 @@ const sideBarMenu = [
     display: isUserEmployee
   },
   {
-    title: 'Transferencias',
+    title: Contents[language].transfers,
     route: EntityRoutes.Transfers,
     icon: {
       inactive: <TransfersIcon fill={colors.oxford} />,

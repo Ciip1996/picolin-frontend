@@ -11,7 +11,7 @@ import {
   Tooltip
 } from '@material-ui/core';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
-import { currencyFormatter } from 'UI/utils';
+import { currencyFormatter, useLanguage } from 'UI/utils';
 import {
   EmptyFeeAgreement,
   CloseIcon,
@@ -27,8 +27,6 @@ import {
 } from 'UI/utils/ticketGenerator';
 import Contents from './strings';
 import { useStyles } from './styles';
-
-const language = localStorage.getItem('language');
 
 type SummaryCardProps = {
   saleData: Object,
@@ -54,6 +52,7 @@ const SummaryCard = (props: SummaryCardProps) => {
     total
   } = sale;
   const classes = useStyles();
+  const language = useLanguage();
 
   return (
     <Card className={classes.card}>

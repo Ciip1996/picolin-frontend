@@ -11,7 +11,7 @@ import { isEmpty } from 'lodash';
 
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
-import { getErrorData, getSizeObjectByValue } from 'UI/utils';
+import { getErrorData, getSizeObjectByValue, useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -32,7 +32,7 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
     isEditMode
   } = props;
 
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const { idName } = selectedProduct || {};
 

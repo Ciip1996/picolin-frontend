@@ -10,6 +10,7 @@ import { DEFAULT_STORE } from 'UI/constants/defaults';
 
 import type { MapType } from 'types';
 import { globalStyles } from 'GlobalStyles';
+import { useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -18,11 +19,11 @@ type CloseCashierDrawerProps = {
   onShowAlert: any => any,
   onContinue: Object => any
 };
-const language = localStorage.getItem('language');
 
 const CloseCashierDrawer = (props: CloseCashierDrawerProps) => {
   const { handleClose, onShowAlert, onContinue } = props;
   const [comboValues, setComboValues] = useState<MapType>({});
+  const language = useLanguage();
 
   const classes = useStyles();
 

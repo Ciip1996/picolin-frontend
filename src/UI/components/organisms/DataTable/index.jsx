@@ -5,12 +5,11 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 import { SearchResultsNotFound } from 'UI/res';
 import SkeletonList from 'UI/components/molecules/SkeletonList';
+import { useLanguage } from 'UI/utils';
 import { getMuiTheme } from './styles';
 import CustomFooter from './Footer/index';
 
 import Contents from './strings';
-
-const language = localStorage.getItem('language');
 
 const DataTableEmptyState = props => {
   const {
@@ -20,6 +19,7 @@ const DataTableEmptyState = props => {
     subtitle,
     customEmptyStateIcon
   } = props;
+  const language = useLanguage();
 
   const defaultTitle = error
     ? Contents[language]?.errorTitle
@@ -98,6 +98,7 @@ const DataTable = (props: DataTableProps) => {
     theme,
     ...rest
   } = props;
+  const language = useLanguage();
 
   const options = isServerSide
     ? {

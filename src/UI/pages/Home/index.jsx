@@ -10,15 +10,19 @@ import { getCurrentUser } from 'services/Authentication';
 // import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
 // import SalesSummary from 'UI/components/organisms/SalesSummary';
 import { type User } from 'types/app';
+import { useLanguage } from 'UI/utils';
 import { useStyles, styles } from './styles';
+import Contents from './strings';
 
 const Home = () => {
   const classes = useStyles();
   const user: User = getCurrentUser();
   const wasReloaded = localStorage.getItem('reloaded');
+  const language = useLanguage();
 
   useEffect(() => {
-    document.title = PageTitles.Home;
+    document.title = language && PageTitles[language].Home;
+
     const forceRefreshingUIRestrictions = () => {
       // A page reloaded is needed the first time we login in order to refresh the UI components
       // with access for Admin / employees. Otherwise it wont refresh them.
@@ -28,8 +32,13 @@ const Home = () => {
       }
     };
     forceRefreshingUIRestrictions();
-  }, [wasReloaded]);
+  }, [language, wasReloaded]);
 
+  const titleLabel = wasReloaded
+    ? `${Contents[language]?.welcomeFirst} ${user?.userName || ''} ${
+        Contents[language]?.welcomeSecond
+      }`
+    : Contents[language]?.loading;
   return (
     <>
       {/* <BackgroundGraphic fill={colors.backgroundGraphic} className={classes.backgroundImg} /> */}
@@ -45,12 +54,12 @@ const Home = () => {
             <TitleLabel
               customStyle={styles.mainTitle}
               fontSize={47}
-              text={
-                wasReloaded
-                  ? `¡Bienvenido ${user?.userName ||
-                      ''} al sistema Picolin Store!`
-                  : 'Cargando permisos porfavor espere...'
-              }
+              text={titleLabel}
+            />
+
+            <TitleLabel
+              fontSize={20}
+              text={wasReloaded ? Contents[language]?.translationCaption : ''}
             />
           </Grid>
           {/* <Grid

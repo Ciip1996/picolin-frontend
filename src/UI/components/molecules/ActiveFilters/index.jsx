@@ -4,6 +4,7 @@ import React from 'react';
 import Chip from '@material-ui/core/Chip';
 import CustomSkeleton from 'UI/components/atoms/CustomSkeleton';
 import type { Filters } from 'types/app';
+import { useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -17,7 +18,7 @@ type ActiveFiltersProps = {
 const ActiveFilters = (props: ActiveFiltersProps) => {
   const { filters, isLoading, onFilterRemove, onReset } = props;
   const classes = useStyles();
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const handleDeleteClick = (filterId: string) => {
     onFilterRemove && onFilterRemove(filterId);

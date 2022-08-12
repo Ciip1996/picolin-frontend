@@ -11,6 +11,7 @@ import Text from 'UI/components/atoms/Text';
 import TextBox from 'UI/components/atoms/TextBox';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 import InputContainer from 'UI/components/atoms/InputContainer';
+import { useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -38,7 +39,7 @@ const QRCodeDrawer = (props: QRCodeDrawerProps) => {
     pSize === 'UN' ? '' : 'talla '
   } ${pSize === 'UN' ? 'UNITALLA' : pSize}`;
 
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const form = useForm({
     defaultValues: { tagFontSize: defaultTagLetterSize }
