@@ -56,9 +56,10 @@ const Home = () => {
               fontSize={47}
               text={titleLabel}
             />
-
+            <p>{wasReloaded ? Contents[language]?.credits : ''}</p>
+            <br />
             <TitleLabel
-              fontSize={20}
+              fontSize={14}
               text={wasReloaded ? Contents[language]?.translationCaption : ''}
             />
           </Grid>
