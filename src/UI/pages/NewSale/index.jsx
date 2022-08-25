@@ -420,7 +420,7 @@ const NewSaleList = (props: NewSaleListProps) => {
               // container
               direction="row"
               display="flex"
-              justify="space-between"
+              justifyContent="space-between"
               alignItems="stretch"
               spacing={4}
             >

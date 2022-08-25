@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 import { THEME } from 'GlobalStyles';
 import { colors } from 'UI/res';
 
@@ -14,7 +14,7 @@ export const tableLayout = {
 };
 
 export const getMuiTheme = () =>
-  createMuiTheme({
+  createTheme({
     ...THEME,
     overrides: {
       ...THEME.overrides,

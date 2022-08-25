@@ -4,7 +4,7 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { styles } from './styles';
 
 type CustomSkeletonProps = {
-  variant: 'text' | 'rect' | 'circle',
+  variant: 'text' | 'rect' | 'circular',
   height: number | string,
   width: number | string,
   style: Object,

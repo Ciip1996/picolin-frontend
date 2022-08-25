@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 import { input, skeletonRadius } from 'UI/constants/dimensions';
 import { colors } from 'UI/res';
 
@@ -46,9 +46,9 @@ export const globalStyles = {
   }
 };
 
-const defaultTheme = createMuiTheme();
+const defaultTheme = createTheme();
 
-const theme = createMuiTheme({
+const theme = createTheme({
   sidebarItem: {
     width: '100%',
     height: 63,

@@ -25,21 +25,21 @@ const SkeletonList = (props: SkeletonItemProps) => {
           >
             <CustomSkeleton
               onContainer
-              variant="circle"
+              variant="circular"
               width={24}
               height={24}
             />
             <Box mx={2}>
               <CustomSkeleton
                 onContainer
-                variant="circle"
+                variant="circular"
                 width={24}
                 height={24}
               />
             </Box>
             <CustomSkeleton
               onContainer
-              variant="circle"
+              variant="circular"
               width={24}
               height={24}
             />

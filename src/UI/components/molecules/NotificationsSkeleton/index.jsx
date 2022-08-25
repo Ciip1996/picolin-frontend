@@ -21,7 +21,7 @@ const NotificationsSkeleton = (props: NotificationsSkeletonProps) => {
         <Card className={classes.root} key={`skeleton-${i.toString()}`}>
           <CardActions style={styles.iconContainer}>
             <CustomSkeleton
-              variant="circle"
+              variant="circular"
               width={20}
               height={20}
               style={styles.icon}
@@ -38,7 +38,7 @@ const NotificationsSkeleton = (props: NotificationsSkeletonProps) => {
           </CardContent>
           <CardActions style={styles.indicatorContainer}>
             <CustomSkeleton
-              variant="circle"
+              variant="circular"
               width={12}
               height={12}
               style={styles.indicator}

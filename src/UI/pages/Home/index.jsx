@@ -48,7 +48,7 @@ const Home = () => {
             className={classes.container}
             container
             direction="column"
-            justify="center"
+            justifyContent="center"
             alignItems="center"
           >
             <TitleLabel
@@ -67,14 +67,14 @@ const Home = () => {
             className={classes.container}
             style={styles.gridContainer}
             container
-            justify="center"
+            justifyContent="center"
             alignItems="center"
           >
             <Grid
               className={classes.container}
               container
               direction="row"
-              justify="center"
+              justifyContent="center"
               alignItems="center"
             >
               <ActionButton
