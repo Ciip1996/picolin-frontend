@@ -68,9 +68,9 @@ const sideBarMenu = [
         title: Contents[language].productTypes,
         route: EntityRoutes.ProductTypes,
         icon: {
-          inactive: <CategoryIcon fill={colors.oxford} />,
+          inactive: <CategoryIcon htmlColor={colors.oxford} />,
           opened: null,
-          active: <CategoryIcon fill={colors.white} />
+          active: <CategoryIcon htmlColor={colors.white} />
         },
         display: isUserManagerOrAdmin
       }
