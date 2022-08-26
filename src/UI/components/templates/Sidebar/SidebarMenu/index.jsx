@@ -1,6 +1,7 @@
 // @flow
 import React from 'react';
 import { EntityRoutes } from 'routes/constants';
+import CategoryIcon from '@mui/icons-material/Category';
 import {
   InventoryIcon,
   TransfersIcon,
@@ -9,7 +10,6 @@ import {
   ProductNamesIcon,
   WarehouseIcon,
   ProductsIcon
-  // TicketIcon
 } from 'UI/res/icons';
 import { colors } from 'UI/res';
 import {
@@ -63,6 +63,16 @@ const sideBarMenu = [
           active: <ProductNamesIcon fill={colors.white} />
         },
         display: isUserManagerOrAdmin
+      },
+      {
+        title: Contents[language].productTypes,
+        route: EntityRoutes.ProductTypes,
+        icon: {
+          inactive: <CategoryIcon fill={colors.oxford} />,
+          opened: null,
+          active: <CategoryIcon fill={colors.white} />
+        },
+        display: isUserManagerOrAdmin
       }
     ],
     display: isUserEmployee
@@ -98,16 +108,6 @@ const sideBarMenu = [
     },
     display: isUserManagerOrAdmin
   }
-  // {
-  //   title: 'Generador de Tickets',
-  //   route: EntityRoutes.TicketGenerator,
-  //   icon: {
-  //     inactive: <TicketIcon fill={colors.oxford} />,
-  //     opened: null,
-  //     active: <TicketIcon fill={colors.white} />
-  //   },
-  //   display: isUserManagerOrAdmin
-  // }
 ];
 
 export default sideBarMenu;

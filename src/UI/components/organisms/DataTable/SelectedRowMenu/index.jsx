@@ -124,8 +124,10 @@ SelectedRowMenu.defaultProps = {
   isEditEnabled: false,
   isActionDeleteEnabled: false,
   isActionDisable: false,
+  isDisableActionEnabled: false,
   onFeedInventory: () => {},
-  onCloneProduct: () => {}
+  onCloneProduct: () => {},
+  onRowEnableDisable: () => {}
 };
 
 export default SelectedRowMenu;

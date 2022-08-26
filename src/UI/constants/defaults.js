@@ -77,7 +77,8 @@ export const PageTitles = {
     Transfers: `${AppName} | Transfers`,
     Payments: `${AppName} | Payments`,
     ProductNames: `${AppName} | Product Names (Model)`,
-    Products: `${AppName} | Products`
+    Products: `${AppName} | Products`,
+    ProductTypes: `${AppName} | Product Types`
   },
   Spanish: {
     NewSale: `${AppName} | Nueva Venta`,
@@ -90,7 +91,8 @@ export const PageTitles = {
     Transfers: `${AppName} | Transferencias`,
     Payments: `${AppName} | Pagos`,
     ProductNames: `${AppName} | Nombres de Productos (Modelos)`,
-    Products: `${AppName} | Productos`
+    Products: `${AppName} | Productos`,
+    ProductTypes: `${AppName} | Tipos de Productos`
   }
 };
 
