@@ -16,8 +16,8 @@ import { colors, AddIcon } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import { DateFormats, drawerAnchor, PageTitles } from 'UI/constants/defaults';
 
-// import AddProductTypeDrawer from 'UI/components/organisms/AddProductNameDrawer';
-// import ModifyProductTypeDrawer from 'UI/components/organisms/ModifyProductNameDrawer';
+import AddProductTypeDrawer from 'UI/components/organisms/AddProductTypeDrawer';
+import ModifyProductTypeDrawer from 'UI/components/organisms/ModifyProductTypeDrawer';
 
 /** API / EntityRoutes / Endpoints / EntityType */
 import API from 'services/API';
@@ -153,17 +153,17 @@ const ProductTypesList = (props: ProductTypesListProps) => {
     }));
   };
 
-  // const onProductTypeInserted = productName => {
-  //   setUiState(prevState => ({
-  //     ...prevState,
-  //     isAddProductTypeDrawerOpen: false,
-  //     isModifyInventoryDrawer: false,
-  //     keyword: productName || undefined,
-  //     page: 0,
-  //     perPage: 10
-  //   }));
-  //   setRefresh(true);
-  // };
+  const onProductTypeInserted = productName => {
+    setUiState(prevState => ({
+      ...prevState,
+      isAddProductTypeDrawerOpen: false,
+      isModifyInventoryDrawer: false,
+      keyword: productName || undefined,
+      page: 0,
+      perPage: 10
+    }));
+    setRefresh(true);
+  };
 
   const handleSearchChange = newKeyword => {
     setSearching(true);
@@ -246,7 +246,7 @@ const ProductTypesList = (props: ProductTypesListProps) => {
     },
     {
       name: 'idType',
-      label: Contents[language]?.lblType,
+      label: Contents[language]?.lblIdType,
       options: {
         filter: true,
         sort: true,
@@ -334,7 +334,7 @@ const ProductTypesList = (props: ProductTypesListProps) => {
     },
     {
       name: 'user',
-      label: Contents[language]?.lblRegistrationDate,
+      label: Contents[language]?.lblUser,
       options: {
         filter: true,
         sort: true,
@@ -450,12 +450,12 @@ const ProductTypesList = (props: ProductTypesListProps) => {
         onClose={toggleDrawer('isModifyInventoryDrawer', false)}
       >
         <div role="presentation">
-          {/* <ModifyProductTypeDrawer
+          <ModifyProductTypeDrawer
             selectedProductType={uiState.selectedProductType}
             onProductTypeInserted={onProductTypeInserted}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isModifyInventoryDrawer', false)}
-          /> */}
+          />
         </div>
       </Drawer>
       <Drawer
@@ -464,12 +464,12 @@ const ProductTypesList = (props: ProductTypesListProps) => {
         onClose={toggleDrawer('isAddProductTypeDrawerOpen', false)}
       >
         <div role="presentation">
-          {/* <AddProductTypeDrawer
+          <AddProductTypeDrawer
             selectedProductType={{}}
             onProductTypeInserted={onProductTypeInserted}
             onShowAlert={onShowAlert}
             handleClose={toggleDrawer('isAddProductTypeDrawerOpen', false)}
-          /> */}
+          />
         </div>
       </Drawer>
     </ContentPageLayout>
