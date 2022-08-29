@@ -68,7 +68,7 @@ const SelectedProductCustomMenu = (props: SelectedProductCustomMenuProps) => {
 
   return (
     <SelectedRowMenu
-      isActionDeleteEnabled
+      isDeleteActionEnabled
       isFeedInventoryEnabled
       isQRCodeEnabled
       isEditEnabled

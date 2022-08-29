@@ -34,7 +34,7 @@ const SelectedInventoryCustomMenu = (
     setRefresh
   } = props;
 
-  const isActionDisable = inventoryStatus === InventoryStatus.enabled.id;
+  const isDisable = inventoryStatus === InventoryStatus.enabled.id;
 
   const onConfirmEnableDisableAction = async ok => {
     try {
@@ -46,9 +46,7 @@ const SelectedInventoryCustomMenu = (
         data: { title, message }
       } = await API.post(
         `${Endpoints.Inventory}${
-          isActionDisable
-            ? Endpoints.DisableInventory
-            : Endpoints.EnableInventory
+          isDisable ? Endpoints.DisableInventory : Endpoints.EnableInventory
         }`,
         {
           idInventory
@@ -106,9 +104,9 @@ const SelectedInventoryCustomMenu = (
 
   return (
     <SelectedRowMenu
-      isDisableActionEnabled={isUserAdmin}
-      isActionDeleteEnabled={isUserAdmin}
-      isActionDisable={isActionDisable}
+      isEnableDisableActionEnabled={isUserAdmin}
+      isDeleteActionEnabled={isUserAdmin}
+      isDisable={isDisable}
       isQRCodeEnabled
       onRowDeleted={() =>
         showConfirm({
@@ -121,13 +119,11 @@ const SelectedInventoryCustomMenu = (
       onRowEnableDisable={() =>
         showConfirm({
           severity: 'warning',
-          title: `${
-            isActionDisable ? 'Desactivar / Ocultar' : 'Activar / Mostrar'
-          }`,
+          title: `${isDisable ? 'Desactivar / Ocultar' : 'Activar / Mostrar'}`,
           message: `Seguro(a) que deseas ${
-            isActionDisable ? 'Desactivar / Ocultar' : 'Activar / Mostrar'
+            isDisable ? 'Desactivar / Ocultar' : 'Activar / Mostrar'
           } este registro del inventario? ${
-            isActionDisable
+            isDisable
               ? 'Si lo haces ningun empleado podra ver este registro de inventario y sera como si no existiera.'
               : 'Si lo haces los empleado podrán ver este registro de inventario nuevamente.'
           }`,

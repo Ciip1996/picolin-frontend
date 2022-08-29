@@ -1,18 +1,13 @@
 // @flow
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormContext, Controller } from 'react-hook-form';
 import styled from 'styled-components';
 import Box from '@material-ui/core/Box';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextBox from 'UI/components/atoms/TextBox';
-import {
-  useLanguage,
-  PRODUCT_DESCRIPTION_VALIDATION,
-  normalizeStrToNFD
-} from 'UI/utils';
+import { useLanguage } from 'UI/utils';
 
-import type { MapType } from 'types';
 import InputContainer from 'UI/components/atoms/InputContainer';
 import Contents from './strings';
 
@@ -23,7 +18,6 @@ export const UpperCaseTextBox = styled(TextBox)`
 `;
 
 type ProducttypeFormProps = {
-  initialComboValues: MapType,
   showStatus: boolean,
   showId: boolean
 };
@@ -31,29 +25,22 @@ type ProducttypeFormProps = {
 const Separator = () => <span style={{ width: 20 }} />;
 
 const ProductTypeForm = (props: ProducttypeFormProps) => {
-  const { initialComboValues, showStatus, showId } = props;
+  const { showStatus, showId } = props;
   const language = useLanguage();
-
-  const [comboValues, setComboValues] = useState<MapType>(initialComboValues);
 
   const { register, errors, setValue, getValues, control } = useFormContext();
 
   useEffect(() => {
-    register(
-      { name: 'idProvider' },
-      { required: `${Contents[language]?.RequiredMessage}` }
-    );
-    register({ name: 'type' }, { ...PRODUCT_DESCRIPTION_VALIDATION });
+    register({ name: 'type' }, { required: 'required message' });
   }, [language, register]);
 
-  const handleTextChange = (name?: string, value: any) => {
-    if (name === 'name') {
-      setValue(name, normalizeStrToNFD(value || ''), true);
-    } else setValue(name, value, true);
-    setComboValues({ ...comboValues });
+  const handleTextChange = (name?: string, value: string) => {
+    setValue(name, value || '', false);
   };
 
-  const inputRef = useRef();
+  const values = getValues();
+
+  const inputRef = useRef(null);
 
   return (
     <Box display="flex" flexWrap="wrap" maxWidth={1360} width="100%">
@@ -74,7 +61,10 @@ const ProductTypeForm = (props: ProducttypeFormProps) => {
                 />
               }
               name="idType"
-              onFocus={() => inputRef.current.focus()}
+              onFocus={() =>
+                inputRef.current instanceof HTMLInputElement &&
+                inputRef.current.focus()
+              }
               control={control}
               rules={{ required: true }}
             />
@@ -85,10 +75,10 @@ const ProductTypeForm = (props: ProducttypeFormProps) => {
           inputType="text"
           name="type"
           label={Contents[language]?.Type}
-          error={!!errors?.name}
-          errorText={errors?.name && errors?.name.message}
+          error={!!errors?.type}
+          errorText={errors?.type && errors?.type.message}
           onChange={handleTextChange}
-          value={getValues('name') || ''}
+          value={getValues('type') || ''}
         />
       </InputContainer>
       <InputContainer>
@@ -102,7 +92,10 @@ const ProductTypeForm = (props: ProducttypeFormProps) => {
             <Controller
               as={<Switch inputRef={inputRef} color="primary" />}
               name="status"
-              onFocus={() => inputRef.current.focus()}
+              onFocus={() =>
+                inputRef.current instanceof HTMLInputElement &&
+                inputRef.current.focus()
+              }
               control={control}
               rules={{ required: false }}
               style={{ height: '100%' }}
@@ -115,12 +108,21 @@ const ProductTypeForm = (props: ProducttypeFormProps) => {
         />
         <Separator />
       </InputContainer>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <pre>
+          <p>Errors:</p>
+          {JSON.stringify(errors, null, '\t')}
+        </pre>
+        <pre>
+          <p>Values:</p>
+          {JSON.stringify(values, null, '\t')}
+        </pre>
+      </div>
     </Box>
   );
 };
 
 ProductTypeForm.defaultProps = {
-  initialComboValues: {},
   showStatus: false,
   showId: false
 };

@@ -15,12 +15,14 @@ type SearchbarProps = {
   name: string,
   value?: ?string,
   width?: string,
-  placeholder?: string,
+  placeholder?: string | null,
   onChange: (name: string, value: any) => void,
   onSearch: (name: string, value: any) => any
 };
 
 const Searchbar = (props: SearchbarProps) => {
+  const language = useLanguage();
+
   const { name, width, placeholder, onChange, value, onSearch } = props;
 
   const customStyle = {
@@ -59,8 +61,10 @@ const Searchbar = (props: SearchbarProps) => {
     >
       <InputBase
         className={classes.input}
-        placeholder={placeholder}
-        inputProps={{ 'aria-label': placeholder }}
+        placeholder={placeholder || Contents[language]?.SearchBy}
+        inputProps={{
+          'aria-label': placeholder || Contents[language]?.SearchBy
+        }}
         onChange={handleSearchBoxTextChange}
         onKeyDown={handleKeydown}
         {...additionalProps}
@@ -80,7 +84,7 @@ const Searchbar = (props: SearchbarProps) => {
 Searchbar.defaultProps = {
   width: '389px',
   value: null,
-  placeholder: Contents[language]?.SearchBy,
+  placeholder: null,
   onChange: () => {},
   onSearch: () => {}
 };

@@ -50,5 +50,7 @@ export const Endpoints = {
   RestoreProduct: '/restoreProductLogicallyById',
   FeedProduct: '/feedInventoryWithProduct',
   ProductTypes: '/types',
-  GetProductTypes: '/getTypes'
+  GetProductTypes: '/getTypes',
+  DisableType: '/deleteTypeLogicallyById',
+  EnableType: '/activateTypeLogicallyById'
 };

@@ -29,7 +29,6 @@ const AddProductTypeDrawer = (props: AddInventoryProductDrawerProps) => {
     selectedProductType
   } = props;
 
-  // TODO show edit mode
   const language = useLanguage();
 
   const form = useForm({

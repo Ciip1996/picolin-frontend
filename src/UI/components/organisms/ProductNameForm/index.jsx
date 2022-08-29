@@ -88,7 +88,10 @@ const ProductNameForm = (props: ProductNameFormProps) => {
                 />
               }
               name="idName"
-              onFocus={() => inputRef.current.focus()}
+              onFocus={() =>
+                inputRef.current instanceof HTMLInputElement &&
+                inputRef.current.focus()
+              }
               control={control}
               rules={{ required: true }}
             />
@@ -116,7 +119,10 @@ const ProductNameForm = (props: ProductNameFormProps) => {
             <Controller
               as={<Switch inputRef={inputRef} color="primary" />}
               name="status"
-              onFocus={() => inputRef.current.focus()}
+              onFocus={() =>
+                inputRef.current instanceof HTMLInputElement &&
+                inputRef.current.focus()
+              }
               control={control}
               rules={{ required: false }}
               style={{ height: '100%' }}

@@ -36,7 +36,7 @@ import SelectedProductTypeCustomToolbar, {
 
 import Contents from './strings';
 
-const filter_name = 'product_types';
+const filter_type = 'product_types';
 
 type ProductTypesListProps = {
   onShowAlert: any => {}
@@ -66,7 +66,7 @@ const ProductTypesList = (props: ProductTypesListProps) => {
   const [data, setData] = useState([{}]);
   const [count, setCount] = useState(0);
 
-  const savedSearch = getFilters(filter_name);
+  const savedSearch = getFilters(filter_type);
   const savedFilters = savedSearch?.filters;
   const savedParams = savedSearch?.params;
 
@@ -108,7 +108,7 @@ const ProductTypesList = (props: ProductTypesListProps) => {
         status: status_filter?.id
       };
 
-      saveFilters(filter_name, { filters, params });
+      saveFilters(filter_type, { filters, params });
 
       const queryParams = queryString.stringify(params);
       const url = `${Endpoints.ProductTypes}${Endpoints.GetProductTypes}?`;
@@ -153,12 +153,12 @@ const ProductTypesList = (props: ProductTypesListProps) => {
     }));
   };
 
-  const onProductTypeInserted = productName => {
+  const onProductTypeInserted = productType => {
     setUiState(prevState => ({
       ...prevState,
       isAddProductTypeDrawerOpen: false,
       isModifyInventoryDrawer: false,
-      keyword: productName || undefined,
+      keyword: productType || undefined,
       page: 0,
       perPage: 10
     }));
@@ -188,9 +188,9 @@ const ProductTypesList = (props: ProductTypesListProps) => {
     setFilters({});
   };
 
-  const handleFilterRemove = (filterName: string) => {
+  const handleFilterRemove = (filterType: string) => {
     setSearching(true);
-    setFilters({ ...filters, [filterName]: undefined });
+    setFilters({ ...filters, [filterType]: undefined });
   };
 
   const handleColumnSortClick = newSortDirection => {
@@ -430,10 +430,10 @@ const ProductTypesList = (props: ProductTypesListProps) => {
                 if (data?.length === 0) return null;
                 const selectedRowIndex = selectedRows?.data[0]?.index;
                 const rowData = data[selectedRowIndex];
-                const productName: ProductType = rowData;
+                const productType: ProductType = rowData;
                 return (
                   <SelectedProductTypeCustomToolbar
-                    productName={productName}
+                    productType={productType}
                     setUiState={setUiState}
                     selectedRowIndex={selectedRowIndex}
                     setRefresh={setRefresh}

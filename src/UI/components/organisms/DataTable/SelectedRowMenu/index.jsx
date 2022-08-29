@@ -17,19 +17,19 @@ import { ToolbarWrapper } from './styles';
 import Contents from './strings';
 
 type SelectedRowMenuProps = {
-  onRowDeleted: any => any,
-  onQRCodeDownload?: any => any,
-  onFeedInventory?: any => any,
-  onRowEdit: () => void,
+  onRowDeleted?: () => any,
+  onQRCodeDownload?: () => any,
+  onFeedInventory?: () => any,
+  onRowEdit?: () => void,
+  onCloneProduct?: () => void,
+  onRowEnableDisable: () => any,
   isQRCodeEnabled: boolean,
   isFeedInventoryEnabled: boolean,
   isCloneProductEnabled: boolean,
   isEditEnabled: boolean,
-  isActionDeleteEnabled: boolean,
-  isDisableActionEnabled: boolean,
-  isActionDisable?: boolean,
-  onCloneProduct?: () => void,
-  onRowEnableDisable: any => any
+  isDeleteActionEnabled: boolean,
+  isEnableDisableActionEnabled: boolean,
+  isDisable?: boolean
 };
 
 const SelectedRowMenu = (props: SelectedRowMenuProps) => {
@@ -40,13 +40,13 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
     onRowEdit,
     onCloneProduct,
     onRowEnableDisable,
-    isActionDisable,
+    isDisable,
     isQRCodeEnabled,
     isCloneProductEnabled,
     isEditEnabled,
-    isActionDeleteEnabled,
+    isDeleteActionEnabled,
     isFeedInventoryEnabled,
-    isDisableActionEnabled
+    isEnableDisableActionEnabled
   } = props;
   const language = useLanguage();
 
@@ -86,7 +86,7 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
             <EditIcon />
           </CustomIconButton>
         )}
-        {isActionDeleteEnabled && (
+        {isDeleteActionEnabled && (
           <CustomIconButton
             tooltipText={Contents[language]?.delete}
             onClick={onRowDeleted}
@@ -94,17 +94,17 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
             <DeleteIcon color="error" />
           </CustomIconButton>
         )}
-        {isDisableActionEnabled && (
+        {isEnableDisableActionEnabled && (
           <CustomIconButton
             tooltipText={
-              isActionDisable
+              isDisable
                 ? Contents[language]?.disable
                 : Contents[language]?.enable
             }
             onClick={onRowEnableDisable}
           >
-            {isActionDisable ? (
-              <VisibilityOffIcon />
+            {isDisable ? (
+              <VisibilityOffIcon color="error" />
             ) : (
               <VisibilityIcon color="success" />
             )}
@@ -116,18 +116,19 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
 };
 
 SelectedRowMenu.defaultProps = {
-  onRowDeleted: undefined,
-  onQRCodeDownload: undefined,
+  onRowDeleted: () => {},
+  onQRCodeDownload: () => {},
+  onFeedInventory: () => {},
+  onRowEdit: () => {},
+  onCloneProduct: () => {},
+  onRowEnableDisable: () => {},
   isQRCodeEnabled: false,
   isFeedInventoryEnabled: false,
   isCloneProductEnabled: false,
   isEditEnabled: false,
-  isActionDeleteEnabled: false,
-  isActionDisable: false,
-  isDisableActionEnabled: false,
-  onFeedInventory: () => {},
-  onCloneProduct: () => {},
-  onRowEnableDisable: () => {}
+  isDeleteActionEnabled: false,
+  isDisable: false,
+  isEnableDisableActionEnabled: false
 };
 
 export default SelectedRowMenu;

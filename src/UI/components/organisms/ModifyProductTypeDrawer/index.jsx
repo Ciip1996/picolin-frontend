@@ -30,10 +30,11 @@ const ModifyProductTypeDrawer = (props: ModifyProductTypeDrawerProps) => {
   } = props;
 
   const language = useLanguage();
+  console.log({ selectedProductType });
 
   const form = useForm({
     defaultValues: {
-      idType: selectedProductType?.idType || 100,
+      idType: selectedProductType?.idType,
       ...selectedProductType,
       status: !!selectedProductType?.status
     }
@@ -104,16 +105,7 @@ const ModifyProductTypeDrawer = (props: ModifyProductTypeDrawerProps) => {
                 text={Contents[language]?.Subtitle}
                 fontSize={14}
               />
-              <ProductTypeForm
-                showStatus
-                showId
-                initialComboValues={{
-                  idProvider: {
-                    id: selectedProductType?.idProvider,
-                    title: selectedProductType?.provider
-                  }
-                }}
-              />
+              <ProductTypeForm showStatus showId />
             </div>
           </Box>
           <div />
