@@ -74,7 +74,6 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
           onSecondaryButtonClick={handleClose}
           variant="borderless"
           uiState={uiState}
-          initialText="Agregar"
           isTopToolbarNeeded
           additionalHeaderButtons={
             <CustomIconButton

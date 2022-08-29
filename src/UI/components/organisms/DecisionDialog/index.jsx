@@ -9,7 +9,9 @@ import Text from 'UI/components/atoms/Text';
 import { closeConfirmation as closeConfirmationAction } from 'actions/app';
 import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import ActionButton from 'UI/components/atoms/ActionButton';
+import { useLanguage } from 'UI/utils';
 import { styles, useStyles } from './styles';
+import Contents from './strings';
 
 const Transition = React.forwardRef((props, ref) => {
   return <Grow ref={ref} {...props} />;
@@ -33,8 +35,8 @@ const severityValues = {
 type DecisionDialogProps = {
   title: string,
   message: string,
-  confirmButtonText: string,
-  cancelButtonText: string,
+  confirmButtonText: string | null,
+  cancelButtonText: string | null,
   severity: 'warning' | 'error' | 'success',
   withButtons: 'YesNo' | 'Confirmation',
   onConfirm: boolean => any,
@@ -54,7 +56,7 @@ const DecisionDialog = (props: DecisionDialogProps) => {
     closeConfirmation,
     isHighLightActionOnLeft
   } = props;
-
+  const language = useLanguage();
   const [open, setOpen] = useState(true);
 
   const classes = useStyles();
@@ -103,7 +105,7 @@ const DecisionDialog = (props: DecisionDialogProps) => {
                 variant={isHighLightActionOnLeft ? 'contained' : 'outlined'}
                 className={classes.button}
                 onClick={handleClose}
-                text={cancelButtonText}
+                text={cancelButtonText || Contents[language]?.cancelButtonText}
               />
             </div>
           )}
@@ -112,7 +114,7 @@ const DecisionDialog = (props: DecisionDialogProps) => {
               variant={isHighLightActionOnLeft ? 'outlined' : 'contained'}
               className={classes.button}
               onClick={handleConfirm}
-              text={confirmButtonText}
+              text={confirmButtonText || Contents[language]?.confirmButtonText}
             />
           )}
         </DialogActions>
@@ -128,8 +130,8 @@ const DecisionDialog = (props: DecisionDialogProps) => {
 };
 
 DecisionDialog.defaultProps = {
-  confirmButtonText: 'si',
-  cancelButtonText: 'no',
+  confirmButtonText: null,
+  cancelButtonText: null,
   severity: 'warning',
   withButtons: null,
   isHighLightActionOnLeft: false

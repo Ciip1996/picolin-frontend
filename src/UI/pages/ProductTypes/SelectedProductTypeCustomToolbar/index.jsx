@@ -4,15 +4,18 @@ import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
 import SelectedRowMenu from 'UI/components/organisms/DataTable/SelectedRowMenu';
 import { showAlert, confirm as confirmAction } from 'actions/app';
-import { getErrorData } from 'UI/utils';
+import { getErrorData, useLanguage } from 'UI/utils';
 import { connect } from 'react-redux';
+import { userHasAdminOrManagerPermissions } from 'services/Authorization';
+import { InventoryStatus } from 'UI/constants/status';
+import Contents from './strings';
 
 export type ProductType = {
   idType: number,
-  name: string,
-  idProvider: number,
-  provide: string,
-  status: boolean
+  type: string,
+  status: boolean,
+  registerDate: string,
+  user: string
 };
 
 export type SelectedProductTypeProps = {
@@ -20,7 +23,7 @@ export type SelectedProductTypeProps = {
   showConfirm: any => void,
   setRefresh: any => void,
   setUiState: any => void,
-  productName: ProductType
+  productType: ProductType
 };
 
 const SelectedProductTypeCustomToolbar = (props: SelectedProductTypeProps) => {
@@ -29,12 +32,14 @@ const SelectedProductTypeCustomToolbar = (props: SelectedProductTypeProps) => {
     onShowAlert,
     showConfirm,
     setRefresh,
-    productName
+    productType
   } = props;
 
-  const isActionDelete = productName?.status === 1;
+  const language = useLanguage();
 
-  const onConfirm = async ok => {
+  const isDisable = productType?.status === InventoryStatus.enabled.id;
+
+  const onConfirmEnableDisableAction = async ok => {
     try {
       if (!ok) {
         return;
@@ -44,19 +49,18 @@ const SelectedProductTypeCustomToolbar = (props: SelectedProductTypeProps) => {
         data: { title, message }
       } = await API.post(
         `${Endpoints.ProductTypes}${
-          isActionDelete ? Endpoints.DeleteName : Endpoints.RestoreName
+          isDisable ? Endpoints.DisableType : Endpoints.EnableType
         }`,
         {
-          idType: productName.idType
+          idType: productType?.idType
         }
       );
-
       onShowAlert({
         severity: status === 200 ? 'success' : 'warning',
         title,
         body: message
       });
-      setRefresh(true); // empty data so it will refresh
+      setRefresh(true);
     } catch (err) {
       const { title, message, severity } = getErrorData(err);
       onShowAlert({
@@ -68,29 +72,36 @@ const SelectedProductTypeCustomToolbar = (props: SelectedProductTypeProps) => {
       throw err;
     }
   };
+  const isUserAdmin: boolean = userHasAdminOrManagerPermissions();
 
   return (
     <SelectedRowMenu
-      isActionDeleteEnabled
-      isEditEnabled
+      isEnableDisableActionEnabled={isUserAdmin}
+      isEditEnabled={isUserAdmin}
+      isDisable={isDisable}
       onRowEdit={() =>
         setUiState(prevState => ({
           ...prevState,
           isModifyInventoryDrawer: true,
-          selectedProductType: productName
+          selectedProductType: productType
         }))
       }
-      onRowDeleted={() =>
+      onRowEnableDisable={() =>
         showConfirm({
-          severity: isActionDelete ? 'error' : 'warning',
-          title: `${isActionDelete ? 'Desactivar' : 'Restaurar'}`,
-          message: `Seguro(a) que deseas ${
-            isActionDelete ? 'Desactivar' : 'Restaurar'
-          } el nombre ${productName?.name}?`,
-          onConfirm
+          severity: `${isDisable ? 'error' : 'warning'}`,
+          title: isDisable
+            ? Contents[language]?.disable
+            : Contents[language]?.enable,
+          message: `${Contents[language]?.confirmation} ${
+            isDisable ? Contents[language]?.disable : Contents[language]?.enable
+          } ${
+            isDisable
+              ? Contents[language]?.disableMessage
+              : Contents[language]?.enableMessage
+          }`,
+          onConfirm: onConfirmEnableDisableAction
         })
       }
-      isActionDelete={isActionDelete}
     />
   );
 };

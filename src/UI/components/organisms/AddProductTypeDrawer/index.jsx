@@ -92,7 +92,6 @@ const AddProductTypeDrawer = (props: AddInventoryProductDrawerProps) => {
           onSecondaryButtonClick={handleClose}
           variant="borderless"
           uiState={uiState}
-          initialText="Agregar"
         >
           <form classType={classes.root} noValidate autoComplete="off" />
           <Box>

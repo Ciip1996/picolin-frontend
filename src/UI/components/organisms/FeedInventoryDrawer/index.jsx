@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FormContext, useForm } from 'react-hook-form';
 import Box from '@material-ui/core/Box';
-
 import AutocompleteDebounce from 'UI/components/molecules/AutocompleteDebounce';
 import InputContainer from 'UI/components/atoms/InputContainer';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
@@ -12,11 +11,9 @@ import TextBox from 'UI/components/atoms/TextBox';
 import { Endpoints } from 'UI/constants/endpoints';
 import SaleCard from 'UI/components/organisms/SaleCard';
 import { v4 as uuidv4 } from 'uuid';
-
 import { isEmpty } from 'lodash';
 import { getErrorData, useLanguage } from 'UI/utils';
 import type { MapType } from 'types';
-
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
 import { useStyles } from './styles';
@@ -150,7 +147,7 @@ const FeedInventoryDrawer = ({
     <>
       <FormContext {...form}>
         <DrawerFormLayout
-          title={Contents[language][uiMode].Title}
+          title={Contents[language][uiMode]?.Title}
           onSubmit={handleSubmit(onSubmit)}
           onClose={handleClose}
           onSecondaryButtonClick={handleClose}
@@ -188,7 +185,6 @@ const FeedInventoryDrawer = ({
                   value={getValues('stock') || ''}
                 />
               </InputContainer>
-
               <InputContainer>
                 <AutocompleteDebounce
                   maxOptions={10}

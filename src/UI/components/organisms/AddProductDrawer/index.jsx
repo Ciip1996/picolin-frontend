@@ -109,7 +109,7 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
     <>
       <FormContext {...form}>
         <DrawerFormLayout
-          title={Contents[language][uiMode].Title}
+          title={Contents[language][uiMode]?.Title}
           onSubmit={handleSubmit(onSubmit)}
           onClose={handleClose}
           onSecondaryButtonClick={handleClose}
