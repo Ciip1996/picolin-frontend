@@ -24,7 +24,6 @@ const NumberFormatCustom = (props: NumberFormatCustomProps) => {
     onChange,
     type,
     type: { inputType },
-    name,
     ...other
   } = props;
   return (
