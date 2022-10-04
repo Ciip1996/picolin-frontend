@@ -1,7 +1,8 @@
 import React from 'react';
 import { colors } from 'UI/res';
 
-const language = localStorage.getItem('language') || 'Spanish';
+const language =
+  localStorage.getItem('language') || process.env.REACT_APP_DEFAULT_LANGUAGE;
 
 const Contents = {
   English: {

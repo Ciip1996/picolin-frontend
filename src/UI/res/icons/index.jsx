@@ -1295,7 +1295,6 @@ export const FeeAgreementIcon = (props: Object) => {
     size = defaultIconSize,
     fill = colors.iconInactive,
     contrast = colors.middleGrey,
-    style = {},
     ...rest
   } = props;
   return (
@@ -1334,8 +1333,7 @@ export const HomeIcon = (props: Object) => {
   const {
     size = defaultIconSize,
     fill = colors.iconInactive,
-    contrast = colors.middleGrey,
-    style = {}
+    contrast = colors.middleGrey
   } = props;
   return (
     <svg
@@ -1372,7 +1370,7 @@ export const HomeIcon = (props: Object) => {
 };
 
 export const JobOrdersIcon = (props: Object) => {
-  const { size = defaultIconSize, fill = colors.oxford, style = {} } = props;
+  const { size = defaultIconSize, fill = colors.oxford } = props;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -1397,8 +1395,7 @@ export const MapIcon = (props: Object) => {
   const {
     size = defaultIconSize,
     fill = colors.iconInactive,
-    contrast = colors.middleGrey,
-    style = {}
+    contrast = colors.middleGrey
   } = props;
   return (
     <svg

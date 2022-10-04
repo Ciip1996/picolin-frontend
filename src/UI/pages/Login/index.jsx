@@ -8,13 +8,14 @@ import { useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import API from 'services/API';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 // Custom components and others
 import { colors } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import TextBox from 'UI/components/atoms/TextBox';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorData, useLanguage } from 'UI/utils';
+import { getErrorData, useLanguage, useIsDemoEnvironment } from 'UI/utils';
 
 import {
   showAlert as showAlertAction,
@@ -30,6 +31,7 @@ type LogInProps = {
 
 const LogIn = (props: LogInProps) => {
   const language = useLanguage();
+  const isDemo = useIsDemoEnvironment();
 
   const [uiState, setUiState] = useState({
     isLoading: false
@@ -38,14 +40,14 @@ const LogIn = (props: LogInProps) => {
 
   const history = useHistory();
 
-  const { register, handleSubmit, errors, setError } = useForm();
+  const { handleSubmit, errors, setError } = useForm();
 
-  const onSubmit = async (formData: Object) => {
+  const onSubmit = async () => {
     try {
       setUiState(prevState => ({ ...prevState, isLoading: true }));
 
       const params = {
-        user: formData.user,
+        user: 'demo',
         password: 'freedemopassword2022'
       };
       const response = await API.post(`${Endpoints.Login}`, params);
@@ -92,46 +94,59 @@ const LogIn = (props: LogInProps) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <center>
             <h1 className={classes.header}>
-              {Contents[language]?.pageTitle || 'INICIAR SESIÓN'}
+              {isDemo
+                ? Contents[language].demoTitle
+                : Contents[language].pageTitle}
             </h1>
             <TextBox
               autoFocus
               className={classes.txtUser}
               name="user"
-              label={Contents[language]?.labuser || 'Usuario'}
-              inputRef={register({
-                required:
-                  Contents[language]?.requser ||
-                  'Se requiere un nombre de usuario'
-              })}
-              error={!!errors.user}
-              helperText={errors.user && errors.user.message}
-              value="demo"
+              label={
+                isDemo
+                  ? Contents[language].demoUser
+                  : Contents[language].labuser
+              }
+              value=""
+              disabled={isDemo}
             />
             <TextBox
               className={classes.txtPwd}
               name="pwd"
-              label="Contraseña"
+              label={Contents[language].labPwd}
               type="password"
-              inputRef={register({
-                required:
-                  Contents[language]?.reqpwd || 'Se requiere una contraseña'
-              })}
               error={!!errors.pwd}
               helperText={errors.pwd && errors.pwd.message}
               value="password"
+              disabled={isDemo}
             />
             <ActionButton
               type="submit"
               status="success"
               className={classes.loginButton}
-              text="Entrar"
+              text={
+                isDemo
+                  ? Contents[language].demoButton
+                  : Contents[language].login
+              }
               isHighlited
             >
               {uiState.isLoading && (
                 <CircularProgress size={24} color={colors.white} />
               )}
             </ActionButton>
+            {isDemo && (
+              <FormHelperText
+                style={{
+                  marginLeft: 16,
+                  marginRight: 16,
+                  marginTop: 8,
+                  textAlign: 'center'
+                }}
+              >
+                {Contents[language].demoDescription}
+              </FormHelperText>
+            )}
           </center>
         </form>
       </Box>

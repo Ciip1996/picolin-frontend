@@ -16,23 +16,18 @@ import 'moment/locale/es';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useLocalStorage } from 'UI/utils';
 
-// For production:
+const REACT_APP_DEFAULT_LOCALE =
+  localStorage.getItem('locale') || process.env.REACT_APP_DEFAULT_LANGUAGE;
 
-// const DEFAULT_LOCALE = 'es';
-// const DEFAULT_LANGUAGE = 'Spanish';
+const REACT_APP_DEFAULT_LANGUAGE =
+  localStorage.getItem('language') || process.env.REACT_APP_DEFAULT_LANGUAGE;
 
-// For demo:
-const DEFAULT_LOCALE = 'en';
-const DEFAULT_LANGUAGE = 'English';
-
-moment.locale(DEFAULT_LOCALE); // set default locale manually to Spanish
+moment.locale(REACT_APP_DEFAULT_LOCALE); // set default locale manually to Spanish
 moment.tz.setDefault('America/Mexico_City'); // set default timezones for dates from database
 
 const App = () => {
   const [locale, setLocale] = useLocalStorage('locale', '');
   const [language, setLanguage] = useLocalStorage('language', '');
-
-  console.log({ language, locale });
 
   useEffect(() => {
     // everytime the user refresh the website or opens it for the first time:
@@ -50,8 +45,8 @@ const App = () => {
 
   useEffect(() => {
     if (language === '' || locale === '') {
-      setLocale(DEFAULT_LOCALE);
-      setLanguage(DEFAULT_LANGUAGE);
+      setLocale(REACT_APP_DEFAULT_LOCALE);
+      setLanguage(REACT_APP_DEFAULT_LANGUAGE);
     }
   }, [language, locale, setLanguage, setLocale]);
 

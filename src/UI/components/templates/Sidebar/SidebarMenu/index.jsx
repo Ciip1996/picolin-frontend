@@ -21,7 +21,8 @@ import Contents from './strings';
 const isUserEmployee = userHasEmployeePermissions();
 const isUserManagerOrAdmin = userHasAdminOrManagerPermissions();
 
-const language = localStorage.getItem('language') || 'Spanish';
+const language =
+  localStorage.getItem('language') || process.env.REACT_APP_DEFAULT_LANGUAGE;
 
 const sideBarMenu = [
   {

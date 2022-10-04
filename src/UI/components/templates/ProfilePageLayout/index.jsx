@@ -72,7 +72,7 @@ const ProfilePageLayout = (props: ProfilePageLayoutProps) => {
                 <Box display="flex" flex={1} flexDirection="column" mb={1.5}>
                   {Array.from(Array(5)).map((e, i) => (
                     <Box
-                      key={i.toString()}
+                      key={`skeleton-${i.toString()}`}
                       style={globalStyles.skeletonContainer}
                     >
                       <CustomSkeleton style={globalStyles.skeletonCol} />

@@ -46,7 +46,7 @@ const SkeletonList = (props: SkeletonItemProps) => {
           </Box>
           <Box padding="10px 20px" style={globalStyles.skeletonContainer}>
             {Array.from(Array(5)).map((each, i) => (
-              <div key={i.toString()} style={{ width: '100%' }}>
+              <div key={`skeleton-${i.toString()}`} style={{ width: '100%' }}>
                 <CustomSkeleton
                   onContainer
                   style={globalStyles.profileSkeletonItem}
@@ -64,9 +64,12 @@ const SkeletonList = (props: SkeletonItemProps) => {
         padding="10px 20px"
       >
         {Array.from(Array(rows)).map((each, i) => (
-          <Box key={i.toString()} style={globalStyles.skeletonContainer}>
+          <Box
+            key={`skeleton-${i.toString()}`}
+            style={globalStyles.skeletonContainer}
+          >
             {Array.from(Array(5)).map((e, j) => (
-              <div key={j.toString()} style={{ width: '100%' }}>
+              <div key={`skeleton-${j.toString()}`} style={{ width: '100%' }}>
                 <CustomSkeleton style={globalStyles.profileSkeletonItem} />
               </div>
             ))}

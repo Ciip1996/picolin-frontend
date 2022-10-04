@@ -18,7 +18,7 @@ import {
   logout
 } from 'services/Authentication';
 import { FeatureFlags } from 'UI/constants/featureFlags';
-import { getFeatureFlags, useLocalStorage } from 'UI/utils';
+import { getFeatureFlags, useLanguage, useLocalStorage } from 'UI/utils';
 import { PicolinLogo, colors } from 'UI/res';
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 import { drawerAnchor } from 'UI/constants/defaults';
@@ -35,7 +35,10 @@ type NavBarProps = {
 const NavBar = ({ handleCloseCashier }: NavBarProps) => {
   // eslint-disable-next-line no-unused-vars
   const [locale, setLocale] = useLocalStorage('locale', '');
-  const [language, setLanguage] = useLocalStorage('language', '');
+  // eslint-disable-next-line no-unused-vars
+  const [localStorageLanguage, setLanguage] = useLocalStorage('language', '');
+
+  const language = useLanguage();
 
   const user: User = isAuthenticated() ? getCurrentUser() : {};
   const isUserAdmin = userHasAdminPermissions();
@@ -219,17 +222,17 @@ const NavBar = ({ handleCloseCashier }: NavBarProps) => {
                     onClick={navigateToRegisterUserPage}
                     className={classes.menuLink}
                   >
-                    {Contents[language].registerUser}
+                    {Contents[language]?.registerUser}
                   </MenuItem>
                 ) : null}
                 <MenuItem
                   onClick={handleCloseCashier}
                   className={classes.menuLink}
                 >
-                  {Contents[language].closeCashier}
+                  {Contents[language]?.closeCashier}
                 </MenuItem>
                 <MenuItem onClick={handleLogout} className={classes.loginLink}>
-                  {Contents[language].logOut}
+                  {Contents[language]?.logOut}
                 </MenuItem>
               </Menu>
             </Box>

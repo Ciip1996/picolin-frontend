@@ -22,7 +22,7 @@ export const useStyles = makeStyles({
   },
   loginButton: {
     marginTop: '42px',
-    width: '171px'
+    width: '210px'
   },
   header: {
     marginTop: '54px',
