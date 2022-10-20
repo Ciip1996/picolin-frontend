@@ -42,13 +42,13 @@ const LogIn = (props: LogInProps) => {
 
   const { handleSubmit, errors, setError } = useForm();
 
-  const onSubmit = async () => {
+  const onSubmit = async (formData: Object) => {
     try {
       setUiState(prevState => ({ ...prevState, isLoading: true }));
 
       const params = {
-        user: 'demo',
-        password: 'freedemopassword2022'
+        user: isDemo ? 'demo' : formData.user,
+        password: isDemo ? 'freedemopassword2022' : formData.pwd
       };
       const response = await API.post(`${Endpoints.Login}`, params);
       if (response) {
@@ -107,7 +107,6 @@ const LogIn = (props: LogInProps) => {
                   ? Contents[language].demoUser
                   : Contents[language].labuser
               }
-              value=""
               disabled={isDemo}
             />
             <TextBox
@@ -117,7 +116,6 @@ const LogIn = (props: LogInProps) => {
               type="password"
               error={!!errors.pwd}
               helperText={errors.pwd && errors.pwd.message}
-              value="password"
               disabled={isDemo}
             />
             <ActionButton
