@@ -6,7 +6,7 @@ import SelectedRowMenu from 'UI/components/organisms/DataTable/SelectedRowMenu';
 import { showAlert, confirm as confirmAction } from 'actions/app';
 import { getErrorData } from 'UI/utils';
 import { connect } from 'react-redux';
-import { InventoryStatus } from 'UI/constants/status';
+import { InventoryStatus, VerifyStatus } from 'UI/constants/status';
 import { userHasAdminOrManagerPermissions } from 'services/Authorization';
 
 type SelectedInventoryCustomMenuProps = {
@@ -17,6 +17,7 @@ type SelectedInventoryCustomMenuProps = {
   productCode: number,
   productId: number,
   inventoryStatus: number,
+  verifyStatus: number,
   setRefresh: any => void
 };
 
@@ -31,10 +32,12 @@ const SelectedInventoryCustomMenu = (
     productCode,
     productId,
     inventoryStatus,
+    verifyStatus,
     setRefresh
   } = props;
 
-  const isDisable = inventoryStatus === InventoryStatus.enabled.id;
+  const isActionDisable = inventoryStatus === InventoryStatus.enabled.id;
+  const isActionVerify = verifyStatus === VerifyStatus.unverified.id;
 
   const onConfirmEnableDisableAction = async ok => {
     try {
@@ -46,7 +49,9 @@ const SelectedInventoryCustomMenu = (
         data: { title, message }
       } = await API.post(
         `${Endpoints.Inventory}${
-          isDisable ? Endpoints.DisableInventory : Endpoints.EnableInventory
+          isActionDisable
+            ? Endpoints.DisableInventory
+            : Endpoints.EnableInventory
         }`,
         {
           idInventory
@@ -71,6 +76,42 @@ const SelectedInventoryCustomMenu = (
     }
   };
 
+  const onConfirmVerifyAction = async ok => {
+    try {
+      if (!ok) {
+        return;
+      }
+      const {
+        status,
+        data: { title, message }
+      } = await API.post(
+        `${Endpoints.Inventory}${
+          isActionVerify
+            ? Endpoints.VerifyInventory
+            : Endpoints.UnverifyInventory
+        }`,
+        {
+          idInventory
+        }
+      );
+
+      onShowAlert({
+        severity: status === 200 ? 'success' : 'warning',
+        title,
+        body: message
+      });
+      setRefresh(true);
+    } catch (err) {
+      const { title, message, severity } = getErrorData(err);
+      onShowAlert({
+        severity,
+        title,
+        autoHideDuration: 8000,
+        body: message
+      });
+      throw err;
+    }
+  };
   const onConfirmDeleteAction = async ok => {
     try {
       if (!ok) {
@@ -104,10 +145,13 @@ const SelectedInventoryCustomMenu = (
 
   return (
     <SelectedRowMenu
+      isVerifyActionEnabled={isUserAdmin}
       isEnableDisableActionEnabled={isUserAdmin}
       isDeleteActionEnabled={isUserAdmin}
-      isDisable={isDisable}
+      isActionDisable={isActionDisable}
       isQRCodeEnabled
+      isVerified={!!verifyStatus}
+      isDisable={!!inventoryStatus}
       onRowDeleted={() =>
         showConfirm({
           severity: 'error',
@@ -119,15 +163,31 @@ const SelectedInventoryCustomMenu = (
       onRowEnableDisable={() =>
         showConfirm({
           severity: 'warning',
-          title: `${isDisable ? 'Desactivar / Ocultar' : 'Activar / Mostrar'}`,
+          title: `${
+            isActionDisable ? 'Desactivar / Ocultar' : 'Activar / Mostrar'
+          }`,
           message: `Seguro(a) que deseas ${
-            isDisable ? 'Desactivar / Ocultar' : 'Activar / Mostrar'
+            isActionDisable ? 'Desactivar / Ocultar' : 'Activar / Mostrar'
           } este registro del inventario? ${
-            isDisable
+            isActionDisable
               ? 'Si lo haces ningun empleado podra ver este registro de inventario y sera como si no existiera.'
               : 'Si lo haces los empleado podrán ver este registro de inventario nuevamente.'
           }`,
           onConfirm: onConfirmEnableDisableAction
+        })
+      }
+      onRowVerify={() =>
+        showConfirm({
+          severity: 'warning',
+          title: `${isActionVerify ? 'Verificar' : 'Quitar Verificación'}`,
+          message: `Seguro(a) que deseas ${
+            isActionVerify ? 'Verificar' : 'Quitar Verificación'
+          } este registro del inventario? ${
+            isActionVerify
+              ? 'Con esta acción verificas que lo que dice este registro de inventario es veridico.'
+              : 'Con esta acción quitas la verificación y confirmas que lo que dice este registro de inventario es erróneo.'
+          }`,
+          onConfirm: onConfirmVerifyAction
         })
       }
       onQRCodeDownload={() =>

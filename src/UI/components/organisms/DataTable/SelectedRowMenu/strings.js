@@ -7,7 +7,9 @@ const Contents = {
     restore: 'Restore',
     clone: 'Clone Product',
     enable: 'Enable / Show',
-    disable: 'Disable / Hide'
+    disable: 'Disable / Hide',
+    verify: 'Verify Existency',
+    unverify: 'Unverify Existency'
   },
   Spanish: {
     delete: 'Eliminar / Borrar',
@@ -17,7 +19,9 @@ const Contents = {
     restore: 'Restaurar',
     clone: 'Clonar Producto',
     enable: 'Activar / Mostrar',
-    disable: 'Desactivar / Ocultar'
+    disable: 'Desactivar / Ocultar',
+    verify: 'Verificar Existencia',
+    unverify: 'Quitar Verificación de Existencia'
   }
 };
 export default Contents;

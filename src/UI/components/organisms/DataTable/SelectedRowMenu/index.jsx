@@ -6,6 +6,8 @@ import { Delete as DeleteIcon } from '@material-ui/icons';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import QrCodeIcon from '@mui/icons-material/QrCode';
+import VerifiedIcon from '@mui/icons-material/Verified';
+
 import { InventoryIcon } from 'UI/res/icons';
 
 import EditIcon from '@mui/icons-material/Edit';
@@ -23,13 +25,16 @@ type SelectedRowMenuProps = {
   onRowEdit?: () => void,
   onCloneProduct?: () => void,
   onRowEnableDisable: () => any,
+  onRowVerify: () => any,
   isQRCodeEnabled: boolean,
   isFeedInventoryEnabled: boolean,
   isCloneProductEnabled: boolean,
   isEditEnabled: boolean,
   isDeleteActionEnabled: boolean,
   isEnableDisableActionEnabled: boolean,
-  isDisable?: boolean
+  isVerifyActionEnabled?: boolean,
+  isDisable?: boolean,
+  isVerified?: boolean
 };
 
 const SelectedRowMenu = (props: SelectedRowMenuProps) => {
@@ -40,16 +45,18 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
     onRowEdit,
     onCloneProduct,
     onRowEnableDisable,
+    onRowVerify,
     isDisable,
+    isVerified,
     isQRCodeEnabled,
     isCloneProductEnabled,
     isEditEnabled,
     isDeleteActionEnabled,
     isFeedInventoryEnabled,
-    isEnableDisableActionEnabled
+    isEnableDisableActionEnabled,
+    isVerifyActionEnabled
   } = props;
   const language = useLanguage();
-
   return (
     <ToolbarWrapper>
       <TableRow>
@@ -110,6 +117,19 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
             )}
           </CustomIconButton>
         )}
+
+        {isVerifyActionEnabled && (
+          <CustomIconButton
+            tooltipText={
+              isVerified
+                ? Contents[language]?.unverify
+                : Contents[language]?.verify
+            }
+            onClick={onRowVerify}
+          >
+            <VerifiedIcon sx={isVerified ? undefined : { color: '#007fff' }} />
+          </CustomIconButton>
+        )}
       </TableRow>
     </ToolbarWrapper>
   );
@@ -128,7 +148,9 @@ SelectedRowMenu.defaultProps = {
   isEditEnabled: false,
   isDeleteActionEnabled: false,
   isDisable: false,
-  isEnableDisableActionEnabled: false
+  isEnableDisableActionEnabled: false,
+  isVerifyActionEnabled: false,
+  isVerified: false
 };
 
 export default SelectedRowMenu;

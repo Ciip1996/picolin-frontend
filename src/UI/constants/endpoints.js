@@ -8,6 +8,8 @@ export const Endpoints = {
   DeleteInventory: '/deleteInventoryById',
   EnableInventory: '/enableInventoryById',
   DisableInventory: '/disableInventoryById',
+  VerifyInventory: '/verifyInventoryById',
+  UnverifyInventory: '/unverifyInventoryById',
   Sales: '/sales',
   ProductNames: '/names',
   GetSales: '/getSales/:idStore',

@@ -587,7 +587,13 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
         if (data?.length === 0) return null;
         const selectedRowIndex = selectedRows?.data[0]?.index;
         const rowData = data[selectedRowIndex];
-        const { idInventory, productCode, productId, status } = rowData;
+        const {
+          idInventory,
+          productCode,
+          productId,
+          status,
+          isExistencyVerified
+        } = rowData;
         return (
           <SelectedInventoryCustomMenu
             idInventory={idInventory}
@@ -597,6 +603,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
             selectedRowIndex={selectedRowIndex}
             setRefresh={setRefresh}
             inventoryStatus={status}
+            verifyStatus={isExistencyVerified}
           />
         );
       }}

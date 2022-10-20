@@ -8,17 +8,17 @@ const language =
 const Contents = {
   English: {
     verified: 'Verified',
-    notVerified: 'Not Verified'
+    unverified: 'Unverified'
   },
   Spanish: {
     verified: 'Existencia Verificada',
-    notVerified: 'No Verificado'
+    unverified: 'No Verificado'
   }
 };
 
 export const ExistencyVerifiedCellOptions = [
   // this mocks an endpoint
-  { id: 0, title: Contents[language]?.notVerified },
+  { id: 0, title: Contents[language]?.unverified },
   { id: 1, title: Contents[language]?.verified }
 ];
 
@@ -37,7 +37,7 @@ const ExistencyVerifiedCell = ({ value }) => {
           {Contents[language]?.verified}
         </>
       ) : null}
-      {value === 0 ? Contents[language]?.notVerified : null}
+      {value === 0 ? Contents[language]?.unverified : null}
     </div>
   );
 };
