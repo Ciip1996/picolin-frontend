@@ -10,7 +10,7 @@ import { getCurrentUser } from 'services/Authentication';
 // import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
 // import SalesSummary from 'UI/components/organisms/SalesSummary';
 import { type User } from 'types/app';
-import { useLanguage } from 'UI/utils';
+import { useLanguage, useIsDemoEnvironment } from 'UI/utils';
 import { useStyles, styles } from './styles';
 import Contents from './strings';
 
@@ -19,6 +19,7 @@ const Home = () => {
   const user: User = getCurrentUser();
   const wasReloaded = localStorage.getItem('reloaded');
   const language = useLanguage();
+  const isDemo = useIsDemoEnvironment();
 
   useEffect(() => {
     document.title = language && PageTitles[language].Home;
@@ -56,7 +57,7 @@ const Home = () => {
               fontSize={47}
               text={titleLabel}
             />
-            <p>{wasReloaded ? Contents[language]?.credits : ''}</p>
+            {isDemo && <p>{wasReloaded ? Contents[language]?.credits : ''}</p>}
             <br />
             <TitleLabel
               fontSize={14}

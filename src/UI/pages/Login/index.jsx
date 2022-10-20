@@ -40,7 +40,7 @@ const LogIn = (props: LogInProps) => {
 
   const history = useHistory();
 
-  const { handleSubmit, errors, setError } = useForm();
+  const { register, handleSubmit, errors, setError } = useForm();
 
   const onSubmit = async (formData: Object) => {
     try {
@@ -107,6 +107,11 @@ const LogIn = (props: LogInProps) => {
                   ? Contents[language].demoUser
                   : Contents[language].labuser
               }
+              inputRef={register({
+                required:
+                  Contents[language]?.requser ||
+                  'Se requiere un nombre de usuario'
+              })}
               disabled={isDemo}
             />
             <TextBox
@@ -114,6 +119,10 @@ const LogIn = (props: LogInProps) => {
               name="pwd"
               label={Contents[language].labPwd}
               type="password"
+              inputRef={register({
+                required:
+                  Contents[language]?.reqpwd || 'Se requiere una contraseña'
+              })}
               error={!!errors.pwd}
               helperText={errors.pwd && errors.pwd.message}
               disabled={isDemo}
