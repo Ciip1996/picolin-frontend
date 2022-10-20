@@ -92,7 +92,8 @@ const InventoryList = (props: InventoryListProps) => {
         maxSalePrice_filter = undefined,
         minCost_filter = undefined,
         maxCost_filter = undefined,
-        status_filter = undefined
+        status_filter = undefined,
+        is_existentcy_verified_filter = undefined
       } = filters;
 
       const params = {
@@ -110,7 +111,8 @@ const InventoryList = (props: InventoryListProps) => {
         maxSalePrice: maxSalePrice_filter?.numberValue,
         minCost: minCost_filter?.numberValue,
         maxCost: maxCost_filter?.numberValue,
-        status: status_filter?.id
+        status: status_filter?.id,
+        isExistencyVerified: is_existentcy_verified_filter?.id
       };
 
       saveFilters('inventory', { filters, params });

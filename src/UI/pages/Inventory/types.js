@@ -31,4 +31,5 @@ export interface FilterInventory {
     numberValue: string
   };
   status_filter: string;
+  is_existentcy_verified_filter: string;
 }

@@ -44,5 +44,6 @@ export const colors = {
   lightHover: '#F6F7F9',
   notificationUnRead: '#F0F3F7',
   notificationRead: '#FAFBFD',
-  inactive: '#9B9EA7'
+  inactive: '#9B9EA7',
+  verified: '#007fff'
 };

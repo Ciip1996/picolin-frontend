@@ -60,7 +60,7 @@ const CustomFooter = (props: CustomFooterProps) => {
             nextIconButtonProps={{
               'aria-label': textLabels && textLabels.next
             }}
-            rowsPerPageOptions={[10, 20, 100]}
+            rowsPerPageOptions={[10, 20, 100, 500, 1000]}
             onChangePage={handlePageChange}
             onChangeRowsPerPage={handleRowChange}
           />

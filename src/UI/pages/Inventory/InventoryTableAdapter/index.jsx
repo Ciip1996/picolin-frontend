@@ -11,6 +11,10 @@ import { currencyFormatter, useLanguage } from 'UI/utils';
 import StatusLabel, {
   StatusLabelOptions
 } from 'UI/components/atoms/StatusLabel';
+import ExistencyVerifiedCell, {
+  ExistencyVerifiedCellOptions
+} from 'UI/components/atoms/ExistencyVerifiedCell';
+
 import SelectedInventoryCustomMenu from '../SelectedInventoryCustomMenu';
 import Contents from '../strings';
 import { type UIStateInventory, FilterInventory } from '../types';
@@ -73,7 +77,8 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
     { id: 12, name: 'status', display: true },
     { id: 13, name: 'store', display: true },
     { id: 14, name: 'observations', display: false },
-    { id: 15, name: 'idInventory', display: true }
+    { id: 15, name: 'idInventory', display: true },
+    { id: 16, name: 'isExistencyVerified', display: true }
   ];
 
   const getSortDirections = (orderBy: string, direction: string) =>
@@ -483,7 +488,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
       name: 'store',
       label: Contents[language]?.labStore,
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         display: columnItems[13].display,
         sortDirection: sortDirection[13],
@@ -496,7 +501,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
       name: 'observations',
       label: Contents[language]?.labObservations,
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         display: columnItems[14].display,
         sortDirection: sortDirection[14],
@@ -516,6 +521,39 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
         filterType: 'custom',
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
+        }
+      }
+    },
+    {
+      name: 'isExistencyVerified',
+      label: Contents[language]?.labIsExistencyVerified,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[16].display,
+        sortDirection: sortDirection[16],
+        customBodyRender: value => {
+          return (
+            <CellSkeleton searching={searching}>
+              <ExistencyVerifiedCell value={value} />
+            </CellSkeleton>
+          );
+        },
+        filterType: 'custom',
+        filterOptions: {
+          display: () => {
+            return (
+              <FormControl>
+                <AutocompleteSelect
+                  name="is_existentcy_verified_filter"
+                  placeholder={Contents[language]?.labIsExistencyVerified}
+                  selectedValue={filters?.is_existentcy_verified_filter}
+                  onSelect={handleFilterChange}
+                  defaultOptions={ExistencyVerifiedCellOptions}
+                />
+              </FormControl>
+            );
+          }
         }
       }
     }

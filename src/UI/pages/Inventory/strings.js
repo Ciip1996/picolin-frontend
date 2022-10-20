@@ -25,7 +25,8 @@ const Contents = {
     labName: 'Name / Model',
     labStatus: 'Status',
     labStore: 'Location / Store',
-    labObservations: 'Observations'
+    labObservations: 'Observations',
+    labIsExistencyVerified: 'Existency Verified'
   },
   Spanish: {
     pageTitle: 'INVENTARIOS',
@@ -54,7 +55,8 @@ const Contents = {
     labName: 'Nombre / Modelo',
     labStatus: 'Estatus',
     labStore: 'Ubicación',
-    labObservations: 'Observaciones'
+    labObservations: 'Observaciones',
+    labIsExistencyVerified: 'Existencia Verificada'
   }
 };
 export default Contents;
