@@ -25,14 +25,16 @@ type FeedInventoryDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
   onInventoryInserted: (product: Object) => any,
-  preloadedProduct?: any
+  preloadedProduct?: any,
+  isEditMode?: boolean
 };
 
-const FeedInventoryDrawer = ({
+const FeedEditInventoryDrawer = ({
   handleClose,
   onShowAlert,
   onInventoryInserted,
-  preloadedProduct
+  preloadedProduct,
+  isEditMode
 }: FeedInventoryDrawerProps) => {
   const language = useLanguage();
 
@@ -92,7 +94,10 @@ const FeedInventoryDrawer = ({
   const onSubmit = useCallback(
     async (formData: Object) => {
       try {
-        const endpointURL = `${Endpoints.Inventory}${Endpoints.FeedProduct}`;
+        const endpointURL = isEditMode
+          ? `${Endpoints.Inventory}${Endpoints.ModifyInventory}`
+          : `${Endpoints.Inventory}${Endpoints.FeedProduct}`;
+
         const response = await API.post(endpointURL, formData);
         if (response) {
           const { insertedInventory, message, title } = response?.data;
@@ -115,10 +120,10 @@ const FeedInventoryDrawer = ({
         throw err;
       }
     },
-    [onInventoryInserted, onShowAlert]
+    [isEditMode, onInventoryInserted, onShowAlert]
   );
 
-  const uiMode = 'Feed';
+  const uiMode = isEditMode ? 'Edit' : 'Feed';
 
   const handleComboChange = (name?: string, value: any) => {
     setComboValues((prevState: MapType): MapType => ({
@@ -226,6 +231,9 @@ const FeedInventoryDrawer = ({
   );
 };
 
-FeedInventoryDrawer.defaultProps = { preloadedProduct: null };
+FeedEditInventoryDrawer.defaultProps = {
+  preloadedProduct: null,
+  isEditMode: false
+};
 
-export default FeedInventoryDrawer;
+export default FeedEditInventoryDrawer;
