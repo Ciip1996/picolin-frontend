@@ -5,18 +5,6 @@ import axios from 'axios';
 let isRefreshing = false;
 const failedQueue = [];
 
-// const processQueue = (error, token = null) => {
-//   failedQueue.forEach(prom => {
-//     if (error) {
-//       prom.reject(error);
-//     } else {
-//       prom.resolve(token);
-//     }
-//   });
-
-//   failedQueue = [];
-// };
-
 const redirectTime = () => {
   setTimeout(() => {
     window.location.pathname = '/login';
@@ -91,30 +79,6 @@ instance.interceptors.response.use(
       // eslint-disable-next-line no-underscore-dangle
       originalRequest._retry = true;
       isRefreshing = true;
-
-      // const refreshToken = getRefreshToken();
-
-      // return new Promise((resolve, reject) => {
-      //   instance
-      //     .post('/users/token/refresh', { refresh_token: refreshToken })
-      //     .then(response => {
-      //       if (response.status === 200 || response.status === 201) {
-      //         localStorage.setItem('access', JSON.stringify(response.data.token));
-      //         axios.defaults.headers.Authorization = `Bearer ${response.data.token}`;
-      //         axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
-      //         originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
-      //         processQueue(null, response.data.token);
-      //         resolve(instance(originalRequest));
-      //       }
-      //     })
-      //     .catch(err => {
-      //       processQueue(err, null);
-      //       reject(err);
-      //     })
-      //     .finally(() => {
-      //       isRefreshing = false;
-      //     });
-      // });
     }
 
     return Promise.reject(error);

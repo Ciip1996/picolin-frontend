@@ -1,5 +1,4 @@
 // @flow
-// import API from 'services/API';
 import jwt from 'jsonwebtoken';
 
 const getAccess = (): Object => {

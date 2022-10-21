@@ -1,4 +1,3 @@
-// @flow
 import { makeActionCreator } from './index';
 
 export const SHOW_ALERT = 'SHOW_ALERT';
