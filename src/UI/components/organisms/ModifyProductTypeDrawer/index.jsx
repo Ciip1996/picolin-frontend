@@ -30,7 +30,6 @@ const ModifyProductTypeDrawer = (props: ModifyProductTypeDrawerProps) => {
   } = props;
 
   const language = useLanguage();
-  console.log({ selectedProductType });
 
   const form = useForm({
     defaultValues: {

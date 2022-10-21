@@ -142,6 +142,7 @@ SelectedRowMenu.defaultProps = {
   onRowEdit: () => {},
   onCloneProduct: () => {},
   onRowEnableDisable: () => {},
+  onRowVerify: () => {},
   isQRCodeEnabled: false,
   isFeedInventoryEnabled: false,
   isCloneProductEnabled: false,

@@ -1,4 +1,5 @@
 // @flow
+// TODO: remove this component if not used for sidebar
 import * as React from 'react';
 
 import Paper from '@material-ui/core/Paper';
