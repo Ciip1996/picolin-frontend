@@ -4,11 +4,8 @@ import { withRouter } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
-// import { BackgroundGraphic, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
 import { getCurrentUser } from 'services/Authentication';
-// import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
-// import SalesSummary from 'UI/components/organisms/SalesSummary';
 import { type User } from 'types/app';
 import { useLanguage, useIsDemoEnvironment } from 'UI/utils';
 import { useStyles, styles } from './styles';
@@ -42,7 +39,6 @@ const Home = () => {
     : Contents[language]?.loading;
   return (
     <>
-      {/* <BackgroundGraphic fill={colors.backgroundGraphic} className={classes.backgroundImg} /> */}
       <ContentPageLayout>
         <div className={classes.root}>
           <Grid
@@ -64,43 +60,6 @@ const Home = () => {
               text={wasReloaded ? Contents[language]?.translationCaption : ''}
             />
           </Grid>
-          {/* <Grid
-            className={classes.container}
-            style={styles.gridContainer}
-            container
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Grid
-              className={classes.container}
-              container
-              direction="row"
-              justifyContent="center"
-              alignItems="center"
-            >
-              <ActionButton
-                style={styles.button}
-                text="Nueva Venta"
-                onClick={() => handleActionClick(EntityRoutes.CandidateCreate)}
-              >
-                <AddIcon {...styles.iconSize} />
-              </ActionButton>
-              <ActionButton
-                style={styles.button}
-                text="Nuevo Producto"
-                onClick={() => handleActionClick(EntityRoutes.JobOrderCreate)}
-              >
-                <AddIcon {...styles.iconSize} />
-              </ActionButton>
-              <ActionButton
-                style={styles.button}
-                text="Inventarios"
-                onClick={() => handleActionClick(EntityRoutes.CompanyCreate)}
-              >
-                <AddIcon {...styles.iconSize} />
-              </ActionButton>
-            </Grid>
-          </Grid> */}
         </div>
       </ContentPageLayout>
     </>
