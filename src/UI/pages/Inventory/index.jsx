@@ -186,7 +186,9 @@ const InventoryList = (props: InventoryListProps) => {
     setUiState(prevState => ({
       ...prevState,
       isQRCodeDrawerOpen: false,
-      isFeedInventoryDrawerOpen: false
+      isFeedInventoryDrawerOpen: false,
+      isModifyInventoryDrawer: false,
+      is: false
     }));
     setRefresh(true);
   };

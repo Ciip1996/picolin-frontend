@@ -9,7 +9,7 @@ import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
 import TextBox from 'UI/components/atoms/TextBox';
 import { Endpoints } from 'UI/constants/endpoints';
-import SaleCard from 'UI/components/organisms/SaleCard';
+import ProductCard from 'UI/components/organisms/ProductCard';
 import { v4 as uuidv4 } from 'uuid';
 import { isEmpty } from 'lodash';
 import { getErrorData, useLanguage } from 'UI/utils';
@@ -150,11 +150,6 @@ const FeedEditInventoryDrawer = ({
     setComboValues({ ...comboValues });
   };
 
-  const onRemoveProduct = () => {
-    setSelectedProduct(null);
-    setValue('product', null);
-  };
-
   const feedNewProduct = !isEditMode && !selectedProduct;
 
   return (
@@ -229,13 +224,7 @@ const FeedEditInventoryDrawer = ({
               )}
               <InputContainer>
                 {selectedProduct ? (
-                  <SaleCard
-                    key={uuidv4()}
-                    product={selectedProduct}
-                    quantityOfProducts={selectedProduct?.quantity || 0}
-                    onRemoveItem={onRemoveProduct}
-                    showRemoveButton={false}
-                  />
+                  <ProductCard key={uuidv4()} product={selectedProduct} />
                 ) : null}
               </InputContainer>
             </div>
