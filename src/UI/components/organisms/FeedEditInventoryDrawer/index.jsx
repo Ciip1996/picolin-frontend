@@ -25,7 +25,7 @@ type FeedInventoryDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
   onInventoryInserted: (product: Object) => any,
-  preloadedProduct?: any,
+  preloadedProduct: Object,
   isEditMode?: boolean
 };
 
@@ -37,26 +37,33 @@ const FeedEditInventoryDrawer = ({
   isEditMode
 }: FeedInventoryDrawerProps) => {
   const language = useLanguage();
+  const [comboValues, setComboValues] = useState<MapType>({
+    idStore: preloadedProduct?.idStore
+      ? {
+          id: preloadedProduct?.idStore,
+          title: preloadedProduct?.store
+        }
+      : undefined
+  });
 
-  const [comboValues, setComboValues] = useState<MapType>({});
   const [selectedProduct, setSelectedProduct] = useState<Object | null>(
     preloadedProduct || null
   );
-
   const form = useForm({
     defaultValues: {
       ...preloadedProduct
     }
   });
 
-  const { register, errors, getValues, setValue, handleSubmit } = useForm();
+  const { register, errors, getValues, setValue, handleSubmit } = form;
 
   const [uiState] = useState({
     isSaving: false,
     isSuccess: false,
     isReadOnly: false,
     isFormDisabled: false,
-    isLoading: true
+    isLoading: true,
+    preloadedProduct: {}
   });
 
   useEffect(() => {
@@ -148,6 +155,8 @@ const FeedEditInventoryDrawer = ({
     setValue('product', null);
   };
 
+  const feedNewProduct = !isEditMode && !selectedProduct;
+
   return (
     <>
       <FormContext {...form}>
@@ -170,6 +179,7 @@ const FeedEditInventoryDrawer = ({
               />
               <InputContainer>
                 <AutocompleteSelect
+                  noOptionsText="No se existe esta tienda, vuelve a intentarlo."
                   autoFocus
                   name="idStore"
                   selectedValue={comboValues.idStore}
@@ -178,6 +188,7 @@ const FeedEditInventoryDrawer = ({
                   errorText={errors?.idStore && errors?.idStore.message}
                   onSelect={handleComboChange}
                   url={Endpoints.Stores}
+                  disabled={preloadedProduct?.idStore}
                 />
                 <Separator />
                 <TextBox
@@ -190,28 +201,32 @@ const FeedEditInventoryDrawer = ({
                   value={getValues('stock') || ''}
                 />
               </InputContainer>
-              <InputContainer>
-                <AutocompleteDebounce
-                  maxOptions={10}
-                  name="product"
-                  onSelectItem={product => handleAddProduct('product', product)}
-                  placeholder="Escanee o Escriba un Producto"
-                  disabled={false}
-                  url={`${Endpoints.Products}${Endpoints.GetProducts}`}
-                  dataFetchKeyName="products"
-                  displayKey="name"
-                  handleError={errorMessage =>
-                    onShowAlert({
-                      severity: 'error',
-                      title: 'Error de busqueda',
-                      autoHideDuration: 3000,
-                      body: `Ocurrió un problema: ${errorMessage}`
-                    })
-                  }
-                  error={!!errors?.product}
-                  errorText={errors?.product && errors?.product.message}
-                />
-              </InputContainer>
+              {feedNewProduct && (
+                <InputContainer>
+                  <AutocompleteDebounce
+                    maxOptions={10}
+                    name="product"
+                    onSelectItem={product =>
+                      handleAddProduct('product', product)
+                    }
+                    placeholder="Escanee o Escriba un Producto"
+                    disabled={isEditMode}
+                    url={`${Endpoints.Products}${Endpoints.GetProducts}`}
+                    dataFetchKeyName="products"
+                    displayKey="name"
+                    handleError={errorMessage =>
+                      onShowAlert({
+                        severity: 'error',
+                        title: 'Error de busqueda',
+                        autoHideDuration: 3000,
+                        body: `Ocurrió un problema: ${errorMessage}`
+                      })
+                    }
+                    error={!!errors?.product}
+                    errorText={errors?.product && errors?.product.message}
+                  />
+                </InputContainer>
+              )}
               <InputContainer>
                 {selectedProduct ? (
                   <SaleCard
@@ -219,6 +234,7 @@ const FeedEditInventoryDrawer = ({
                     product={selectedProduct}
                     quantityOfProducts={selectedProduct?.quantity || 0}
                     onRemoveItem={onRemoveProduct}
+                    showRemoveButton={false}
                   />
                 ) : null}
               </InputContainer>

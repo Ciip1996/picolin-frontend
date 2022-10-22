@@ -13,8 +13,8 @@ const Contents = {
       Submit: 'Edit'
     },
 
-    Store: 'Tienda',
-    Stock: 'Cantidad de Stock a Añadir',
+    Store: 'Store',
+    Stock: 'Stock',
     RequiredMessage: 'Este campo es obligatorio.'
   },
   Spanish: {
@@ -31,7 +31,7 @@ const Contents = {
       Submit: 'Editar'
     },
     Store: 'Tienda',
-    Stock: 'Cantidad de Stock a Añadir',
+    Stock: 'Cantidad de Stock',
     RequiredMessage: 'Este campo es obligatorio.'
   }
 };

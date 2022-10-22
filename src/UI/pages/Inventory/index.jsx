@@ -10,7 +10,7 @@ import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import FeedEditInventoryDrawer from 'UI/components/organisms/FeedEditInventoryDrawer';
 import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
-import ActionButton from 'UI/components/atoms/ActionButton';
+// import ActionButton from 'UI/components/atoms/ActionButton';
 import { showAlert, confirm as confirmAction } from 'actions/app';
 import { drawerAnchor, PageTitles } from 'UI/constants/defaults';
 import { userHasAdminOrManagerPermissions } from 'services/Authorization';
@@ -22,7 +22,7 @@ import { getErrorData, useLanguage } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { saveFilters, getFilters } from 'services/FiltersStorage';
-import { AddIcon, colors } from 'UI/res';
+// import { AddIcon, colors } from 'UI/res';
 import InventoryTableAdapter from 'UI/pages/Inventory/InventoryTableAdapter';
 import Contents from './strings';
 import { type UIStateInventory } from './types';
@@ -269,7 +269,8 @@ const InventoryList = (props: InventoryListProps) => {
               selectedValue={filters.store_filter}
               onSelect={handleFilterChange}
             />
-            {isUserAdminOrManager && (
+            {/* NOTE: commented since we would only want to feed inventory from product tables */}
+            {/* {isUserAdminOrManager && (
               <ActionButton
                 text={Contents[language]?.feedInventory}
                 onClick={toggleDrawer(
@@ -279,7 +280,7 @@ const InventoryList = (props: InventoryListProps) => {
               >
                 <AddIcon fill={colors.white} size={18} />
               </ActionButton>
-            )}
+            )} */}
           </Box>
         }
         filters={filters}
@@ -372,6 +373,7 @@ const InventoryList = (props: InventoryListProps) => {
       >
         <div role="presentation">
           <FeedEditInventoryDrawer
+            preloadedProduct={uiState.selectedProduct}
             onInventoryInserted={onInventoryInserted}
             onShowAlert={onShowAlert}
             handleClose={() => {

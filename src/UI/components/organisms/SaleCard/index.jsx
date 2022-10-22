@@ -19,7 +19,8 @@ import { useStyles } from './styles';
 type SaleCardProps = {
   product: Object,
   quantityOfProducts: number,
-  onRemoveItem: any => any
+  onRemoveItem: any => any,
+  showRemoveButton?: boolean
   // onAmountOfProductsChanged: (Object, any, number) => any
   // errors: any
 };
@@ -28,7 +29,8 @@ const SaleCard = (props: SaleCardProps) => {
   const {
     product,
     quantityOfProducts,
-    onRemoveItem
+    onRemoveItem,
+    showRemoveButton
     // onAmountOfProductsChanged
     // errors
   } = props;
@@ -74,14 +76,16 @@ const SaleCard = (props: SaleCardProps) => {
           value: 1,
           message: 'La cantidad debe ser mayor a 0'
         },
-        max: {
-          value: stock,
-          message: `La cantidad debe ser menor a ${stock}`
-        }
+        max: showRemoveButton
+          ? {
+              value: stock,
+              message: `La cantidad debe ser menor a ${stock}`
+            }
+          : undefined
       }
     );
     setValue(productCode, 1, true);
-  }, [productCode, register, setValue, stock]);
+  }, [productCode, register, setValue, showRemoveButton, stock]);
 
   return (
     <>
@@ -121,14 +125,16 @@ const SaleCard = (props: SaleCardProps) => {
             text={`${currencyFormatter(salePrice)}`}
           />
           <Box width={24} />
-          <CustomIconButton
-            tooltipText="Quitar de la venta"
-            className={classes.deleteButton}
-            aria-label="delete"
-            onClick={prepareRemoveItem}
-          >
-            <CloseIcon />
-          </CustomIconButton>
+          {showRemoveButton && (
+            <CustomIconButton
+              tooltipText="Quitar de la venta"
+              className={classes.deleteButton}
+              aria-label="delete"
+              onClick={prepareRemoveItem}
+            >
+              <CloseIcon />
+            </CustomIconButton>
+          )}
         </Box>
         <Text variant="subtitle1" className={classes.name} text={`${name}`} />
         <Grid container marginTop={6} spacing={2}>
@@ -154,6 +160,10 @@ const SaleCard = (props: SaleCardProps) => {
       </Card>
     </>
   );
+};
+
+SaleCard.defaultProps = {
+  showRemoveButton: true
 };
 
 export default SaleCard;
