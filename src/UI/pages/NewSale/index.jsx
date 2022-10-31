@@ -17,7 +17,12 @@ import ComboCard from 'UI/components/organisms/ComboCard';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import AddComboToSaleDrawer from 'UI/components/organisms/AddComboToSaleDrawer';
 import { drawerAnchor, PageTitles, DEFAULT_STORE } from 'UI/constants/defaults';
-import { currencyFormatter, sleep, getFeatureFlags } from 'UI/utils';
+import {
+  currencyFormatter,
+  sleep,
+  getFeatureFlags,
+  useLanguage
+} from 'UI/utils';
 import EmptyPlaceholder from 'UI/components/templates/EmptyPlaceholder';
 import { sendToPrintSaleTicket } from 'UI/utils/ticketGenerator';
 
@@ -40,9 +45,8 @@ type NewSaleListProps = {
   onShowAlert: any => void
 };
 
-const language = localStorage.getItem('language');
-
 const NewSaleList = (props: NewSaleListProps) => {
+  const language = useLanguage();
   const { onShowAlert } = props;
   const history = useHistory();
 
@@ -143,11 +147,11 @@ const NewSaleList = (props: NewSaleListProps) => {
   };
 
   useEffect(() => {
-    document.title = PageTitles.NewSale;
+    document.title = language && PageTitles[language].NewSale;
     sleep(1000).then(() => {
       setLoading(false);
     });
-  }, [loading]);
+  }, [language, loading]);
 
   const onSubmit = async (formData: Object) => {
     try {
@@ -416,7 +420,7 @@ const NewSaleList = (props: NewSaleListProps) => {
               // container
               direction="row"
               display="flex"
-              justify="space-between"
+              justifyContent="space-between"
               alignItems="stretch"
               spacing={4}
             >
@@ -481,8 +485,8 @@ const NewSaleList = (props: NewSaleListProps) => {
                   {/* Render Combos */}
                   {comboPackagesList.length === 0 && productsList.length === 0 && (
                     <EmptyPlaceholder
-                      title="Ningun producto en esta venta"
-                      subtitle="Para añadir un producto o un paquete escanee el código QR de la etiqueta o escriba el código de producto en la caja de texto ubicada en la parte superior."
+                      title={Contents[language]?.placeholderTitle}
+                      subtitle={Contents[language]?.placeholderSubtitle}
                     >
                       <EmptyActivityLogs />
                     </EmptyPlaceholder>

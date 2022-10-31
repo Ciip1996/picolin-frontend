@@ -7,6 +7,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 
 import API from 'services/API';
 import ListProductRow from 'UI/components/molecules/ListProductRow';
+import { useLanguage } from 'UI/utils';
 import { Wrapper, Input, Ul, Li, SuggestContainer } from './styles';
 import Contents from './strings';
 
@@ -35,7 +36,7 @@ const AutocompleteDebounce = (props: AutocompleteDebounceProps) => {
     errorText,
     ...rest
   } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);

@@ -9,6 +9,7 @@ import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import AddComboForm from 'UI/components/organisms/AddComboForm';
 import { globalStyles } from 'GlobalStyles';
 import { CloseIcon } from 'UI/res';
+import { useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 
 import Contents from './strings';
@@ -21,7 +22,7 @@ type AddComboToSaleDrawerProps = {
 
 const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
   const { handleClose, onShowAlert, onComboAdded } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const form = useForm({
     defaultValues: {}
@@ -73,7 +74,6 @@ const AddComboToSaleDrawer = (props: AddComboToSaleDrawerProps) => {
           onSecondaryButtonClick={handleClose}
           variant="borderless"
           uiState={uiState}
-          initialText="Agregar"
           isTopToolbarNeeded
           additionalHeaderButtons={
             <CustomIconButton

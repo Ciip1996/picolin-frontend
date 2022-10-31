@@ -24,7 +24,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Box from '@material-ui/core/Box';
 import API from 'services/API';
 import { Endpoints } from 'UI/constants/endpoints';
-import { getErrorData } from 'UI/utils';
+import { getErrorData, useLanguage } from 'UI/utils';
 import type { Filters } from 'types/app';
 import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import { getFilters, saveFilters } from 'services/FiltersStorage';
@@ -54,7 +54,7 @@ const getSortDirections = (orderBy: string, direction: string) =>
 
 const TransferList = (props: TransferListProps) => {
   const { onShowAlert } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
@@ -442,9 +442,9 @@ const TransferList = (props: TransferListProps) => {
   }, [error]);
 
   useEffect(() => {
-    document.title = PageTitles.Transfers;
+    document.title = language && PageTitles[language].Transfers;
     getData();
-  }, [error, getData]);
+  }, [error, getData, language]);
 
   const onTransferCompleted = () => {
     setUiState(prevState => ({ ...prevState, isTransferDrawerOpen: false }));

@@ -9,7 +9,7 @@ const Contents = {
     Location: 'Location',
     PageTitle: 'PAYMENTS',
     RegistrationDate: 'Payment Date',
-    makePayment: 'REGISTER PAYMENT'
+    makePayment: 'ADD PAYMENT'
   },
   Spanish: {
     IdPayment: 'IdPago',

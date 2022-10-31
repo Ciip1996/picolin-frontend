@@ -6,10 +6,9 @@ import TableCell from '@material-ui/core/TableCell';
 import MuiTablePagination from '@material-ui/core/TablePagination';
 
 /** Styles components */
+import { useLanguage } from 'UI/utils';
 import { footerStyle, resultStyle } from './styles';
 import Contents from './strings';
-
-const language = localStorage.getItem('language');
 
 type CustomFooterProps = {
   count?: number,
@@ -29,6 +28,7 @@ const CustomFooter = (props: CustomFooterProps) => {
     changeRowsPerPage,
     changePage
   } = props;
+  const language = useLanguage();
 
   const handleRowChange = event => {
     changeRowsPerPage && changeRowsPerPage(event.target.value);
@@ -60,7 +60,7 @@ const CustomFooter = (props: CustomFooterProps) => {
             nextIconButtonProps={{
               'aria-label': textLabels && textLabels.next
             }}
-            rowsPerPageOptions={[10, 20, 100]}
+            rowsPerPageOptions={[10, 20, 100, 500, 1000]}
             onChangePage={handlePageChange}
             onChangeRowsPerPage={handleRowChange}
           />

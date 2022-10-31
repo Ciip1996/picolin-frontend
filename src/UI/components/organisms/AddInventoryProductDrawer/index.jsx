@@ -10,7 +10,7 @@ import { Endpoints } from 'UI/constants/endpoints';
 
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
-import { getErrorData } from 'UI/utils';
+import { getErrorData, useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -22,7 +22,7 @@ type AddInventoryProductDrawerProps = {
 
 const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
   const { handleClose, onShowAlert, onProductInserted } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const form = useForm({
     defaultValues: {}
@@ -84,7 +84,6 @@ const AddInventoryProductDrawer = (props: AddInventoryProductDrawerProps) => {
           onSecondaryButtonClick={handleClose}
           variant="borderless"
           uiState={uiState}
-          initialText="Agregar"
         >
           <form className={classes.root} noValidate autoComplete="off" />
           <Box>

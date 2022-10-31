@@ -14,7 +14,7 @@ import type { MapType } from 'types';
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
 import { getCurrentUser } from 'services/Authentication';
-import { currencyFormatter } from 'UI/utils';
+import { currencyFormatter, useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -26,7 +26,7 @@ type PaymentDrawerProps = {
 
 const PaymentDrawer = (props: PaymentDrawerProps) => {
   const { handleClose, onShowAlert, onRegisterPayment } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
   const [comboValues, setComboValues] = useState<MapType>({});
 
   const classes = useStyles();

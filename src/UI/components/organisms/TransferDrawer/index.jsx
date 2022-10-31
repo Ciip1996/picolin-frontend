@@ -16,6 +16,7 @@ import TransferCard from 'UI/components/organisms/TransferCard';
 import type { MapType } from 'types';
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
+import { useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -27,7 +28,7 @@ type TransferDrawerProps = {
 
 const TransferDrawer = (props: TransferDrawerProps) => {
   const { handleClose, onShowAlert, onTransfered } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
   const [comboValues, setComboValues] = useState<MapType>({});
   const [productsList, setProductsList] = useState([]);
 

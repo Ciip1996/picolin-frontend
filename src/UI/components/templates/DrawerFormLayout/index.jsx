@@ -1,15 +1,14 @@
 // @flow
 import React from 'react';
 import Box from '@material-ui/core/Box';
-// import { CloseIcon, colors } from 'UI/res';
 import { CancelSaveButton } from 'UI/constants/dimensions';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
-// import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import SaveButton from 'UI/components/atoms/SaveButton';
-import { fuseStyles } from 'UI/utils';
+import { fuseStyles, useLanguage } from 'UI/utils';
 import { isNull } from 'lodash';
 import { styles } from './styles';
+import Contents from './strings';
 
 type DrawerUiState = {
   isSaving: boolean,
@@ -27,16 +26,16 @@ type DrawerFormLayoutProps = {
   onSubmit: any => any,
   onClose: () => any,
   onSecondaryButtonClick: typeof isNull | (() => any),
-  initialText: string,
-  onProgressText: string,
-  onSuccessText: string,
-  cancelText: string,
+  initialText?: string | null,
+  onProgressText?: string | null,
+  onSuccessText?: string | null,
+  cancelText?: string | null,
   isCancelButtonNeeded: boolean,
   isBottomToolbarNeeded: boolean,
   isTopToolbarNeeded: boolean,
   onPrimaryButtonClick: () => any,
   isSaveButtonMode: boolean,
-  triggerActionText: string,
+  triggerActionText?: string | null,
   contentStyle: any
 };
 
@@ -62,6 +61,9 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
     isSaveButtonMode,
     triggerActionText
   } = props;
+
+  const language = useLanguage();
+
   const drawerStyle = fuseStyles([
     styles.drawerContainer,
     variant === '#E26A93' && styles.blueDrawer,
@@ -89,7 +91,7 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
         >
           {isCancelButtonNeeded && (
             <ActionButton
-              text={cancelText}
+              text={cancelText || Contents[language]?.cancel}
               onClick={() => {
                 if (onSecondaryButtonClick) {
                   onSecondaryButtonClick();
@@ -107,13 +109,15 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
               isSaving={uiState?.isSaving}
               isSuccess={uiState?.isSuccess}
               disabled={uiState?.isFormDisabled || uiState?.isSaving}
-              initialText={initialText}
-              onProgressText={onProgressText}
-              onSuccessText={onSuccessText}
+              initialText={initialText || Contents[language]?.initialText}
+              onProgressText={
+                onProgressText || Contents[language]?.onProgressText
+              }
+              onSuccessText={onSuccessText || Contents[language]?.onSuccessText}
             />
           ) : (
             <ActionButton
-              text={triggerActionText}
+              text={triggerActionText || Contents[language]?.initialText}
               onClick={onPrimaryButtonClick}
               style={{ width: CancelSaveButton }}
             />
@@ -127,15 +131,15 @@ const DrawerFormLayout = (props: DrawerFormLayoutProps) => {
 DrawerFormLayout.defaultProps = {
   additionalHeaderButtons: undefined,
   variant: 'white',
-  initialText: 'Save',
-  onProgressText: 'Saving',
-  onSuccessText: 'Saved',
-  cancelText: 'Cancelar',
+  initialText: null,
+  onProgressText: null,
+  onSuccessText: null,
+  cancelText: null,
   isCancelButtonNeeded: true,
   onSecondaryButtonClick: null,
   isSaveButtonMode: true,
   onPrimaryButtonClick: () => {},
-  triggerActionText: '',
+  triggerActionText: null,
   contentStyle: null,
   isBottomToolbarNeeded: true,
   isTopToolbarNeeded: true,

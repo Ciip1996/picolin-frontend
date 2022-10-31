@@ -1,5 +1,5 @@
 // @flow
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
@@ -14,19 +14,20 @@ import {
 import { now } from 'lodash';
 import 'moment/locale/es';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useLocalStorage } from 'UI/utils';
 
-const DEFAULT_LOCALE = 'es';
-const DEFAULT_LANGUAGE = 'Spanish';
+const REACT_APP_DEFAULT_LOCALE =
+  localStorage.getItem('locale') || process.env.REACT_APP_DEFAULT_LANGUAGE;
 
-// function storeLanguageInLocalStorage(language) {
-//   localStorage.setItem('language', language);
-// }
-moment.locale(DEFAULT_LOCALE); // set default locale manually to Spanish
+const REACT_APP_DEFAULT_LANGUAGE =
+  localStorage.getItem('language') || process.env.REACT_APP_DEFAULT_LANGUAGE;
+
+moment.locale(REACT_APP_DEFAULT_LOCALE); // set default locale manually to Spanish
 moment.tz.setDefault('America/Mexico_City'); // set default timezones for dates from database
 
 const App = () => {
-  const [locale, setLocale] = useState('');
-  const [language, setLanguage] = useState('');
+  const [locale, setLocale] = useLocalStorage('locale', '');
+  const [language, setLanguage] = useLocalStorage('language', '');
 
   useEffect(() => {
     // everytime the user refresh the website or opens it for the first time:
@@ -43,11 +44,11 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    setLocale(DEFAULT_LOCALE);
-    setLanguage(DEFAULT_LANGUAGE);
-    localStorage.setItem('language', language);
-    localStorage.setItem('locale', locale);
-  }, [language, locale]);
+    if (language === '' || locale === '') {
+      setLocale(REACT_APP_DEFAULT_LOCALE);
+      setLanguage(REACT_APP_DEFAULT_LANGUAGE);
+    }
+  }, [language, locale, setLanguage, setLocale]);
 
   return (
     <MuiThemeProvider theme={THEME}>

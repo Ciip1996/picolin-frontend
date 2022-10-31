@@ -8,3 +8,14 @@ export const InventoryStatus = {
     title: 'Disabled'
   }
 };
+
+export const VerifyStatus = {
+  verified: {
+    id: 1,
+    title: 'Verified'
+  },
+  unverified: {
+    id: 0,
+    title: 'Unverified'
+  }
+};

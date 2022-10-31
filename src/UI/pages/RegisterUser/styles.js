@@ -22,7 +22,7 @@ export const useStyles = makeStyles({
   },
   RegisterButton: {
     marginTop: 24,
-    width: 171
+    width: 200
   },
   header: {
     marginBottom: 20,

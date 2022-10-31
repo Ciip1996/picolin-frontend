@@ -2,17 +2,20 @@ const Contents = {
   English: {
     pageTitle: 'INVENTORY',
     defaultSubtitle: 'Maybe you should try again.',
-    labCode: 'Code',
+    lblIdProduct: 'Id',
+    lblIdInventory: '# Registro',
+    labCode: 'Product Code',
     labColor: 'Color',
     labSize: 'Size',
-    labPieces: 'Pieces',
+    labPieces: '# Pieces',
     labPrice: 'Price',
     labGender: 'Gender',
     labType: 'Type',
     labReserved: 'Reserved',
     labStock: 'Stock',
-    labInventory: 'INVENTORY',
+    labInventory: 'Inventory',
     labMaterials: 'Materials',
+    feedInventory: 'Feed',
     Girl: 'Girl',
     Boy: 'Boy',
     minSalePrice: 'Min Sale Price',
@@ -20,7 +23,10 @@ const Contents = {
     maxSalePrice: 'Max Sale Price',
     maxCost: 'Maximum Cost',
     labName: 'Name / Model',
-    labStatus: 'Status'
+    labStatus: 'Status',
+    labStore: 'Location / Store',
+    labObservations: 'Observations',
+    labIsExistencyVerified: 'Existency Verified'
   },
   Spanish: {
     pageTitle: 'INVENTARIOS',
@@ -49,7 +55,8 @@ const Contents = {
     labName: 'Nombre / Modelo',
     labStatus: 'Estatus',
     labStore: 'Ubicación',
-    labObservations: 'Observaciones'
+    labObservations: 'Observaciones',
+    labIsExistencyVerified: 'Existencia Verificada'
   }
 };
 export default Contents;

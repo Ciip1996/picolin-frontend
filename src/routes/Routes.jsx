@@ -19,6 +19,8 @@ import Inventory from 'UI/pages/Inventory';
 import Transfers from 'UI/pages/Transfers';
 import Payments from 'UI/pages/Payments';
 import ProductNames from 'UI/pages/ProductNames';
+import ProductTypes from 'UI/pages/ProductTypes';
+
 import Products from 'UI/pages/Products';
 
 import Login from 'UI/pages/Login';
@@ -96,6 +98,12 @@ const Routes = () => {
           exact
           path={EntityRoutes.Transfers}
           component={Transfers}
+          enabled={isUserManagerOrAdmin}
+        />
+        <PrivateRoute
+          exact
+          path={EntityRoutes.ProductTypes}
+          component={ProductTypes}
           enabled={isUserManagerOrAdmin}
         />
 

@@ -12,7 +12,7 @@ import ListPageLayout from 'UI/components/templates/ListPageLayout';
 import DataTable from 'UI/components/organisms/DataTable';
 import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import SalesDetailCard from 'UI/components/organisms/SalesDetailCard';
-import { getErrorData, currencyFormatter } from 'UI/utils';
+import { getErrorData, currencyFormatter, useLanguage } from 'UI/utils';
 
 import Modal from '@material-ui/core/Modal';
 
@@ -47,7 +47,7 @@ const getSortDirections = (orderBy: string, direction: string) =>
 
 const SalesList = (props: SalesListProps) => {
   const { onShowAlert } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const [error, setError] = useState(false);
   const [searching, setSearching] = useState(false);
@@ -503,9 +503,9 @@ const SalesList = (props: SalesListProps) => {
   }, [error]);
 
   useEffect(() => {
-    document.title = PageTitles.Sales;
+    document.title = language && PageTitles[language].Sales;
     getData();
-  }, [error, getData]);
+  }, [error, getData, language]);
 
   return (
     <ContentPageLayout>

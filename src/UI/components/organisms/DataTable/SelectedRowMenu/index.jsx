@@ -6,31 +6,35 @@ import { Delete as DeleteIcon } from '@material-ui/icons';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import QrCodeIcon from '@mui/icons-material/QrCode';
+import VerifiedIcon from '@mui/icons-material/Verified';
+
 import { InventoryIcon } from 'UI/res/icons';
 
 import EditIcon from '@mui/icons-material/Edit';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
 /** Styles components */
+import { useLanguage } from 'UI/utils';
 import { ToolbarWrapper } from './styles';
 import Contents from './strings';
 
-const language = localStorage.getItem('language');
-
 type SelectedRowMenuProps = {
-  onRowDeleted: any => any,
-  onQRCodeDownload?: any => any,
-  onFeedInventory?: any => any,
-  onRowEdit: () => void,
+  onRowDeleted?: () => any,
+  onQRCodeDownload?: () => any,
+  onFeedInventory?: () => any,
+  onRowEdit?: () => void,
+  onCloneProduct?: () => void,
+  onRowEnableDisable: () => any,
+  onRowVerify: () => any,
   isQRCodeEnabled: boolean,
   isFeedInventoryEnabled: boolean,
   isCloneProductEnabled: boolean,
   isEditEnabled: boolean,
-  isActionDeleteEnabled: boolean,
-  isDisableActionEnabled: boolean,
-  isActionDisable?: boolean,
-  onCloneProduct?: () => void,
-  onRowEnableDisable: any => any
+  isDeleteActionEnabled: boolean,
+  isEnableDisableActionEnabled: boolean,
+  isVerifyActionEnabled?: boolean,
+  isDisable?: boolean,
+  isVerified?: boolean
 };
 
 const SelectedRowMenu = (props: SelectedRowMenuProps) => {
@@ -41,15 +45,18 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
     onRowEdit,
     onCloneProduct,
     onRowEnableDisable,
-    isActionDisable,
+    onRowVerify,
+    isDisable,
+    isVerified,
     isQRCodeEnabled,
     isCloneProductEnabled,
     isEditEnabled,
-    isActionDeleteEnabled,
+    isDeleteActionEnabled,
     isFeedInventoryEnabled,
-    isDisableActionEnabled
+    isEnableDisableActionEnabled,
+    isVerifyActionEnabled
   } = props;
-
+  const language = useLanguage();
   return (
     <ToolbarWrapper>
       <TableRow>
@@ -86,7 +93,7 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
             <EditIcon />
           </CustomIconButton>
         )}
-        {isActionDeleteEnabled && (
+        {isDeleteActionEnabled && (
           <CustomIconButton
             tooltipText={Contents[language]?.delete}
             onClick={onRowDeleted}
@@ -94,20 +101,33 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
             <DeleteIcon color="error" />
           </CustomIconButton>
         )}
-        {isDisableActionEnabled && (
+        {isEnableDisableActionEnabled && (
           <CustomIconButton
             tooltipText={
-              isActionDisable
+              isDisable
                 ? Contents[language]?.disable
                 : Contents[language]?.enable
             }
             onClick={onRowEnableDisable}
           >
-            {isActionDisable ? (
-              <VisibilityOffIcon />
+            {isDisable ? (
+              <VisibilityOffIcon color="error" />
             ) : (
               <VisibilityIcon color="success" />
             )}
+          </CustomIconButton>
+        )}
+
+        {isVerifyActionEnabled && (
+          <CustomIconButton
+            tooltipText={
+              isVerified
+                ? Contents[language]?.unverify
+                : Contents[language]?.verify
+            }
+            onClick={onRowVerify}
+          >
+            <VerifiedIcon sx={isVerified ? undefined : { color: '#007fff' }} />
           </CustomIconButton>
         )}
       </TableRow>
@@ -116,16 +136,22 @@ const SelectedRowMenu = (props: SelectedRowMenuProps) => {
 };
 
 SelectedRowMenu.defaultProps = {
-  onRowDeleted: undefined,
-  onQRCodeDownload: undefined,
+  onRowDeleted: () => {},
+  onQRCodeDownload: () => {},
+  onFeedInventory: () => {},
+  onRowEdit: () => {},
+  onCloneProduct: () => {},
+  onRowEnableDisable: () => {},
+  onRowVerify: () => {},
   isQRCodeEnabled: false,
   isFeedInventoryEnabled: false,
   isCloneProductEnabled: false,
   isEditEnabled: false,
-  isActionDeleteEnabled: false,
-  isActionDisable: false,
-  onFeedInventory: () => {},
-  onCloneProduct: () => {}
+  isDeleteActionEnabled: false,
+  isDisable: false,
+  isEnableDisableActionEnabled: false,
+  isVerifyActionEnabled: false,
+  isVerified: false
 };
 
 export default SelectedRowMenu;

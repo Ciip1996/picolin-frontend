@@ -20,6 +20,7 @@ import {
   notificationIcons
 } from 'UI/constants/notifications';
 import { THEME } from 'GlobalStyles';
+import { useLanguage } from 'UI/utils';
 import {
   useStyles,
   useNotificationStyles,
@@ -75,7 +76,7 @@ const CustomSnackbar = forwardRef<CustomSnackbarProps, any>(
       icon,
       onClick = () => {}
     } = props;
-    const language = localStorage.getItem('language');
+    const language = useLanguage();
 
     const classes = useStyles({
       severity: isNotification ? null : severity

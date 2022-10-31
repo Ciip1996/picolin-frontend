@@ -111,7 +111,7 @@ const ButtonMenu = (props: ButtonMenuProps) => {
                 item.visible && (
                   <MenuItem
                     aria-label={item.title}
-                    key={index.toString()}
+                    key={`menu-item-${index.toString()}`}
                     style={styles.menuCreateItemText}
                     onClick={
                       item.link

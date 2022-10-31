@@ -7,10 +7,10 @@ import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
 import ProductNameForm from 'UI/components/organisms/ProductNameForm';
 import { Endpoints } from 'UI/constants/endpoints';
+import { useLanguage, getErrorData } from 'UI/utils';
 
 import API from 'services/API';
 import { globalStyles } from 'GlobalStyles';
-import { getErrorData } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -29,7 +29,7 @@ const ModifyProductNameDrawer = (props: ModifyProductNameDrawerProps) => {
     selectedProductName
   } = props;
 
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const form = useForm({
     defaultValues: {
@@ -95,7 +95,6 @@ const ModifyProductNameDrawer = (props: ModifyProductNameDrawerProps) => {
           onSecondaryButtonClick={handleClose}
           variant="borderless"
           uiState={uiState}
-          initialText="Agregar"
         >
           <form className={classes.root} noValidate autoComplete="off" />
           <Box>

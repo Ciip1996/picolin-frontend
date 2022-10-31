@@ -9,7 +9,14 @@ const Contents = {
     requser: 'It requires a username',
     reqpwd: 'It requires a password',
     labuser: 'User',
-    labpwd: 'Password'
+    labpwd: 'Password',
+    login: 'Login',
+    demoUser: 'DEMO USER',
+    demoTitle: 'DEMO LOGIN',
+    demoButton: 'START DEMO',
+    labPwd: 'Password',
+    demoDescription:
+      'This is a Demo login, the credentials are preloaded, just press the "START DEMO" button.'
   },
   Spanish: {
     pageTitle: 'INICIAR SESIÓN',
@@ -22,7 +29,14 @@ const Contents = {
     requser: 'Se requiere un nombre de usuario',
     reqpwd: 'Se requiere una contraseña',
     labuser: 'Usuario',
-    labpwd: 'Contraseña'
+    labpwd: 'Contraseña',
+    login: 'Entrar',
+    demoUser: 'USUARIO DEMO',
+    demoTitle: 'INICIO DE SESIÓN DEMO',
+    demoButton: 'INICIAR DEMO',
+    labPwd: 'Contraseña',
+    demoDescription:
+      'Este es un Inicio de Sesión de demo, las credenciales vienen precargadas, solo tiene que presionar el botón "Iniciar Demo".'
   }
 };
 export default Contents;

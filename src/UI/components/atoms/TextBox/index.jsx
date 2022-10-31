@@ -19,6 +19,7 @@ type NumberFormatCustomProps = {
 };
 const NumberFormatCustom = (props: NumberFormatCustomProps) => {
   const {
+    name,
     inputRef,
     onChange,
     type,
@@ -34,7 +35,7 @@ const NumberFormatCustom = (props: NumberFormatCustomProps) => {
         const { formattedValue, value } = values;
         onChange({
           target: {
-            name: props.name,
+            name,
             value,
             formattedValue
           }

@@ -11,19 +11,20 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Link from '@material-ui/core/Link';
 import { type User } from 'types/app';
 import { userHasAdminPermissions } from 'services/Authorization';
-
+import LanguageIcon from '@mui/icons-material/Language';
 import {
   isAuthenticated,
   getCurrentUser,
   logout
 } from 'services/Authentication';
 import { FeatureFlags } from 'UI/constants/featureFlags';
-import { getFeatureFlags } from 'UI/utils';
+import { getFeatureFlags, useLanguage, useLocalStorage } from 'UI/utils';
 import { PicolinLogo, colors } from 'UI/res';
 import CustomAvatar from 'UI/components/atoms/CustomAvatar';
 import { drawerAnchor } from 'UI/constants/defaults';
 import { EntityRoutes } from 'routes/constants';
 import { useStyles, styles } from './styles';
+import Contents from './strings';
 
 const featureFlags = getFeatureFlags();
 
@@ -32,19 +33,46 @@ type NavBarProps = {
 };
 
 const NavBar = ({ handleCloseCashier }: NavBarProps) => {
+  // eslint-disable-next-line no-unused-vars
+  const [locale, setLocale] = useLocalStorage('locale', '');
+  // eslint-disable-next-line no-unused-vars
+  const [localStorageLanguage, setLanguage] = useLocalStorage('language', '');
+
+  const language = useLanguage();
+
   const user: User = isAuthenticated() ? getCurrentUser() : {};
   const isUserAdmin = userHasAdminPermissions();
   const classes = useStyles();
   const history = useHistory();
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorElLanguage, setAnchorElLanguage] = useState(null);
 
   const handleOpenMenuClick = event => {
     setAnchorEl(event.currentTarget);
   };
+  const handleOpenMenuLanguageClick = event => {
+    setAnchorElLanguage(event.currentTarget);
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleCloseLanguage = () => {
+    setAnchorElLanguage(null);
+  };
+
+  const handleSelectEnglishLanguage = () => {
+    setLocale('en');
+    setLanguage('English');
+    window.location.reload();
+  };
+
+  const handleSelectSpanishLanguage = () => {
+    setLocale('es');
+    setLanguage('Spanish');
+    window.location.reload();
   };
 
   const handleLogout = () => {
@@ -100,11 +128,57 @@ const NavBar = ({ handleCloseCashier }: NavBarProps) => {
             </div>
           )}
         </div> */}
+
         <div
           item="true"
           className={classes.divItem}
           style={styles.rightContainer}
         >
+          <div className={classes.userCardWrapper}>
+            <Box display="flex" position="relative">
+              <CardActionArea
+                onClick={handleOpenMenuLanguageClick}
+                className={`${classes.userCard} + ${classes.languageContainer}`}
+              >
+                <LanguageIcon />
+                <div className={classes.language}>LANG</div>
+              </CardActionArea>
+              <Menu
+                id="language-menu"
+                anchorEl={anchorElLanguage}
+                keepMounted
+                open={Boolean(anchorElLanguage)}
+                onClose={handleCloseLanguage}
+                anchorReference="none"
+                PaperProps={{
+                  style: {
+                    width: 150,
+                    padding: 0,
+                    right: 10,
+                    top: 75
+                  }
+                }}
+                MenuListProps={{
+                  style: {
+                    padding: 0
+                  }
+                }}
+              >
+                <MenuItem
+                  onClick={handleSelectEnglishLanguage}
+                  disabled={language === 'English'}
+                >
+                  English / Inglés
+                </MenuItem>
+                <MenuItem
+                  onClick={handleSelectSpanishLanguage}
+                  disabled={language === 'Spanish'}
+                >
+                  Spanish / Español
+                </MenuItem>
+              </Menu>
+            </Box>
+          </div>
           <div className={classes.userCardWrapper}>
             <Box display="flex" position="relative">
               <CardActionArea
@@ -148,17 +222,17 @@ const NavBar = ({ handleCloseCashier }: NavBarProps) => {
                     onClick={navigateToRegisterUserPage}
                     className={classes.menuLink}
                   >
-                    Registrar Usuario
+                    {Contents[language]?.registerUser}
                   </MenuItem>
                 ) : null}
                 <MenuItem
                   onClick={handleCloseCashier}
                   className={classes.menuLink}
                 >
-                  Corte de Caja
+                  {Contents[language]?.closeCashier}
                 </MenuItem>
                 <MenuItem onClick={handleLogout} className={classes.loginLink}>
-                  Cerrar Sesión
+                  {Contents[language]?.logOut}
                 </MenuItem>
               </Menu>
             </Box>

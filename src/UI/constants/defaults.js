@@ -66,17 +66,34 @@ export const GranularityFormats = {
 };
 
 export const PageTitles = {
-  NewSale: `${AppName} | Nueva Venta`,
-  Sales: `${AppName} | Ventas`,
-  Login: `${AppName} | Inicio de Sesión`,
-  RegisterUser: `${AppName} | Registar usuario`,
-  Home: `${AppName} | Inicio`,
-  NotFound: `${AppName} | Not Found`,
-  Inventory: `${AppName} | Inventarios`,
-  Transfers: `${AppName} | Transferencias`,
-  Payments: `${AppName} | Pagos`,
-  ProductNames: `${AppName} | Nombres de Productos (Modelos)`,
-  Products: `${AppName} | Productos`
+  English: {
+    NewSale: `${AppName} | New Sale`,
+    Sales: `${AppName} | Sales`,
+    Login: `${AppName} | Login`,
+    RegisterUser: `${AppName} | Register User`,
+    Home: `${AppName} | Home Page`,
+    NotFound: `${AppName} | Not Found`,
+    Inventory: `${AppName} | Inventory`,
+    Transfers: `${AppName} | Transfers`,
+    Payments: `${AppName} | Payments`,
+    ProductNames: `${AppName} | Product Names (Model)`,
+    Products: `${AppName} | Products`,
+    ProductTypes: `${AppName} | Product Types`
+  },
+  Spanish: {
+    NewSale: `${AppName} | Nueva Venta`,
+    Sales: `${AppName} | Ventas`,
+    Login: `${AppName} | Inicio de Sesión`,
+    RegisterUser: `${AppName} | Registar usuario`,
+    Home: `${AppName} | Inicio`,
+    NotFound: `${AppName} | Not Found`,
+    Inventory: `${AppName} | Inventarios`,
+    Transfers: `${AppName} | Transferencias`,
+    Payments: `${AppName} | Pagos`,
+    ProductNames: `${AppName} | Nombres de Productos (Modelos)`,
+    Products: `${AppName} | Productos`,
+    ProductTypes: `${AppName} | Tipos de Productos`
+  }
 };
 
 export const DrawerName = {

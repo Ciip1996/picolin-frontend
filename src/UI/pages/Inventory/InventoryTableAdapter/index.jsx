@@ -7,10 +7,14 @@ import { FormControl } from '@material-ui/core';
 import AutocompleteSelect from 'UI/components/molecules/AutocompleteSelect';
 import TextBox from 'UI/components/atoms/TextBox';
 import { Endpoints } from 'UI/constants/endpoints';
-import { currencyFormatter } from 'UI/utils';
+import { currencyFormatter, useLanguage } from 'UI/utils';
 import StatusLabel, {
   StatusLabelOptions
 } from 'UI/components/atoms/StatusLabel';
+import ExistencyVerifiedCell, {
+  ExistencyVerifiedCellOptions
+} from 'UI/components/atoms/ExistencyVerifiedCell';
+
 import SelectedInventoryCustomMenu from '../SelectedInventoryCustomMenu';
 import Contents from '../strings';
 import { type UIStateInventory, FilterInventory } from '../types';
@@ -55,7 +59,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
     setUiState,
     setRefresh
   } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const columnItems = [
     { id: 0, name: 'idProduct', display: false },
@@ -73,7 +77,9 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
     { id: 12, name: 'status', display: true },
     { id: 13, name: 'store', display: true },
     { id: 14, name: 'observations', display: false },
-    { id: 15, name: 'idInventory', display: true }
+    { id: 15, name: 'idInventory', display: true },
+    { id: 16, name: 'isExistencyVerified', display: true },
+    { id: 17, name: 'idStore', display: false }
   ];
 
   const getSortDirections = (orderBy: string, direction: string) =>
@@ -483,7 +489,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
       name: 'store',
       label: Contents[language]?.labStore,
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         display: columnItems[13].display,
         sortDirection: sortDirection[13],
@@ -496,7 +502,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
       name: 'observations',
       label: Contents[language]?.labObservations,
       options: {
-        filter: true,
+        filter: false,
         sort: true,
         display: columnItems[14].display,
         sortDirection: sortDirection[14],
@@ -517,6 +523,48 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
         customBodyRender: value => {
           return <CellSkeleton searching={searching}>{value}</CellSkeleton>;
         }
+      }
+    },
+    {
+      name: 'isExistencyVerified',
+      label: Contents[language]?.labIsExistencyVerified,
+      options: {
+        filter: true,
+        sort: true,
+        display: columnItems[16].display,
+        sortDirection: sortDirection[16],
+        customBodyRender: value => {
+          return (
+            <CellSkeleton searching={searching}>
+              <ExistencyVerifiedCell value={value} />
+            </CellSkeleton>
+          );
+        },
+        filterType: 'custom',
+        filterOptions: {
+          display: () => {
+            return (
+              <FormControl>
+                <AutocompleteSelect
+                  name="is_existentcy_verified_filter"
+                  placeholder={Contents[language]?.labIsExistencyVerified}
+                  selectedValue={filters?.is_existentcy_verified_filter}
+                  onSelect={handleFilterChange}
+                  defaultOptions={ExistencyVerifiedCellOptions}
+                />
+              </FormControl>
+            );
+          }
+        }
+      }
+    },
+    {
+      name: 'idStore',
+      options: {
+        filter: false,
+        sort: false,
+        display: 'excluded',
+        filterType: 'custom'
       }
     }
   ];
@@ -549,7 +597,13 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
         if (data?.length === 0) return null;
         const selectedRowIndex = selectedRows?.data[0]?.index;
         const rowData = data[selectedRowIndex];
-        const { idInventory, productCode, productId, status } = rowData;
+        const {
+          idInventory,
+          productCode,
+          productId,
+          status,
+          isExistencyVerified
+        } = rowData;
         return (
           <SelectedInventoryCustomMenu
             idInventory={idInventory}
@@ -559,6 +613,7 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
             selectedRowIndex={selectedRowIndex}
             setRefresh={setRefresh}
             inventoryStatus={status}
+            verifyStatus={isExistencyVerified}
           />
         );
       }}

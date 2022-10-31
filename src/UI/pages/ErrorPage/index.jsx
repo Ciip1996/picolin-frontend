@@ -11,6 +11,7 @@ import { EntityRoutes } from 'routes/constants';
 import TitleLabel from 'UI/components/atoms/TitleLabel';
 import { Error404, Error500, Error401, colors } from 'UI/res';
 import { PageTitles } from 'UI/constants/defaults';
+import { useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -21,7 +22,7 @@ type ErrorPageProps = {
 
 const ErrorPage = ({ history, error }: ErrorPageProps) => {
   const classes = useStyles();
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
   const [errorType, setErrorType] = useState({});
 
   const handleGoBack = () => {
@@ -37,7 +38,7 @@ const ErrorPage = ({ history, error }: ErrorPageProps) => {
   };
 
   useEffect(() => {
-    document.title = PageTitles.NotFound;
+    document.title = language && PageTitles[language].NotFound;
 
     setErrorType({
       image: (

@@ -20,7 +20,7 @@ const InfoRowTotal = (props: InfoRowTotalProps) => {
       <Box
         display="flex"
         flexDirection="row"
-        justify="right"
+        justifyContent="right"
         alignItems="center"
       >
         <span className={classes.title}>{title}</span>

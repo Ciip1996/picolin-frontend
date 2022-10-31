@@ -7,7 +7,7 @@ import { styles } from './styles';
 type CustomAvatarProps = {
   acron?: string,
   mode?: 'acron' | 'image',
-  variant?: 'circle' | 'rounded' | 'square',
+  variant?: 'circular' | 'rounded' | 'square',
   backgroundColor?: string,
   style?: Object,
   children?: any,
@@ -42,7 +42,7 @@ const CustomAvatar = (props: CustomAvatarProps) => {
 };
 
 CustomAvatar.defaultProps = {
-  variant: 'circle',
+  variant: 'circular',
   acron: 'N/A',
   backgroundColor: '',
   style: {},

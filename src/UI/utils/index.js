@@ -1,11 +1,57 @@
 // @flow
-import React from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import NumberFormat from 'react-number-format';
 import moment from 'moment';
 import { DateFormats } from 'UI/constants/defaults';
 import GenericContents from 'UI/constants/strings';
 
-const language = localStorage.getItem('language');
+export const useLocalStorage = (key: string, initialState: string) => {
+  const [value, setValue] = useState(localStorage.getItem(key) ?? initialState);
+  const updatedSetValue = useCallback(
+    (newValue: any) => {
+      if (newValue === initialState || typeof newValue === 'undefined') {
+        localStorage.removeItem(key);
+      } else {
+        localStorage.setItem(key, newValue);
+      }
+      setValue(newValue ?? initialState);
+    },
+    [initialState, key]
+  );
+  return [value, updatedSetValue];
+};
+
+export const useLanguage = () => {
+  const [language, setLanguage] = useState<string>(
+    process.env.REACT_APP_DEFAULT_LANGUAGE
+  );
+  useEffect(() => {
+    const localStorageLanguage: string =
+      localStorage.getItem('language') ||
+      process.env.REACT_APP_DEFAULT_LANGUAGE;
+
+    setLanguage(localStorageLanguage);
+  }, [language]);
+  return language;
+};
+
+export const useLocale = () => {
+  const [locale, setLocale] = useState<string>('');
+  useEffect(() => {
+    const localStorageLocale: string = localStorage.getItem('locale') || '';
+    setLocale(localStorageLocale);
+  }, []);
+  return locale;
+};
+
+export const useIsDemoEnvironment = () => {
+  const [isDemoEnvironment, setIsDemoEnvironment] = useState<boolean>(false);
+  useEffect(() => {
+    const environment: string = process.env.REACT_APP_ENVIRONMENT;
+    setIsDemoEnvironment(!!(environment === 'demo'));
+  }, [isDemoEnvironment]);
+  return isDemoEnvironment;
+};
 
 export const pSizeLabelOptions = [
   { id: 0, title: 'Unitalla', value: 'UN' },
@@ -262,6 +308,11 @@ export const makeMultiFieldFiltering = (fieldsToLookupInto: string[]) => (
  * @param {Error} error Error catched in an Exception
  */
 export const getErrorData = (error: any) => {
+  const language =
+    localStorage.getItem('language') ||
+    process.env.REACT_APP_DEFAULT_LANGUAGE ||
+    'English';
+
   if (
     error === undefined ||
     !error ||

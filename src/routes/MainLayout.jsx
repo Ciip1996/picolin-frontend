@@ -12,6 +12,7 @@ import ActionButton from 'UI/components/atoms/ActionButton';
 import CloseCashierDrawer from 'UI/components/organisms/CloseCashierDrawer';
 import ConfirmCloseCashierDrawer from 'UI/components/organisms/ConfirmCloseCashierDrawer';
 import { showAlert } from 'actions/app';
+import { useLanguage } from 'UI/utils';
 
 import { drawerAnchor } from 'UI/constants/defaults';
 
@@ -22,6 +23,7 @@ import { EntityRoutes } from 'routes/constants';
 // eslint-disable-next-line no-unused-vars
 const MainLayout = ({ children, onShowAlert, ...rest }: Object) => {
   const history = useHistory();
+  const language = useLanguage();
 
   const [uiState, setUiState] = useState({
     isConfirmCloseCashierDrawerOpen: false,
@@ -101,7 +103,7 @@ const MainLayout = ({ children, onShowAlert, ...rest }: Object) => {
                 <Sidebar>
                   <ActionButton
                     style={{ width: 200, minHeight: 48 }}
-                    text="Nueva Venta"
+                    text={language === 'Spanish' ? 'Nueva Venta' : 'New Sale'}
                     onClick={GoToNewPage}
                     isHighlited
                   >

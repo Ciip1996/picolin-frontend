@@ -20,7 +20,7 @@ const ellipsis = {
   overflow: 'hidden',
   position: 'relative',
   lineHeight: '1.3em',
-  // textAlign: 'justify',
+  // textAlign: 'justifyContent',
   marginRight: '-1em',
   paddingRight: '1em',
   '&&:before': {

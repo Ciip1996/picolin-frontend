@@ -8,6 +8,8 @@ export const Endpoints = {
   DeleteInventory: '/deleteInventoryById',
   EnableInventory: '/enableInventoryById',
   DisableInventory: '/disableInventoryById',
+  VerifyInventory: '/verifyInventoryById',
+  UnverifyInventory: '/unverifyInventoryById',
   Sales: '/sales',
   ProductNames: '/names',
   GetSales: '/getSales/:idStore',
@@ -48,5 +50,9 @@ export const Endpoints = {
   ModifyProduct: '/modifyProduct',
   DeleteProduct: '/deleteProductLogicallyById',
   RestoreProduct: '/restoreProductLogicallyById',
-  FeedProduct: '/feedInventoryWithProduct'
+  FeedProduct: '/feedInventoryWithProduct',
+  ProductTypes: '/types',
+  GetProductTypes: '/getTypes',
+  DisableType: '/deleteTypeLogicallyById',
+  EnableType: '/activateTypeLogicallyById'
 };

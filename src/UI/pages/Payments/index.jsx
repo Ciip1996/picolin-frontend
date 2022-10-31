@@ -8,7 +8,7 @@ import moment from 'moment-timezone';
 import { FormControl } from '@material-ui/core';
 import ActionButton from 'UI/components/atoms/ActionButton';
 import CustomDatePicker from 'UI/components/atoms/CustomDatePicker';
-import { currencyFormatter, getErrorData } from 'UI/utils';
+import { currencyFormatter, getErrorData, useLanguage } from 'UI/utils';
 
 import { showAlert } from 'actions/app';
 import { drawerAnchor, PageTitles, DateFormats } from 'UI/constants/defaults';
@@ -54,7 +54,7 @@ const getSortDirections = (orderBy: string, direction: string) =>
 
 const PaymentList = (props: PaymentListProps) => {
   const { onShowAlert } = props;
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const [loading, setLoading] = useState(true);
   const [searching, setSearching] = useState(false);
@@ -434,9 +434,9 @@ const PaymentList = (props: PaymentListProps) => {
   }, [error]);
 
   useEffect(() => {
-    document.title = PageTitles.Payments;
+    document.title = language && PageTitles[language].Payments;
     getData();
-  }, [error, getData]);
+  }, [error, getData, language]);
 
   const onPaymentCompleted = () => {
     setUiState(prevState => ({ ...prevState, isPaymentDrawerOpen: false }));

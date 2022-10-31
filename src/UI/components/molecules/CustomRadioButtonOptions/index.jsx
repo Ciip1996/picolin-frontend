@@ -4,6 +4,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { useLanguage } from 'UI/utils';
 import { useStyles } from './styles';
 import Contents from './strings';
 
@@ -32,7 +33,7 @@ const CustomRadioButtonOptions = (props: CustomRadioButtonOptionsProps) => {
     secondValueText
   } = props;
   const classes = useStyles(props);
-  const language = localStorage.getItem('language');
+  const language = useLanguage();
 
   const [value, setValue] = useState(defaultValue);
 

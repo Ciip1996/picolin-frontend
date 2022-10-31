@@ -29,7 +29,6 @@ export type User = {
   name: string,
   firstLastName: string,
   secondLastName: string
-  // role?: string
 };
 
 export type AppUiState = {
@@ -52,49 +51,14 @@ export type InfoLabel = {
   color?: string
 };
 
-export type TabCardDefinition = {
-  showAvatar: boolean,
-  infoLabelsResolver: any => InfoLabel[]
-};
-
 export type DataResponseFilter = {
   key: string,
   value: Array<any>
 };
-
-export type FeeAgreementMode = 'fee' | 'guarantee' | 'verbiage' | 'all';
 
 export type DrawerUiState = {
   isSaving: boolean,
   isSuccess: boolean,
   isReadOnly: boolean,
   isFormDisabled: boolean
-};
-
-export type EntityProfile = {
-  id: ?number,
-  title: ?string,
-  company: ?any,
-  address: ?any,
-  source: ?string,
-  signed: ?any,
-  name: ?string,
-  contact: ?any,
-  website: ?string,
-  personalInformation: ?any,
-  specialty: ?any,
-  subspecialty: ?any,
-  position: ?any,
-  email: ?string,
-  current_company: ?string,
-  sourceType: ?any,
-  recruiter: ?any,
-  coach: ?any,
-  additionalRecruiters: ?(any[]),
-  free_game: boolean
-};
-
-export type UserRole = {
-  id: number,
-  title: string
 };
