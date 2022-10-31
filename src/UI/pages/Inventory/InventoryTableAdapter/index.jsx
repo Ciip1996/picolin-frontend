@@ -78,7 +78,8 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
     { id: 13, name: 'store', display: true },
     { id: 14, name: 'observations', display: false },
     { id: 15, name: 'idInventory', display: true },
-    { id: 16, name: 'isExistencyVerified', display: true }
+    { id: 16, name: 'isExistencyVerified', display: true },
+    { id: 17, name: 'idStore', display: false }
   ];
 
   const getSortDirections = (orderBy: string, direction: string) =>
@@ -555,6 +556,15 @@ const InventoryTableAdapter = (props: InventoryTableAdapterPropTypes) => {
             );
           }
         }
+      }
+    },
+    {
+      name: 'idStore',
+      options: {
+        filter: false,
+        sort: false,
+        display: 'excluded',
+        filterType: 'custom'
       }
     }
   ];

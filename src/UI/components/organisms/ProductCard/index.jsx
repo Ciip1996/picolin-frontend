@@ -2,7 +2,6 @@
 import React, { useEffect } from 'react';
 import Card from '@material-ui/core/Card';
 import Chip from '@material-ui/core/Chip';
-import CloseIcon from '@material-ui/icons/Close';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import { useFormContext } from 'react-hook-form';
@@ -10,30 +9,16 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 
 import { currencyFormatter } from 'UI/utils';
-// import TextBox from 'UI/components/atoms/TextBox';
 import Text from 'UI/components/atoms/Text';
-import CustomIconButton from 'UI/components/atoms/CustomIconButton';
 
 import { useStyles } from './styles';
 
-type SaleCardProps = {
-  product: Object,
-  quantityOfProducts: number,
-  onRemoveItem: any => any,
-  showRemoveButton?: boolean
-  // onAmountOfProductsChanged: (Object, any, number) => any
-  // errors: any
+type ProductCardProps = {
+  product: Object
 };
 
-const SaleCard = (props: SaleCardProps) => {
-  const {
-    product,
-    quantityOfProducts,
-    onRemoveItem,
-    showRemoveButton
-    // onAmountOfProductsChanged
-    // errors
-  } = props;
+const ProductCard = (props: ProductCardProps) => {
+  const { product } = props;
 
   const {
     productCode,
@@ -46,15 +31,6 @@ const SaleCard = (props: SaleCardProps) => {
     stock,
     name
   } = product;
-
-  const prepareRemoveItem = () => {
-    onRemoveItem(productCode);
-  };
-
-  // const prepareModifyAmountOfItems = (e, quantityString) => {
-  //   const quantityNumber = parseInt(quantityString, 10) || null;
-  //   onAmountOfProductsChanged(productCode, quantityNumber, stock);
-  // };
 
   const { register, errors, setValue } = useFormContext({
     defaultValues: {
@@ -75,17 +51,11 @@ const SaleCard = (props: SaleCardProps) => {
         min: {
           value: 1,
           message: 'La cantidad debe ser mayor a 0'
-        },
-        max: showRemoveButton
-          ? {
-              value: stock,
-              message: `La cantidad debe ser menor a ${stock}`
-            }
-          : undefined
+        }
       }
     );
     setValue(productCode, 1, true);
-  }, [productCode, register, setValue, showRemoveButton, stock]);
+  }, [productCode, register, setValue, stock]);
 
   return (
     <>
@@ -103,16 +73,7 @@ const SaleCard = (props: SaleCardProps) => {
           </FormHelperText>
         </FormControl>
         <Box className={classes.header} spacing={2}>
-          <Box className={classes.amountOfProducts}>
-            <Text
-              variant="h2"
-              name={productCode}
-              // inputType="number"
-              text={`${quantityOfProducts}`}
-              // onChange={prepareModifyAmountOfItems}
-              // error={!!errors[productCode]}
-            />
-          </Box>
+          <Box className={classes.amountOfProducts} />
           <Box width={24} />
           <Text
             variant="h2"
@@ -125,22 +86,9 @@ const SaleCard = (props: SaleCardProps) => {
             text={`${currencyFormatter(salePrice)}`}
           />
           <Box width={24} />
-          {showRemoveButton && (
-            <CustomIconButton
-              tooltipText="Quitar de la venta"
-              className={classes.deleteButton}
-              aria-label="delete"
-              onClick={prepareRemoveItem}
-            >
-              <CloseIcon />
-            </CustomIconButton>
-          )}
         </Box>
         <Text variant="subtitle1" className={classes.name} text={`${name}`} />
         <Grid container marginTop={6} spacing={2}>
-          <Grid item xs={4} lg={2}>
-            <Chip label={`${stock || 0} en stock`} className={classes.Chip} />
-          </Grid>
           <Grid item xs={4} lg={2}>
             <Chip label={`Talla ${pSize}`} className={classes.Chip} />
           </Grid>
@@ -162,8 +110,4 @@ const SaleCard = (props: SaleCardProps) => {
   );
 };
 
-SaleCard.defaultProps = {
-  showRemoveButton: true
-};
-
-export default SaleCard;
+export default ProductCard;

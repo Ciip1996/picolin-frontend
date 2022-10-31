@@ -23,7 +23,7 @@ type AddProductDrawerProps = {
   isEditMode?: boolean
 };
 
-const AddProductDrawer = (props: AddProductDrawerProps) => {
+const AddModifyProductDrawer = (props: AddProductDrawerProps) => {
   const {
     handleClose,
     onShowAlert,
@@ -164,6 +164,9 @@ const AddProductDrawer = (props: AddProductDrawerProps) => {
   );
 };
 
-AddProductDrawer.defaultProps = { selectedProduct: null, isEditMode: false };
+AddModifyProductDrawer.defaultProps = {
+  selectedProduct: null,
+  isEditMode: false
+};
 
-export default AddProductDrawer;
+export default AddModifyProductDrawer;

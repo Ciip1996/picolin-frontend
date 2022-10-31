@@ -12,8 +12,8 @@ import ContentPageLayout from 'UI/components/templates/ContentPageLayout';
 import { getErrorData, useLanguage } from 'UI/utils';
 import { colors, AddIcon } from 'UI/res';
 import ActionButton from 'UI/components/atoms/ActionButton';
-import AddProductDrawer from 'UI/components/organisms/AddProductDrawer';
-import FeedInventoryDrawer from 'UI/components/organisms/FeedInventoryDrawer';
+import AddModifyProductDrawer from 'UI/components/organisms/AddModifyProductDrawer';
+import FeedEditInventoryDrawer from 'UI/components/organisms/FeedEditInventoryDrawer';
 import QRCodeDrawer from 'UI/components/organisms/QRCodeDrawer';
 import ProductsTableAdapter from 'UI/pages/Products/ProductsTableAdapter';
 /** API / EntityRoutes / Endpoints / EntityType */
@@ -311,7 +311,7 @@ const ProductsList = (props: ProductsListProps) => {
         }}
       >
         <div role="presentation">
-          <AddProductDrawer
+          <AddModifyProductDrawer
             selectedProduct={uiState.selectedProduct}
             onProductInserted={onProductInserted}
             onShowAlert={onShowAlert}
@@ -340,7 +340,7 @@ const ProductsList = (props: ProductsListProps) => {
         }}
       >
         <div role="presentation">
-          <AddProductDrawer
+          <AddModifyProductDrawer
             selectedProduct={uiState.selectedProduct}
             onProductInserted={onProductInserted}
             onShowAlert={onShowAlert}
@@ -369,7 +369,7 @@ const ProductsList = (props: ProductsListProps) => {
         }}
       >
         <div role="presentation">
-          <FeedInventoryDrawer
+          <FeedEditInventoryDrawer
             preloadedProduct={uiState.selectedProduct}
             onInventoryInserted={onInventoryInserted}
             onShowAlert={onShowAlert}

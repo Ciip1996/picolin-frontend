@@ -9,7 +9,7 @@ import DrawerFormLayout from 'UI/components/templates/DrawerFormLayout';
 import Text from 'UI/components/atoms/Text';
 import TextBox from 'UI/components/atoms/TextBox';
 import { Endpoints } from 'UI/constants/endpoints';
-import SaleCard from 'UI/components/organisms/SaleCard';
+import ProductCard from 'UI/components/organisms/ProductCard';
 import { v4 as uuidv4 } from 'uuid';
 import { isEmpty } from 'lodash';
 import { getErrorData, useLanguage } from 'UI/utils';
@@ -25,36 +25,45 @@ type FeedInventoryDrawerProps = {
   handleClose: any => any,
   onShowAlert: any => any,
   onInventoryInserted: (product: Object) => any,
-  preloadedProduct?: any
+  preloadedProduct: Object,
+  isEditMode?: boolean
 };
 
-const FeedInventoryDrawer = ({
+const FeedEditInventoryDrawer = ({
   handleClose,
   onShowAlert,
   onInventoryInserted,
-  preloadedProduct
+  preloadedProduct,
+  isEditMode
 }: FeedInventoryDrawerProps) => {
   const language = useLanguage();
+  const [comboValues, setComboValues] = useState<MapType>({
+    idStore: preloadedProduct?.idStore
+      ? {
+          id: preloadedProduct?.idStore,
+          title: preloadedProduct?.store
+        }
+      : undefined
+  });
 
-  const [comboValues, setComboValues] = useState<MapType>({});
   const [selectedProduct, setSelectedProduct] = useState<Object | null>(
     preloadedProduct || null
   );
-
   const form = useForm({
     defaultValues: {
       ...preloadedProduct
     }
   });
 
-  const { register, errors, getValues, setValue, handleSubmit } = useForm();
+  const { register, errors, getValues, setValue, handleSubmit } = form;
 
   const [uiState] = useState({
     isSaving: false,
     isSuccess: false,
     isReadOnly: false,
     isFormDisabled: false,
-    isLoading: true
+    isLoading: true,
+    preloadedProduct: {}
   });
 
   useEffect(() => {
@@ -92,7 +101,10 @@ const FeedInventoryDrawer = ({
   const onSubmit = useCallback(
     async (formData: Object) => {
       try {
-        const endpointURL = `${Endpoints.Inventory}${Endpoints.FeedProduct}`;
+        const endpointURL = isEditMode
+          ? `${Endpoints.Inventory}${Endpoints.ModifyInventory}`
+          : `${Endpoints.Inventory}${Endpoints.FeedProduct}`;
+
         const response = await API.post(endpointURL, formData);
         if (response) {
           const { insertedInventory, message, title } = response?.data;
@@ -115,10 +127,10 @@ const FeedInventoryDrawer = ({
         throw err;
       }
     },
-    [onInventoryInserted, onShowAlert]
+    [isEditMode, onInventoryInserted, onShowAlert]
   );
 
-  const uiMode = 'Feed';
+  const uiMode = isEditMode ? 'Edit' : 'Feed';
 
   const handleComboChange = (name?: string, value: any) => {
     setComboValues((prevState: MapType): MapType => ({
@@ -138,10 +150,7 @@ const FeedInventoryDrawer = ({
     setComboValues({ ...comboValues });
   };
 
-  const onRemoveProduct = () => {
-    setSelectedProduct(null);
-    setValue('product', null);
-  };
+  const feedNewProduct = !isEditMode && !selectedProduct;
 
   return (
     <>
@@ -165,6 +174,7 @@ const FeedInventoryDrawer = ({
               />
               <InputContainer>
                 <AutocompleteSelect
+                  noOptionsText="No se existe esta tienda, vuelve a intentarlo."
                   autoFocus
                   name="idStore"
                   selectedValue={comboValues.idStore}
@@ -173,6 +183,7 @@ const FeedInventoryDrawer = ({
                   errorText={errors?.idStore && errors?.idStore.message}
                   onSelect={handleComboChange}
                   url={Endpoints.Stores}
+                  disabled={preloadedProduct?.idStore}
                 />
                 <Separator />
                 <TextBox
@@ -185,36 +196,35 @@ const FeedInventoryDrawer = ({
                   value={getValues('stock') || ''}
                 />
               </InputContainer>
-              <InputContainer>
-                <AutocompleteDebounce
-                  maxOptions={10}
-                  name="product"
-                  onSelectItem={product => handleAddProduct('product', product)}
-                  placeholder="Escanee o Escriba un Producto"
-                  disabled={false}
-                  url={`${Endpoints.Products}${Endpoints.GetProducts}`}
-                  dataFetchKeyName="products"
-                  displayKey="name"
-                  handleError={errorMessage =>
-                    onShowAlert({
-                      severity: 'error',
-                      title: 'Error de busqueda',
-                      autoHideDuration: 3000,
-                      body: `Ocurrió un problema: ${errorMessage}`
-                    })
-                  }
-                  error={!!errors?.product}
-                  errorText={errors?.product && errors?.product.message}
-                />
-              </InputContainer>
+              {feedNewProduct && (
+                <InputContainer>
+                  <AutocompleteDebounce
+                    maxOptions={10}
+                    name="product"
+                    onSelectItem={product =>
+                      handleAddProduct('product', product)
+                    }
+                    placeholder="Escanee o Escriba un Producto"
+                    disabled={isEditMode}
+                    url={`${Endpoints.Products}${Endpoints.GetProducts}`}
+                    dataFetchKeyName="products"
+                    displayKey="name"
+                    handleError={errorMessage =>
+                      onShowAlert({
+                        severity: 'error',
+                        title: 'Error de busqueda',
+                        autoHideDuration: 3000,
+                        body: `Ocurrió un problema: ${errorMessage}`
+                      })
+                    }
+                    error={!!errors?.product}
+                    errorText={errors?.product && errors?.product.message}
+                  />
+                </InputContainer>
+              )}
               <InputContainer>
                 {selectedProduct ? (
-                  <SaleCard
-                    key={uuidv4()}
-                    product={selectedProduct}
-                    quantityOfProducts={selectedProduct?.quantity || 0}
-                    onRemoveItem={onRemoveProduct}
-                  />
+                  <ProductCard key={uuidv4()} product={selectedProduct} />
                 ) : null}
               </InputContainer>
             </div>
@@ -226,6 +236,9 @@ const FeedInventoryDrawer = ({
   );
 };
 
-FeedInventoryDrawer.defaultProps = { preloadedProduct: null };
+FeedEditInventoryDrawer.defaultProps = {
+  preloadedProduct: null,
+  isEditMode: false
+};
 
-export default FeedInventoryDrawer;
+export default FeedEditInventoryDrawer;
