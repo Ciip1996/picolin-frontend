@@ -1,5 +1,5 @@
 // @flow
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
@@ -40,16 +40,27 @@ const LogIn = (props: LogInProps) => {
 
   const history = useHistory();
 
-  const { register, handleSubmit, errors, setError } = useForm();
+  const { register, handleSubmit, errors, setError, setValue } = useForm();
+
+  useEffect(() => {
+    if (isDemo) {
+      setValue('user', process.env.REACT_APP_DEMO_CREDENTIAL_USER);
+      setValue('pwd', 'Nice Try Hacker, this is a Fake Password!');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDemo]);
 
   const onSubmit = async (formData: Object) => {
     try {
       setUiState(prevState => ({ ...prevState, isLoading: true }));
 
       const params = {
-        user: isDemo ? 'demo' : formData.user,
-        password: isDemo ? 'freedemopassword2022' : formData.pwd
+        user: formData.user,
+        password: isDemo
+          ? process.env.REACT_APP_DEMO_CREDENTIAL_PWD
+          : formData.pwd
       };
+
       const response = await API.post(`${Endpoints.Login}`, params);
       if (response) {
         if (response?.status === 200) {
