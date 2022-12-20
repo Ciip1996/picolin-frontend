@@ -22,6 +22,16 @@ export const styles = {
   },
   gridContainer: {
     marginTop: 28
+  },
+  techStackIconsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    gap: '3rem',
+    filter: 'brightness(0) invert(0.3)',
+    flexWrap: 'wrap'
   }
 };
 export const useStyles = makeStyles(theme => ({

@@ -7,7 +7,7 @@ const Contents = {
     translationCaption:
       'This site has not been translated into english completly. Sorry for the inconvenience',
     credits:
-      'This project was developed by @Ciip1996 and @MoniGascaF the code can be found at https://github.com/Ciip1996/picolin-frontend. If you would like to see the code please contact me at bytepacheco@gmail.com or at https://www.linkedin.com/in/ciip'
+      '<p>This project was developed by <a href="https://www.github.com/Ciip1996">@Ciip1996</a> and <a href="https://www.github.com/MoniGascaF">@MoniGascaF</a> the code can be found at https://github.com/Ciip1996/picolin-frontend. If you would like to see the code please contact me at bytepacheco@gmail.com or at https://www.linkedin.com/in/ciip </p>'
   },
   Spanish: {
     pageTitle: 'Inicio',
@@ -16,7 +16,7 @@ const Contents = {
     loading: 'Cargando permisos porfavor espere...',
     translationCaption: '',
     credits:
-      'Este proyecto fue desarrollado por @Ciip1996 y @MoniGascaF, el código se puede encontrar en https://github.com/Ciip1996/picolin-frontend. Si desea ver el código, contácteme en bytepacheco@gmail.com o en https://www.linkedin.com/in/ciip'
+      '<p>Este proyecto fue desarrollado por  <a href="https://www.github.com/Ciip1996">@Ciip1996</a> y  <a href="https://www.github.com/MoniGascaF">@MoniGascaF</a>, el código se puede encontrar en https://github.com/Ciip1996/picolin-frontend. Si desea ver el código, contácteme en bytepacheco@gmail.com o en https://www.linkedin.com/in/ciip </p>'
   }
 };
 export default Contents;
